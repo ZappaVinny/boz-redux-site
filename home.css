@@ -1,0 +1,62 @@
+/* Homepage-only presentation. Documentation styles are kept in styles.css. */
+body:not(.is-docs) header { padding-left: 5%; padding-right: 5%; }
+body:not(.is-docs) main { width: 100%; max-width: none; margin: 0; padding: 0; }
+
+body:not(.is-docs) .hero { min-height: 570px; padding: 85px 6%; display: grid; grid-template-columns: 1.1fr 1fr; align-items: center; gap: 6%; background: radial-gradient(ellipse at 85% 45%, rgba(227, 28, 41, .2), transparent 57%), var(--bg); border-bottom: 1px solid var(--line); }
+body:not(.is-docs) .hero h1 { font: 700 clamp(48px, 5.4vw, 92px)/1 var(--heading); text-transform: uppercase; letter-spacing: 1px; margin: 0 0 25px; }
+body:not(.is-docs) .hero h1 span { color: var(--red); }
+body:not(.is-docs) .hero p { font-size: 19px; line-height: 1.65; max-width: 580px; color: var(--soft); }
+body:not(.is-docs) .hero-art { display: flex; align-items: center; justify-content: center; }
+body:not(.is-docs) .hero-art img { display: block; width: 100%; max-width: 680px; filter: drop-shadow(0 18px 30px #000a); }
+body:not(.is-docs) .actions { margin-top: 32px; gap: 14px; }
+body:not(.is-docs) .button { padding: 13px 26px; font-size: 19px; }
+
+body:not(.is-docs) .section { padding: 55px 6%; border-top: 0; border-bottom: 1px solid var(--line); }
+body:not(.is-docs) .section h2 { font-size: 32px; margin-bottom: 16px; }
+body:not(.is-docs) .section p { font-size: 17px; color: var(--soft); max-width: 650px; }
+body:not(.is-docs) .section a { text-decoration: none; }
+body:not(.is-docs) .section a:hover { text-decoration: underline; }
+
+/* The client and SDK cards: launcher panels with the red rule on top. */
+body:not(.is-docs) .products { grid-template-columns: 1fr 1fr; gap: 28px; }
+body:not(.is-docs) .product { padding: 34px; background: var(--panel); border: 1px solid var(--line); border-top: 3px solid var(--red); border-radius: 4px; }
+body:not(.is-docs) .product-logo { height: 84px; width: 220px; object-fit: contain; object-position: left; display: block; margin: 0 0 27px; }
+body:not(.is-docs) .product p { min-height: 54px; max-width: 640px; margin-bottom: 24px; }
+body:not(.is-docs) .product-links { display: flex; gap: 28px; flex-wrap: wrap; border-top: 1px solid var(--line); padding-top: 20px; font: 700 16px var(--heading); letter-spacing: .8px; text-transform: uppercase; }
+
+body:not(.is-docs) .apk { display: grid; grid-template-columns: 1fr 1fr; gap: 7%; background: var(--panel); }
+body:not(.is-docs) .apk p { max-width: 590px; margin-bottom: 15px; }
+body:not(.is-docs) .apk-community { border-left: 3px solid var(--red); padding-left: 30px; }
+body:not(.is-docs) .apk .button { display: inline-block; margin-top: 5px; }
+
+body:not(.is-docs) .project-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 7%; }
+body:not(.is-docs) #project { padding-top: 55px; padding-bottom: 60px; border-bottom: 0; }
+body:not(.is-docs) #project p a { color: var(--text); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; }
+body:not(.is-docs) #project p a:hover { color: var(--red); text-decoration-color: var(--red); }
+body:not(.is-docs) #project .text-link { display: inline-block; margin-top: 8px; color: var(--text); font: 700 16px var(--heading); letter-spacing: .8px; text-transform: uppercase; }
+
+@media (min-width: 1700px) {
+  body:not(.is-docs) .hero { min-height: 650px; }
+}
+
+@media (max-width: 900px) {
+  body:not(.is-docs) .hero { gap: 30px; min-height: 510px; }
+  body:not(.is-docs) .hero p { font-size: 17px; }
+  body:not(.is-docs) .product { padding: 26px; }
+  body:not(.is-docs) .product p { min-height: 80px; }
+}
+
+@media (max-width: 640px) {
+  body:not(.is-docs) header { gap: 18px; }
+  body:not(.is-docs) nav { gap: 14px; font-size: 14px; }
+  body:not(.is-docs) .hero { grid-template-columns: 1fr; padding: 48px 6% 42px; gap: 42px; }
+  body:not(.is-docs) .hero h1 { font-size: 50px; }
+  body:not(.is-docs) .hero-art { justify-content: flex-start; }
+  body:not(.is-docs) .hero-art img { width: 80%; max-width: 370px; }
+  body:not(.is-docs) .section { padding: 35px 6%; }
+  body:not(.is-docs) .products, body:not(.is-docs) .apk, body:not(.is-docs) .project-columns { grid-template-columns: 1fr; gap: 28px; }
+  body:not(.is-docs) .product p { min-height: 0; }
+  body:not(.is-docs) .section h2 { font-size: 27px; }
+  body:not(.is-docs) .apk-community { padding-left: 20px; }
+  body:not(.is-docs) #project { padding: 35px 6% 45px; }
+}
