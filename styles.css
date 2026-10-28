@@ -87,7 +87,7 @@ dialog p { color: var(--soft); }
 .dialog-close:hover { color: var(--text); }
 
 /* Documentation */
-.docs-shell { display: grid; grid-template-columns: 255px minmax(0, 1fr) 210px; max-width: 1600px; margin: auto; min-height: 80vh; }
+.docs-shell { display: grid; grid-template-columns: 255px minmax(0, 1fr) 210px; min-height: 80vh; }
 .docs-sidebar { position: sticky; top: 80px; height: calc(100vh - 80px); overflow: auto; border-right: 1px solid var(--line); padding: 30px 23px; background: var(--panel); }
 .docs-label { font: 700 14px var(--heading); letter-spacing: 1.2px; color: var(--muted); margin: 28px 0 8px; }
 .docs-sidebar a { display: block; font-size: 15px; line-height: 1.45; color: var(--soft); padding: 8px 12px; border-left: 3px solid transparent; }
@@ -101,7 +101,7 @@ dialog p { color: var(--soft); }
 .search-results a { border-bottom: 1px solid var(--line); padding: 12px 4px; }
 .search-results small { display: block; color: var(--muted); font-size: 12px; }
 .search-results p { font-size: 13px; color: var(--muted); }
-.doc-area { min-width: 0; padding: 40px 5vw 65px; }
+.doc-area { min-width: 0; width: 100%; max-width: 1240px; justify-self: center; padding: 40px 5vw 65px; }
 .breadcrumb { font: 700 14px var(--heading); letter-spacing: 1.2px; color: var(--muted); margin-bottom: 22px; }
 .breadcrumb span { color: var(--red); }
 .doc-content { color: var(--soft); font-size: 16px; line-height: 1.8; overflow-wrap: anywhere; }
