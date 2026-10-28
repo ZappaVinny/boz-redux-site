@@ -1,0 +1,1704 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Map editor | BOZ Redux Docs</title>
+    <meta name="description" content="Everything about making maps in the BOZ Redux editor: its layout and Build &amp; Run, building the level, scripting it, its rules, what each of the game's…" />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://boz-redux.com/docs/map-editor.html" />
+    <meta name="theme-color" content="#0d0e10" />
+    <link rel="icon" href="../assets/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="256x256" href="../assets/favicon.png" />
+    <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png" />
+    <link rel="manifest" href="../site.webmanifest" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="BOZ Redux" />
+    <meta property="og:title" content="Map editor | BOZ Redux Docs" />
+    <meta property="og:description" content="Everything about making maps in the BOZ Redux editor: its layout and Build &amp; Run, building the level, scripting it, its rules, what each of the game's…" />
+    <meta property="og:url" content="https://boz-redux.com/docs/map-editor.html" />
+    <meta property="og:image" content="https://boz-redux.com/assets/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Map editor","description":"Everything about making maps in the BOZ Redux editor: its layout and Build & Run, building the level, scripting it, its rules, what each of the game's…","url":"https://boz-redux.com/docs/map-editor.html","dateModified":"2026-10-28T19:01:04.720Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Map editor","item":"https://boz-redux.com/docs/map-editor.html"}]}]}</script>
+    <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="stylesheet" href="../styles.css" />
+    <script defer src="../config.js"></script>
+    <script defer src="../app.js"></script>
+  </head>
+  <body class="is-docs">
+    <a class="skip" href="#main">Skip to content</a>
+<header>
+      <a class="brand" href="../index.html" aria-label="BOZ Redux home"
+        ><img src="../assets/client-logo.png" alt="BOZ Redux" width="640" height="260"
+      /></a>
+      <nav aria-label="Main navigation">
+        <a href="../index.html" data-nav="home">Home</a
+        ><a href="../docs/index.html" data-nav="docs" class="active" aria-current="page">Documentation</a
+        ><a href="#discord" data-discord>Discord</a>
+      </nav>
+      <a
+        class="header-github"
+        href="https://github.com/ZappaVinny/boz-redux"
+        target="_blank"
+        rel="noopener"
+        >GitHub ↗</a
+      >
+    </header>
+
+    <main id="main" tabindex="-1">
+      <div id="docs-view">
+        <button class="docs-mobile" aria-expanded="false">
+          ☰ Browse documentation
+        </button>
+        <div class="docs-shell">
+          <aside class="docs-sidebar" aria-label="Documentation navigation">
+            <div class="search-wrap">
+              <input
+                id="docs-search"
+                aria-label="Search all documentation"
+                placeholder="Search documentation…"
+                type="search"
+                autocomplete="off"
+                data-index="../docs-data.js"
+              />
+            </div>
+            <div class="search-results" aria-live="polite"></div>
+            <!--
+              The docs page list. Order here sets sidebar order and previous/next.
+              Each link's href is docs/<name>.html for docs/<name>.md (README is index.html).
+              Each link belongs to the nearest label above it (used for the breadcrumb).
+              After changing it, run `node rebuild-docs.mjs`.
+            -->
+            <div class="page-links" role="navigation" aria-label="Documentation pages">
+              <p class="docs-label">START HERE</p>
+              <a href="index.html">Introduction</a>
+              <a href="getting-started.html">Getting started</a>
+
+              <p class="docs-label">CREATE</p>
+              <a href="lua-mods.html">Lua mods</a>
+              <a href="map-editor.html" class="current" aria-current="page">Map editor</a>
+              <a href="weapons-and-assets.html">Weapons &amp; assets</a>
+
+              <p class="docs-label">REFERENCE</p>
+              <a href="standard-library.html">Standard library</a>
+              <a href="console-reference.html">Console reference</a>
+              <a href="game-events.html">Game events</a>
+              <a href="sdk-reference.html">SDK reference</a>
+
+              <p class="docs-label">UNDER THE HOOD</p>
+              <a href="how-the-game-works.html">How the game works</a>
+              <a href="contributing.html">Contributing</a>
+            </div>
+          </aside>
+          <div class="doc-area">
+            <div class="breadcrumb">DOCUMENTATION / <span>CREATE</span></div>
+            <article class="doc-content">
+<h1 id="the-map-editor">The map editor</h1>
+<p>Everything about making maps in the BOZ Redux editor: its layout and Build &amp; Run, building the
+level, scripting it, its rules, what each of the game&#39;s objects does, how walkable areas work,
+and editing the game&#39;s original level files. Weapons, your own models, effects and sounds have
+their own page: <a href="weapons-and-assets.html">Weapons, models, effects and sounds</a>.</p>
+<h2 id="the-editor">The editor</h2>
+<p>The BOZ Redux editor is Blender 5.2 LTS set up for making Zombies maps. It opens from the SDK
+app (<strong>Open in Editor</strong> on a map project) and saves straight into the project. Everything you
+see is drawn the way the game draws it, and <strong>Build &amp; Run</strong> puts your map in the game in one
+click.</p>
+<p>If you know Blender, most of it will feel familiar: G moves, R rotates, S scales, Tab enters
+Edit Mode. Stock Blender features that cannot reach the game are hidden. One Blender unit is
+one game centimetre.</p>
+<h3 id="the-window">The window</h3>
+<ul>
+<li><strong>Top bar:</strong> the <strong>Project</strong>, <strong>Edit</strong> and <strong>Help</strong> menus, then the tabs, then <strong>Build &amp; Run</strong>
+(with its ⚙ settings) on the right.</li>
+<li><strong>Viewport:</strong> the map, in material preview with the game&#39;s shading.</li>
+<li><strong>Asset browser</strong> (World tab, left): the game&#39;s objects to drag into the map.</li>
+<li><strong>Outliner:</strong> every object. An object&#39;s name is its name in the game and in scripts.</li>
+<li><strong>Properties:</strong> only Object, Modifiers, Data and Material. The Object tab&#39;s <strong>Game</strong> panel
+shows what the selected object is and its settings.</li>
+<li><strong>Sidebar</strong> (N in the viewport): the <strong>BOZ</strong> tab (show options, the selected object&#39;s links),
+<strong>Problems</strong>, and <strong>Shipped files</strong>.</li>
+<li><strong>Log</strong> areas: the build&#39;s output and the game&#39;s <code>boz-log.txt</code>.</li>
+</ul>
+<h3 id="the-tabs">The tabs</h3>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Tab</th>
+<th>What you do there</th>
+<th>Guide</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Game</strong></td>
+<td>The map&#39;s rules: name, loading screen, rounds, special rounds, points, power-ups, the box, scripts for game events</td>
+<td><a href="#game-rules">Game rules</a></td>
+</tr>
+<tr>
+<td><strong>World</strong></td>
+<td>Build the level: models, volumes, prefabs, the game&#39;s machines, doors and spawns</td>
+<td><a href="#building-the-world">Building the world</a></td>
+</tr>
+<tr>
+<td><strong>Weapons</strong></td>
+<td>Change, copy and import weapons; give them your own models and sounds</td>
+<td><a href="weapons-and-assets.html#weapons">Weapons</a></td>
+</tr>
+<tr>
+<td><strong>Characters</strong></td>
+<td>Not available yet</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Assets</strong></td>
+<td>Import your own models and make game versions of them</td>
+<td><a href="weapons-and-assets.html#your-own-models">Your own models</a></td>
+</tr>
+<tr>
+<td><strong>Effects</strong></td>
+<td>Pick the game&#39;s effects and projectiles for your scripts</td>
+<td><a href="weapons-and-assets.html#effects-and-projectiles">Effects and projectiles</a></td>
+</tr>
+<tr>
+<td><strong>Animation</strong></td>
+<td>Change a weapon&#39;s animations</td>
+<td><a href="weapons-and-assets.html#animations">Weapons</a></td>
+</tr>
+<tr>
+<td><strong>Scripts</strong></td>
+<td>Edit the map&#39;s Lua scripts</td>
+<td><a href="#map-scripting">Map scripting</a></td>
+</tr>
+<tr>
+<td><strong>Audio</strong></td>
+<td>Replace the game&#39;s sounds with your own</td>
+<td><a href="weapons-and-assets.html#sounds">Sounds</a></td>
+</tr>
+<tr>
+<td><strong>UI / HUD</strong></td>
+<td>Not available yet</td>
+<td></td>
+</tr>
+</tbody></table></div>
+<p>Features that are planned but not built yet show as panels in their tab, so you can see what is
+coming.</p>
+<h3 id="saving-a-map">Saving a map</h3>
+<p><strong>Project → Save</strong> (Ctrl+S) saves the scene as <code>map.blend</code> and writes the project&#39;s <code>source/</code>
+folder, which is what the build reads (<a href="sdk-reference.html#project-files">Project files</a>). Edited
+scripts are saved with it.</p>
+<h3 id="build-run">Build &amp; Run</h3>
+<p><strong>Build &amp; Run</strong> saves, builds the map into a mod, installs it into your client (last in the load
+order, so its files win), and starts the game. Once the main menu is up, the game goes straight
+into your map.</p>
+<p>The ⚙ next to it sets how the test starts:</p>
+<ul>
+<li><strong>Unlimited health</strong></li>
+<li><strong>Unlimited points</strong></li>
+<li><strong>Starting points</strong></li>
+</ul>
+<p>They are set for the game Build &amp; Run starts; starting the game any other way leaves them off.
+The same dialog sets the map&#39;s <strong>base level</strong> (the shipped level its rounds, zombie types,
+sounds and cameras come from). The Developer mod is always on in a test, so its console (<code>`</code>
+or F1) is at hand.</p>
+<p>If something would stop the build, the <strong>Problems</strong> tab in the sidebar lists it, with a button
+that selects the object at fault. <strong>Project → Check for problems</strong> runs the same checks.
+Build &amp; Run refuses to start while the game is already running.</p>
+<h3 id="playing-your-map-later">Playing your map later</h3>
+<p>After the first Build &amp; Run your map is a mod in the client, and the client knows it is a map.
+The client launcher&#39;s list next to <strong>PLAY</strong> offers <strong>Main menu</strong> and each map from your enabled
+mods; pick yours and press <strong>PLAY</strong> to start the game straight into it. Players who install
+your packaged mod get the same choice.</p>
+<h3 id="menus">Menus</h3>
+<ul>
+<li><strong>Project:</strong> Save, Build &amp; Run and its settings, <strong>Import model…</strong> (FBX, glTF and OBJ, scaled
+from metres), <strong>Add game shape</strong>, the <strong>Prefab library</strong>, <strong>Check for problems</strong>, <strong>Open project
+folder</strong>, and back to the SDK app.</li>
+<li><strong>Edit:</strong> undo, redo, undo history, Blender&#39;s preferences.</li>
+<li><strong>Help:</strong> these guides.</li>
+</ul>
+<h2 id="building-the-world">Building the world</h2>
+<p>The editor&#39;s <strong>World</strong> tab is where you build the level itself: walls and floors, the game&#39;s
+perk machines, doors and spawns, invisible volumes for your scripts, and prefabs that bundle
+them into reusable pieces. This section explains the kinds of object and the tools for placing
+them.</p>
+<h3 id="three-kinds-of-object">Three kinds of object</h3>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Kind</th>
+<th>What it is</th>
+<th>How you add it</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Model</strong></td>
+<td>A mesh you see and bump into: a game model, or your own</td>
+<td>Asset browser → Models, Add → Game shapes, Project → Import model</td>
+</tr>
+<tr>
+<td><strong>Volume</strong></td>
+<td>An invisible box that sends events to scripts: <strong>Trigger</strong> (walked into), <strong>Hit</strong> (shot), <strong>Use</strong> (the player presses use)</td>
+<td>Asset browser → Volumes</td>
+</tr>
+<tr>
+<td><strong>Prefab</strong></td>
+<td>One object made of parts (models, volumes and other prefabs), with an optional script. <strong>Game prefabs</strong> are the game&#39;s own objects: perk machines, wall buys, doors, spawns, ...</td>
+<td>Select objects and <strong>Make prefab</strong> (Ctrl+G); asset browser → Game prefabs and Level markers</td>
+</tr>
+</tbody></table></div>
+<p>Every object&#39;s name is its name in the game and in scripts.</p>
+<h4 id="model-objects">Model objects</h4>
+<p>A model is a <strong>game model</strong> (dragged from the asset browser) or <strong>your own mesh</strong> (built in
+Blender, from Add → Game shapes, Project → Import model, or <strong>Make editable</strong> on a game model).</p>
+<p>Its <strong>Collision</strong> decides how the game treats it:</p>
+<ul>
+<li><strong>Walkable:</strong> players stand on it, and the walkable area (navmesh) is built on top of it.</li>
+<li><strong>Blocking:</strong> it blocks players, zombies and bullets.</li>
+<li><strong>None:</strong> it is only drawn.</li>
+</ul>
+<p><strong>Box</strong> uses the model&#39;s bounds for collision, <strong>Mesh</strong> its triangles. Copies made with Alt+D
+share one mesh, in Blender and in the game.</p>
+<h4 id="volume-objects">Volume objects</h4>
+<p>A volume is drawn as a see-through box: teal for Trigger, red for Hit, green for Use. Its size
+is its scale (100 cm at scale 1). A volume&#39;s <strong>Set off by</strong> (Players, Zombies, Anyone) and
+<strong>Only once</strong> filter its events; a Use volume also has a <strong>Prompt</strong> and a <strong>Cost</strong>. What
+scripts do with volumes is in <a href="#map-scripting">Map scripting</a>.</p>
+<h4 id="prefab-objects">Prefab objects</h4>
+<p><strong>Make prefab</strong> (Ctrl+G, or the Object menu) groups the selected models, volumes and prefabs
+under an Empty; <strong>Ungroup</strong> (Ctrl+Alt+G) takes it apart again. A part keeps its <strong>part name</strong>
+inside the prefab (in the game: <code>&lt;Prefab&gt;.&lt;Part&gt;</code>); its object is named <code>&lt;Prefab&gt; › &lt;Part&gt;</code>, so
+searching the outliner for a prefab shows all of it.</p>
+<p><strong>Save as new prefab</strong> stores a prefab in the project&#39;s library. It appears in the asset browser
+under <strong>My prefabs</strong>; dropping it places an independent copy. Project → Prefab library deletes
+library prefabs.</p>
+<h3 id="the-games-own-objects">The game&#39;s own objects</h3>
+<p>The asset browser&#39;s <strong>Game prefabs</strong> are working copies of the game&#39;s objects:</p>
+<ul>
+<li><strong>Machines:</strong> the perk machines, Pack-a-Punch, the mystery box, the power switch.</li>
+<li><strong>Buying:</strong> wall buys.</li>
+<li><strong>Doors</strong> and <strong>Barricades</strong>, in every design the game&#39;s maps have.</li>
+<li><strong>Defence:</strong> traps and trap switches.</li>
+</ul>
+<p><strong>Level markers</strong> are the invisible ones: player and zombie spawns, jump points, sound emitters.
+In the viewport they are small cubes coloured by type.</p>
+<p>A game prefab&#39;s <strong>Game</strong> panel (Properties → Object) shows its settings: cost, <strong>Needs power</strong>,
+use distance and so on. <a href="#game-prefab-fields">Game prefab fields</a> explains every
+one. Game prefabs can be parts of your own prefabs.</p>
+<ul>
+<li><strong>Wall buy:</strong> <strong>Choose…</strong> picks one of the project&#39;s weapons (add more in the Weapons tab).
+The editor shows the weapon and its chalk drawing: the weapon&#39;s own, one drawn from its model,
+your own image, or none.</li>
+<li><strong>Edit its model</strong> gives a game prefab an editable copy of its mesh. It keeps its behaviour (a
+Pack-a-Punch still upgrades weapons) and the game draws your mesh. <strong>Use the game&#39;s model</strong>
+goes back.</li>
+</ul>
+<p>A dropped game prefab becomes a working entity of the map&#39;s base level when it has one, else
+another map&#39;s (brought over with everything it needs), else the shared template.</p>
+<h3 id="when-the-level-starts">When the level starts</h3>
+<p>Models and prefabs have <strong>When the level starts</strong> settings:</p>
+<ul>
+<li><strong>Visible</strong></li>
+<li><strong>Collision</strong></li>
+<li><strong>Blocks the walkable area:</strong> the navmesh under it stays shut until a script opens it, so
+players and zombies cannot pass. A wall that a script removes uses this.</li>
+</ul>
+<h3 id="object-scripts">Object scripts</h3>
+<p>Any object can have a <strong>Script</strong>. <strong>New</strong> makes <code>scripts/prefabs/&lt;Name&gt;.lua</code> from a template and
+opens it in the <strong>Scripts</strong> tab; <strong>Pick…</strong> uses an existing script. The script&#39;s <code>---@property</code>
+lines become fields in the panel, with a value for each object. See
+<a href="#map-scripting">Map scripting</a>.</p>
+<h3 id="building-with-shapes">Building with shapes</h3>
+<p>Add → <strong>Game shapes</strong> (also the World header&#39;s <strong>Shapes</strong> button) adds blocks, walls, floors,
+ramps, stairs and pillars at game size, with a tiling texture and the right collision. Blender&#39;s
+own Add → Mesh shapes are 2 cm big here, since one unit is a centimetre; the Problems panel flags
+anything that small.</p>
+<p><strong>Project → Import model…</strong> brings in FBX, glTF and OBJ files, scaled from metres. For detailed
+models (a statue, a gun) use the Assets tab instead: it makes a game version with the right
+number of triangles (<a href="weapons-and-assets.html#your-own-models">Your own models</a>).</p>
+<h3 id="textures">Textures</h3>
+<p>Properties → Material shows every texture slot with a preview:</p>
+<ul>
+<li><strong>Replace…</strong> loads an image file.</li>
+<li><strong>From game…</strong> uses any of the game&#39;s textures, with game shading.</li>
+<li><strong>✕</strong> goes back to the default grid texture.</li>
+</ul>
+<p>Game models need <strong>Make editable</strong> before their textures can change. Dropping a texture from
+the asset browser onto an object gives it the same game-shaded material.</p>
+<h3 id="changing-an-original-map">Changing an original map</h3>
+<p>Maps made from <strong>Kino der Toten</strong>, <strong>Call of the Dead</strong>, <strong>Ascension</strong> or the <strong>Tutorial</strong> start
+as the whole original map. Its entities (perks, doors, wall buys, spawns, triggers, traps, ...)
+are game prefabs you can move, rotate, scale, delete (X), copy (Shift+D), change the settings of,
+or start hidden. Only what you changed is written into the map; <strong>Put back as the level has it</strong>
+undoes the changes to an object. The rooms themselves stay as they are.</p>
+<h3 id="seeing-what-the-game-sees">Seeing what the game sees</h3>
+<p>The <strong>Show</strong> menu (World viewport header, and the sidebar&#39;s BOZ tab) switches overlays:</p>
+<ul>
+<li><strong>Markers</strong> and <strong>Triggers</strong> (the game&#39;s own volumes on entities);</li>
+<li><strong>Links</strong> between objects (power, doors, areas);</li>
+<li><strong>Walkable</strong> and <strong>Collision</strong>, which build the map and show its navmesh (blue, orange where a
+door blocks it) and collision mesh. <strong>Refresh</strong> builds them again after edits.</li>
+</ul>
+<p>Game models use the game&#39;s materials (vertex colours, lightmaps, blend modes); your own materials
+are drawn unlit, as the game draws them. The viewport uses the Standard view transform so colours
+match the game.</p>
+<h3 id="the-asset-browser">The asset browser</h3>
+<p>The World tab&#39;s asset browser shows the &quot;BOZ Game&quot; library:</p>
+<ul>
+<li><strong>Game prefabs:</strong> Machines, Buying, Doors, Barricades, Defence;</li>
+<li><strong>Level markers:</strong> Spawns, Jump points, Sound;</li>
+<li><strong>Volumes:</strong> Trigger, Hit, Use;</li>
+<li><strong>Models</strong> and <strong>Textures</strong> from every map;</li>
+<li><strong>My prefabs</strong> and <strong>My assets</strong>: your own.</li>
+</ul>
+<p>The editor builds the library from the SDK&#39;s asset library the first time (about 30 seconds) and
+again after the asset library changes.</p>
+<h2 id="map-scripting">Map scripting</h2>
+<p>Scripts make a map do things: a door that opens when a skull is shot, an easter egg, a trap of
+your own. A script is a Lua file attached to an object in the editor; it reacts to volumes and
+game events, and changes objects. This section builds an example step by step, then lists
+everything a script can use.</p>
+<p>A map is made of three kinds of object, models, volumes and prefabs
+(<a href="#three-kinds-of-object">Three kinds of object</a>), and scripts tie them together.</p>
+<p>Every object&#39;s <strong>name</strong> is how scripts find it. Inside a prefab, a part keeps its <strong>part name</strong>
+(Door, Skull, ...), and scripts reach it with <code>self:part(&quot;Door&quot;)</code>.</p>
+<h3 id="1-build-it-in-the-editor">1. Build it in the editor</h3>
+<p>An example: a vault door that opens when a skull is shot.</p>
+<ol>
+<li>Add a wall: Add → Game shapes → Wall. In its Game panel, under <strong>When the level starts</strong>,
+tick <strong>Blocks the walkable area</strong>, so zombies and players can&#39;t walk through until it opens.</li>
+<li>Drop a <strong>Hit volume</strong> from the asset browser (Volumes) where the skull should be. Drop the
+Insta-Kill model from Models → Shared on the same spot, so there is something to see.</li>
+<li>Select the wall, the volume and the model, then <strong>Make prefab</strong> (Ctrl+G). Name the prefab
+<code>Vault</code>. Set the parts&#39; <strong>part names</strong> to <code>Door</code>, <code>Skull</code> and <code>Skull_model</code>.</li>
+<li>In the prefab&#39;s <strong>Script</strong> box, press <strong>New</strong> and name it <code>Vault</code>. The editor makes
+<code>scripts/prefabs/Vault.lua</code> and opens it in the <strong>Scripts</strong> tab. Saving the map (Ctrl+S)
+saves the script too; the link button next to the script opens your own editor instead.</li>
+</ol>
+<h3 id="2-write-the-script">2. Write the script</h3>
+<pre><code class="language-lua">---@property reward integer 500 &quot;Points for opening it&quot;
+
+function on_hit(volume, info)
+    self:part(&quot;Skull_model&quot;):hide()
+    self:part(&quot;Door&quot;):hide():set_collision(false):open_navmesh()
+    boz.send(&quot;vault_open&quot;, {vault = self.name})
+end
+</code></pre>
+<p>That is the whole script. <code>self</code> is the prefab it is attached to, so there is nothing to set up.
+<code>on_hit</code> only runs when one of the prefab&#39;s <strong>Hit volumes</strong> is shot. Models never send it. With a
+single Hit volume there is nothing to check; with several, <code>volume</code> says which one
+(<code>if volume == &quot;Skull&quot; then ... end</code>).</p>
+<p>Save the script, then press <strong>Reload properties</strong> in the Script box. The <code>---@property</code> lines
+show up as fields, here <strong>Reward</strong>. Each prefab using the script has its own value, and at
+runtime it is <code>self.properties.reward</code>. Then <strong>Build &amp; Run</strong> to try it.</p>
+<h3 id="3-reuse-it">3. Reuse it</h3>
+<p><strong>Save as new prefab</strong> puts <code>Vault</code> in the project&#39;s prefab library: it shows in the asset
+browser on the left under <strong>My prefabs</strong>, and you drag copies into the map like any other asset
+(Project → Prefab library deletes them). Each copy is independent: change its properties or
+its parts without touching the others. To make a new base, edit a copy and Save as new prefab
+again under another name.</p>
+<h3 id="what-scripts-get">What scripts get</h3>
+<p>A script is just its functions. When the level starts, it runs once for every object it is
+attached to, each run with its own <code>self</code> and its own top-level variables (a <code>local hits = 0</code> at
+the top counts for that object alone). <code>boz</code> is the scripting module. <code>print(...)</code> shows in the
+Developer console (<code>`</code> or F1) and in <code>boz-log.txt</code>. Every handler is optional:</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Handler</th>
+<th>When</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>start()</code></td>
+<td>The level started</td>
+</tr>
+<tr>
+<td><code>on_enter(volume, who)</code>, <code>on_exit(volume, who)</code></td>
+<td>A Trigger volume of the prefab: <code>who.player</code>, <code>who.zombie</code></td>
+</tr>
+<tr>
+<td><code>on_hit(volume, info)</code></td>
+<td>A Hit volume of the prefab was shot</td>
+</tr>
+<tr>
+<td><code>on_use(volume, who)</code></td>
+<td>The player pressed use at a Use volume of the prefab (its cost already paid)</td>
+</tr>
+<tr>
+<td><code>on_event(name, data)</code></td>
+<td><code>boz.send(name, data)</code> from any script, and the game events below</td>
+</tr>
+</tbody></table></div>
+<h4 id="map-script-game-events">Map script game events</h4>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Event</th>
+<th><code>data</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>round_started</code></td>
+<td><code>round</code>: the round number</td>
+</tr>
+<tr>
+<td><code>power_on</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>perk_bought</code></td>
+<td><code>perk</code> (&quot;Juggernog&quot;, &quot;Quick Revive&quot;, ...), <code>player</code> (true for the local player)</td>
+</tr>
+<tr>
+<td><code>door_opened</code></td>
+<td><code>door</code>: the door&#39;s name (<code>0x...</code> for a door the map does not name), <code>hash</code></td>
+</tr>
+<tr>
+<td><code>zombie_killed</code></td>
+<td><code>position</code> ({x, y, z}), <code>entity</code> (the zombie, the same as <code>who.entity</code> in <code>on_enter</code>), <code>by_player</code>, <code>headshot</code></td>
+</tr>
+<tr>
+<td><code>player_downed</code>, <code>player_revived</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>weapon_given</code>, <code>weapon_equipped</code>, <code>weapon_reloaded</code></td>
+<td><code>weapon</code> (its name); <code>weapon_fired</code> reaches <code>boz.on</code> only. Weapon scripts: <a href="weapons-and-assets.html#weapon-scripts">Weapons</a></td>
+</tr>
+<tr>
+<td><code>round_ended</code></td>
+<td><code>round</code>: the round that ended (once per round)</td>
+</tr>
+<tr>
+<td><code>points_earned</code>, <code>points_spent</code></td>
+<td><code>points</code>, <code>player</code> (true for the local player)</td>
+</tr>
+<tr>
+<td><code>player_hit</code></td>
+<td><code>damage</code>: what the zombie&#39;s hit took</td>
+</tr>
+<tr>
+<td><code>box_weapon</code></td>
+<td><code>weapon</code>: what the mystery box picked</td>
+</tr>
+<tr>
+<td><code>pack_a_punch</code></td>
+<td><code>weapon</code>: the weapon that went in</td>
+</tr>
+<tr>
+<td><code>powerup_grabbed</code></td>
+<td><code>powerup</code> (&quot;nuke&quot;, &quot;max_ammo&quot;, &quot;insta_kill&quot;, ...), <code>player</code></td>
+</tr>
+<tr>
+<td><code>nuke</code>, <code>carpenter</code>, <code>trap_activated</code>, <code>teleporter_activated</code></td>
+<td></td>
+</tr>
+</tbody></table></div>
+<p>&quot;Killed near something&quot; needs no event of its own: compare <code>data.position</code> with an object
+(<code>self:part(&quot;Altar&quot;):near(data.position, 200)</code>), or put a Trigger volume around the spot and
+remember which zombies are in it (<code>who.zombie</code>, <code>who.entity</code> in <code>on_enter</code> / <code>on_exit</code>).</p>
+<p><code>volume</code> is the volume&#39;s part name: only volumes send these. A volume with its own script gets
+its own name. Any other function a script defines can be called by other scripts:
+<code>boz.find(&quot;Vault_1&quot;):open()</code> runs <code>function open() ... end</code> of Vault_1&#39;s script.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>On <code>self</code></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>self.name</code>, <code>self.properties</code></td>
+<td>Its name, and the property values set in the editor</td>
+</tr>
+<tr>
+<td><code>self:part(name)</code>, <code>self:parts()</code></td>
+<td>A part (a <code>boz.objects</code> handle), and all parts</td>
+</tr>
+<tr>
+<td><code>self:hide()</code>, <code>self:show()</code>, <code>self:set_collision(on)</code>, <code>self:open_navmesh()</code>, <code>self:close_navmesh()</code></td>
+<td>The whole prefab (every part), or the model</td>
+</tr>
+<tr>
+<td><code>self:position()</code>, <code>self:near(target, cm)</code></td>
+<td>Where it is ({x, y, z} in centimetres; a prefab&#39;s middle), and whether any part is within <code>cm</code> of a position or another object</td>
+</tr>
+</tbody></table></div>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Module</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>boz.send(name, data)</code>, <code>boz.on(name, fn)</code></td>
+<td>The event bus between scripts</td>
+</tr>
+<tr>
+<td><code>boz.find(name)</code></td>
+<td>Another scripted object (its instance), else its <code>boz.objects</code> handle</td>
+</tr>
+<tr>
+<td><code>boz.after(seconds, fn)</code>, <code>boz.every(seconds, fn)</code></td>
+<td>Run <code>fn</code> once after a delay, or repeatedly. Game time: they wait while the game is paused. Both return a timer with <code>:cancel()</code></td>
+</tr>
+<tr>
+<td><code>boz.globals</code></td>
+<td>One table every script of the map shares, saved with the game</td>
+</tr>
+</tbody></table></div>
+<p>Every volume event also goes to <code>boz.on</code> listeners as <code>&quot;&lt;volume&gt;.&lt;event&gt;&quot;</code>, so any script can
+listen: <code>boz.on(&quot;Vault_1.Skull.hit&quot;, fn)</code> (<code>on_event</code> does not get these; the volume&#39;s own
+script already had its handler). A Trigger volume sends <code>on_enter</code> once when something comes in
+and <code>on_exit</code> once it has left. A Use volume works from every side, within an arm&#39;s length of its
+box. A volume&#39;s <strong>Set off by</strong> (Players, Zombies, Anyone) and
+<strong>Only once</strong> filter its events. A Use volume shows its <strong>Prompt</strong> (and <strong>Cost</strong>) while the player
+can use it, and takes the points before <code>on_use</code> runs.</p>
+<p>A part handle (<code>boz.objects</code>) has <code>show()</code>, <code>hide()</code>, <code>set_visible(on)</code>, <code>set_collision(on)</code>,
+<code>open_navmesh()</code>, <code>close_navmesh()</code>, <code>position()</code>, <code>near(target, cm)</code> and <code>on(event, fn)</code>. All of them return the handle, so they
+chain. See the <a href="standard-library.html">standard library</a> for <code>boz.objects</code> and <code>boz.prefabs</code>.</p>
+<h3 id="saved-with-the-game">Saved with the game</h3>
+<p>A script&#39;s <strong>global</strong> variables are saved when the game saves (the autosave at every round
+start, and pausing) and come back when the player continues that save. <code>local</code> variables are
+not saved: how you declare a variable decides it.</p>
+<pre><code class="language-lua">skulls_shot = 0          -- global: saved
+door_open = false        -- global: saved
+local hint_timer = nil   -- local: this session only
+
+function on_hit(volume, info)
+    skulls_shot = skulls_shot + 1
+    if skulls_shot == 3 then
+        door_open = true
+        self:part(&quot;Door&quot;):hide():set_collision(false):open_navmesh()
+    end
+end
+
+function start()
+    if door_open then     -- continued from a save where it was already open
+        self:part(&quot;Door&quot;):hide():set_collision(false):open_navmesh()
+    end
+end
+</code></pre>
+<p>Each object keeps its own: every Vault copy saves its own <code>skulls_shot</code>. <code>boz.globals</code> is one
+table for the whole map (<code>boz.globals.eggs_done = 2</code>). When the level starts, each script runs
+top to bottom (its defaults), then a continued save puts its values back, then <code>start()</code> runs.
+Numbers, strings, booleans and tables of those are saved; functions, object handles and timers
+are not.</p>
+<h3 id="how-map-scripts-work">How map scripts work</h3>
+<p>The build lists every scripted object and every volume in <code>scripts/boz/world_data.lua</code>, with
+property values and parts. <code>boz.world</code> starts <code>boz.prefabs</code> when each level starts. Objects are
+found by their <code>CIsNamed</code> name. Volume events are <code>boz.objects</code> hooks on the game&#39;s own functions:</p>
+<ul>
+<li>collision enter and exit for Trigger volumes;</li>
+<li>the easter egg skull&#39;s weapon hit for Hit volumes;</li>
+<li><code>Poi_SendUse</code> for Use volumes.</li>
+</ul>
+<p>The game events come from <code>boz.match_events</code> (any mod can use it directly):</p>
+<ul>
+<li><code>CWaveManager::StartWave</code> for <code>round_started</code>;</li>
+<li>the wave manager&#39;s power flag for <code>power_on</code>;</li>
+<li><code>CPerkManager::GainPerk</code> for <code>perk_bought</code>, a door&#39;s state turning open for <code>door_opened</code>, the
+zombie&#39;s dead state for <code>zombie_killed</code>, the player&#39;s stance for <code>player_downed</code> /
+<code>player_revived</code>;</li>
+<li><code>CScoreManager::AddScore</code> for <code>points_earned</code>, <code>CPickupManager::ApplyPickup</code> for
+<code>powerup_grabbed</code>, and the game&#39;s own events for the rest (<code>SUBJECT_WAVE_ENDED</code>,
+<code>SUBJECT_CHARGE_POINTS</code>, <code>SUBJECT_ENEMY_ATTACK_DAMAGE</code>, <code>SUBJECT_MB_CHOOSE_WEAPON</code>,
+<code>SUBJECT_PACKAPUNCH_START</code>, <code>SUBJECT_NUKE_NOW</code>, <code>SUBJECT_CARPENTER_ACTIVATED</code>,
+<code>SUBJECT_ON_TRAP_ACTIVATED</code>, <code>SUBJECT_ON_TELEPORTER_ACTIVATED</code>), once each (they reach several
+subjects).</li>
+</ul>
+<p>Timers are <code>boz.timers</code> (game time: frames in which <code>CPlayerController::FixedStep</code> ran). Saved
+globals use <code>boz.saved</code>:</p>
+<ul>
+<li><code>CSaveManager::SaveGame</code> and <code>CSaveManager::NotifyLoad</code> for saved globals, kept in the map
+mod&#39;s settings (<code>saves/mods/&lt;map&gt;.cfg</code>), next to the game&#39;s own save, which is never changed.</li>
+</ul>
+<p><a href="#game-prefab-fields">Game prefab fields</a> lists what each game prefab and volume is made of.</p>
+<h2 id="game-rules">Game rules</h2>
+<p>The <strong>Game</strong> tab sets a map&#39;s rules: its name and loading screen, its rounds, the special rounds,
+which zombie looks spawn, the points and power-ups, and scripts that run when things happen. Until
+you change a section, the map uses its base level&#39;s own rules (shown in the tab); the first change
+makes them the map&#39;s own (<code>source/game.json</code>).</p>
+<h3 id="level-info">Level info</h3>
+<ul>
+<li><strong>Name:</strong> the map&#39;s name in the launcher and the mod list.</li>
+<li><strong>Loading screen:</strong> a picture (PNG or JPG) shown while the map loads. It fills the screen at 4:3
+(1024 x 768); the &quot;Loading&quot; text and the tips are drawn over it. Pure magenta (255, 0, 255) shows
+as black.</li>
+<li><strong>Starting weapon:</strong> set in the Weapons tab (shown here).</li>
+<li><strong>Power on at the start:</strong> the power is on as soon as the map starts.</li>
+<li><strong>Behaves like:</strong> some of the game&#39;s code checks the map&#39;s name. Pick Kino, Ascension or Call of
+the Dead and the level manager&#39;s checks answer as that map: Kino&#39;s teleport start, Ascension&#39;s
+round effects, Call of the Dead&#39;s snow camera and start sound (the build brings what they
+play). Other code that compares names itself (Call of the Dead&#39;s zombies and Pack-a-Punch,
+Ascension&#39;s attack distances) stays with those maps.</li>
+</ul>
+<h3 id="rounds">Rounds</h3>
+<p>Each game has its own rounds: single player on easy, normal and hard, and co-op with 2, 3 or 4
+players. Pick one under <strong>Game</strong>, or tick <strong>Same for all</strong> to change every game at once (<strong>Use these
+rounds in every game</strong> copies the shown game&#39;s rounds to the rest).</p>
+<p>The list holds the rounds in order. Each round sets:</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Zombies</td>
+<td>how many zombies the round has</td>
+</tr>
+<tr>
+<td>Health</td>
+<td>each zombie&#39;s health (an easy game halves it)</td>
+</tr>
+<tr>
+<td>At once</td>
+<td>the most zombies alive at the same time</td>
+</tr>
+<tr>
+<td>Spawn at start</td>
+<td>zombies that spawn as soon as the round starts</td>
+</tr>
+<tr>
+<td>Walkers, Fast walkers, Runners, Sprinters</td>
+<td>the share of zombies at each speed (0-1)</td>
+</tr>
+<tr>
+<td>Spawn interval</td>
+<td>milliseconds between spawns</td>
+</tr>
+<tr>
+<td>Break after</td>
+<td>milliseconds from the round&#39;s end to the next round</td>
+</tr>
+<tr>
+<td>Start delay</td>
+<td>milliseconds from the round&#39;s start to its first spawn</td>
+</tr>
+<tr>
+<td>Zombie type</td>
+<td>what spawns (empty: the map&#39;s zombie)</td>
+</tr>
+<tr>
+<td>Powered zombies, type and health</td>
+<td>extra zombies once the power is on (Kino&#39;s crawlers)</td>
+</tr>
+<tr>
+<td>Fog</td>
+<td>the fog the round sets</td>
+</tr>
+</tbody></table></div>
+<p>The last round can <strong>repeat</strong>: it plays again and again, each time growing by its multipliers
+(<strong>Zombies x</strong>, <strong>At once x</strong>, <strong>Spawn interval x</strong>, <strong>Powered zombies x</strong>) once the round number
+is past <strong>Grows after round</strong>. For example 25 zombies with Zombies x 1.1 from round 10 gives
+round 12 30 zombies (25 x 1.1 x 1.1).</p>
+<p><strong>Repeating health:</strong> the game ignores a repeating round&#39;s health and uses 10 x round x round -
+150 (round 20: 3850). <strong>Grows by the multiplier</strong> uses the round&#39;s <strong>Health</strong> and <strong>Health x</strong>
+instead.</p>
+<p>The graph on the right shows zombies (orange) and health (blue) for rounds 1 to 40 of the shown
+game. <strong>Back to the base level&#39;s rounds</strong> forgets the map&#39;s own rounds.</p>
+<h3 id="special-rounds">Special rounds</h3>
+<p>Dog rounds (and Ascension&#39;s space monkeys) come between normal rounds. Each is for one game
+(<strong>For</strong>). The game runs them in order: one plays <strong>Times</strong> times, then the next takes over. A
+special round comes after <strong>At least</strong> and at most <strong>At most</strong> normal rounds, with <strong>Chance</strong>
+percent each round in between. <strong>Count by players</strong> is how many spawn with 1, 2, 3 or 4 players.
+<strong>Add a special round</strong> makes a dog round to start from.</p>
+<h3 id="zombie-types">Zombie types</h3>
+<p>A level has a few zombie looks (a skeleton and body part models). Zombies spawn with one of the
+ticked looks, picked at random.</p>
+<h3 id="pickups-and-economy">Pickups and economy</h3>
+<p>Tick a setting to change it on this map (other maps keep the game&#39;s values):</p>
+<ul>
+<li><strong>Points at start</strong>, <strong>Points lost when down</strong> (share of points), <strong>Self revive</strong> cost.</li>
+<li>Power-up drops: <strong>Points between drops</strong>, <strong>Kills between drops</strong>, <strong>Drop chance</strong> (per kill once
+a drop is due), <strong>Drops per round</strong>.</li>
+<li>Power-up times: <strong>Double points</strong>, <strong>Insta-kill</strong>, <strong>Fire sale</strong>, <strong>Death machine</strong> (ms).</li>
+<li><strong>Change the power-ups:</strong> how likely each power-up is against the others (0: never).</li>
+<li><strong>Change the points:</strong> points for a hit, each kind of kill, a barricade board, Carpenter and the
+Nuke, and the barricade limit (at most this x the round number per round).</li>
+<li><strong>Change the mystery box:</strong> its cost, the fire sale cost and how many weapons it shows when it
+spins. A box given its own cost in the World tab keeps it.</li>
+<li>Zombies alive at most, base zombie health, grenades per round.</li>
+</ul>
+<h3 id="hook-scripts">Hook scripts</h3>
+<p>Every event a script can follow, with <strong>Create</strong> (a stub in <code>scripts/hooks/&lt;event&gt;.lua</code>) or
+<strong>Open</strong>. The script returns a function that runs every time the event happens:</p>
+<pre><code class="language-lua">-- scripts/hooks/round_started.lua
+return function(data)
+    log(&quot;round &quot; .. data.round)
+end
+</code></pre>
+<p>The list grows with the standard library.</p>
+<h3 id="how-the-rules-work">How the rules work</h3>
+<ul>
+<li><strong>Rounds</strong> (Ghidra: <code>CLevelManager::StartFirstWave</code>, <code>CWaveManager</code>): the level&#39;s <code>CLevel</code> names
+each game&#39;s first round (<code>m_StartingWavesSP</code> by difficulty, <code>m_StartingWavesMP</code> by players);
+each <code>CWave</code> names the next (<code>m_NextWave</code>); a <code>CWaveRepeatable</code> without a next one repeats,
+scaling by multiplier ^ (round - <code>m_StartingWave</code>). <code>CWaveRepeatable::GetZombieHealth</code> is
+10 x round^2 - 150; boz.game replaces its result for <strong>Grows by the multiplier</strong>. Special
+rounds (<code>CWaveSpeciality</code>, <code>CWaveMonkey</code>) are picked by <code>m_waveType</code> (0-2 the difficulty, 3-5
+the players). The build writes the map&#39;s rounds as <code>boz_&lt;game&gt;_&lt;n&gt;</code> and <code>boz_special_&lt;n&gt;</code>.</li>
+<li><strong>Economy:</strong> console variables (<code>StartingScore</code>, <code>PickupPointsThreshold</code>,
+<code>ProbabilityOfSpawningEachPickup</code>, ...), set by boz.game just before the map&#39;s level loads
+(<code>Level_Load</code>) and put back on other maps. Points come from a <code>CScoreConfig</code> (<code>m_Scores</code> and
+<code>m_ScoreLimits</code>); the map ships its own (<code>boz_score_&lt;map&gt;</code>) and points <code>ScoreConfigName</code> at it.</li>
+<li><strong>Loading screen:</strong> <code>fixed</code>&#39;s <code>loading-&lt;map&gt;</code> names a loading group per screen size; the build
+points them at <code>loading_&lt;map&gt;</code>, a copy of Kino&#39;s with the picture replaced (1024 x 1024 ETC1,
+encoded by bozkit).</li>
+<li><strong>Box:</strong> the <code>CMysteryBox</code> components still at the game&#39;s values.</li>
+<li><strong>Behaves like:</strong> boz.game answers <code>String_Equals(level name, &quot;&lt;map&gt;&quot;)</code> with true (the
+level manager&#39;s checks: <code>Level_IsAscension</code>, <code>Level_Load</code>, <code>LevelManager_SetCamera</code>,
+<code>LevelManager_UpdateAmbience</code>).</li>
+</ul>
+<p><code>bozkit/game.py</code> compiles it; <code>lib/boz/game.lua</code> and <code>lib/boz/hooks.lua</code> run it.</p>
+<h2 id="game-prefab-fields">Game prefab fields</h2>
+<p>What each of the game&#39;s objects is (the asset browser&#39;s <strong>Game prefabs</strong> and <strong>Level
+markers</strong>), which of its settings the editor lets you change, and why the others stay as they
+are. The tables cover every entity in the four shipped levels and every field the game registers
+for their components (<code>gamedef/reflection</code>).</p>
+<p><strong>Default</strong> is the game&#39;s value when a level leaves the field out (shipped data only stores
+fields that differ from it).</p>
+<p>Fields marked <em>editor</em> appear in Properties → Object → Game (Settings) when the game prefab is
+selected. Units: points, centimetres (cm), seconds (s; the game stores milliseconds).</p>
+<p>Every object (models and prefabs) also has <strong>When the level starts</strong>: Visible, Collision and
+Blocks the walkable area, and a <strong>Script</strong> whose <code>---@property</code> lines add fields of their own
+(<a href="#map-scripting">Map scripting</a>). The original map&#39;s own entities can start hidden or
+without collision; their walkable area stays as shipped.</p>
+<h3 id="the-game-prefabs">The game prefabs</h3>
+<h4 id="perk-machines-cperk">Perk machines (<code>CPerk</code>)</h4>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Default</th>
+<th>Meaning</th>
+<th>Editor</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>m_perkSinglePCost</code></td>
+<td>—</td>
+<td>Points it costs in solo</td>
+<td>editor: Cost</td>
+</tr>
+<tr>
+<td><code>m_perkMultiPCost</code></td>
+<td>1500</td>
+<td>Points it costs in co-op</td>
+<td>editor: Co-op cost</td>
+</tr>
+<tr>
+<td><code>powerSwitch</code></td>
+<td>0</td>
+<td>Name of the power switch it waits for. <code>boz_no_power</code> makes it work without power (<code>boz.world</code> powers it at <code>CPerk::Init</code>)</td>
+<td>editor: Needs power</td>
+</tr>
+<tr>
+<td><code>CPOI.m_MaxDistance</code></td>
+<td>300</td>
+<td>How close players must be to use it (cm)</td>
+<td>editor: Use distance</td>
+</tr>
+<tr>
+<td><code>m_numOfUses</code></td>
+<td>3 on Quick Revive</td>
+<td>Solo Quick Revive uses</td>
+<td>no (Quick Revive only)</td>
+</tr>
+<tr>
+<td><code>perkName</code>, <code>m_PerkType</code>, sting</td>
+<td>—</td>
+<td>Which perk it gives and its jingle</td>
+<td>no: pick another machine instead</td>
+</tr>
+<tr>
+<td><code>CHealth.m_MaxHealth</code> 500</td>
+<td>—</td>
+<td>Monkeys attack machines (Ascension)</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>CIsCollisionBox</code> 150 × 270 × 120 cm</td>
+<td>—</td>
+<td>The machine&#39;s solid box</td>
+<td>no</td>
+</tr>
+</tbody></table></div>
+<h4 id="pack-a-punch-cpackapunch">Pack-a-Punch (<code>CPackAPunch</code>)</h4>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Default</th>
+<th>Meaning</th>
+<th>Editor</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>m_Cost</code></td>
+<td>5000</td>
+<td>Points an upgrade costs</td>
+<td>editor: Cost</td>
+</tr>
+<tr>
+<td><code>powerSwitch</code></td>
+<td>—</td>
+<td>Power switch it waits for; off writes 0 and <code>m_HasPower</code> = true</td>
+<td>editor: Needs power</td>
+</tr>
+<tr>
+<td><code>CPOI.m_MaxDistance</code></td>
+<td>300</td>
+<td>Use distance (cm)</td>
+<td>editor</td>
+</tr>
+<tr>
+<td><code>m_HasPower</code>, <code>m_State</code>, <code>m_WeaponHash</code>, ...</td>
+<td>—</td>
+<td>Runtime state</td>
+<td>no</td>
+</tr>
+</tbody></table></div>
+<h4 id="mystery-box-cmysterybox">Mystery box (<code>CMysteryBox</code>)</h4>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Default</th>
+<th>Meaning</th>
+<th>Editor</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>m_Cost</code></td>
+<td>950</td>
+<td>Points a spin costs</td>
+<td>editor: Cost</td>
+</tr>
+<tr>
+<td><code>m_FireSaleCost</code></td>
+<td>10</td>
+<td>Points a spin costs during a Fire Sale</td>
+<td>editor</td>
+</tr>
+<tr>
+<td><code>m_MinWeapons</code>, <code>m_MaxWeapons</code></td>
+<td>4, 10</td>
+<td>The box moves after a random number of uses between these</td>
+<td>editor</td>
+</tr>
+<tr>
+<td><code>m_Weapons</code></td>
+<td>empty</td>
+<td>The weapon pool (empty: the level&#39;s)</td>
+<td>not yet: needs the Weapons tab</td>
+</tr>
+<tr>
+<td><code>m_RefundCost</code>, <code>m_State</code>, timers</td>
+<td>—</td>
+<td>Runtime state</td>
+<td>no</td>
+</tr>
+</tbody></table></div>
+<p>The level picks which box location is active (<code>CLevel</code> <code>MysteryBoxStart</code>, <code>MysteryBoxAvoid</code>).</p>
+<h4 id="power-switch-cpowerswitch">Power switch (<code>CPowerSwitch</code>)</h4>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Default</th>
+<th>Meaning</th>
+<th>Editor</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>StartEnabled</code></td>
+<td>true</td>
+<td>Players can pull it from the start (Ascension&#39;s launch switch starts disabled)</td>
+<td>editor: Usable from the start</td>
+</tr>
+<tr>
+<td><code>playSound</code></td>
+<td>—</td>
+<td>Sound when pulled</td>
+<td>no</td>
+</tr>
+</tbody></table></div>
+<h4 id="wall-buy-cweaponchalkoutline">Wall buy (<code>CWeaponChalkOutline</code>)</h4>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Default</th>
+<th>Meaning</th>
+<th>Editor</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>weapon (<code>model</code> child asset name)</td>
+<td>—</td>
+<td>The weapon it sells</td>
+<td>editor: Weapon</td>
+</tr>
+<tr>
+<td><code>m_cost</code></td>
+<td>—</td>
+<td>Points the weapon costs</td>
+<td>editor: Cost</td>
+</tr>
+<tr>
+<td><code>m_ammoCost</code></td>
+<td>0 (half the cost in game)</td>
+<td>Points a refill costs</td>
+<td>editor: Ammo cost</td>
+</tr>
+<tr>
+<td><code>m_upgradedAmmoCost</code></td>
+<td>0</td>
+<td>Points a refill of the upgraded weapon costs</td>
+<td>editor: Upgraded ammo cost</td>
+</tr>
+<tr>
+<td>chalk decal</td>
+<td>the weapon&#39;s own</td>
+<td>The drawing on the wall (a separate decal)</td>
+<td>editor: Chalk</td>
+</tr>
+<tr>
+<td><code>m_weaponType</code></td>
+<td>—</td>
+<td>Prompt type: firearm, melee, grenade</td>
+<td>no: follows the weapon</td>
+</tr>
+<tr>
+<td><code>CPOI.m_BiDirection</code></td>
+<td>true when placed</td>
+<td>Usable from either side</td>
+<td>set by the compiler</td>
+</tr>
+</tbody></table></div>
+<h4 id="doors-and-debris-cdoor-one-design-per-model-in-the-game">Doors and debris (<code>CDoor</code>, one design per model in the game)</h4>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Default</th>
+<th>Meaning</th>
+<th>Editor</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>m_Cost</code></td>
+<td>—</td>
+<td>Points to open</td>
+<td>editor: Cost</td>
+</tr>
+<tr>
+<td><code>powerSwitch</code></td>
+<td>0</td>
+<td>Opens itself when this power switch is pulled (not buyable)</td>
+<td>editor: Needs power</td>
+</tr>
+<tr>
+<td><code>m_HideAfterActivate</code></td>
+<td>false</td>
+<td>The model disappears once opened (debris)</td>
+<td>editor: Disappears when opened</td>
+</tr>
+<tr>
+<td><code>playSound</code></td>
+<td>—</td>
+<td>Sound when opening</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>m_AreasUnlock</code></td>
+<td>—</td>
+<td>Zones (<code>CArea</code>) it unlocks</td>
+<td>placed doors unlock none (generated maps have one area)</td>
+</tr>
+<tr>
+<td><code>CIsCollisionBox</code> 300 × 300 × 10 cm</td>
+<td>—</td>
+<td>Blocks players until open</td>
+<td>no</td>
+</tr>
+</tbody></table></div>
+<p>The navmesh under a door is tagged with its name and closed until it opens (<code>CDoor::Init</code>,
+<code>CDoor::OnEvent</code> → <code>NavMesh_SetTagOpen</code>).</p>
+<h4 id="window-barricade-cbarricade">Window barricade (<code>CBarricade</code>)</h4>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Default</th>
+<th>Meaning</th>
+<th>Editor</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>m_StartBroken</code></td>
+<td>false</td>
+<td>The planks start torn down</td>
+<td>editor: Starts broken</td>
+</tr>
+<tr>
+<td><code>CPOI</code></td>
+<td>170 cm</td>
+<td>Repair reach</td>
+<td>no</td>
+</tr>
+</tbody></table></div>
+<h4 id="trap-and-trap-switch-ctrap-ctrapswitch">Trap and trap switch (<code>CTrap</code>, <code>CTrapSwitch</code>)</h4>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Default</th>
+<th>Meaning</th>
+<th>Editor</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>CTrap.m_ActivePeriodMS</code></td>
+<td>30 s</td>
+<td>How long it runs once bought</td>
+<td>editor: Runs for (s)</td>
+</tr>
+<tr>
+<td><code>CTrap.m_CoolDownPeriodMS</code></td>
+<td>10 s</td>
+<td>Wait before it can be bought again</td>
+<td>editor: Cool-down (s)</td>
+</tr>
+<tr>
+<td><code>CTrap.m_PlayerDamage</code></td>
+<td>115 / 230</td>
+<td>Damage to players who walk in</td>
+<td>editor</td>
+</tr>
+<tr>
+<td><code>CTrap.damageEffect</code>, <code>startSound</code></td>
+<td>—</td>
+<td>Effect and sound</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>CTrapSwitch</code> cost</td>
+<td>1000</td>
+<td>Points to run the trap</td>
+<td>editor: Cost</td>
+</tr>
+<tr>
+<td><code>CTrapSwitch.powerSwitch</code></td>
+<td>—</td>
+<td>Power switch it waits for</td>
+<td>editor: Needs power</td>
+</tr>
+<tr>
+<td><code>CTrapSwitch</code> traps list</td>
+<td>—</td>
+<td>Which traps it runs</td>
+<td>not yet: needs links</td>
+</tr>
+</tbody></table></div>
+<h4 id="spawns-cspawnpoint">Spawns (<code>CSpawnPoint</code>)</h4>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Default</th>
+<th>Meaning</th>
+<th>Editor</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>spawnType</code></td>
+<td>—</td>
+<td>windows, ground, Lightning (dogs), Hole, Monkey</td>
+<td>the level marker you pick</td>
+</tr>
+<tr>
+<td><code>m_StartActive</code></td>
+<td>false</td>
+<td>Used from the first round, not only once players reach its area</td>
+<td>editor: Active from the start</td>
+</tr>
+</tbody></table></div>
+<p>Player spawns are the entities named <code>spawn_player_1</code> to <code>_4</code>.</p>
+<h4 id="level-markers-jump-point-sound-emitter">Level markers: jump point, sound emitter</h4>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Piece</th>
+<th>Field</th>
+<th>Meaning</th>
+<th>Editor</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Jump point</td>
+<td><code>m_jumpAreaHash</code></td>
+<td>The jump area zombies cross to</td>
+<td>no: linked by the level</td>
+</tr>
+<tr>
+<td>Sound emitter</td>
+<td><code>soundName</code></td>
+<td>The sound it plays</td>
+<td>editor: Sound</td>
+</tr>
+<tr>
+<td>Sound emitter</td>
+<td><code>StartEnabled</code></td>
+<td>Plays from the start</td>
+<td>editor: Plays from the start</td>
+</tr>
+</tbody></table></div>
+<h3 id="volume-entities">Volume entities</h3>
+<p>Volumes are not game prefabs: they have no behaviour of their own and only send events to
+scripts. Each compiles to an entity made from a shipped template:</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Volume</th>
+<th>Made from</th>
+<th>In the game</th>
+<th>Script event</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Trigger</td>
+<td>Call of the Dead&#39;s snow trigger box (<code>CIsCollisionBox</code>, <code>m_Ghost</code> on, <code>CCollisionFilter</code>, <code>CEntityFlags</code>)</td>
+<td>A ghost box sized by the volume</td>
+<td><code>enter</code> / <code>exit</code> (<code>CIsCollisionObject::OnCollisionEnter</code> / <code>OnCollisionExit</code>)</td>
+</tr>
+<tr>
+<td>Hit</td>
+<td>Kino&#39;s musical easter egg skull (<code>CEasterEgg</code>, <code>CHealth</code>, <code>CIsCollisionSphere</code>)</td>
+<td>A sphere of the volume&#39;s largest side, with a song of its own so it stays out of the level&#39;s easter egg</td>
+<td><code>hit</code> (<code>CEasterEgg::OnEvent</code>, skipped for the game)</td>
+</tr>
+<tr>
+<td>Use</td>
+<td>A barricade&#39;s <code>CPOI</code> and <code>CIsBroadcaster</code>, without the barricade</td>
+<td>A point of interest the game draws no prompt for; reach: half the size plus 75 cm</td>
+<td><code>use</code> (<code>Poi_SendUse</code>); the prompt and cost come from <code>boz.prefabs</code></td>
+</tr>
+</tbody></table></div>
+<h3 id="points-of-interest-cpoi">Points of interest (<code>CPOI</code>)</h3>
+<p>Everything players use has a <code>CPOI</code>. <code>m_poiType</code> picks the prompt: 0 barricade, 1 door, 2 wall
+buy, 3 box, 4 perk, 5 Pack-a-Punch, 6 trap switch, 7 power, 8 turret, 9 teleporter, 10 mainframe,
+11 lander, 12–13 lander station, 14 revive, 15 claymore, 16 tutorial pickup
+(<code>LevelManager_UpdateNearestPoi</code>, <code>CIngameStatePlaying::OnEvent</code>). The other fields set the reach:
+<code>m_MaxDistance</code> (cm), <code>m_ViewingAngle</code>, <code>m_AngleDistanceOffset</code>, <code>m_HeightOffset</code>,
+<code>m_MaxYDistance</code>, <code>m_BiDirection</code> (either side), <code>m_Moveable</code>, <code>m_IsReverseViewAngle</code>. Pressing
+use runs <code>Poi_SendUse</code>, which broadcasts the interact event to the entity in reach.</p>
+<h3 id="not-game-prefabs-yet">Not game prefabs yet</h3>
+<p>These are in the shipped levels; each needs its own game prefab or links before it is useful:</p>
+<ul>
+<li>Turret (<code>CTurret</code>: cost, duration, damage, range, rate of fire, cool-down, power).</li>
+<li>Teleporter, mainframe and Gersch points (<code>CTeleporter</code>, <code>CTeleportMainframe</code>, <code>CTeleportPointGersch</code>).</li>
+<li>Rides: lunar landers, zipline, flinger, centrifuge, ice slide (Ascension, Call of the Dead).</li>
+<li>Animated scenery, TV and projector screens, fog effects, lights.</li>
+</ul>
+<h2 id="navigation-meshes">Navigation meshes</h2>
+<p>In BOZ, players and zombies do not walk on the level&#39;s collision. They walk on a separate
+<strong>navigation mesh</strong> (navmesh): a map of the floor where anyone can go. Collision only decides
+what bullets and other ray casts hit. So when you add a wall, the navmesh has to change too, or
+players walk straight through it.</p>
+<p>You rarely need to think about this: when you save a map whose collision changed, the SDK
+rebuilds the navmesh around the change, and doors and blocking objects are handled for you. In
+the editor, <strong>Show → Walkable</strong> draws the navmesh. This section explains how it works, for when
+something does not walk the way you expect.</p>
+<p>The game moves the player in <code>CPlayerController::FixedStep</code> through <code>Player_MoveOnNavMesh</code>
+(<code>Nav_FindNearestPoly</code>, <code>Nav_MoveAlongSurface</code>, <code>Nav_GetPolyHeight</code>); zombies use the same mesh.</p>
+<h3 id="the-helper-program">The helper program</h3>
+<p>The rebuild runs <a href="https://github.com/recastnavigation/recastnavigation" target="_blank" rel="noopener">Recast</a> through a small
+native program, <code>boz-navmesh</code>. Build it once as described in
+<a href="getting-started.html#the-navmesh-helper">Installation</a>. Without it, saving still
+works and reports that the navmesh was not rebuilt.</p>
+<h3 id="how-boz-stores-navmeshes">How BOZ stores navmeshes</h3>
+<p>A <code>CIsNavMesh</code> resource holds the build settings and a tiled Detour v7 navmesh (see
+<a href="how-the-game-works.html#navigation-meshes-cisnavmesh">Asset formats</a>). The 80-byte settings block is
+RecastDemo&#39;s: cell size and height, agent height, radius, climb and slope, region minimum and
+merge sizes, edge length and error, vertices per polygon, detail sampling distance and error,
+tile size, and the build bounds. Tiles are <code>tile size × cell height</code> wide (32 × 0.15 = 4.8 m in
+Kino). Recast normally multiplies the tile size by the cell size; the game&#39;s original build tool
+used the cell height instead, and the shipped navmeshes are laid out that way.
+Positions are metres, the game&#39;s units divided by 100.</p>
+<p>BOZ modified Detour. A polygon is 40 bytes instead of 32: <code>firstLink</code>, six vertices, six
+neighbours, <strong>32-bit flags</strong>, a <strong>32-bit name hash</strong>, the vertex count, the area and type, and two
+bytes of padding. An off-mesh connection is 40 bytes instead of 36: an extra float (0.9 in every
+shipped link) follows the radius. Polygon flags and name hashes carry gameplay:</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Name hash</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>0x1</code></td>
+<td></td>
+<td>walkable</td>
+</tr>
+<tr>
+<td><code>0x2</code></td>
+<td>a door&#39;s name</td>
+<td>floor the door blocks until it opens</td>
+</tr>
+<tr>
+<td><code>0x4000</code></td>
+<td>a jump area (<code>CPlayerJumpPoint</code>)</td>
+<td>jump point</td>
+</tr>
+<tr>
+<td><code>0x8</code></td>
+<td></td>
+<td>water (Call of the Dead)</td>
+</tr>
+<tr>
+<td><code>0x40</code>, <code>0x80</code>, <code>0x100</code>, <code>0x200</code>, <code>0x1000</code>, <code>0x8000</code></td>
+<td></td>
+<td>further area types, not yet identified</td>
+</tr>
+</tbody></table></div>
+<p>Off-mesh connections are the zombie window crossings (one per barricade, named after the
+barricade&#39;s plank entity), climbs (<code>TheatreLeft_Climb_1</code>) and drops from balconies. They are
+one-way.</p>
+<h3 id="how-the-rebuild-works">How the rebuild works</h3>
+<p>The shipped navmeshes were built from the level&#39;s collision, with triangles wound the opposite
+way to Recast&#39;s convention. Collision
+boxes on entities count as obstacles; doors do not, because the navmesh runs under doors and
+their tags gate it.</p>
+<p>On save, the SDK builds this input from the game&#39;s original files and from the current level;
+triangles that differ mark dirty areas, and only the tiles overlapping them are rebuilt from the
+game&#39;s original navmesh with the stored settings. Because the comparison is always against the
+game, repeated saves give the same result. <strong>Rebuild navmesh</strong> in the sidebar runs it even when
+nothing else changed.</p>
+<ul>
+<li>Every other tile stays byte-identical. An untouched level keeps its navmesh exactly.</li>
+<li>In a rebuilt tile, polygons are kept where the shipped navmesh had floor or inside the edited
+areas. The original designers also cut areas away (for example the street outside Kino) that
+nothing in the level data describes; this keeps those cuts. Other polygons get flags 0, which
+the game&#39;s query filter skips.</li>
+<li>Outside the edited areas the shipped floor itself is extra walkable input (inflated by the
+agent radius, which Recast erodes again). Some shipped floor has no geometry under it at all,
+such as the drop-off point on Kino&#39;s lobby balcony, so this keeps rebuilt tiles faithful and
+keeps window crossings and climbs anchored.</li>
+<li>New polygons take the flags and name hash of the shipped polygon under them, so door gating,
+jump areas and water carry over.</li>
+<li>A tile whose rebuild would drop one of its window crossings or climbs keeps its shipped data.</li>
+</ul>
+<p>In normal use only the tiles around an edit are rebuilt.</p>
+<p><strong>Accuracy.</strong> 79% of the shipped navmesh surfaces lie within one cell height of the level&#39;s
+collision, which is how the collision is known to be their source. Rebuilding every Kino tile at
+once (the worst case) reproduces 94% of the shipped walkable area, 96% of the rebuilt area lies on
+shipped floor, and 44 of the 48 window crossings and climbs are rebuilt (the other four tiles keep
+their shipped data).</p>
+<h3 id="blocking-objects-cutting-instead-of-rebuilding">Blocking objects: cutting instead of rebuilding</h3>
+<p>An object set to <strong>Block the walkable area</strong> (a wall a script opens) does not change the
+level&#39;s collision: the floor under it is tagged with its name, so <code>NavMesh_SetTagOpen</code> can shut
+and open it. Rebuilding its tiles with Recast would lose floor the designers made from other
+input than the collision. Kino&#39;s stairs, for example, are a ramp up to 0.8 m under the steps:
+rebuilding a tile next to them loses a quarter of their floor and traps players. So the SDK keeps
+those tiles exactly as shipped and cuts the blocker&#39;s outline into their polygons
+(<code>bozkit.navcut</code>):</p>
+<ul>
+<li>the pieces inside the outline are tagged (flags <code>| 0x2</code>, the object&#39;s name hash);</li>
+<li>every new corner also goes into each polygon edge it lies on, so neighbouring polygons
+still share whole edges (Detour links polygons only through shared edges);</li>
+<li>polygons over six corners are halved along diagonals; new corners take their height from
+the shipped detail surface; tile-border portals keep their sides; the BV tree is rebuilt.</li>
+</ul>
+<p>Floor area, connectivity and portals stay exactly the shipped ones; only tiles under a blocker
+change. Real geometry changes (your own walls and floors, moved or removed entities) still
+rebuild their tiles with Recast first, and blockers are cut in afterwards. Volumes (Trigger,
+Hit, Use) change nothing walkable and leave the navmesh alone.</p>
+<h3 id="navmesh-limits">Navmesh limits</h3>
+<ul>
+<li>Tags stay where they were: moving a door does not move the floor it gates.</li>
+<li>New window crossings and climbs cannot be added yet.</li>
+<li>Windows builds of the helper are not produced yet.</li>
+</ul>
+<h2 id="editing-shipped-map-files">Editing shipped map files</h2>
+<p>The editor&#39;s <strong>Shipped files</strong> tools open the game&#39;s own map files (<code>.group.bin</code>) directly,
+show everything in them (models, gameplay objects, links, collision, portals, the navmesh), and
+save your changes into a mod. They never change the game&#39;s own files.</p>
+<p><strong>Most of the time you want a map project instead.</strong> A map made from the Kino der Toten, Call
+of the Dead or Ascension template is the whole original map, which you change in the World tab
+and play as a map of its own (<a href="getting-started.html#your-first-map">Your first map</a>). The
+Shipped files tools are for changing the original levels themselves, in place, and for looking
+at how the game&#39;s maps are built. Format details are in <a href="how-the-game-works.html#asset-formats">Asset formats</a>.</p>
+<h3 id="open-the-tools">Open the tools</h3>
+<p>Open any map project in the editor (<strong>Open in Editor</strong> in the SDK app). The tools are in the
+<strong>Shipped files</strong> tab of the 3D View sidebar; set the client folder there.</p>
+<h3 id="extract-the-game-data">Extract the game data</h3>
+<p>The tools read an extracted copy of the game&#39;s data. Extract the pack your client downloaded
+(in its <code>original/obb/</code> folder) once:</p>
+<pre><code class="language-bash">bozkit extract path/to/boz-redux/original/obb/blackops_etc.dz ~/boz-etc --kind dz
+</code></pre>
+<p>The examples below use <code>~/boz-etc</code>.</p>
+<h3 id="import-a-level">Import a level</h3>
+<p>A map is spread over many groups. Kino der Toten&#39;s <code>levels/kino</code> folder has 25: <code>kino_statics</code>
+places objects whose models live in <code>kino_dynamics</code> and in the shared <code>ingame</code> group, and every
+room (<code>theatre_shared</code>, <code>lobby_shared</code>, ...) has its own geometry, portals and lightmaps.</p>
+<ol>
+<li>Start from a fresh scene and choose <strong>Shipped files &gt; Import level folder</strong>.</li>
+<li>Select <code>~/boz-etc/levels/kino</code>. With <strong>Shared in-game group</strong> enabled, the add-on also reads
+<code>~/boz-etc/ingame/ingame.group.bin</code> and the level&#39;s weapon groups
+(<code>ingame/weapons/*_kino.group.bin</code>, for the wall-buy displays) to resolve placements, but
+imports none of their own content.</li>
+<li>The Outliner gets one <strong>BOZ &lt;group&gt;</strong> collection per group, holding <strong>Placed Models</strong>,
+<strong>Markers</strong>, <strong>Shapes</strong>, <strong>Collision</strong>, <strong>Portals</strong> and <strong>Navigation</strong>. Only the models are
+visible after import. The sidebar&#39;s <strong>Show</strong> switches turn each overlay on across the whole
+level: Markers, Badges, Areas, Links, Shapes, Collision, Portals and Nav. <strong>Marker types</strong>
+narrows markers and badges to the kinds you want (for example only perks and doors).</li>
+<li>Switch the viewport to <strong>Material Preview</strong>.</li>
+</ol>
+<p>Kino takes a few seconds and produces about 600 placed models. The importer reports anything it
+could not resolve, such as placements whose model is in a group outside the folder, as warnings in
+Blender&#39;s status bar instead of silently dropping them.</p>
+<p><strong>Import native group</strong> imports a single <code>.group.bin</code>. That suits self-contained groups such as
+<code>levels/tutorial/tutorial_statics.group.bin</code> or one room.</p>
+<h3 id="what-you-see">What you see</h3>
+<p><strong>Placed models.</strong> Every renderable entity becomes an object at its native position, rotation and
+scale. All placements of one model share one Blender mesh, so editing the geometry of one changes
+them all, exactly as in the game. Entities nested inside other entities keep their parent: a
+non-renderable parent becomes an empty, and children move with it.</p>
+<p><strong>Shading.</strong> The preview follows the game&#39;s GLES1 material path:</p>
+<ul>
+<li>The primary texture is multiplied by the vertex colour. Vertex colours carry the baked lighting
+of unlit models.</li>
+<li>Lightmapped materials add the second texture, a baked lightmap atlas, through the model&#39;s second
+UV set (<code>UVMap2</code>), combined the way the material&#39;s flags select (usually multiply, or multiply ×2).</li>
+<li>Alpha blending, additive and inverse blending, and the alpha-test cutout follow the material&#39;s
+blend mode.</li>
+</ul>
+<p>The colours are computed in the game&#39;s display encoding and decoded once, so import switches the
+scene&#39;s view transform to <strong>Standard</strong>. Filmic or AgX would wash the result out.</p>
+<p>The preview does not reproduce real-time lights on dynamic objects, fog, or the rare dot3
+normal-map path.</p>
+<p><strong>Markers.</strong> Every entity without a model of its own becomes a small coloured diamond in
+<strong>&lt;group&gt; Markers</strong>, and every model with a gameplay job (perk machines, doors, the power
+switch, box locations, traps, Pack-a-Punch, barricades) gets a locked diamond badge above it that
+moves with the model. Names say what the thing is, using the level designer&#39;s own names where the
+data has them, for example <code>Quick Revive perk &quot;QuickRevive&quot;</code> or <code>Door 750 &quot;Lobby_To_Atrium&quot;</code>; the
+<code>boz_description</code> custom property explains it (<code>Quick Revive perk machine, 500 points, linked to the power switch</code>) and <code>boz_components</code> lists everything the entity contains. Colours by job:</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Colour</th>
+<th>Job</th>
+<th>Colour</th>
+<th>Job</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>purple</td>
+<td>perk machine</td>
+<td>magenta</td>
+<td>Pack-a-Punch</td>
+</tr>
+<tr>
+<td>cyan</td>
+<td>mystery box location</td>
+<td>orange</td>
+<td>door or debris</td>
+</tr>
+<tr>
+<td>yellow</td>
+<td>power switch</td>
+<td>red</td>
+<td>trap or trap switch</td>
+</tr>
+<tr>
+<td>green</td>
+<td>wall buy</td>
+<td>brown</td>
+<td>barricade</td>
+</tr>
+<tr>
+<td>blue</td>
+<td>teleporter</td>
+<td>pink</td>
+<td>Easter egg</td>
+</tr>
+<tr>
+<td>dark red</td>
+<td>zombie or player spawn</td>
+<td>light blue</td>
+<td>particle effect</td>
+</tr>
+<tr>
+<td>lime</td>
+<td>interact point</td>
+<td>teal</td>
+<td>sound</td>
+</tr>
+<tr>
+<td>white</td>
+<td>zombie jump point</td>
+<td>grey</td>
+<td>locator, camera, group</td>
+</tr>
+</tbody></table></div>
+<p>Markers move, rotate and save like objects. A perk machine&#39;s glow and particles are separate
+effect markers next to it, so select them together when you move the machine. Entities attached
+to a bone are placed at their parent&#39;s origin.</p>
+<p><strong>Links and areas.</strong> Entities refer to each other by name, and <strong>Show &gt; Links</strong> draws those
+references as lines (by default only for the selected objects):</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Colour</th>
+<th>Link</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>yellow</td>
+<td>power</td>
+<td>needs the power switch (doors, perks, Pack-a-Punch, trap switches, teleporters, TVs)</td>
+</tr>
+<tr>
+<td>red</td>
+<td>traps</td>
+<td>a trap switch fires these traps</td>
+</tr>
+<tr>
+<td>orange</td>
+<td>siblings</td>
+<td>doors that open together</td>
+</tr>
+<tr>
+<td>cyan</td>
+<td>unlocks</td>
+<td>the areas a door opens</td>
+</tr>
+<tr>
+<td>violet</td>
+<td>members</td>
+<td>an area&#39;s spawn points, perk machines, teleport points, shortcuts and locators</td>
+</tr>
+</tbody></table></div>
+<p>Areas (zones such as <code>lobby</code> or <code>theatre</code>) appear as violet diamonds at the centre of their
+members when <strong>Show &gt; Areas</strong> is on. Spawns in an area only activate once a door unlocks it.</p>
+<p>The <strong>Selected</strong> panel under BOZ Redux describes the active object, lists its links with a button
+to select each target, an <strong>×</strong> to remove a link and <strong>+</strong> to link the other selected objects
+(select the targets first, the object to link from last; a single link such as power is
+replaced). <strong>Linked from</strong> lists everything that refers to it. Only entities with a game name can
+be linked to. Link edits are saved with the rest.</p>
+<p><strong>Shapes.</strong> Collision boxes, spheres and capsules on entities and each interaction point&#39;s reach
+are translucent children of their entity in <strong>&lt;group&gt; Shapes</strong>, hidden until you turn on
+<strong>Show &gt; Shapes</strong>. Their colour gives the role: red for solid collision, green for ghost
+(pass-through trigger) volumes, yellow discs for how close a player must be to interact. They move
+with their entity in the game. Edit them to change the game&#39;s values: a box&#39;s scale is its half
+size and its position its centre; a sphere&#39;s uniform scale is its radius; a capsule&#39;s X/Y scale is
+its radius and Z its half height; a reach disc&#39;s scale is the interaction distance and its height
+the height offset. Shapes cannot be rotated relative to their entity. The level&#39;s world collision
+(orange wire) is separate from these shapes.</p>
+<p><strong>Collision.</strong> A level&#39;s world collision is one mesh, cooked from the render models (in Kino, 82%
+of its triangles lie exactly on a single placed model). Those triangles are imported as a hidden wire
+child of that model (<code>&lt;model&gt; collision</code>), so moving, rotating or scaling the model carries its
+collision with it. Collision that belongs to no single model (invisible walls, simplified
+surfaces) stays in the level&#39;s collision object. Saving stitches everything back into the one
+mesh the game loads, in the original triangle order; where a moved piece shared a vertex with a
+still one, the vertex is split. In Call of the Dead and Ascension the collision object has its own
+position.</p>
+<p><strong>Portals</strong> show their front and back sector names in the <code>boz_front_sector</code> and
+<code>boz_back_sector</code> custom properties. <strong>Navigation connections</strong> (window and barricade climbs) are
+two-point edges.</p>
+<p><strong>Navmesh.</strong> <strong>Show &gt; Navmesh</strong> draws where players and zombies can walk: blue floor, orange
+floor a door blocks until it opens, white jump areas, violet other tagged floor, and lines for
+the zombie window crossings and climbs. It is display only. Saving rebuilds the tiles around
+changed collision and refreshes this overlay; <strong>Rebuild navmesh</strong> forces it (see
+<a href="#navigation-meshes">Navigation meshes</a>).</p>
+<h3 id="editing-a-shipped-level">Editing a shipped level</h3>
+<p>Supported:</p>
+<ul>
+<li><strong>Transforms:</strong> move, rotate and scale placed models, entity empties and collision objects.
+Rotation mode may be changed; export reads the final transform.</li>
+<li><strong>Model geometry:</strong> vertex positions and both UV sets, with unchanged topology. Native models
+duplicate vertices at UV seams; moving one copy moves all copies of that position, and moving
+copies to different places is rejected.</li>
+<li><strong>Collision:</strong> move pieces with their models, or edit vertex positions and per-face material
+slots of any collision object, with unchanged topology. Deleting a collision piece is rejected
+on save. Collision
+decides what bullets and other ray casts hit; export updates both copies the game loads (the
+ray-cast arrays and the Bullet physics shape). Where players and zombies can walk is the navmesh,
+which saving rebuilds around changed collision.</li>
+<li><strong>Portals:</strong> vertices and sector names.</li>
+<li><strong>Navigation connections:</strong> either endpoint.</li>
+</ul>
+<p><strong>Duplicate and delete.</strong> Select models or markers and use <strong>Duplicate</strong> (the copy follows the
+mouse; click to place it) or <strong>Delete</strong> in the sidebar:</p>
+<ul>
+<li>A copy brings everything attached: child entities, its collision piece, shapes, badge and
+links. Names other entities can refer to get a free suffix (<code>QuickRevive</code> becomes
+<code>QuickRevive_2</code>); generic names shared by several entities stay. A copied spawn point, perk
+machine or teleport point joins the same areas as the original, so it works from the start.
+Copying a child entity adds another child to the same parent.</li>
+<li>Delete removes the entity, its children and its collision triangles, and takes it out of every
+area. It is refused while a power, trap, door-sibling or area-unlock link still points at it;
+remove those links first. The sidebar shows how many deletions wait for the next save.</li>
+<li>Saving creates and removes the entities, rebuilds the navmesh around them and reloads the
+level so the new entities get their final names and identities. Blender&#39;s own Shift+D copy is
+not a BOZ copy; <strong>Validate</strong> reports it.</li>
+</ul>
+<p>Not supported yet:</p>
+<ul>
+<li>Adding or removing vertices or faces, applying modifiers, or reassigning model materials.</li>
+<li>Duplicating a copy before it has been saved.</li>
+<li>Re-parenting objects. An object must keep the parent it was imported with.</li>
+<li>Editing Detour navmesh polygons. Their tiles are preserved byte-for-byte.</li>
+</ul>
+<h3 id="save-reload-and-play">Save, reload and play</h3>
+<p>The sidebar&#39;s <strong>Client</strong> field is your BOZ Redux client folder (set it once; Blender remembers it)
+and <strong>Mod</strong> names the mod your edits go into.</p>
+<p><strong>Give your edits a mod of their own</strong> (type a new name, for example <code>kino_edits</code>). <strong>Mod</strong>
+starts as the Developer mod, and edits saved there change the original map for as long as the
+Developer mod is on, which is easy to forget. With a mod of their own, the launcher&#39;s <strong>Mods</strong>
+tab switches your edits on and off.</p>
+<ol>
+<li><strong>Validate BOZ scene</strong> reports non-triangle faces, empty geometry, duplicated identities,
+and changed parents.</li>
+<li><strong>Save to mod</strong> writes every changed group into <code>&lt;client&gt;/mods/&lt;mod&gt;/assets/</code> under its game
+file name, creating the mod if needed. Unchanged groups are not written. Saving again replaces
+the mod&#39;s earlier copies; the game&#39;s own files are never written.</li>
+<li><strong>Import level folder</strong> has <strong>Include mod edits</strong> enabled by default: groups already saved to
+your mod are loaded instead of the game&#39;s copies, exactly as the client does. Continue editing
+and save again.</li>
+<li>Start the game. New mods are enabled automatically (the launcher&#39;s Mods tab can disable
+them), so the edits appear the next time the level loads.</li>
+</ol>
+<p>Every unknown section and unsupported resource body stays byte-identical. Editing the geometry of
+a model that lives in the shared <code>ingame</code> group saves a new <code>ingame.group.bin</code> in the mod; moving
+it changes only the group that places it.</p>
+<p><strong>Build &amp; Run</strong> saves to your mod and starts the game straight into the level. The sidebar&#39;s
+<strong>Test with</strong> mod (the Developer mod by default) does the starting: Build &amp; Run stores the level
+in that mod&#39;s settings, and the mod&#39;s <code>boz.levels.autostart_from_settings()</code> runs the front end&#39;s <code>StartLevel</code>
+console command once the menu is up, then clears the request, so a normal launch still shows the
+menu. Any mod can be the test mod if it calls <code>levels.autostart_from_settings()</code> (see the
+<a href="standard-library.html">standard library</a>). The game&#39;s output goes to <code>boz-log.txt</code> in the client
+folder. Build &amp; Run refuses to start while the game is already running, or when the test mod is
+missing or switched off. When two enabled mods replace the same file, the one loaded later wins;
+if another mod would hide your edits, Build &amp; Run moves your mod to the end of <code>client.ini</code>&#39;s
+<code>[mods] order</code> (the launcher&#39;s Mods tab shows the same list) and says so.</p>
+<p>The arrow buttons next to <strong>Mod</strong> and <strong>Test with</strong> list the mods already in the client; editing
+an existing mod is just choosing it there.</p>
+<p>Under <strong>Files</strong>, <strong>Import native group</strong> opens a single <code>.group.bin</code>, <strong>Export edited level</strong> writes
+changed groups into any folder (for example an SDK project&#39;s <code>assets/</code>), and <strong>Export edited
+group</strong> writes one group to a new file (<code>&lt;name&gt;-edited.group.bin</code>, byte-identical without edits).</p>
+<h3 id="example-a-round-trip">Example: a round trip</h3>
+<p>This walk-through edits Kino in place with the tools above, saves the edits to a mod and plays
+them, all from the editor&#39;s sidebar and the game:</p>
+<ol>
+<li>Set <strong>Client</strong> to your <code>boz-redux</code> folder. <strong>Import level folder</strong> on <code>levels/kino</code>.</li>
+<li>Move two objects, rotate one, scale one, and raise a small wall of floor collision in
+kino_statics by about a player&#39;s height. <strong>Validate</strong>, then <strong>Save to mod</strong>; the status line
+names the groups it saved.</li>
+<li><strong>File &gt; New</strong>, then <strong>Import level folder</strong> on <code>levels/kino</code> again: every edit is still there.</li>
+<li>Play Kino with the mod: the objects sit where you put them, shots stop on the raised
+collision, and you can no longer walk through it: saving rebuilt the navmesh around it.</li>
+<li>Disable the mod in the launcher and play again: everything is back to normal.</li>
+</ol>
+
+            </article>
+            <div class="doc-pagination" role="navigation" aria-label="Previous and next page">
+              <a class="doc-prev" href="lua-mods.html"><small>PREVIOUS</small><span>← Lua mods</span></a>
+              <a class="doc-next" href="weapons-and-assets.html"><small>NEXT</small><span>Weapons &amp; assets →</span></a>
+            </div>
+          </div>
+          <aside class="doc-toc" aria-label="On this page">
+            <p>ON THIS PAGE</p>
+            <a href="#the-editor">The editor</a>
+            <a href="#the-window" class="sub">The window</a>
+            <a href="#the-tabs" class="sub">The tabs</a>
+            <a href="#saving-a-map" class="sub">Saving a map</a>
+            <a href="#build-run" class="sub">Build &amp; Run</a>
+            <a href="#playing-your-map-later" class="sub">Playing your map later</a>
+            <a href="#menus" class="sub">Menus</a>
+            <a href="#building-the-world">Building the world</a>
+            <a href="#three-kinds-of-object" class="sub">Three kinds of object</a>
+            <a href="#the-games-own-objects" class="sub">The game's own objects</a>
+            <a href="#when-the-level-starts" class="sub">When the level starts</a>
+            <a href="#object-scripts" class="sub">Object scripts</a>
+            <a href="#building-with-shapes" class="sub">Building with shapes</a>
+            <a href="#textures" class="sub">Textures</a>
+            <a href="#changing-an-original-map" class="sub">Changing an original map</a>
+            <a href="#seeing-what-the-game-sees" class="sub">Seeing what the game sees</a>
+            <a href="#the-asset-browser" class="sub">The asset browser</a>
+            <a href="#map-scripting">Map scripting</a>
+            <a href="#1-build-it-in-the-editor" class="sub">1. Build it in the editor</a>
+            <a href="#2-write-the-script" class="sub">2. Write the script</a>
+            <a href="#3-reuse-it" class="sub">3. Reuse it</a>
+            <a href="#what-scripts-get" class="sub">What scripts get</a>
+            <a href="#saved-with-the-game" class="sub">Saved with the game</a>
+            <a href="#how-map-scripts-work" class="sub">How map scripts work</a>
+            <a href="#game-rules">Game rules</a>
+            <a href="#level-info" class="sub">Level info</a>
+            <a href="#rounds" class="sub">Rounds</a>
+            <a href="#special-rounds" class="sub">Special rounds</a>
+            <a href="#zombie-types" class="sub">Zombie types</a>
+            <a href="#pickups-and-economy" class="sub">Pickups and economy</a>
+            <a href="#hook-scripts" class="sub">Hook scripts</a>
+            <a href="#how-the-rules-work" class="sub">How the rules work</a>
+            <a href="#game-prefab-fields">Game prefab fields</a>
+            <a href="#the-game-prefabs" class="sub">The game prefabs</a>
+            <a href="#volume-entities" class="sub">Volume entities</a>
+            <a href="#points-of-interest-cpoi" class="sub">Points of interest (CPOI)</a>
+            <a href="#not-game-prefabs-yet" class="sub">Not game prefabs yet</a>
+            <a href="#navigation-meshes">Navigation meshes</a>
+            <a href="#the-helper-program" class="sub">The helper program</a>
+            <a href="#how-boz-stores-navmeshes" class="sub">How BOZ stores navmeshes</a>
+            <a href="#how-the-rebuild-works" class="sub">How the rebuild works</a>
+            <a href="#blocking-objects-cutting-instead-of-rebuilding" class="sub">Blocking objects: cutting instead of rebuilding</a>
+            <a href="#navmesh-limits" class="sub">Navmesh limits</a>
+            <a href="#editing-shipped-map-files">Editing shipped map files</a>
+            <a href="#open-the-tools" class="sub">Open the tools</a>
+            <a href="#extract-the-game-data" class="sub">Extract the game data</a>
+            <a href="#import-a-level" class="sub">Import a level</a>
+            <a href="#what-you-see" class="sub">What you see</a>
+            <a href="#editing-a-shipped-level" class="sub">Editing a shipped level</a>
+            <a href="#save-reload-and-play" class="sub">Save, reload and play</a>
+            <a href="#example-a-round-trip" class="sub">Example: a round trip</a>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+<footer>
+      <a class="brand" href="../index.html"
+        ><img src="../assets/client-logo.png" alt="BOZ Redux" width="640" height="260" loading="lazy"
+      /></a>
+      <p>BOZ Redux</p>
+      <span>Not affiliated with Activision. Game files are not included.</span
+      ><a href="https://github.com/ZappaVinny/boz-redux">Source ↗</a>
+    </footer>
+<dialog id="discord-dialog">
+      <button class="dialog-close" aria-label="Close dialog">×</button>
+      <h2>Discord</h2>
+      <p>
+        The Discord invite hasn’t been added yet. Check GitHub for project
+        updates.
+      </p>
+      <a
+        class="button"
+        href="https://github.com/ZappaVinny/boz-redux"
+        target="_blank"
+        rel="noopener"
+        >Visit the project ↗</a
+      >
+    </dialog>
+  </body>
+</html>

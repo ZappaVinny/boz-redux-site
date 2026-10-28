@@ -1,0 +1,3040 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Standard library | BOZ Redux Docs</title>
+    <meta name="description" content="The standard lib (boz.*) is the friendly layer for writing mods: plain functions for the player, menus, the console and more, with the game's addresses,…" />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://boz-redux.com/docs/standard-library.html" />
+    <meta name="theme-color" content="#0d0e10" />
+    <link rel="icon" href="../assets/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="256x256" href="../assets/favicon.png" />
+    <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png" />
+    <link rel="manifest" href="../site.webmanifest" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="BOZ Redux" />
+    <meta property="og:title" content="Standard library | BOZ Redux Docs" />
+    <meta property="og:description" content="The standard lib (boz.*) is the friendly layer for writing mods: plain functions for the player, menus, the console and more, with the game's addresses,…" />
+    <meta property="og:url" content="https://boz-redux.com/docs/standard-library.html" />
+    <meta property="og:image" content="https://boz-redux.com/assets/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Standard library","description":"The standard lib (boz.*) is the friendly layer for writing mods: plain functions for the player, menus, the console and more, with the game's addresses,…","url":"https://boz-redux.com/docs/standard-library.html","dateModified":"2026-10-28T19:02:42.128Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Standard library","item":"https://boz-redux.com/docs/standard-library.html"}]}]}</script>
+    <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="stylesheet" href="../styles.css" />
+    <script defer src="../config.js"></script>
+    <script defer src="../app.js"></script>
+  </head>
+  <body class="is-docs">
+    <a class="skip" href="#main">Skip to content</a>
+<header>
+      <a class="brand" href="../index.html" aria-label="BOZ Redux home"
+        ><img src="../assets/client-logo.png" alt="BOZ Redux" width="640" height="260"
+      /></a>
+      <nav aria-label="Main navigation">
+        <a href="../index.html" data-nav="home">Home</a
+        ><a href="../docs/index.html" data-nav="docs" class="active" aria-current="page">Documentation</a
+        ><a href="#discord" data-discord>Discord</a>
+      </nav>
+      <a
+        class="header-github"
+        href="https://github.com/ZappaVinny/boz-redux"
+        target="_blank"
+        rel="noopener"
+        >GitHub ↗</a
+      >
+    </header>
+
+    <main id="main" tabindex="-1">
+      <div id="docs-view">
+        <button class="docs-mobile" aria-expanded="false">
+          ☰ Browse documentation
+        </button>
+        <div class="docs-shell">
+          <aside class="docs-sidebar" aria-label="Documentation navigation">
+            <div class="search-wrap">
+              <input
+                id="docs-search"
+                aria-label="Search all documentation"
+                placeholder="Search documentation…"
+                type="search"
+                autocomplete="off"
+                data-index="../docs-data.js"
+              />
+            </div>
+            <div class="search-results" aria-live="polite"></div>
+            <!--
+              The docs page list. Order here sets sidebar order and previous/next.
+              Each link's href is docs/<name>.html for docs/<name>.md (README is index.html).
+              Each link belongs to the nearest label above it (used for the breadcrumb).
+              After changing it, run `node rebuild-docs.mjs`.
+            -->
+            <div class="page-links" role="navigation" aria-label="Documentation pages">
+              <p class="docs-label">START HERE</p>
+              <a href="index.html">Introduction</a>
+              <a href="getting-started.html">Getting started</a>
+
+              <p class="docs-label">CREATE</p>
+              <a href="lua-mods.html">Lua mods</a>
+              <a href="map-editor.html">Map editor</a>
+              <a href="weapons-and-assets.html">Weapons &amp; assets</a>
+
+              <p class="docs-label">REFERENCE</p>
+              <a href="standard-library.html" class="current" aria-current="page">Standard library</a>
+              <a href="console-reference.html">Console reference</a>
+              <a href="game-events.html">Game events</a>
+              <a href="sdk-reference.html">SDK reference</a>
+
+              <p class="docs-label">UNDER THE HOOD</p>
+              <a href="how-the-game-works.html">How the game works</a>
+              <a href="contributing.html">Contributing</a>
+            </div>
+          </aside>
+          <div class="doc-area">
+            <div class="breadcrumb">DOCUMENTATION / <span>REFERENCE</span></div>
+            <article class="doc-content">
+<h1 id="standard-library">Standard library</h1>
+<p>The standard lib (<code>boz.*</code>) is the friendly layer for writing mods: plain functions for the
+player, menus, the console and more, with the game&#39;s addresses, offsets and events hidden
+inside. Mods should use it instead of the client&#39;s low-level <code>game</code>/<code>hook</code> functions
+(<a href="lua-mods.html#client-lua-api">client Lua API</a>) wherever it covers what they need.</p>
+<p>This page is generated from the comments in <code>lib/boz/*.lua</code> (<code>tools/stdlib/generate_doc.py</code>); see
+<a href="lua-mods.html">Lua mods</a> for how to use it in a mod.</p>
+<p>Using it in a mod: an SDK project&#39;s build adds it to the mod as <code>scripts/boz</code>; then
+<code>local player = require(&quot;boz.player&quot;)</code>. Each mod carries its own copy; copies in different
+mods work together.</p>
+<p>Functions that need a Zombies match return <code>nil</code> (or <code>false</code>) outside one instead of failing.</p>
+<h2 id="contents">Contents</h2>
+<ul>
+<li><strong>Gameplay</strong>: <a href="#bozplayer">boz.player</a>, <a href="#bozcamera">boz.camera</a>, <a href="#bozrounds">boz.rounds</a>, <a href="#bozzombies">boz.zombies</a>, <a href="#bozweapons">boz.weapons</a>, <a href="#bozeffects">boz.effects</a>, <a href="#bozscore">boz.score</a>, <a href="#bozpickups">boz.pickups</a>, <a href="#bozpieces">boz.pieces</a>, <a href="#bozmap">boz.map</a>, <a href="#bozfly">boz.fly</a>, <a href="#bozdeadops">boz.deadops</a></li>
+<li><strong>Map scripting</strong>: <a href="#bozworld">boz.world</a>, <a href="#bozprefabs">boz.prefabs</a>, <a href="#bozobjects">boz.objects</a>, <a href="#bozmatch_events">boz.match_events</a>, <a href="#boztimers">boz.timers</a>, <a href="#bozsaved">boz.saved</a>, <a href="#bozhooks">boz.hooks</a>, <a href="#bozgame">boz.game</a>, <a href="#bozlevels">boz.levels</a></li>
+<li><strong>Engine access</strong>: <a href="#bozentities">boz.entities</a>, <a href="#bozcomponents">boz.components</a>, <a href="#bozreflect">boz.reflect</a>, <a href="#bozresources">boz.resources</a>, <a href="#bozphysics">boz.physics</a>, <a href="#bozgame_events">boz.game_events</a>, <a href="#bozspawns">boz.spawns</a>, <a href="#bozaudio">boz.audio</a>, <a href="#bozscreen">boz.screen</a>, <a href="#bozhud">boz.hud</a>, <a href="#bozstats">boz.stats</a>, <a href="#bozsaves">boz.saves</a>, <a href="#boznetwork">boz.network</a></li>
+<li><strong>Controls</strong>: <a href="#bozinput">boz.input</a></li>
+<li><strong>Console</strong>: <a href="#bozconsole">boz.console</a>, <a href="#bozcvars">boz.cvars</a></li>
+<li><strong>Menus and text</strong>: <a href="#bozpause_settings">boz.pause_settings</a>, <a href="#boztext">boz.text</a></li>
+<li><strong>Game UI building blocks</strong>: <a href="#boziwui">boz.iwui</a>, <a href="#bozfrontend">boz.frontend</a>, <a href="#bozflash">boz.flash</a>, <a href="#bozswf">boz.swf</a>, <a href="#bozavm1">boz.avm1</a></li>
+<li><strong>Low-level helpers</strong>: <a href="#bozhash">boz.hash</a>, <a href="#bozenums">boz.enums</a></li>
+</ul>
+<h2 id="gameplay">Gameplay</h2>
+<h3 id="bozplayer">boz.player</h3>
+<p>The local player in a Zombies match: health, place, stance, speed and perks.</p>
+<pre><code class="language-lua">local player = require(&quot;boz.player&quot;)
+player.give_all_perks()
+player.health()  player.set_health(500, true)  player.set_god(true)
+player.position()  player.teleport({x = 0, y = 250, z = 0})
+player.downed()  player.stance()  player.set_speed(&quot;SprintSpeed&quot;, 1.5)
+</code></pre>
+<details><summary>How it works</summary>
+
+<p>the player&#39;s entity is CLevelManager +0x1a0; its CHealth keeps its health (+0x48 float, +0x44 the most it can be now; CHealth::SetHealth changes it the game&#39;s way); CPlayerController keeps the stance at +0x1f4 (1 standing, 2 crouching, 4 prone, 8 downed / last stand; SetStance changes it) and its state machine&#39;s state at +0x1d4 (0x14, 0x15: dead); movement speeds are console variables read every step (WalkSpeed, SprintSpeed, CrouchSpeed, ProneSpeed and their Aim* and Perked* (Stamin-Up) forms, LastStandSpeed); UnlimitedHealth makes it invulnerable.</p>
+</details>
+
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>player.in_match()</code></td>
+<td>True while a Zombies match with a local player is running.</td>
+</tr>
+<tr>
+<td><code>player.name_hash()</code></td>
+<td>The player&#39;s name hash (Entity_GetNameHash of its entity record): how scores, kills and events name the player. nil outside a match.</td>
+</tr>
+<tr>
+<td><code>player.health()</code></td>
+<td>The player&#39;s health and the most it can have, or nil outside a match.</td>
+</tr>
+<tr>
+<td><code>player.set_health(value, raise_max)</code></td>
+<td>Sets the player&#39;s health; raise_max also raises the most it can have to it.</td>
+</tr>
+<tr>
+<td><code>player.set_god(on)</code></td>
+<td>Makes the player take no damage (true) or normal damage again (the UnlimitedHealth cvar).</td>
+</tr>
+<tr>
+<td><code>player.god()</code></td>
+<td>True while the player takes no damage.</td>
+</tr>
+<tr>
+<td><code>player.position()</code></td>
+<td>The player&#39;s position {x, y, z} (game centimetres, y up: the camera, about 136 above the feet).</td>
+</tr>
+<tr>
+<td><code>player.teleport(position)</code></td>
+<td>Moves the player (a position like player.position()&#39;s).</td>
+</tr>
+<tr>
+<td><code>player.stance()</code></td>
+<td>The stance name (&quot;standing&quot;, &quot;crouching&quot;, &quot;prone&quot;, &quot;downed&quot;), or nil.</td>
+</tr>
+<tr>
+<td><code>player.set_stance(name)</code></td>
+<td>Sets the stance (&quot;standing&quot;, &quot;crouching&quot; or &quot;prone&quot;; the camera height follows).</td>
+</tr>
+<tr>
+<td><code>player.downed()</code></td>
+<td>True while the player is down (last stand) and not dead.</td>
+</tr>
+<tr>
+<td><code>player.dead()</code></td>
+<td>True once the player died (the match is ending).</td>
+</tr>
+<tr>
+<td><code>player.kill()</code></td>
+<td>Kills the player (the game&#39;s KillPlayer).</td>
+</tr>
+<tr>
+<td><code>player.speed(name)</code></td>
+<td>A movement speed (one of player.SPEEDS) as the game reads it.</td>
+</tr>
+<tr>
+<td><code>player.set_speed(name, value)</code></td>
+<td>Sets a movement speed (one of player.SPEEDS; it applies at once). Returns the value kept.</td>
+</tr>
+<tr>
+<td><code>player.set_unlimited_stamina(on)</code></td>
+<td>Unlimited sprint (true) or the game&#39;s stamina again (the UnlimitedStamina cvar).</td>
+</tr>
+<tr>
+<td><code>player.unlimited_stamina()</code></td>
+<td>True while sprinting is unlimited.</td>
+</tr>
+<tr>
+<td><code>player.PERKS</code></td>
+<td>The perk names, in the game&#39;s order.</td>
+</tr>
+<tr>
+<td><code>player.perks()</code></td>
+<td>The perks the player owns, by name ({[&quot;Juggernog&quot;] = true, ...}), or nil outside a match.</td>
+</tr>
+<tr>
+<td><code>player.give_perk(name)</code></td>
+<td>Gives a perk by name (with its effects, e.g. Juggernog&#39;s health). False if not possible.</td>
+</tr>
+<tr>
+<td><code>player.give_all_perks()</code></td>
+<td>Gives every perk the player is missing. Returns the names given, or nil outside a match.</td>
+</tr>
+<tr>
+<td><code>player.take_perk(name)</code></td>
+<td>Takes a perk away (as losing it when downed does: its icon goes, Juggernog&#39;s extra health too). False if the player does not have it.</td>
+</tr>
+<tr>
+<td><code>player.take_all_perks()</code></td>
+<td>Takes every perk away (the game&#39;s ResetAllPerks: icons and health back to normal).</td>
+</tr>
+</tbody></table></div>
+<h3 id="bozcamera">boz.camera</h3>
+<p>The field of view and camera shakes.</p>
+<pre><code class="language-lua">camera.set_fov(90)                        kept across matches; aiming down sights still zooms
+camera.fov()                              the field of view and the map&#39;s default
+camera.shake(&quot;romero-transform-shake&quot;)    George&#39;s transform shake (every map: misc group)
+camera.shake(&quot;explosion-large&quot;)           a Dead Ops shake (a map build bundles it by name)
+camera.stop_shake()
+</code></pre>
+<p>The game&#39;s shakes (CCameraShakeConfig resources): romero-transform-shake (misc, so every map), explosion-large and explosion-lightning-bolt (Dead Ops). Fields: duration (ms, below 0: until stopped), limit (the most it moves, x y z), switchInterval and rollInterval (ms between new offsets), rollLimit.</p>
+<details><summary>How it works</summary>
+
+<p>CCameraShake (singleton) plays one config at a time (CameraShake_Play(shake, name): +0x20 the config, +0x24 endless, +0x28 time left); each frame it picks offsets (+0x34 x y z, +0x40 roll) that CCameraProcessorShake adds to the camera&#39;s matrix when the camera update event reaches it. Field of view: CWeaponManager::UpdateFov eases the current FOV (+0xc0) up toward the base FOV (+0xc4, copied from the map&#39;s camera at match start) or down to the weapon&#39;s sights; it never lowers the current FOV by itself and skips the camera write once it arrived, so changing the base and setting the current FOV just below it makes the next update land on the new value.</p>
+</details>
+
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>camera.FOV_RANGE</code></td>
+<td>The range of field of view the game handles well (degrees).</td>
+</tr>
+<tr>
+<td><code>camera.shake(name)</code></td>
+<td>Shakes the camera with a shake config by name. Returns false when it is not loaded.</td>
+</tr>
+<tr>
+<td><code>camera.stop_shake()</code></td>
+<td>Stops the shake.</td>
+</tr>
+<tr>
+<td><code>camera.shaking()</code></td>
+<td>True while a shake plays.</td>
+</tr>
+<tr>
+<td><code>camera.fov()</code></td>
+<td>The field of view in degrees and the map&#39;s default, or nil outside a match.</td>
+</tr>
+<tr>
+<td><code>camera.set_fov(degrees)</code></td>
+<td>Sets the field of view in degrees (aiming down sights still zooms); nil restores the map&#39;s default. The value is kept across matches. Returns false outside a match (it still applies when the next match starts).</td>
+</tr>
+</tbody></table></div>
+<h3 id="bozrounds">boz.rounds</h3>
+<p>Rounds and the match (Zombies mode).</p>
+<pre><code class="language-lua">rounds.current()            the round number          rounds.zombies_left()
+rounds.set(10)              rounds.start_next()       rounds.set_spawning(false)
+rounds.wave()               the round&#39;s settings (zombies, health, speeds, ...)
+rounds.on_start(fn)         rounds.on_end(fn)
+</code></pre>
+<details><summary>How it works</summary>
+
+<p>CWaveManager (singleton) runs the rounds: +0x50 the round&#39;s CWave, +0x70 zombies alive, +0x78 the round number, +0x7c spawned and +0x84 killed this round (the round ends when killed reaches the wave&#39;s zombie count: vtable +0x50 GetZombieCount(round, powerOn)), +0x88 the next round&#39;s wave, timers +0x8c (next spawn), +0x90 (next round), +0x94 (spawning starts), +0xb8 power on. A round starts with SUBJECT_NEW_WAVE (CWaveManager::StartWave: the next wave, round + 1; WaveManager_FillNextWave picks the next wave or a special round) and ends with SUBJECT_WAVE_ENDED. The new-wave info SUBJECT_NEW_WAVE carries (a StartWaveInfo): +4 the wave, +8 / +0xc a special round&#39;s health and count, +0x10 the wave after it, +0x14 the round it follows. The Game tab sets a map&#39;s rounds (<a href="map-editor.html#game-rules">Game rules</a>).</p>
+</details>
+
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>rounds.manager()</code></td>
+<td>The round manager (CWaveManager), or nil outside a match.</td>
+</tr>
+<tr>
+<td><code>rounds.current()</code></td>
+<td>The round number (0 before the first round), or nil outside a match.</td>
+</tr>
+<tr>
+<td><code>rounds.alive()</code></td>
+<td>Zombies alive now.</td>
+</tr>
+<tr>
+<td><code>rounds.spawned() return read(SPAWNED)</code></td>
+<td>Zombies spawned this round.</td>
+</tr>
+<tr>
+<td><code>rounds.killed() return read(KILLED)</code></td>
+<td>Zombies killed this round.</td>
+</tr>
+<tr>
+<td><code>rounds.powered()</code></td>
+<td>True once the power is on.</td>
+</tr>
+<tr>
+<td><code>rounds.wave_pointer()</code></td>
+<td>The round&#39;s wave (a CWave resource: boz.reflect fields of its class), or nil.</td>
+</tr>
+<tr>
+<td><code>rounds.wave_class()</code></td>
+<td>The round&#39;s wave class (&quot;CWave&quot;, &quot;CWaveRepeatable&quot;, &quot;CWaveSpeciality&quot;, &quot;CWaveMonkey&quot;).</td>
+</tr>
+<tr>
+<td><code>rounds.special()</code></td>
+<td>True during a special round (dogs, monkeys).</td>
+</tr>
+<tr>
+<td><code>rounds.total()</code></td>
+<td>How many zombies the round has in all (as the game counts it, with the power&#39;s extra ones).</td>
+</tr>
+<tr>
+<td><code>rounds.zombies_left()</code></td>
+<td>Zombies still to kill this round.</td>
+</tr>
+<tr>
+<td><code>rounds.wave()</code></td>
+<td>The round&#39;s settings: every field of its wave class by name (boz.reflect), plus &quot;class&quot;.</td>
+</tr>
+<tr>
+<td><code>rounds.set_wave(field, value)</code></td>
+<td>Changes a setting of the running round&#39;s wave (e.g. &quot;m_ZombieHealth&quot;); it lasts until the level loads again. Returns true, or false and why.</td>
+</tr>
+<tr>
+<td><code>rounds.timers()</code></td>
+<td>Milliseconds until the next spawn, until the next round starts, and until spawning starts.</td>
+</tr>
+<tr>
+<td><code>rounds.special_history()</code></td>
+<td>The round the last special round ran in, and how many have run.</td>
+</tr>
+<tr>
+<td><code>rounds.start_next()</code></td>
+<td>Starts the next round now, as the game does when the pause between rounds ends: the next wave of the chain (or a special round when one is due), round + 1; zombies left over go. Returns false outside a round. (The console&#39;s StartWave needs a wave name: without one it stops the rounds.)</td>
+</tr>
+<tr>
+<td><code>rounds.first_wave()</code></td>
+<td>The level&#39;s first wave (its name hash): the level&#39;s starting wave for the difficulty (CLevel m_StartingWavesSP: easy, normal, hard), else &quot;wave1&quot;.</td>
+</tr>
+<tr>
+<td><code>rounds.wave_for(number)</code></td>
+<td>The wave round <code>number</code> plays (its name hash): the level&#39;s first wave, followed along each wave&#39;s next wave (a repeating wave stays, growing with the round number). Special rounds are not counted.</td>
+</tr>
+<tr>
+<td><code>rounds.set(number)</code></td>
+<td>Starts round <code>number</code> now (1 or more): its wave from the level&#39;s chain, zombie count and health as that round has them; zombies left over go. Returns false outside a match.</td>
+</tr>
+<tr>
+<td><code>rounds.go_to(number)</code></td>
+<td>Makes the next round started be round <code>number</code> (its wave stays the chain&#39;s next one; the repeating round&#39;s growth and the game&#39;s health use the number).</td>
+</tr>
+<tr>
+<td><code>rounds.queue(wave)</code></td>
+<td>Queues a wave by name or hash (one of the level&#39;s CWave resources: &quot;wave1&quot;, &quot;boz_normal_3&quot;, ...) as the next round.</td>
+</tr>
+<tr>
+<td><code>rounds.on_start(fn)</code></td>
+<td>Calls fn(round) when a round starts. Returns a handle (boz.game_events.off).</td>
+</tr>
+<tr>
+<td><code>rounds.on_end(fn)</code></td>
+<td>Calls fn(round) when a round&#39;s last zombie dies.</td>
+</tr>
+<tr>
+<td><code>rounds.set_spawning(on)</code></td>
+<td>Stops (false) or resumes (true) zombie spawning: no new zombie appears, the round waits (DisableZombieSpawning; CWaveManager::CreateZombie checks it).</td>
+</tr>
+<tr>
+<td><code>rounds.spawning()</code></td>
+<td>True while zombies spawn (rounds.set_spawning).</td>
+</tr>
+</tbody></table></div>
+<h3 id="bozzombies">boz.zombies</h3>
+<p>The zombies (and dogs, monkeys, George) alive in the match.</p>
+<pre><code class="language-lua">for z in zombies.each() do if z:health() &lt; 100 then z:kill() end end
+zombies.count()          zombies.nearest(position)
+zombies.on_death(fn)     fn(zombie_entity) when one dies
+zombies.kill_all()       zombies.credit_kills(&quot;SUBJECT_ZOMBIE_GERSCH_DEATH&quot;)
+zombies.spawn(&quot;zombie&quot;, spawns.nearest(pos):position(), {health = 500, speed = &quot;sprint&quot;})
+zombies.spawn(&quot;zombie_dog&quot;, at)      zombies.spawn_george(at)      zombies.dogs()
+</code></pre>
+<p>Spawn on the navmesh (a spawn point&#39;s position is safe): an AI that cannot reach the navmesh dies within seconds.</p>
+<p>A handle (zombies.each(kind), zombies.of(entity)): z.entity, z:kind(), z:get(field) / z:set(field, value) (its AI controller&#39;s reflected fields), z:position(), z:health(), z:max_health(), z:set_health(n), z:damage(n), z:kill(), z:alive(), z:teleport(position), z:component(class) (any of its components: CHealth, CIsCrowdAgent, ... for boz.reflect). Zombies also: z:set_speed(tier), z:crawler(), z:state(), z:dying(), the game&#39;s effects (z:freeze(), z:shatter(), z:burn(), z:explode(), z:lightning(), z:gersch(), z:shockwave()), z:frozen(), z:burning(), z:human(), z:send(event).</p>
+<details><summary>How it works</summary>
+
+<p>each kind has its AI controller class (zombies.KINDS); CWaveManager::OnSpawnZombie spawns one from a ZombieSpawnInfo (CreateZombie: the round&#39;s health and speed, a look, tracked for the round when it counts); a plain zombie&#39;s spec comes from its look (CZombieConfiguration +0x58). George spawns through the wave manager&#39;s boss spawn (+0xb4 holds him). Every zombie has a CAIControllerZombie (its table lists them; +0x9d crawler, +0xc4 its transform, +0xd4 its health, +0xec its broadcaster, +0x30 its subject: the weapons&#39; and traps&#39; effects arrive there as events (CAIControllerZombie::OnEvent), +0x150 its state machine; AIGodmode makes zombies ignore damage); CHealth keeps its health (+0x48 float, +0x44 the most it can be now, set by CreateZombie from the round; +0x40 m_MaxHealth the spec&#39;s) and takes damage with CHealth::Damage(health, amount, attacker name hash): it sends SUBJECT_HEALTH_DECREASE to itself and the zombie dies below 1 (SUBJECT_DIED, then SUBJECT_ZOMBIE_DEATH from the level manager with its name hash). SUBJECT_DIED adds a kill to the player&#39;s stats (STAT_ZOMBIESKILLED) only when the attacker is the local player&#39;s name hash; deaths the game deals itself (a black hole&#39;s SUBJECT_ZOMBIE_GERSCH_DEATH, chain lightning, traps) pass none.</p>
+</details>
+
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>zombies.KINDS</code></td>
+<td>The kinds of AI and their controller classes.</td>
+</tr>
+<tr>
+<td><code>Zombie:kind()</code></td>
+<td>Its kind: &quot;zombie&quot;, &quot;dog&quot;, &quot;monkey&quot; or &quot;george&quot;.</td>
+</tr>
+<tr>
+<td><code>Zombie:alive()</code></td>
+<td>True while it is still in the match.</td>
+</tr>
+<tr>
+<td><code>Zombie:get(field)</code></td>
+<td>A field of its AI controller (reflected: dogs&#39; attackingRadius, monkeys&#39; m_damage, George&#39;s m_zombieModeDamageMultiplier, ...), and setting one.</td>
+</tr>
+<tr>
+<td><code>Zombie:set(field, value)</code></td>
+<td>Sets a field of its AI controller. Returns true, or false and why.</td>
+</tr>
+<tr>
+<td><code>Zombie:component(class_name)</code></td>
+<td>One of its components by class (CHealth, CPathWalker, ...), or nil.</td>
+</tr>
+<tr>
+<td><code>Zombie:health_component()</code></td>
+<td>Its CHealth component, or nil.</td>
+</tr>
+<tr>
+<td><code>Zombie:position()</code></td>
+<td>Its position {x, y, z}.</td>
+</tr>
+<tr>
+<td><code>Zombie:teleport(position)</code></td>
+<td>Moves it (on the navmesh: its crowd agent is placed there too, so it walks on from the new spot). Returns false when it has no crowd agent.</td>
+</tr>
+<tr>
+<td><code>Zombie:health()</code></td>
+<td>Its health and the most it can have.</td>
+</tr>
+<tr>
+<td><code>Zombie:max_health()</code></td>
+<td>The most health it can have now.</td>
+</tr>
+<tr>
+<td><code>Zombie:damage(amount)</code></td>
+<td>Hurts it (as if the player did, so the kill counts). Returns the zombie.</td>
+</tr>
+<tr>
+<td><code>Zombie:kill()</code></td>
+<td>Kills it.</td>
+</tr>
+<tr>
+<td><code>Zombie:set_health(value)</code></td>
+<td>Sets its health (up to its maximum, z:max_health(); zombies.spawn&#39;s health raises it).</td>
+</tr>
+<tr>
+<td><code>Zombie:set_speed(tier)</code></td>
+<td>Sets its speed tier: &quot;walk&quot;, &quot;walk_fast&quot;, &quot;run&quot; or &quot;sprint&quot; (or 0-3), as rounds pick them.</td>
+</tr>
+<tr>
+<td><code>Zombie:send(event, a, b, c)</code></td>
+<td>Sends the zombie&#39;s own subject an event (what the game&#39;s weapons and effects do to it).</td>
+</tr>
+<tr>
+<td><code>Zombie:freeze() return self:send(&quot;SUBJECT_ZOMBIE_SPAWN_ICE&quot;)</code></td>
+<td>Effects the game has for zombies (each as its weapons and traps do it): freeze() encases it in ice (it shatters and dies after ZombieFreezeTimeMS), shatter() breaks a frozen one, burn() sets it on fire (looks only; the kill is damage&#39;s), explode() blows it apart (the human gun&#39;s death), lightning() (chain lightning death), gersch() (black hole death), shockwave() (Thundergun death). Not wrapped: SUBJECT_ZOMBIE_TURN_HUMAN crashes outside Call of the Dead (the human model is not set up), SUBJECT_FORCE_ZOMBIE_DEATH damages by a field that is usually 0 (use kill()).</td>
+</tr>
+<tr>
+<td><code>Zombie:shatter() return self:send(&quot;SUBJECT_ZOMBIE_ICE_SHATTER&quot;)</code></td>
+<td>Effects the game has for zombies (each as its weapons and traps do it): freeze() encases it in ice (it shatters and dies after ZombieFreezeTimeMS), shatter() breaks a frozen one, burn() sets it on fire (looks only; the kill is damage&#39;s), explode() blows it apart (the human gun&#39;s death), lightning() (chain lightning death), gersch() (black hole death), shockwave() (Thundergun death). Not wrapped: SUBJECT_ZOMBIE_TURN_HUMAN crashes outside Call of the Dead (the human model is not set up), SUBJECT_FORCE_ZOMBIE_DEATH damages by a field that is usually 0 (use kill()).</td>
+</tr>
+<tr>
+<td><code>Zombie:burn() return self:send(&quot;SUBJECT_START_BURNING&quot;, 0, 1, 1)</code></td>
+<td>Effects the game has for zombies (each as its weapons and traps do it): freeze() encases it in ice (it shatters and dies after ZombieFreezeTimeMS), shatter() breaks a frozen one, burn() sets it on fire (looks only; the kill is damage&#39;s), explode() blows it apart (the human gun&#39;s death), lightning() (chain lightning death), gersch() (black hole death), shockwave() (Thundergun death). Not wrapped: SUBJECT_ZOMBIE_TURN_HUMAN crashes outside Call of the Dead (the human model is not set up), SUBJECT_FORCE_ZOMBIE_DEATH damages by a field that is usually 0 (use kill()).</td>
+</tr>
+<tr>
+<td><code>Zombie:explode() return self:send(&quot;SUBJECT_ZOMBIE_TRIGGER_FULL_BODY_EXPLOSION&quot;)</code></td>
+<td>Effects the game has for zombies (each as its weapons and traps do it): freeze() encases it in ice (it shatters and dies after ZombieFreezeTimeMS), shatter() breaks a frozen one, burn() sets it on fire (looks only; the kill is damage&#39;s), explode() blows it apart (the human gun&#39;s death), lightning() (chain lightning death), gersch() (black hole death), shockwave() (Thundergun death). Not wrapped: SUBJECT_ZOMBIE_TURN_HUMAN crashes outside Call of the Dead (the human model is not set up), SUBJECT_FORCE_ZOMBIE_DEATH damages by a field that is usually 0 (use kill()).</td>
+</tr>
+<tr>
+<td><code>Zombie:lightning() return self:send(&quot;SUBJECT_ZOMBIE_CHAIN_LIGHTNING_DEATH&quot;)</code></td>
+<td>Effects the game has for zombies (each as its weapons and traps do it): freeze() encases it in ice (it shatters and dies after ZombieFreezeTimeMS), shatter() breaks a frozen one, burn() sets it on fire (looks only; the kill is damage&#39;s), explode() blows it apart (the human gun&#39;s death), lightning() (chain lightning death), gersch() (black hole death), shockwave() (Thundergun death). Not wrapped: SUBJECT_ZOMBIE_TURN_HUMAN crashes outside Call of the Dead (the human model is not set up), SUBJECT_FORCE_ZOMBIE_DEATH damages by a field that is usually 0 (use kill()).</td>
+</tr>
+<tr>
+<td><code>Zombie:gersch() return self:send(&quot;SUBJECT_ZOMBIE_GERSCH_DEATH&quot;)</code></td>
+<td>Effects the game has for zombies (each as its weapons and traps do it): freeze() encases it in ice (it shatters and dies after ZombieFreezeTimeMS), shatter() breaks a frozen one, burn() sets it on fire (looks only; the kill is damage&#39;s), explode() blows it apart (the human gun&#39;s death), lightning() (chain lightning death), gersch() (black hole death), shockwave() (Thundergun death). Not wrapped: SUBJECT_ZOMBIE_TURN_HUMAN crashes outside Call of the Dead (the human model is not set up), SUBJECT_FORCE_ZOMBIE_DEATH damages by a field that is usually 0 (use kill()).</td>
+</tr>
+<tr>
+<td><code>Zombie:shockwave() return self:send(&quot;SUBJECT_ZOMBIE_SHOCKWAVE_DEATH&quot;)</code></td>
+<td>Effects the game has for zombies (each as its weapons and traps do it): freeze() encases it in ice (it shatters and dies after ZombieFreezeTimeMS), shatter() breaks a frozen one, burn() sets it on fire (looks only; the kill is damage&#39;s), explode() blows it apart (the human gun&#39;s death), lightning() (chain lightning death), gersch() (black hole death), shockwave() (Thundergun death). Not wrapped: SUBJECT_ZOMBIE_TURN_HUMAN crashes outside Call of the Dead (the human model is not set up), SUBJECT_FORCE_ZOMBIE_DEATH damages by a field that is usually 0 (use kill()).</td>
+</tr>
+<tr>
+<td><code>Zombie:human()</code></td>
+<td>True once the human gun turned it.</td>
+</tr>
+<tr>
+<td><code>Zombie:frozen()</code></td>
+<td>True while frozen in ice.</td>
+</tr>
+<tr>
+<td><code>Zombie:burning()</code></td>
+<td>True while on fire.</td>
+</tr>
+<tr>
+<td><code>Zombie:state()</code></td>
+<td>Its AI state number (CIsStateMachine at +0x150): 2 chasing, 13 frozen, 15 dying, 21 dead.</td>
+</tr>
+<tr>
+<td><code>Zombie:dying()</code></td>
+<td>True once it is dying (or dead).</td>
+</tr>
+<tr>
+<td><code>Zombie:crawler()</code></td>
+<td>True for a crawler (legs gone).</td>
+</tr>
+<tr>
+<td><code>zombies.of(entity)</code></td>
+<td>The AI handle of an entity (a zombie, dog, monkey or George), or nil.</td>
+</tr>
+<tr>
+<td><code>zombies.each(kind)</code></td>
+<td>Iterates the zombies: for z in zombies.each() do ... end. <code>kind</code> picks another kind (&quot;dog&quot;, &quot;monkey&quot;, &quot;george&quot;) or &quot;all&quot;.</td>
+</tr>
+<tr>
+<td><code>zombies.list(kind)</code></td>
+<td>Every one of a kind (default zombies), as a list.</td>
+</tr>
+<tr>
+<td><code>zombies.count(kind)</code></td>
+<td>How many of a kind (default zombies) are in the match.</td>
+</tr>
+<tr>
+<td><code>zombies.nearest(position)</code></td>
+<td>The zombie nearest a position, and its distance.</td>
+</tr>
+<tr>
+<td><code>zombies.dogs() return zombies.list(&quot;dog&quot;)</code></td>
+<td>Every hellhound, and every monkey, in the match.</td>
+</tr>
+<tr>
+<td><code>zombies.monkeys() return zombies.list(&quot;monkey&quot;)</code></td>
+<td>Every hellhound, and every monkey, in the match.</td>
+</tr>
+<tr>
+<td><code>zombies.george()</code></td>
+<td>George (Call of the Dead&#39;s boss) while he is in the match, or nil.</td>
+</tr>
+<tr>
+<td><code>zombies.spawn(spec, position, options)</code></td>
+<td>Spawns one AI the way rounds do (health from the round and difficulty, speed tier, look): <code>spec</code> is &quot;zombie&quot; (or nil: a zombie in one of the level&#39;s looks) or an entity spec (&quot;zombie_dog&quot;, &quot;zombie_dog_flaming&quot;, &quot;zombie_monkey&quot;), at a position. options: look (a CZombieConfiguration name or hash: zombies.looks()), health (instead of the round&#39;s), speed (&quot;walk&quot; .. &quot;sprint&quot;), counts (true: it is one of the round&#39;s zombies, so killing it counts toward the round), powered (a powered zombie: the round&#39;s powered health). Needs a round running. Returns its handle, or nil and why.</td>
+</tr>
+<tr>
+<td><code>zombies.spawn_at_point(point, counts)</code></td>
+<td>Spawns one of the round&#39;s own zombies at a spawn point (its entity name; nil: the game picks a spawn point near the player). counts: it is one of the round&#39;s (default false: an extra).</td>
+</tr>
+<tr>
+<td><code>zombies.looks()</code></td>
+<td>The level&#39;s zombie looks (CZombieConfiguration hashes; zombies spawn in one at random), from the level&#39;s CLevel.</td>
+</tr>
+<tr>
+<td><code>zombies.spawn_george(position)</code></td>
+<td>Spawns George (Call of the Dead&#39;s boss, entity spec george_romero) at a position, as the round does. Returns his handle, or nil and why (his spec must be loaded: a map built with zombies.spawn_george in its scripts bundles it).</td>
+</tr>
+<tr>
+<td><code>zombies.within(position, radius)</code></td>
+<td>Zombies within <code>radius</code> centimetres of a position.</td>
+</tr>
+<tr>
+<td><code>zombies.on_death(fn)</code></td>
+<td>Calls fn(entity, name_hash) when a zombie dies (SUBJECT_ZOMBIE_DEATH: its second argument is the zombie&#39;s name hash; the entity may already be gone, then nil). Returns a handle (boz.game_events.off).</td>
+</tr>
+<tr>
+<td><code>zombies.kill_all(kind)</code></td>
+<td>Kills every living AI of a kind (default &quot;all&quot;), each as if the player did (the kills count). Returns how many.</td>
+</tr>
+<tr>
+<td><code>zombies.spawn_one()</code></td>
+<td>Spawns one zombie the game&#39;s way (SpawnZombie: at a spawn point near the player).</td>
+</tr>
+<tr>
+<td><code>zombies.set_invulnerable(on)</code></td>
+<td>Makes zombies and the other AI unhurtable (true) or normal again (the AIGodmode cvar).</td>
+</tr>
+<tr>
+<td><code>zombies.credit_kills(event)</code></td>
+<td>Makes the kills a zombie deals itself while handling <code>event</code> count as the player&#39;s (stats, achievements), e.g. &quot;SUBJECT_ZOMBIE_GERSCH_DEATH&quot; for the zombies a black hole takes. The game kills them with CHealth::Damage and no attacker; that damage becomes the player&#39;s.</td>
+</tr>
+</tbody></table></div>
+<h3 id="bozweapons">boz.weapons</h3>
+<p>The local player&#39;s weapons during a match: the one in hand, ammo, live stats,</p>
+<p>giving weapons, and events when weapons are equipped, given, fired and reloaded.</p>
+<pre><code class="language-lua">local weapons = require(&quot;boz.weapons&quot;)
+local gun = weapons.current()               -- nil outside a match
+if gun then gun:set_ammo(gun:clip_size(), 999) end
+weapons.give(&quot;thundergun&quot;)    weapons.upgrade(&quot;mp40&quot;)    weapons.take(&quot;mp40&quot;)
+weapons.on_event(function(event, name) print(event .. &quot; &quot; .. name) end)
+</code></pre>
+<p>Weapons are named as in the editor&#39;s Weapons tab (&quot;mp40&quot;, or &quot;0x...&quot; for an unnamed one). Changes made here last for the match; the Weapons tab changes the weapons for good.</p>
+<details><summary>How it works</summary>
+
+<p>the player&#39;s CWeaponManager sits on a child of the player entity (+0x48 = the player); its weapons are CPlayerWeapon components found by name hash (WeaponManager_FindWeapon, map at +0x1d4), the one in hand at +0x1e0. CWeaponManager::GiveWeapon(manager, hash, slot, refill) equips one; EquipWeapon sends SUBJECT_WEAPON_EQUIPPED; the fire button fires through CPlayerController::FireWeapon (hip), FireWeaponAimed (aiming down sights) or FireWeaponAlternate; CWeaponManager::SetReloading starts a reload. A CPlayerWeapon keeps its rounds at +0x2c (clip) and +0x30 (reserve), its clip size at +0x80, reserve size at +0x84, fire rate at +0x200 (rounds per minute) and CWeaponDamage at +0x20c (head +4, torso +8, limbs +0xc).</p>
+</details>
+
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>weapons.know(list)</code></td>
+<td>Tell boz.weapons the names of weapons (the map&#39;s world data does this for its weapons).</td>
+</tr>
+<tr>
+<td><code>weapons.name(name_hash)</code></td>
+<td>A weapon&#39;s name from its hash (&quot;0x...&quot; when boz.weapons does not know it: weapons.know).</td>
+</tr>
+<tr>
+<td><code>weapons.manager()</code></td>
+<td>The local player&#39;s weapon manager, or nil outside a match.</td>
+</tr>
+<tr>
+<td><code>Weapon:upgrade_name()</code></td>
+<td>The name of its Pack-a-Punched version, or nil when it has none.</td>
+</tr>
+<tr>
+<td><code>Weapon:clip() return game.read(&quot;u32&quot;, self.pointer + CLIP)</code></td>
+<td>Rounds in the clip and spare rounds; the most each can hold.</td>
+</tr>
+<tr>
+<td><code>Weapon:reserve() return game.read(&quot;u32&quot;, self.pointer + RESERVE)</code></td>
+<td>Rounds in the clip and spare rounds; the most each can hold.</td>
+</tr>
+<tr>
+<td><code>Weapon:clip_size() return game.read(&quot;u32&quot;, self.pointer + CLIP_SIZE)</code></td>
+<td>Rounds in the clip and spare rounds; the most each can hold.</td>
+</tr>
+<tr>
+<td><code>Weapon:reserve_size() return game.read(&quot;u32&quot;, self.pointer + RESERVE_SIZE)</code></td>
+<td>Rounds in the clip and spare rounds; the most each can hold.</td>
+</tr>
+<tr>
+<td><code>Weapon:set_ammo(clip, reserve)</code></td>
+<td>Sets the rounds in the clip and in reserve (nil keeps one). Returns the weapon.</td>
+</tr>
+<tr>
+<td><code>Weapon:fire_rate() return game.read(&quot;u32&quot;, self.pointer + FIRE_RATE)</code></td>
+<td>Fire rate in rounds per minute (automatic fire modes).</td>
+</tr>
+<tr>
+<td><code>Weapon:set_fire_rate(rounds_per_minute)</code></td>
+<td>Sets the fire rate for this match. Returns the weapon.</td>
+</tr>
+<tr>
+<td><code>Weapon:damage()</code></td>
+<td>Damage per hit: head, torso, limbs.</td>
+</tr>
+<tr>
+<td><code>Weapon:set_damage(head, torso, limbs)</code></td>
+<td>Sets the damage per hit for this match (nil keeps one). Returns the weapon.</td>
+</tr>
+<tr>
+<td><code>Weapon:in_hand()</code></td>
+<td>True while this is the weapon in hand.</td>
+</tr>
+<tr>
+<td><code>weapons.current()</code></td>
+<td>The weapon in the player&#39;s hands, or nil.</td>
+</tr>
+<tr>
+<td><code>weapons.get(name)</code></td>
+<td>The player&#39;s weapon called <em>name</em> (every weapon of the map is there, owned or not), or nil.</td>
+</tr>
+<tr>
+<td><code>weapons.guard_missing_animations()</code></td>
+<td>Makes equipping a weapon whose animations are not loaded (another map&#39;s: the AllWeapons command, weapons.give) safe: the game looks its animation ids up in a missing state machine (Anim_FindId through a null pointer); this answers &quot;not found&quot; (0xffff) instead. weapons.give calls it.</td>
+</tr>
+<tr>
+<td><code>weapons.give(name)</code></td>
+<td>Gives the player <em>name</em> and puts it in hand, with full ammo. Returns false outside a match or when the map has no such weapon.</td>
+</tr>
+<tr>
+<td><code>weapons.slot_of(name)</code></td>
+<td>The slot a weapon the player holds is in (&quot;primary&quot;, &quot;secondary&quot;, ...), or nil.</td>
+</tr>
+<tr>
+<td><code>weapons.take(name)</code></td>
+<td>Takes a weapon away from the player. The one in hand: the other gun comes up (false when it is the only gun); grenades and tactical: none left (the slot keeps the kind, with 0). Returns true when taken.</td>
+</tr>
+<tr>
+<td><code>weapons.upgrade(name)</code></td>
+<td>Pack-a-Punches a weapon the player holds (the upgraded version replaces it in its slot, full ammo), as the machine does but free and at once. Returns false when it has no upgrade.</td>
+</tr>
+<tr>
+<td><code>weapons.slot(name)</code></td>
+<td>The weapon in a slot (&quot;primary&quot; = in hand, &quot;secondary&quot;, &quot;melee&quot;, &quot;grenade&quot;, &quot;tactical&quot;), or nil.</td>
+</tr>
+<tr>
+<td><code>weapons.owned()</code></td>
+<td>The player&#39;s weapons by slot: {primary = weapon, secondary = ..., ...} (empty slots left out).</td>
+</tr>
+<tr>
+<td><code>weapons.grenades()</code></td>
+<td>Grenades and tactical grenades (monkey bombs, Gersch devices, ...) the player has.</td>
+</tr>
+<tr>
+<td><code>weapons.set_grenades(grenades, tacticals)</code></td>
+<td>Sets the grenades (and tactical grenades; nil keeps one).</td>
+</tr>
+<tr>
+<td><code>weapons.refill(name)</code></td>
+<td>Refills every weapon and the grenades (what max ammo does), or one weapon by name.</td>
+</tr>
+<tr>
+<td><code>Weapon:get(field)</code></td>
+<td>A field of the weapon&#39;s CPlayerWeapon by name (boz.reflect: m_clipSize, m_spreadMin, ...).</td>
+</tr>
+<tr>
+<td><code>Weapon:set(field, value)</code></td>
+<td>Sets a field of the weapon&#39;s CPlayerWeapon for this match. Returns true, or false and why.</td>
+</tr>
+<tr>
+<td><code>Weapon:fields()</code></td>
+<td>Every field of the weapon&#39;s CPlayerWeapon.</td>
+</tr>
+<tr>
+<td><code>weapons.on_event(fn)</code></td>
+<td>Calls fn(event, weapon name, data) on &quot;equipped&quot;, &quot;given&quot;, &quot;fired&quot; (data.clip: rounds left before the shot) and &quot;reloaded&quot; of the local player&#39;s weapons. Returns a handle for off().</td>
+</tr>
+<tr>
+<td><code>weapons.off(handle)</code></td>
+<td>Stops a handler on_event() returned.</td>
+</tr>
+</tbody></table></div>
+<h3 id="bozeffects">boz.effects</h3>
+<p>Spawning the game&#39;s effects and projectiles anywhere, for as long as you want.</p>
+<pre><code class="language-lua">local effects = require(&quot;boz.effects&quot;)
+effects.spawn(&quot;impactRayGun&quot;, {x = 0, y = 50, z = 0})            -- a one-off effect
+local hole = effects.projectile(&quot;gersch&quot;, effects.aim(), {trigger = &quot;open&quot;, lifetime = 6})
+hole:remove()                                                    -- close it early
+effects.explode(position, {radius = 400, damage = 2000})          -- a grenade&#39;s blast
+</code></pre>
+<p>Names are the game&#39;s effect and projectile names (&quot;gersch_Effect&quot;, &quot;impactRayGun&quot;, &quot;iceShatter&quot;, ...; any map&#39;s: the build bundles what scripts name, and the editor&#39;s Effects tab lists them and can give them your own names), or &quot;0x...&quot; hashes.</p>
+<p>Effects are visual (particles); projectiles bring the game&#39;s behaviour with them: a Gersch device opens a black hole that pulls zombies in and kills them, a monkey bomb lures them, a bolt explodes where it hits. What a projectile answers to (its triggers, effects.TRIGGERS) depends on what it is: &quot;open&quot; (black hole), &quot;explode&quot; (grenades, bolts). The game kills zombies a black hole takes without naming the player: boz.zombies.credit_kills makes those kills count as the player&#39;s.</p>
+<details><summary>How it works</summary>
+
+<p>Spawn_ByHash creates any entity spec a loaded group holds (boz.entities.spawn); a projectile&#39;s CProjectileEntity keeps its live lifetime (ms) at +0xc0 (m_bHasLifeTime turns it on), its open state at +0xc7, its owner at +0x88, its rigid body at +0x80 (Bullet body +0x34); events go to its subject at +0x28 (SUBJECT_SPAWN_GERSCH_EFFECT opens a Gersch device and restarts its lifetime a frame later, SUBJECT_EXPLODE, SUBJECT_TERMINATE ends it with its own sounds). The crosshair point is the weapon manager&#39;s +0xcc (WeaponManager_UpdateAim ray-casts it every frame; +0xf0: a live zombie). A spawned entity&#39;s components are set up by the game a little later (CProjectileEntity::Init links its transform at +0x7c, subscribes to its events and finds its rigid body): a projectile gets its trigger and lifetime once that has happened; its owner (+0x88) right away, as the game&#39;s own launcher does (zombies turning to a device read it).</p>
+</details>
+
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>effects.EXPLOSIONS</code></td>
+<td>Projectiles that explode (every map&#39;s weapon projectiles group has them).</td>
+</tr>
+<tr>
+<td><code>effects.TRIGGERS</code></td>
+<td>What a projectile answers to: the event it is sent, and whether the game restarts its lifetime when it arrives (a Gersch device&#39;s lifetime starts again once it has opened).</td>
+</tr>
+<tr>
+<td><code>effects.know(list)</code></td>
+<td>Tell boz.effects the map&#39;s effects: {name, hash, kind, behaviour, triggers} each (the map&#39;s world data does this at level start).</td>
+</tr>
+<tr>
+<td><code>effects.known()</code></td>
+<td>The map&#39;s effects by name ({hash, kind, behaviour, triggers}).</td>
+</tr>
+<tr>
+<td><code>Effect:alive()</code></td>
+<td>True while it is still in the world.</td>
+</tr>
+<tr>
+<td><code>Effect:projectile()</code></td>
+<td>Its CProjectileEntity component, or 0 for a plain effect.</td>
+</tr>
+<tr>
+<td><code>Effect:ready()</code></td>
+<td>True once the game has set it up (a projectile takes a frame or so after spawning; scripts need not wait: what was asked for happens then).</td>
+</tr>
+<tr>
+<td><code>Effect:position()</code></td>
+<td>Its position {x, y, z} (game centimetres, y up), or nil once it is gone.</td>
+</tr>
+<tr>
+<td><code>Effect:move(position)</code></td>
+<td>Moves it to a position.</td>
+</tr>
+<tr>
+<td><code>Effect:trigger(name)</code></td>
+<td>Sends a trigger (effects.TRIGGERS: &quot;open&quot;, &quot;explode&quot;). A projectile still being set up gets it as soon as it is. Returns false when it does not answer that trigger or is gone.</td>
+</tr>
+<tr>
+<td><code>Effect:set_visible(visible)</code></td>
+<td>Shows or hides its own model (a projectile&#39;s behaviour and the effects it spawns stay).</td>
+</tr>
+<tr>
+<td><code>Effect:hide() return self:set_visible(false)</code></td>
+<td>Hides or shows its own model.</td>
+</tr>
+<tr>
+<td><code>Effect:show() return self:set_visible(true)</code></td>
+<td>Hides or shows its own model.</td>
+</tr>
+<tr>
+<td><code>Effect:freeze()</code></td>
+<td>Stops a projectile where it is (it no longer falls or rolls), once the game has set it up.</td>
+</tr>
+<tr>
+<td><code>Effect:lifetime(seconds)</code></td>
+<td>Removes it after this many seconds from now. A projectile ends the game&#39;s way (a black hole closes with its own sound and effect).</td>
+</tr>
+<tr>
+<td><code>Effect:remove()</code></td>
+<td>Removes it now (a projectile ends the game&#39;s way).</td>
+</tr>
+<tr>
+<td><code>effects.spawn(name, position, options)</code></td>
+<td>Spawns an effect at a position {x, y, z}. Options: rotation {x, y, z, w}, lifetime (seconds, then it is removed). Returns the effect, or nil and why.</td>
+</tr>
+<tr>
+<td><code>effects.projectile(name, position, options)</code></td>
+<td>Spawns a projectile at a position and lets the game run it. Options: trigger (e.g. &quot;open&quot;), lifetime (seconds; after a trigger), raise (centimetres: it floats that far above the position, and its proximity reach grows to match, so zombies walking under a black hole still die; for one that &quot;Stays where spawned&quot;), hidden (its own model is not drawn), freeze (stay where spawned instead of settling on the floor), lift (centimetres up, default 10; raise replaces it), rotation. It is the player&#39;s (zombies turning to a device ask for its owner, so it always has one). What it was asked for happens once the game has set it up (a frame or so). Returns the projectile, or nil and why.</td>
+</tr>
+<tr>
+<td><code>effects.explode(position, options)</code></td>
+<td>An explosion at a position, the player&#39;s (its kills count; it hurts the player too, at OwnExplosionDamageModifier percent, like their own grenade). Options: radius (centimetres; default the grenade&#39;s), inner (full damage within it), damage (the most, at the centre), min_damage (at the edge), kind (effects.EXPLOSIONS: &quot;frag&quot;, the default, &quot;raygun&quot;, &quot;claymore&quot;, &quot;monkey&quot;), quiet (no explosion effect). Returns the explosion&#39;s projectile, or nil and why.</td>
+</tr>
+<tr>
+<td><code>effects.aim()</code></td>
+<td>The point the player&#39;s crosshair is on {x, y, z} (where a shot lands; up to 100 m away) and whether it is a live zombie; nil outside a match.</td>
+</tr>
+</tbody></table></div>
+<h3 id="bozscore">boz.score</h3>
+<p>Points (Zombies mode).</p>
+<pre><code class="language-lua">score.get()          the player&#39;s points        score.add(500)   score.spend(950)
+score.set(10000)     score.points_for(&quot;SUBJECT_ZOMBIE_SCORE_KILL_HEAD&quot;)
+score.on_change(fn)  fn(points, delta) after every change
+score.free_purchases(3)   purchases cost nothing for 3 seconds
+</code></pre>
+<details><summary>How it works</summary>
+
+<p>CScoreManager (singleton) keeps each player&#39;s points in a map keyed by the player&#39;s name hash (Entity_GetNameHash of its entity record; +0x40; earned points for stats at +0x4c): GetLocalScore(manager) reads the local player&#39;s, AddScore(manager, player, delta, countForStats) changes them (clamped at 0; purchases cost nothing with the UnlimitedScore cvar) and calls OnScoreChanged(manager, score, player, delta) for the HUD. Points for actions come from the score table (CScoreConfig, the ScoreConfigName cvar; the Game tab&#39;s economy changes a map&#39;s own): ScoreConfig_GetScore.</p>
+</details>
+
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>score.manager()</code></td>
+<td>The score manager (CScoreManager), or nil outside a match.</td>
+</tr>
+<tr>
+<td><code>score.get()</code></td>
+<td>The local player&#39;s points, or nil outside a match.</td>
+</tr>
+<tr>
+<td><code>score.add(points, counts)</code></td>
+<td>Gives the player points (negative takes them, never below 0). counts: also count them as earned (stats, power-up drops). Returns the new points.</td>
+</tr>
+<tr>
+<td><code>score.spend(points)</code></td>
+<td>Takes points for a purchase; false (and nothing taken) when the player has too few.</td>
+</tr>
+<tr>
+<td><code>score.set(points)</code></td>
+<td>Sets the player&#39;s points.</td>
+</tr>
+<tr>
+<td><code>score.points_for(action)</code></td>
+<td>Points the map&#39;s score table gives for an action (&quot;SUBJECT_ZOMBIE_SCORE_HIT&quot;, ...).</td>
+</tr>
+<tr>
+<td><code>score.on_change(fn)</code></td>
+<td>Calls fn(points, delta) after every change of the local player&#39;s points. Returns fn.</td>
+</tr>
+<tr>
+<td><code>score.free_purchases(seconds)</code></td>
+<td>Makes purchases cost nothing for <code>seconds</code> from now (the UnlimitedScore cvar: the score manager skips every charge), then restores the cvar. Calling it again extends the time.</td>
+</tr>
+</tbody></table></div>
+<h3 id="bozpickups">boz.pickups</h3>
+<p>Power-ups (Zombies mode).</p>
+<pre><code class="language-lua">pickups.spawn(&quot;max_ammo&quot;, position)    drops one there for the player to collect
+pickups.give(&quot;insta_kill&quot;)             as if the player collected it
+pickups.active()                       {insta_kill = ms left, double_points = ..., ...}
+pickups.on_collect(fn)                 fn(name) when the player collects one
+</code></pre>
+<p>Names: double_points, insta_kill, max_ammo, nuke, carpenter, firesale, deathmachine, perkbottle, lightningbolt (the game&#39;s order). How often they drop is the Game tab&#39;s economy (<a href="map-editor.html#game-rules">Game rules</a>).</p>
+<details><summary>How it works</summary>
+
+<p>CPickupManager (singleton) spawns them with SpawnPickupAt(manager, type, transform, offset) (the spec <name>_pickup at the transform&#39;s position +0xa8 plus the offset) and applies a collected one with ApplyPickup(manager, player, type, sound): it sets the timers (+0xb8 insta-kill, +0xbc double points, +0xc0 fire sale, +0xc4 death machine, +0xc8 carpenter points; milliseconds, from the InstaKillTime / DoublePointsTime / FireSaleTime / DeathMachineTime / CarpenterScoreTime cvars), refills ammo, sends the nuke or carpenter, gives the death machine or lightning bolt weapon or a perk.</p>
+</details>
+
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>pickups.manager()</code></td>
+<td>The pickup manager (CPickupManager), or nil outside a match.</td>
+</tr>
+<tr>
+<td><code>pickups.spawn(name, position)</code></td>
+<td>Drops a power-up at a position {x, y, z} for the player to collect. Returns true, or false and why.</td>
+</tr>
+<tr>
+<td><code>pickups.give(name)</code></td>
+<td>Applies a power-up as if the local player collected it. Returns true, or false and why.</td>
+</tr>
+<tr>
+<td><code>pickups.active()</code></td>
+<td>The timed power-ups running now: {insta_kill = ms, double_points = ms, firesale = ms, deathmachine = ms, carpenter = ms} (only those with time left).</td>
+</tr>
+<tr>
+<td><code>pickups.set_time(name, ms)</code></td>
+<td>Sets how long a running timed power-up lasts from now (ms; 0 ends it).</td>
+</tr>
+<tr>
+<td><code>pickups.on_collect(fn)</code></td>
+<td>Calls fn(name, player_entity) whenever a power-up is collected (SUBJECT_ON_PICKUP: its first argument points at {?, player id +4, type +8, sound +0xc}). Returns a handle (boz.game_events.off).</td>
+</tr>
+</tbody></table></div>
+<h3 id="bozpieces">boz.pieces</h3>
+<p>The map&#39;s interactive pieces: mystery boxes, perk machines, doors, traps, wall buys,</p>
+<p>Pack-a-Punch, power switches, barricades, landers, turrets, flingers, teleporters, ...</p>
+<pre><code class="language-lua">for box in pieces.each(&quot;CMysteryBox&quot;) do log(box:get(&quot;m_Cost&quot;)) end
+local box = pieces.active_box()                 -- the box that is out
+box:set(&quot;m_Cost&quot;, 500)
+pieces.perks()[1]:use()                         -- as if the player pressed use there
+pieces.doors()                                  -- every door, with :get(&quot;m_DoorState&quot;)
+</code></pre>
+<p>A piece handle: piece.entity, piece.class, piece.component, piece:get(field), piece:set(field, value), piece:fields() (every field and value), piece:position(), piece:use(), piece:name_hash(), piece:send(event), piece:cost(), piece:use_free() (opens, buys, spins without points); boxes :spawn_box() / :despawn_box() (pieces.move_box(to)), Pack-a-Punch :spawn_pack_a_punch() / :despawn_pack_a_punch(), barricades :fix_barricade() (pieces.fix_all_barricades()), doors :is_open() (pieces.open_all_doors()). The fields are the game&#39;s (reflected): <a href="map-editor.html#game-prefab-fields">Game prefab fields</a> explains them; boz.reflect has the rest.</p>
+<details><summary>How it works</summary>
+
+<p>each kind is a component class (its table lists them). &quot;Use&quot; is what the game does when the player presses use at a point of interest (Poi_SendUse: the point of interest in reach, boz.map.nearest_poi, broadcasts the interact event with the player&#39;s name hash); the piece reacts as if the player used it (checking the points, paying, opening, buying). A free use credits the cost first (the piece checks the points a frame before it charges them), uses it a frame later with purchases free (boz.score.free_purchases) and takes the credit back.</p>
+</details>
+
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>pieces.DOOR_OPEN</code></td>
+<td>A door&#39;s m_DoorState when it is open.</td>
+</tr>
+<tr>
+<td><code>Piece:get(field)</code></td>
+<td>A field of its component (by name).</td>
+</tr>
+<tr>
+<td><code>Piece:set(field, value)</code></td>
+<td>Sets a field of its component. Returns true, or false and why.</td>
+</tr>
+<tr>
+<td><code>Piece:fields()</code></td>
+<td>Every field and its value.</td>
+</tr>
+<tr>
+<td><code>Piece:position()</code></td>
+<td>Its position {x, y, z}.</td>
+</tr>
+<tr>
+<td><code>Piece:name_hash()</code></td>
+<td>Its name hash (what the World tab named it, hashed).</td>
+</tr>
+<tr>
+<td><code>Piece:use()</code></td>
+<td>Uses it as the player would (the game charges the cost and does the rest). Returns true when the use was sent.</td>
+</tr>
+<tr>
+<td><code>Piece:cost()</code></td>
+<td>What using it costs (points), or nil for a piece without a cost.</td>
+</tr>
+<tr>
+<td><code>Piece:use_free()</code></td>
+<td>Uses it for free: opens a door, buys the perk, spins the box, buys the wall weapon, switches a trap on, ... without the player losing points (purchases are free for a few seconds around the use). Returns true when queued.</td>
+</tr>
+<tr>
+<td><code>Piece:send(event, a, b)</code></td>
+<td>Sends the piece&#39;s entity an event (boz.entities.send): &quot;SUBJECT_MB_SPAWN&quot;, ...</td>
+</tr>
+<tr>
+<td><code>Piece:spawn_box() return self:send(&quot;SUBJECT_MB_SPAWN&quot;)</code></td>
+<td>A mystery box: brings it out here (SUBJECT_MB_SPAWN) or puts it away (SUBJECT_MB_DESPAWN: it leaves with its own animation once nobody is using it; m_IsDespawning).</td>
+</tr>
+<tr>
+<td><code>Piece:despawn_box() return self:send(&quot;SUBJECT_MB_DESPAWN&quot;)</code></td>
+<td>A mystery box: brings it out here (SUBJECT_MB_SPAWN) or puts it away (SUBJECT_MB_DESPAWN: it leaves with its own animation once nobody is using it; m_IsDespawning).</td>
+</tr>
+<tr>
+<td><code>Piece:box_weapons()</code></td>
+<td>A mystery box&#39;s weapons (name hashes; m_Weapons).</td>
+</tr>
+<tr>
+<td><code>Piece:add_box_weapon(weapon)</code></td>
+<td>Adds a weapon (name or hash) to a mystery box&#39;s pool (SUBJECT_MB_ADD_WEAPON), or takes one out (SUBJECT_MB_REMOVE_WEAPON). The map&#39;s own pool is the Weapons tab&#39;s; this lasts the match.</td>
+</tr>
+<tr>
+<td><code>Piece:remove_box_weapon(weapon)</code></td>
+<td>Takes a weapon out of a mystery box&#39;s pool (SUBJECT_MB_REMOVE_WEAPON).</td>
+</tr>
+<tr>
+<td><code>Piece:spawn_pack_a_punch() return self:send(&quot;SUBJECT_PACKAPUNCH_SPAWN&quot;)</code></td>
+<td>Pack-a-Punch: brings it out (SUBJECT_PACKAPUNCH_SPAWN) or puts it away.</td>
+</tr>
+<tr>
+<td><code>Piece:despawn_pack_a_punch() return self:send(&quot;SUBJECT_PACKAPUNCH_DESPAWN&quot;)</code></td>
+<td>Pack-a-Punch: brings it out (SUBJECT_PACKAPUNCH_SPAWN) or puts it away.</td>
+</tr>
+<tr>
+<td><code>Piece:fix_barricade() return self:send(&quot;SUBJECT_BARRICADE_FIX&quot;)</code></td>
+<td>A barricade: puts one board back (SUBJECT_BARRICADE_FIX).</td>
+</tr>
+<tr>
+<td><code>Piece:is_open()</code></td>
+<td>A door: true once it is open.</td>
+</tr>
+<tr>
+<td><code>pieces.open_all_doors()</code></td>
+<td>Opens every closed door for free. Returns how many were opened.</td>
+</tr>
+<tr>
+<td><code>pieces.move_box(to)</code></td>
+<td>Moves the mystery box to another box spot (a piece of CMysteryBox, or the spot&#39;s entity name; nil: a random other spot), putting the current one away. Returns true when sent, or false and why.</td>
+</tr>
+<tr>
+<td><code>pieces.fix_all_barricades()</code></td>
+<td>Fixes every barricade fully (like the carpenter, without the points).</td>
+</tr>
+<tr>
+<td><code>pieces.each(class_name)</code></td>
+<td>Iterates the pieces of a class: for piece in pieces.each(&quot;CPerk&quot;) do ... end</td>
+</tr>
+<tr>
+<td><code>pieces.list(class_name)</code></td>
+<td>Every piece of a class, as a list.</td>
+</tr>
+<tr>
+<td><code>pieces.of(target, class_name)</code></td>
+<td>The piece of a class an entity has (or the entity called that name), or nil.</td>
+</tr>
+<tr>
+<td><code>pieces.boxes() return pieces.list(&quot;CMysteryBox&quot;)</code></td>
+<td>Every piece of a kind: mystery boxes, perk machines, doors, traps, wall buys, power switches; pack_a_punch() is the map&#39;s Pack-a-Punch machine (nil without one).</td>
+</tr>
+<tr>
+<td><code>pieces.perks() return pieces.list(&quot;CPerk&quot;)</code></td>
+<td>Every piece of a kind: mystery boxes, perk machines, doors, traps, wall buys, power switches; pack_a_punch() is the map&#39;s Pack-a-Punch machine (nil without one).</td>
+</tr>
+<tr>
+<td><code>pieces.doors() return pieces.list(&quot;CDoor&quot;)</code></td>
+<td>Every piece of a kind: mystery boxes, perk machines, doors, traps, wall buys, power switches; pack_a_punch() is the map&#39;s Pack-a-Punch machine (nil without one).</td>
+</tr>
+<tr>
+<td><code>pieces.traps() return pieces.list(&quot;CTrap&quot;)</code></td>
+<td>Every piece of a kind: mystery boxes, perk machines, doors, traps, wall buys, power switches; pack_a_punch() is the map&#39;s Pack-a-Punch machine (nil without one).</td>
+</tr>
+<tr>
+<td><code>pieces.wall_buys() return pieces.list(&quot;CWeaponChalkOutline&quot;)</code></td>
+<td>Every piece of a kind: mystery boxes, perk machines, doors, traps, wall buys, power switches; pack_a_punch() is the map&#39;s Pack-a-Punch machine (nil without one).</td>
+</tr>
+<tr>
+<td><code>pieces.pack_a_punch() return pieces.list(&quot;CPackAPunch&quot;)</code></td>
+<td>Every piece of a kind: mystery boxes, perk machines, doors, traps, wall buys, power switches; pack_a_punch() is the map&#39;s Pack-a-Punch machine (nil without one).</td>
+</tr>
+<tr>
+<td><code>pieces.power_switches() return pieces.list(&quot;CPowerSwitch&quot;)</code></td>
+<td>Every piece of a kind: mystery boxes, perk machines, doors, traps, wall buys, power switches; pack_a_punch() is the map&#39;s Pack-a-Punch machine (nil without one).</td>
+</tr>
+<tr>
+<td><code>pieces.active_box()</code></td>
+<td>The mystery box that is out now (m_IsActive), or nil.</td>
+</tr>
+<tr>
+<td><code>pieces.summary()</code></td>
+<td>Every piece of every kind: {[class] = count} for the classes the map has.</td>
+</tr>
+</tbody></table></div>
+<h3 id="bozmap">boz.map</h3>
+<p>The level being played, and the map systems the game has commands for.</p>
+<pre><code class="language-lua">map.name()            &quot;kino&quot;, &quot;ascension&quot;, &quot;callofthedead&quot;, &quot;tutorial&quot; or a map project&#39;s
+map.difficulty()      &quot;easy&quot;, &quot;normal&quot; or &quot;hard&quot;        map.dead_ops()
+map.player()          the local player&#39;s entity and id
+map.on_level_start(fn)                                   fn() each time a level has started
+map.restart()         map.power_on()                    map.fog(&quot;fog_name&quot;)
+map.toggle_pause()    map.set_time_scale(0.5)
+map.kino.teleport(&quot;lobby&quot;)      map.ascension.gersch_teleport()      map.ascension.launch_rocket()
+map.callofthedead.lighthouse(state)
+</code></pre>
+<details><summary>How it works</summary>
+
+<p>CLevelManager (singleton) keeps the level&#39;s name at +0x55, the local player&#39;s entity at +0x1a0, the level&#39;s CLevel resource at +0x204, Dead Ops Arcade at +0x208, the difficulty at +0x20c (0 easy, 1 normal, 2 hard: the single-player starting wave and the zombies&#39; health multiplier), the point of interest in reach at +0x214 (an entity) and whether the level started from a save at +0x298. The map systems are the game&#39;s developer commands (StartTeleportLobby, GerschTeleportRandom, RocketLaunch, LighthouseState, SwitchFog, RestartLevel, SwitchPowerOn, TimeTogglePause, TimeFactor) run through boz.console; the <a href="console-reference.html">console reference</a> lists every command.</p>
+</details>
+
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>map.level_manager()</code></td>
+<td>The level manager (CLevelManager), or nil outside a level.</td>
+</tr>
+<tr>
+<td><code>map.name()</code></td>
+<td>The level&#39;s name (lower case), or nil.</td>
+</tr>
+<tr>
+<td><code>map.name_address()</code></td>
+<td>The address of the level manager&#39;s name text (what the game&#39;s own name checks compare).</td>
+</tr>
+<tr>
+<td><code>map.player()</code></td>
+<td>The local player&#39;s entity and its id, or nil outside a Zombies match.</td>
+</tr>
+<tr>
+<td><code>map.level_info()</code></td>
+<td>The level&#39;s CLevel resource (its starting waves, zombie looks, ...), or nil.</td>
+</tr>
+<tr>
+<td><code>map.difficulty_index()</code></td>
+<td>The difficulty&#39;s index (0 easy, 1 normal, 2 hard), or nil.</td>
+</tr>
+<tr>
+<td><code>map.difficulty()</code></td>
+<td>&quot;easy&quot;, &quot;normal&quot; or &quot;hard&quot; (single player), or nil.</td>
+</tr>
+<tr>
+<td><code>map.dead_ops()</code></td>
+<td>True in Dead Ops Arcade.</td>
+</tr>
+<tr>
+<td><code>map.playing()</code></td>
+<td>True while a level with a player is running.</td>
+</tr>
+<tr>
+<td><code>map.resuming()</code></td>
+<td>True when the running level was started from a save (continuing a game).</td>
+</tr>
+<tr>
+<td><code>map.nearest_poi()</code></td>
+<td>The point of interest in reach (an entity: the box, a perk, a door the player can use), or 0.</td>
+</tr>
+<tr>
+<td><code>map.set_nearest_poi(entity)</code></td>
+<td>Makes an entity the point of interest in reach (what the use button acts on). Returns the previous one.</td>
+</tr>
+<tr>
+<td><code>map.level_key()</code></td>
+<td>A number that changes when another level starts (0 outside a match).</td>
+</tr>
+<tr>
+<td><code>map.on_level_start(fn)</code></td>
+<td>Calls fn() every time a level has started (its player exists), and at once when one is running. Returns fn.</td>
+</tr>
+<tr>
+<td><code>map.restart()</code></td>
+<td>Restarts the level.</td>
+</tr>
+<tr>
+<td><code>map.power_on()</code></td>
+<td>Turns the power on.</td>
+</tr>
+<tr>
+<td><code>map.fog(name)</code></td>
+<td>Switches to a fog config by name (the level&#39;s CIwFogConfig resources, as rounds use them).</td>
+</tr>
+<tr>
+<td><code>map.toggle_pause()</code></td>
+<td>Pauses or resumes game time.</td>
+</tr>
+<tr>
+<td><code>map.set_time_scale(factor)</code></td>
+<td>Game speed multiplier (1 = normal).</td>
+</tr>
+<tr>
+<td><code>map.kino</code></td>
+<td>Kino der Toten.</td>
+</tr>
+<tr>
+<td><code>map.kino.teleport(kind)</code></td>
+<td>Starts a teleport (&quot;lobby&quot;: back to the lobby, &quot;projector&quot;: to the projector room, &quot;random&quot;: to a random room).</td>
+</tr>
+<tr>
+<td><code>map.ascension</code></td>
+<td>Ascension.</td>
+</tr>
+<tr>
+<td><code>map.ascension.gersch_teleport()</code></td>
+<td>Sends the player to a random Gersch teleport point.</td>
+</tr>
+<tr>
+<td><code>map.ascension.launch_rocket()</code></td>
+<td>Authenticates and launches the rocket.</td>
+</tr>
+<tr>
+<td><code>map.callofthedead</code></td>
+<td>Call of the Dead.</td>
+</tr>
+<tr>
+<td><code>map.callofthedead.lighthouse(state)</code></td>
+<td>Sets the lighthouse&#39;s state (its beam searching for the Pack-a-Punch).</td>
+</tr>
+</tbody></table></div>
+<h3 id="bozfly">boz.fly</h3>
+<p>Noclip, using the game&#39;s developer fly mode.</p>
+<pre><code class="language-lua">local fly = require(&quot;boz.fly&quot;)
+fly.set(true)                       -- fly through walls; movement keys fly where you look
+fly.move_vertical(1, dt)            -- call each frame while an &quot;up&quot; key is held
+</code></pre>
+<details><summary>How it works</summary>
+
+<p>CPlayerFreeFly toggles on SUBJECT_PLAYER_FREE_MODE (sent to CInputManager&#39;s subject); while flying, movement moves the player along the view at FreeFlySpeed and SUBJECT_PLAYER_ASCEND raises it by FreeFlySpeed (sent here with the speed scaled and signed).</p>
+</details>
+
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>fly.available()</code></td>
+<td>True if fly mode can be used now (a Zombies match whose player has the fly component).</td>
+</tr>
+<tr>
+<td><code>fly.active()</code></td>
+<td>True while flying.</td>
+</tr>
+<tr>
+<td><code>fly.set(on)</code></td>
+<td>Turns fly mode on or off (nil toggles). Returns the new state, or nil if unavailable.</td>
+</tr>
+<tr>
+<td><code>fly.speed()</code></td>
+<td>Fly speed (FreeFlySpeed): distance per frame at full speed.</td>
+</tr>
+<tr>
+<td><code>fly.set_speed(speed)</code></td>
+<td>Sets the fly speed (FreeFlySpeed).</td>
+</tr>
+<tr>
+<td><code>fly.move_vertical(direction, dt)</code></td>
+<td>Moves up (direction 1) or down (-1) for dt seconds at fly speed. Call it every frame while a key is held.</td>
+</tr>
+</tbody></table></div>
+<h3 id="bozdeadops">boz.deadops</h3>
+<p>Dead Ops Arcade (the top-down mode).</p>
+<pre><code class="language-lua">deadops.active()            deadops.set_round(12)        deadops.set_god(true)
+deadops.score()             deadops.set_score(100000)    deadops.health()
+deadops.spawn_enemy()       deadops.toggle_spawning()    deadops.spawn_pickup()
+deadops.horde()             every field of the horde manager (spawn timers, horde size, ...)
+deadops.storage()           the persistent storage: stats and power timers
+</code></pre>
+<details><summary>How it works</summary>
+
+<p>Dead Ops runs in the same level manager with CLevelManager +0x208 set. Its systems are singletons (CDORoundManager, CDOHordeManager, CDOPickupManager, CDOPersistentStorage, CDOPlayerInput, CDOGoreManager) and components (CDOPlayer: m_Score; CDOHealth: maxHealth, m_Health; CDOPlayerController: walking body, helicopter, tank; CDOAIController for enemies), all reflected (boz.reflect). The rounds are 42 CDORound resources (arena, lighting, music, hordes). The developer commands (SetRound, GodMode, ManyLives, InfiniteBombBoost, spawnEnemy, toggleEnemySpawn, spawnPickup, SpawnDeathGems, AutoAim) run through boz.console.</p>
+</details>
+
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>deadops.active()</code></td>
+<td>True in Dead Ops Arcade.</td>
+</tr>
+<tr>
+<td><code>deadops.set_round(number)</code></td>
+<td>Jumps to a round (the SetRound command).</td>
+</tr>
+<tr>
+<td><code>deadops.set_god(on)</code></td>
+<td>God mode on or off (the GodMode command toggles it; this asks for a state). Returns the state.</td>
+</tr>
+<tr>
+<td><code>deadops.many_lives()</code></td>
+<td>Many lives (the ManyLives command).</td>
+</tr>
+<tr>
+<td><code>deadops.infinite_bombs()</code></td>
+<td>Unlimited bombs and speed boosts (InfiniteBombBoost).</td>
+</tr>
+<tr>
+<td><code>deadops.spawn_enemy() return exec(&quot;spawnEnemy&quot;)</code></td>
+<td>Spawns an enemy (spawnEnemy).</td>
+</tr>
+<tr>
+<td><code>deadops.toggle_spawning() return exec(&quot;toggleEnemySpawn&quot;)</code></td>
+<td>Switches enemy spawning on or off (toggleEnemySpawn).</td>
+</tr>
+<tr>
+<td><code>deadops.spawn_pickup() return exec(&quot;spawnPickup&quot;)</code></td>
+<td>Spawns a pickup (spawnPickup).</td>
+</tr>
+<tr>
+<td><code>deadops.spawn_gems() return exec(&quot;SpawnDeathGems&quot;)</code></td>
+<td>Spawns death gems (SpawnDeathGems).</td>
+</tr>
+<tr>
+<td><code>deadops.auto_aim() return exec(&quot;AutoAim&quot;)</code></td>
+<td>Switches auto aim (AutoAim).</td>
+</tr>
+<tr>
+<td><code>deadops.score()</code></td>
+<td>The local player&#39;s score (CDOPlayer m_Score), or nil.</td>
+</tr>
+<tr>
+<td><code>deadops.set_score(points)</code></td>
+<td>Sets the local player&#39;s score.</td>
+</tr>
+<tr>
+<td><code>deadops.health()</code></td>
+<td>The local player&#39;s health and maximum (CDOHealth), or nil.</td>
+</tr>
+<tr>
+<td><code>deadops.horde()</code></td>
+<td>The horde manager&#39;s fields (spawn timers, horde size, pickups this round, ...), or nil.</td>
+</tr>
+<tr>
+<td><code>deadops.storage()</code></td>
+<td>The persistent storage&#39;s fields (stats, the player body / shield / speed shoes timers), or nil.</td>
+</tr>
+<tr>
+<td><code>deadops.enemies()</code></td>
+<td>The enemies alive: {entity, health component} for each CDOAIController.</td>
+</tr>
+</tbody></table></div>
+<h2 id="map-scripting">Map scripting</h2>
+<h3 id="bozworld">boz.world</h3>
+<p>Game behaviour a map project&#39;s world asks for that the game&#39;s data cannot express.</p>
+<pre><code class="language-lua">require(&quot;boz.world&quot;).start()   (map projects call this from main.lua; the SDK adds it)
+</code></pre>
+<p>The map&#39;s objects: the editor writes each map&#39;s start state and scripted objects into boz/world_data.lua (hidden objects, objects without collision, walkable areas that start blocked, scripts and their property values); as soon as each level has started this applies the start state with boz.objects and starts the scripts with boz.prefabs.</p>
+<p>Perk machines that work without power: the editor&#39;s &quot;Needs power&quot; off writes the power switch name &quot;boz_no_power&quot;. The game only powers a machine when its power switch is turned on (Quick Revive in solo is the exception), so when such a machine starts this powers it the same way (CPerk +0x7c powered, +0x7d lit, and the machine&#39;s own &quot;power_switch_on&quot; event for its lights and jingle).</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>world.start()</code></td>
+<td>Turns on what map projects need from the standard library (call once, from main.lua), and starts the mod&#39;s map when the launcher asked for it (its &quot;autostart_level&quot; setting).</td>
+</tr>
+</tbody></table></div>
+<h3 id="bozprefabs">boz.prefabs</h3>
+<p>Scripts for the map&#39;s prefabs, models, volumes and weapons, and the event bus</p>
+<p>between them. Map scripts see this module as <code>boz</code>; <a href="map-editor.html#map-scripting">Map scripting</a> is the guide.</p>
+<pre><code class="language-lua">function on_hit(volume, info)              -- in a script attached to a prefab
+    self:part(&quot;Door&quot;):hide():set_collision(false):open_navmesh()
+    boz.send(&quot;vault_open&quot;, {by = self.name})
+end
+</code></pre>
+<p>Each scripted object runs its script once with its own <code>self</code> and top-level variables. Script globals and boz.globals are saved with the game. Handlers: start(), on_enter / on_exit / on_hit / on_use(volume, info), on_event(name, data) (boz.send and boz.match_events&#39; events; &quot;weapon_fired&quot; only reaches boz.on); weapon scripts: on_given, on_equip, on_fire(data), on_reload. Every volume event also reaches boz.on listeners as &quot;<volume>.<event>&quot;.</p>
+<details><summary>How it works</summary>
+
+<p>the client&#39;s loadscript(name, env) loads a script with a fresh environment per object (self and boz in it, the mod&#39;s globals behind it). Volumes are boz.objects events. Use prompts: when a Use volume becomes the point of interest in reach (SUBJECT_POI_TRIGGER, handled by CIngameStatePlaying::UpdatePoiPrompt, whose handling is skipped for it) its prompt is shown with Poi_ShowPrompt. Saving: CSaveManager::SaveGame (autosave at each round start, pause) writes the globals to the map mod&#39;s settings (globals.<level>); a level started from a save (boz.map.resuming) runs start() once the save is applied. Hooks here are before hooks where they can be: an after hook&#39;s return trap on a long, busy function crashed the game.</p>
+</details>
+
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>prefabs.globals</code></td>
+<td>Values every script of the map shares, saved with the game.</td>
+</tr>
+<tr>
+<td><code>Instance:part(name)</code></td>
+<td>The boz.objects handle of a part of this prefab (by its name in the prefab).</td>
+</tr>
+<tr>
+<td><code>Instance:parts()</code></td>
+<td>{name, object} of every part of this prefab.</td>
+</tr>
+<tr>
+<td><code>Instance:set_visible(visible)</code></td>
+<td>Shows or hides the object (every part of a prefab). Returns self.</td>
+</tr>
+<tr>
+<td><code>Instance:show() return self:set_visible(true)</code></td>
+<td>Shows the object. Returns self.</td>
+</tr>
+<tr>
+<td><code>Instance:hide() return self:set_visible(false)</code></td>
+<td>Hides the object. Returns self.</td>
+</tr>
+<tr>
+<td><code>Instance:set_collision(enabled)</code></td>
+<td>Switches the collision of the object (every part of a prefab). Returns self.</td>
+</tr>
+<tr>
+<td><code>Instance:set_navmesh(open)</code></td>
+<td>Opens or closes the walkable area under the object (and its parts that block it). Returns self.</td>
+</tr>
+<tr>
+<td><code>Instance:open_navmesh() return self:set_navmesh(true)</code></td>
+<td>Lets zombies and players walk where the object blocked them. Returns self.</td>
+</tr>
+<tr>
+<td><code>Instance:close_navmesh() return self:set_navmesh(false)</code></td>
+<td>Blocks the walkable area under the object again. Returns self.</td>
+</tr>
+<tr>
+<td><code>Instance:position()</code></td>
+<td>The object&#39;s world position {x, y, z} (game centimetres, y is up): a prefab&#39;s is the middle of its parts. nil when it is not in the running level.</td>
+</tr>
+<tr>
+<td><code>Instance:near(target, distance)</code></td>
+<td>True when the object (any part of a prefab) is within <code>distance</code> centimetres of <code>target</code> (a position such as zombie_killed&#39;s data.position, or another object).</td>
+</tr>
+<tr>
+<td><code>Instance:send(name, data)</code></td>
+<td>boz.send from this object.</td>
+</tr>
+<tr>
+<td><code>prefabs.find(name)</code></td>
+<td>The scripted object called <em>name</em> (its script instance), else its boz.objects handle when it exists in the level, else nil.</td>
+</tr>
+<tr>
+<td><code>prefabs.send(name, data)</code></td>
+<td>Sends an event on the bus: every boz.on(name) listener and every script&#39;s on_event.</td>
+</tr>
+<tr>
+<td><code>prefabs.on(name, fn)</code></td>
+<td>Calls fn(data, name) on every boz.send(name, ...). Returns fn.</td>
+</tr>
+<tr>
+<td><code>prefabs.after(seconds, fn)</code></td>
+<td>Runs fn() once, <code>seconds</code> of game time from now (boz.timers). Returns a timer with :cancel().</td>
+</tr>
+<tr>
+<td><code>prefabs.every(seconds, fn)</code></td>
+<td>Runs fn() every <code>seconds</code> of game time until the timer is cancelled (boz.timers).</td>
+</tr>
+<tr>
+<td><code>prefabs.save()</code></td>
+<td>Writes the map&#39;s saved globals now (the game&#39;s saves call this).</td>
+</tr>
+<tr>
+<td><code>prefabs.start(list, all_names, weapon_list)</code></td>
+<td>Starts the level&#39;s objects (boz.world calls this when a level has started, with the map&#39;s world_data objects, the names of all its objects and its weapons).</td>
+</tr>
+</tbody></table></div>
+<h3 id="bozobjects">boz.objects</h3>
+<p>The map&#39;s objects by name: show and hide them, switch their collision, open and</p>
+<p>close the walkable area under them, and react when players walk into them, use them or shoot them. The building blocks for triggers and easter eggs.</p>
+<pre><code class="language-lua">local objects = require(&quot;boz.objects&quot;)
+local skull = objects.get(&quot;Skull_1&quot;)
+skull:on(&quot;use&quot;, function(object) object:hide() end)
+objects.on(&quot;Secret_Room_Trigger&quot;, &quot;enter&quot;, function(object, who)
+    if who.player then objects.get(&quot;Secret_Wall&quot;):hide():set_collision(false):open_navmesh() end
+end)
+</code></pre>
+<p>Names are the script names the editor shows for each object (Properties → Object → Game → Scripts): turn on &quot;Scripts can change it&quot; there. Shipped entities use their own names.</p>
+<details><summary>How it works</summary>
+
+<ul>
+<li>CIsEntityDB::FindEntity(name hash) gives the entity (a pointer; its id is at +4). A</li>
+</ul>
+</details>
+
+<pre><code class="language-lua">component&#39;s entity pointer is at component +0xc; children hang off CIsHierarchy +0x24.
+</code></pre>
+<ul>
+<li>Visibility: CIsRenderableModel::SetVisible (doors hide this way after opening). - Collision: CIsCollisionObject::Enable / Disable on the entity&#39;s collision box, sphere,</li>
+</ul>
+<pre><code class="language-lua">capsule or mesh (what SUBJECT_ENABLE/DISABLE_COLLISION do).
+</code></pre>
+<ul>
+<li>Walkable area: navmesh polygons carry a tag (a name hash); NavMesh_SetTagOpen(navmesh, tag,</li>
+</ul>
+<pre><code class="language-lua">open) opens or closes them, as doors do with their own name. The editor tags the polygons
+under objects set to block the walkable area with the object&#39;s name.
+</code></pre>
+<ul>
+<li>&quot;enter&quot;/&quot;exit&quot;: CIsCollisionObject::OnCollisionEnter/OnCollisionExit (this, other) run</li>
+</ul>
+<pre><code class="language-lua">when two collision objects start or stop touching; ghost volumes (triggers) get them too.
+</code></pre>
+<ul>
+<li>&quot;use&quot;: Poi_SendUse runs when the player presses use at the point of interest in reach</li>
+</ul>
+<pre><code class="language-lua">(boz.map.nearest_poi).
+</code></pre>
+<ul>
+<li>&quot;damage&quot;: CHealth::Damage(health, amount, attacker name hash) on objects with health. - &quot;hit&quot;: CEasterEgg::OnEvent runs when a weapon hits a skull (Hit volumes are made from the</li>
+</ul>
+<pre><code class="language-lua">musical easter egg&#39;s skulls); for objects with &quot;hit&quot; handlers the game&#39;s handling is skipped,
+so they stay out of the level&#39;s own easter egg.
+</code></pre>
+<ul>
+<li>Positions: the entity&#39;s CIsTransform keeps its world matrix at +0x38, the position at</li>
+</ul>
+<pre><code class="language-lua">+0x5c/+0x60/+0x64 (game centimetres, y up); CIsTransform::UpdateWorld refreshes it when the
+transform moved.
+</code></pre>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>objects.level()</code></td>
+<td>A key that changes when another level loads (0 outside a match).</td>
+</tr>
+<tr>
+<td><code>objects.get(name)</code></td>
+<td>The object called <code>name</code> (a handle: it finds the entity when used, so it can be made before the level loads). Names are not case-sensitive.</td>
+</tr>
+<tr>
+<td><code>objects.find(name)</code></td>
+<td>The object called <code>name</code> if it exists in the running level, else nil.</td>
+</tr>
+<tr>
+<td><code>Object:entity_pointer()</code></td>
+<td>The entity pointer, or 0 when the object is not in the running level.</td>
+</tr>
+<tr>
+<td><code>Object:exists()</code></td>
+<td>True when the object is in the running level.</td>
+</tr>
+<tr>
+<td><code>Object:set_visible(visible)</code></td>
+<td>Shows or hides the object&#39;s models (its collision and behaviour stay). Returns the object.</td>
+</tr>
+<tr>
+<td><code>Object:show()</code></td>
+<td>Shows the object. Returns the object.</td>
+</tr>
+<tr>
+<td><code>Object:hide()</code></td>
+<td>Hides the object. Returns the object.</td>
+</tr>
+<tr>
+<td><code>Object:set_collision(enabled)</code></td>
+<td>Switches the object&#39;s collision on or off (players and bullets pass through it when off). Returns the object.</td>
+</tr>
+<tr>
+<td><code>objects.set_navmesh(tag, open)</code></td>
+<td>Opens (true) or closes (false) the walkable area tagged <code>tag</code> (a name: an object set to block the walkable area, or a door). Returns true when the level has a navmesh.</td>
+</tr>
+<tr>
+<td><code>Object:set_navmesh(open)</code></td>
+<td>Opens or closes the walkable area under the object (it must be set to block the walkable area in the editor). Returns the object.</td>
+</tr>
+<tr>
+<td><code>Object:open_navmesh()</code></td>
+<td>Lets zombies and players walk where the object blocked them. Returns the object.</td>
+</tr>
+<tr>
+<td><code>Object:close_navmesh()</code></td>
+<td>Blocks the walkable area under the object again. Returns the object.</td>
+</tr>
+<tr>
+<td><code>objects.transform_position(transform)</code></td>
+<td>The world position of a CIsTransform component: {x, y, z} in game centimetres (y is up).</td>
+</tr>
+<tr>
+<td><code>objects.position_of(entity)</code></td>
+<td>The world position of an entity (pointer), or nil when it has no transform.</td>
+</tr>
+<tr>
+<td><code>objects.distance(a, b)</code></td>
+<td>The distance in centimetres between two positions or objects (anything with :position()), or nil when either has no position.</td>
+</tr>
+<tr>
+<td><code>Object:position()</code></td>
+<td>The object&#39;s world position {x, y, z} (game centimetres, y is up), or nil when it is not in the running level.</td>
+</tr>
+<tr>
+<td><code>Object:near(target, distance)</code></td>
+<td>True when the object is within <code>distance</code> centimetres of <code>target</code> (a position such as zombie_killed&#39;s data.position, or another object).</td>
+</tr>
+<tr>
+<td><code>Object:on(event, fn)</code></td>
+<td>Calls <code>fn(object, info)</code> on the object&#39;s <code>event</code>: &quot;enter&quot; / &quot;exit&quot; (something starts or stops touching it; info.player, info.zombie, info.entity), &quot;use&quot; (the player pressed use at it), &quot;hit&quot; (a weapon hit it: Hit volumes), &quot;damage&quot; (it was hurt; info.amount, info.attacker). Returns the object.</td>
+</tr>
+<tr>
+<td><code>objects.on(name, event, fn)</code></td>
+<td>objects.on(name, event, fn): the same as objects.get(name):on(event, fn).</td>
+</tr>
+</tbody></table></div>
+<h3 id="bozmatch_events">boz.match_events</h3>
+<p>What happens in a Zombies match, as named events with plain data.</p>
+<pre><code class="language-lua">local match_events = require(&quot;boz.match_events&quot;)
+match_events.on(&quot;zombie_killed&quot;, function(data) if data.headshot then log(&quot;headshot&quot;) end end)
+match_events.on_any(function(name, data) log(name) end)
+</code></pre>
+<p>Events and their data:</p>
+<pre><code class="language-lua">&quot;round_started&quot; {round = n}, &quot;round_ended&quot; {round = n}, &quot;power_on&quot;,
+&quot;perk_bought&quot; {perk = &quot;Juggernog&quot;, player = true}, &quot;door_opened&quot; {door = name, hash = n},
+&quot;zombie_killed&quot; {position = {x, y, z}, entity = e, by_player = true, headshot = true},
+&quot;player_downed&quot;, &quot;player_revived&quot;, &quot;player_hit&quot; {damage = n},
+&quot;weapon_given&quot;, &quot;weapon_equipped&quot;, &quot;weapon_fired&quot;, &quot;weapon_reloaded&quot; {weapon = &quot;mp40&quot;},
+&quot;points_earned&quot; / &quot;points_spent&quot; {points = n, player = true},
+&quot;box_weapon&quot; / &quot;pack_a_punch&quot; {weapon = &quot;mp40&quot;}, &quot;powerup_grabbed&quot; {powerup = &quot;nuke&quot;,
+player = true}, &quot;nuke&quot;, &quot;carpenter&quot;, &quot;trap_activated&quot;, &quot;teleporter_activated&quot;,
+&quot;game_loaded&quot; (a continued save has been applied).
+</code></pre>
+<p>While the game applies a save its own events are not news: none are sent.</p>
+<details><summary>How it works</summary>
+
+<p>rounds start in CWaveManager::StartWave; perks with CPerkManager::GainPerk for a perk not yet owned (bits at +0x58); zombies die entering CAIControllerZombie::State_Dead (state event 1): its transform at +0xc4, killer entity at +0x138, hit location at +0x124 (0 head), kill kind at +0x22c (0/1 knife, 2 grenade); points earned go through CScoreManager::AddScore; power-ups through CPickupManager::ApplyPickup; continuing a save, CSaveManager::NotifyLoad. Doors (a CDoor whose m_DoorState became open), the power and the player&#39;s downed state are checked each frame; the rest are the game&#39;s own SUBJECT_* events (boz.game_events).</p>
+</details>
+
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>match_events.on(name, fn)</code></td>
+<td>Calls fn(data, name) every time the event happens. Returns a handle for off().</td>
+</tr>
+<tr>
+<td><code>match_events.on_any(fn)</code></td>
+<td>Calls fn(name, data) on every event. Returns a handle for off().</td>
+</tr>
+<tr>
+<td><code>match_events.off(handle)</code></td>
+<td>Stops a handler on() or on_any() returned.</td>
+</tr>
+<tr>
+<td><code>match_events.know_names(list)</code></td>
+<td>Tells it the names of the map&#39;s objects, so door_opened names its door.</td>
+</tr>
+<tr>
+<td><code>match_events.loading()</code></td>
+<td>True while the game applies a continued save.</td>
+</tr>
+</tbody></table></div>
+<h3 id="boztimers">boz.timers</h3>
+<p>Run code later, on game time (paused time does not count).</p>
+<pre><code class="language-lua">local timers = require(&quot;boz.timers&quot;)
+local t = timers.after(5, function() log(&quot;five seconds of play later&quot;) end)
+timers.every(1, function() log(&quot;tick&quot;) end)
+t:cancel()
+</code></pre>
+<details><summary>How it works</summary>
+
+<p>game time advances by the frame&#39;s time in frames where CPlayerController::FixedStep ran (the game&#39;s simulation step, which stops while paused).</p>
+</details>
+
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Timer:cancel()</code></td>
+<td>Stops the timer.</td>
+</tr>
+<tr>
+<td><code>timers.after(seconds, fn)</code></td>
+<td>Runs fn() once, <code>seconds</code> of game time from now. Returns a timer with :cancel().</td>
+</tr>
+<tr>
+<td><code>timers.every(seconds, fn)</code></td>
+<td>Runs fn() every <code>seconds</code> of game time until the timer is cancelled. Returns the timer.</td>
+</tr>
+<tr>
+<td><code>timers.now()</code></td>
+<td>Seconds of game time since the first timer was made.</td>
+</tr>
+<tr>
+<td><code>timers.cancel_all()</code></td>
+<td>Cancels every timer (a new level starts fresh).</td>
+</tr>
+</tbody></table></div>
+<h3 id="bozsaved">boz.saved</h3>
+<p>Lua tables kept in the mod&#39;s settings (saves/mods/<id>.cfg).</p>
+<pre><code class="language-lua">local saved = require(&quot;boz.saved&quot;)
+saved.write(&quot;progress.kino&quot;, {round = 12, parts = {&quot;plug&quot;, &quot;fuse&quot;}})
+local progress = saved.read(&quot;progress.kino&quot;)
+</code></pre>
+<p>Numbers, strings, booleans and tables of those are kept; functions, handles and loops are left out. Tables are stored as Lua table text in chunks (a settings line holds up to 4 KB).</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>saved.saveable(value, seen, depth)</code></td>
+<td>A copy of a value with only what can be saved (nil when nothing can).</td>
+</tr>
+<tr>
+<td><code>saved.encode(value)</code></td>
+<td>A saveable value as Lua text (keys sorted, so the same table gives the same text).</td>
+</tr>
+<tr>
+<td><code>saved.decode(text)</code></td>
+<td>The table a text from saved.encode holds, or nil.</td>
+</tr>
+<tr>
+<td><code>saved.write(key, value)</code></td>
+<td>Writes a table under a key of the mod&#39;s settings.</td>
+</tr>
+<tr>
+<td><code>saved.read(key)</code></td>
+<td>The table written under a key, or nil.</td>
+</tr>
+</tbody></table></div>
+<h3 id="bozhooks">boz.hooks</h3>
+<p>A map&#39;s hook scripts (the Game tab&#39;s Hooks list).</p>
+<pre><code class="language-lua">scripts/hooks/&lt;event&gt;.lua returns a function; it runs every time the event happens, with
+the event&#39;s data (see the Game tab or boz.prefabs for each event&#39;s data):
+</code></pre>
+<pre><code class="language-lua">  return function(data)
+      log(&quot;round &quot; .. data.round)
+  end
+</code></pre>
+<p>boz.world starts the hooks the build found (world_data.hooks: their event names).</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>hooks.start(names)</code></td>
+<td>Starts the hook scripts for these event names (each scripts/hooks/<event>.lua). Returns how many started; a script that fails to load is logged and skipped.</td>
+</tr>
+</tbody></table></div>
+<h3 id="bozgame">boz.game</h3>
+<p>The Game tab&#39;s rules a map needs at run time.</p>
+<pre><code class="language-lua">require(&quot;boz.game&quot;).start(data)   (boz.world calls it with the map&#39;s world_data.game)
+</code></pre>
+<p>Console variables (points at start, power-up drops and times, the score table, ...) are set just before the map&#39;s level loads (Level_Load, when the level manager has the level&#39;s name), and the game&#39;s own values come back when another level loads, so the map mod can stay enabled. Power on at start runs the game&#39;s SwitchPowerOn once the level has started. Repeating rounds&#39; health: the game hard-codes 10 x round^2 - 150 (CWaveRepeatable::GetZombieHealth); with grow_health the round&#39;s own data is used instead: health x health multiplier ^ (round - m_StartingWave).</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>game_rules.active()</code></td>
+<td>True while the map&#39;s own level is loaded (after start()).</td>
+</tr>
+<tr>
+<td><code>game_rules.start(data)</code></td>
+<td>Applies the map&#39;s rules (world_data.game: {cvars, power_on, grow_health, behaves_like, level}).</td>
+</tr>
+</tbody></table></div>
+<h3 id="bozlevels">boz.levels</h3>
+<p>Start levels (Zombies maps) without going through the menus.</p>
+<pre><code class="language-lua">levels.start(&quot;kino&quot;)      levels.autostart_from_settings()
+</code></pre>
+<details><summary>How it works</summary>
+
+<p>the front end&#39;s StartLevel console command starts a single-player match on a level by name (it sends the game&#39;s own start-game event). The command only works once the front end is running, so levels.start waits for the Flash menu&#39;s first ActionScript call and a short settling time. levels.autostart_from_settings reads a one-shot request from the mod&#39;s settings: the editor&#39;s Build &amp; Run writes it to start the level just saved.</p>
+</details>
+
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>levels.start(name)</code></td>
+<td>Starts a single-player match on the level (e.g. &quot;kino&quot;) once the front end is up. Call it while the mod&#39;s script starts; the match starts after the main menu appears.</td>
+</tr>
+<tr>
+<td><code>levels.autostart_from_settings()</code></td>
+<td>Starts the level a tool asked for, once: reads and clears the mod&#39;s &quot;autostart_level&quot; setting (the SDK&#39;s Build &amp; Run writes it), and its &quot;autostart_vars&quot; (&quot;Name=value;...&quot;), console variables set just before the level starts (e.g. UnlimitedHealth=true). Returns the level name or nil.</td>
+</tr>
+</tbody></table></div>
+<h2 id="engine-access">Engine access</h2>
+<h3 id="bozentities">boz.entities</h3>
+<p>Any entity of the game: find, spawn, move, inspect and remove.</p>
+<pre><code class="language-lua">local entities = require(&quot;boz.entities&quot;)
+local box = entities.find(&quot;MysteryBox_Lobby&quot;)
+print(entities.position(box).x, table.concat(entities.components(box), &quot;, &quot;))
+local zombie = entities.spawn(&quot;zombie_dog&quot;, {x = 0, y = 220, z = 0})
+for entity, health in entities.each(&quot;CHealth&quot;) do ... end
+entities.remove(zombie)
+</code></pre>
+<p>An entity is the game&#39;s object: an id (+4), a name, and components (one per class: CIsTransform for its place, CHealth, CAIControllerZombie, CPerk, ...) kept in one table per class (T::s_table, keyed by the entity id). boz.reflect reads and writes any component&#39;s fields by name.</p>
+<details><summary>How it works</summary>
+
+<p>CIsEntityDB::FindEntity(name hash) finds one by name (a global map); Spawn_ByHash creates one from any loaded entity spec (CIsEntitySpec, by name or hash) at a position and rotation; EntityDB_Destroy removes one (with its children, at the end of the frame); a component&#39;s entity is at component +0xc; a transform keeps its local position at +0xa8, rotation +0x98 (s x y z: the scalar first) and world position at +0x5c (CIsTransform::UpdateWorld refreshes it, Transform_SetDirty marks a change).</p>
+</details>
+
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>entities.find(name)</code></td>
+<td>The entity called <code>name</code> (or with that name hash) in the running level, or nil.</td>
+</tr>
+<tr>
+<td><code>entities.id(entity)</code></td>
+<td>An entity&#39;s id (+4).</td>
+</tr>
+<tr>
+<td><code>entities.record(entity)</code></td>
+<td>The entity&#39;s record in the entity database (what Entity_GetNameHash and the managers use), or nil once the entity is gone.</td>
+</tr>
+<tr>
+<td><code>entities.alive(id)</code></td>
+<td>True while the entity with this id is in the world (CIsEntityDB::GetEntity only reads the id at +4, so a removed entity&#39;s memory is never touched).</td>
+</tr>
+<tr>
+<td><code>entities.name_hash(entity)</code></td>
+<td>The hash of an entity&#39;s name (the key the score manager and navmesh tags use).</td>
+</tr>
+<tr>
+<td><code>entities.of_component(component)</code></td>
+<td>The entity a component belongs to.</td>
+</tr>
+<tr>
+<td><code>entities.spec_loaded(spec)</code></td>
+<td>True when an entity spec (name or hash) is in a loaded group, so it can spawn (Spawn_FindSpec).</td>
+</tr>
+<tr>
+<td><code>entities.spawn(spec, position, rotation)</code></td>
+<td>Spawns an entity spec (its name, &quot;0x...&quot; hash or hash) at a position {x, y, z} with a rotation {x, y, z, w} (default none). Returns the entity, or nil and why (the spec must be in a loaded group: a map project&#39;s build brings every spec its scripts name).</td>
+</tr>
+<tr>
+<td><code>entities.remove(entity)</code></td>
+<td>Removes an entity (and its children) at the end of the frame.</td>
+</tr>
+<tr>
+<td><code>entities.position(entity)</code></td>
+<td>The entity&#39;s world position {x, y, z} (game centimetres, y up), or nil without a transform.</td>
+</tr>
+<tr>
+<td><code>entities.set_position(entity, position)</code></td>
+<td>Moves the entity (its local position: the world position for an entity without a parent).</td>
+</tr>
+<tr>
+<td><code>entities.rotation(entity)</code></td>
+<td>The entity&#39;s rotation {x, y, z, w} (a quaternion), or nil.</td>
+</tr>
+<tr>
+<td><code>entities.set_rotation(entity, rotation)</code></td>
+<td>Turns the entity: a quaternion {x, y, z, w}, or a number (degrees about the vertical axis).</td>
+</tr>
+<tr>
+<td><code>entities.set_visible(entity, visible)</code></td>
+<td>Shows or hides the entity&#39;s own model (CIsRenderableModel::SetVisible: its collision and behaviour stay). Returns false when it has no model.</td>
+</tr>
+<tr>
+<td><code>entities.component(entity, class_name)</code></td>
+<td>The entity&#39;s component of a class (&quot;CHealth&quot;, &quot;CPerk&quot;, ...), or nil.</td>
+</tr>
+<tr>
+<td><code>entities.components(entity)</code></td>
+<td>The classes of the components an entity has (that the library knows a table for).</td>
+</tr>
+<tr>
+<td><code>entities.each(class_name)</code></td>
+<td>Iterates the entities with a component of a class: for entity, component in each(&quot;CHealth&quot;).</td>
+</tr>
+<tr>
+<td><code>entities.send(entity, event, a, b)</code></td>
+<td>Sends an event (a name such as &quot;SUBJECT_SPAWNPOINT_ACTIVATE&quot;, or an id) to one entity, the way hits and uses reach it (CIsBroadcaster::Send on its broadcaster). Returns false when the entity has no broadcaster.</td>
+</tr>
+<tr>
+<td><code>entities.nearest(class_name, position)</code></td>
+<td>The nearest entity with a component of a class to a position, its component and distance.</td>
+</tr>
+</tbody></table></div>
+<h3 id="bozcomponents">boz.components</h3>
+<p>Finding the game&#39;s entity components (helper for the other modules).</p>
+<p>Most mods use boz.player and friends instead. components.local_player() gives the local player&#39;s entity; components.on_player(table) or components.each(table) find components by the gamedef name of their table (e.g. &quot;CPerkManager::s_table&quot;).</p>
+<details><summary>How it works</summary>
+
+<p>component tables (T::s_table) keep components in a red-black tree keyed by entity id: header node pointer at table +4 (header +8 = first node), nodes link parent +4, left +8, right +0xc, key +0x10, component +0x14.</p>
+</details>
+
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>components.local_player()</code></td>
+<td>The local player&#39;s entity and its id, or nil outside a Zombies match (boz.map.player).</td>
+</tr>
+<tr>
+<td><code>components.table(name)</code></td>
+<td>The address of a component table by its gamedef name (&quot;CPerkManager::s_table&quot;) or class (&quot;CPerkManager&quot;), or nil when the game has no such table.</td>
+</tr>
+<tr>
+<td><code>components.find(table_name, id)</code></td>
+<td>The component of an entity id in a table (by gamedef name, e.g. &quot;CPerkManager::s_table&quot;, or class name).</td>
+</tr>
+<tr>
+<td><code>components.on_player(table_name)</code></td>
+<td>The component on the local player&#39;s entity, or nil.</td>
+</tr>
+<tr>
+<td><code>components.each(table_name)</code></td>
+<td>Iterates the components in a table (its gamedef name, or its address): for component, id in components.each(name) do ... end</td>
+</tr>
+</tbody></table></div>
+<h3 id="bozreflect">boz.reflect</h3>
+<p>Every reflected field of the game, by name.</p>
+<pre><code class="language-lua">local reflect = require(&quot;boz.reflect&quot;)
+local perk = reflect.component(entity, &quot;CPerk&quot;)       -- or an entity id, or an object handle
+print(reflect.get(perk, &quot;CPerk&quot;, &quot;m_perkSinglePCost&quot;))
+reflect.set(perk, &quot;CPerk&quot;, &quot;m_perkSinglePCost&quot;, 500)
+local waves = reflect.singleton(&quot;CWaveManager&quot;)      -- managers by class name
+for name, value in pairs(reflect.dump(perk, &quot;CPerk&quot;)) do print(name, value) end
+</code></pre>
+<p>The game describes its components and resources to its own reflection system (CIsClassInfo: 359 classes, their bases and fields with offset, size and type); boz/reflection_data.lua holds that description (tools/stdlib/generate_data.py, from the game definition). <a href="map-editor.html#game-prefab-fields">Game prefab fields</a> explains what the fields do.</p>
+<p>Types read: unsigned int, int, short, char, unsigned char, bool, float, CIwFVec3 {x, y, z}, CIwFQuat {x, y, z, w}, CIwColour {r, g, b, a}, string (std::string: its characters&#39; pointer first), NetworkProperty<T> (the value at +4; writing marks it changed at +8), vector<T> (begin, end), list<T> (header pointer; nodes: next, previous, value at +8), enums (unsigned int), CIsTimer, bitset (raw bits). Containers and strings are read-only.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>reflect.class(name)</code></td>
+<td>The class description {bases = {{name, offset}}, fields = {[name] = {offset, size, type}}}, or nil.</td>
+</tr>
+<tr>
+<td><code>reflect.classes()</code></td>
+<td>Every reflected class name, sorted.</td>
+</tr>
+<tr>
+<td><code>reflect.fields(class_name)</code></td>
+<td>Every field of a class with its bases&#39; fields: {[name] = {offset, size, type, class}}.</td>
+</tr>
+<tr>
+<td><code>reflect.get(object, class_name, field)</code></td>
+<td>A field&#39;s value on an object (a pointer to an instance of the class or a subclass), or nil and why.</td>
+</tr>
+<tr>
+<td><code>reflect.set(object, class_name, field, value)</code></td>
+<td>Sets a field (numbers, booleans, {x, y, z} vectors, NetworkProperty values). Returns true, or false and why.</td>
+</tr>
+<tr>
+<td><code>reflect.dump(object, class_name)</code></td>
+<td>Every field&#39;s value: {[field] = value}.</td>
+</tr>
+<tr>
+<td><code>reflect.component(target, class_name)</code></td>
+<td>The component of class <code>class_name</code> on an entity (its pointer, {id = entity id}, or a boz.objects / boz.effects handle), or nil.</td>
+</tr>
+<tr>
+<td><code>reflect.singleton(class_name)</code></td>
+<td>A manager by class name (&quot;CWaveManager&quot;, &quot;CPickupManager&quot;, ...): its singleton, or nil.</td>
+</tr>
+<tr>
+<td><code>reflect.singletons()</code></td>
+<td>Every singleton class name the library knows, sorted.</td>
+</tr>
+</tbody></table></div>
+<h3 id="bozresources">boz.resources</h3>
+<p>The game&#39;s loaded resources (anything in the loaded .group files) by name.</p>
+<pre><code class="language-lua">local wave = resources.find(&quot;wave1&quot;, &quot;CWave&quot;)           -- a round&#39;s settings
+require(&quot;boz.reflect&quot;).get(wave, &quot;CWave&quot;, &quot;m_ZombieCount&quot;)
+resources.find(&quot;BOGravity&quot;, &quot;CAchievement&quot;)              -- an achievement
+resources.group(&quot;ingame&quot;)                                -- a loaded group
+</code></pre>
+<p>Types are the game&#39;s resource class names: CWave, CLevel, CZombieConfiguration, CIsEntitySpec, CIwModel, CIwTexture, CIwMaterial, CIwSoundSpec, CIwSoundData, CSoundSequence, CAchievement, CScoreConfig, ... Reflected ones (CIsReflectedResource: waves, levels, zombie configurations, score tables, ...) are readable and writable with boz.reflect by their class; a change lasts until the group loads again.</p>
+<details><summary>How it works</summary>
+
+<p>the Marmalade resource manager (its pointer at image +0x492b10) finds resources in every loaded group: CIwResManager_GetResNamed(manager, name, type, flags) and CIwResManager_GetResHashed(manager, hash, type, flags); CIwResManager_GetGroupNamed(manager, name) a loaded group.</p>
+</details>
+
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>resources.manager()</code></td>
+<td>The resource manager, or nil before the game set it up.</td>
+</tr>
+<tr>
+<td><code>resources.find(name, type_name)</code></td>
+<td>A loaded resource by name (or hash, or &quot;0x...&quot; hash) and type, or nil.</td>
+</tr>
+<tr>
+<td><code>resources.loaded(name, type_name)</code></td>
+<td>True when a resource of that name and type is loaded.</td>
+</tr>
+<tr>
+<td><code>resources.group(name)</code></td>
+<td>A loaded group by name (&quot;ingame&quot;, &quot;kino_statics&quot;, ...), or nil.</td>
+</tr>
+<tr>
+<td><code>resources.hash(name)</code></td>
+<td>The hash the game names resources by (IwHashString).</td>
+</tr>
+</tbody></table></div>
+<h3 id="bozphysics">boz.physics</h3>
+<p>Ray casts against the world and everything in it.</p>
+<pre><code class="language-lua">local hit = physics.raycast(from, to)          -- {position, normal, entity} or nil
+physics.ground(position)                       -- the floor under a position (its y), or nil
+physics.line_of_sight(a, b)                    -- true when nothing is between two points
+</code></pre>
+<p>Positions are {x, y, z} in game centimetres (y up). <code>filter</code> chooses what the ray can hit (collision groups as bits; default 0xffffffef: everything but triggers, like bullets).</p>
+<details><summary>How it works</summary>
+
+<p>Physics_RayCastAll(from, to, outList, filter, mask) casts through the Bullet world (CIsBulletWorld) and fills a list (STLport: the list object points at a sentinel node; nodes link next +0, previous +4) with every hit: node +8 position, +0x14 normal, +0x20 entity, +0x24 shape, +0x28 distance squared, +0x2c material, sorted nearest first. Nodes and the sentinel come from the game&#39;s operator new and go back to its operator delete (list::sort swaps sentinels, so the list&#39;s own must be the game&#39;s). Physics_RayCast (nine arguments) is what the game&#39;s own code uses for the first hit.</p>
+</details>
+
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>physics.raycast_all(from, to, filter)</code></td>
+<td>Every hit of a ray from <code>from</code> to <code>to</code>, nearest first: {{position, normal, entity}, ...}.</td>
+</tr>
+<tr>
+<td><code>physics.raycast(from, to, filter)</code></td>
+<td>Casts a ray from <code>from</code> to <code>to</code>. Returns {position, normal, entity} of the first hit, or nil.</td>
+</tr>
+<tr>
+<td><code>physics.ground(position, depth)</code></td>
+<td>The floor&#39;s height (y) under a position, looking down <code>depth</code> centimetres (default 2000).</td>
+</tr>
+<tr>
+<td><code>physics.line_of_sight(a, b)</code></td>
+<td>True when the world blocks nothing between two points.</td>
+</tr>
+</tbody></table></div>
+<h3 id="bozgame_events">boz.game_events</h3>
+<p>Every event the game sends itself (its SUBJECT_* observer events).</p>
+<pre><code class="language-lua">local game_events = require(&quot;boz.game_events&quot;)
+game_events.on(&quot;SUBJECT_ZOMBIE_DEATH&quot;, function(e) log(&quot;a zombie died&quot;) end)
+game_events.on(&quot;power_switch_on&quot;, function(e) ... end)      -- the SUBJECT_ prefix is optional
+game_events.send(subject, &quot;SUBJECT_NUKE_NOW&quot;)               -- send one yourself
+</code></pre>
+<p>Handlers get {name, id, subject, sender, a, b}: the subject that sent it (a CIsSubject inside a manager or component), the object it is on behalf of, and the event&#39;s two arguments (their meaning is per event: <a href="game-events.html">Game events</a>). A handler that returns true stops the event (no observer gets it): use with care. Most events reach several subjects (the sender&#39;s, then the managers&#39; that pass it on); on()&#39;s dedupe options call a handler once per event.</p>
+<details><summary>How it works</summary>
+
+<p>every event passes through CIsSubject::Dispatch(subject, event, a, b, sender), which calls the observers subscribed to it; this hooks Dispatch while anything listens (a hook costs nothing while no handler is set). Names: boz/event_names.lua (the game definition&#39;s 337 events); ids are the name&#39;s IwHashString.</p>
+</details>
+
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>game_events.id(name)</code></td>
+<td>The id of an event name (&quot;SUBJECT_ZOMBIE_DEATH&quot;, or without the SUBJECT_ prefix).</td>
+</tr>
+<tr>
+<td><code>game_events.name(id)</code></td>
+<td>The name of an event id, or its id as &quot;0x...&quot; when the game definition does not name it.</td>
+</tr>
+<tr>
+<td><code>game_events.list()</code></td>
+<td>Every event name the library knows, sorted.</td>
+</tr>
+<tr>
+<td><code>game_events.on(name, fn, options)</code></td>
+<td>Calls fn(event) every time the game sends the event (a name, or &quot;*&quot; for every event: slow, for exploring). Options: dedupe_frames (call fn once for an event that reaches several subjects: the same event within this many frames is skipped; math.huge: once ever), dedupe_key (fn(event) -&gt; what makes two events the same; default its two arguments). Returns a handle for off().</td>
+</tr>
+<tr>
+<td><code>game_events.off(handle)</code></td>
+<td>Stops a handler on() returned.</td>
+</tr>
+<tr>
+<td><code>game_events.send(subject, name, a, b, c)</code></td>
+<td>Sends an event from a subject (a CIsSubject address: a manager&#39;s or component&#39;s subject) with its two arguments, the way the game does (CIsSubject::NotifyVirtual).</td>
+</tr>
+</tbody></table></div>
+<h3 id="bozspawns">boz.spawns</h3>
+<p>The zombies&#39; spawn points (Zombies mode).</p>
+<pre><code class="language-lua">for point in spawns.each() do log(point:position().x) end
+spawns.set_active(point, false)          zombies stop coming out there
+spawns.nearest(position)
+</code></pre>
+<p>A spawn point handle: point.entity, point.component, point:position(), point:get(field) (CSpawnPoint: m_StartActive, spawntype, users), point:active(), point:set_active(on).</p>
+<details><summary>How it works</summary>
+
+<p>every spawn point is an entity with a CSpawnPoint; opening an area&#39;s door sends its spawn points SUBJECT_SPAWNPOINT_ACTIVATE (DEACTIVATE closes them), which CSpawnPoint::OnEvent turns into the active flag at +0x34; CWaveManager spawns zombies at active points.</p>
+</details>
+
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Point:position()</code></td>
+<td>Its position {x, y, z}.</td>
+</tr>
+<tr>
+<td><code>Point:get(field)</code></td>
+<td>A field of its CSpawnPoint.</td>
+</tr>
+<tr>
+<td><code>Point:active()</code></td>
+<td>True while zombies can come out here.</td>
+</tr>
+<tr>
+<td><code>Point:set_active(on)</code></td>
+<td>Lets zombies come out here (true) or not (false).</td>
+</tr>
+<tr>
+<td><code>spawns.each()</code></td>
+<td>Iterates the spawn points: for point in spawns.each() do ... end</td>
+</tr>
+<tr>
+<td><code>spawns.active()</code></td>
+<td>The spawn points zombies can come out of now.</td>
+</tr>
+<tr>
+<td><code>spawns.list()</code></td>
+<td>Every spawn point, as a list.</td>
+</tr>
+<tr>
+<td><code>spawns.set_active(point, on)</code></td>
+<td>Switches a spawn point (a handle or entity) on or off.</td>
+</tr>
+<tr>
+<td><code>spawns.nearest(position)</code></td>
+<td>The spawn point nearest a position and its distance.</td>
+</tr>
+</tbody></table></div>
+<h3 id="bozaudio">boz.audio</h3>
+<p>Sounds, sound sequences and music.</p>
+<pre><code class="language-lua">audio.play(&quot;gersch_opens&quot;, position)       a sound (spec) by name, at a place or everywhere
+audio.sequence(&quot;dog_wave_start&quot;)           a sequence (voice lines, stings, wave starts)
+audio.music(&quot;115.mp3&quot;, {loop = true})      a music track from blackops-music
+audio.pause_music()  audio.resume_music()  audio.music_volume(0.5)
+</code></pre>
+<p>Music tracks (assets/blackops-music): 115.mp3, a7x.mp3, abracadavre.mp3, mus_theatre_underscore.mp3, mus_gameover.mp3, mus_game_over_element_115.mp3 and the perk and Pack-a-Punch stings (mus_jugganog_sting.mp3, mus_revive_sting.mp3, ...). A map ships its own music by putting an .mp3 in its mod&#39;s assets (it replaces one of the same name).</p>
+<details><summary>How it works</summary>
+
+<p>CIwSoundManager::Play(manager, spec hash, position, 0, 0) plays a sound spec (positioned when a position {x, y, z} in whole centimetres is given); CSoundSequenceManager::Play (manager, hash, 0x1000, 0) runs a CSoundSequence; Music_Play(CMusicManager, path, repeat, now, volume, lock) streams an mp3 (now: switch at once instead of fading; lock: nothing else may change the music until it ends), Music_Pause / Music_Resume (s3eAudio), Music_SetVolume (+0xb0, 0-256). The music&#39;s current track hash is at +4.</p>
+</details>
+
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>audio.play(name, position)</code></td>
+<td>Plays a sound spec by name or hash; at a position {x, y, z} when given. Returns true.</td>
+</tr>
+<tr>
+<td><code>audio.sequence(name)</code></td>
+<td>Runs a sound sequence by name or hash (wave starts, announcer lines, stings).</td>
+</tr>
+<tr>
+<td><code>audio.music(file, options)</code></td>
+<td>Plays a music track (a file of blackops-music, e.g. &quot;115.mp3&quot;). Options: loop (repeat it), fade (fade from the current track instead of switching at once), volume (0-1, default 1), lock (nothing else changes the music until it ends).</td>
+</tr>
+<tr>
+<td><code>audio.music_track()</code></td>
+<td>The hash of the music track playing (IwHashString of its path), or 0.</td>
+</tr>
+<tr>
+<td><code>audio.pause_music()</code></td>
+<td>Pauses the music.</td>
+</tr>
+<tr>
+<td><code>audio.resume_music()</code></td>
+<td>Resumes the music.</td>
+</tr>
+<tr>
+<td><code>audio.music_volume(volume)</code></td>
+<td>Sets the music volume (0-1).</td>
+</tr>
+</tbody></table></div>
+<h3 id="bozscreen">boz.screen</h3>
+<p>Full-screen effects and fog.</p>
+<pre><code class="language-lua">screen.effect(&quot;nuke&quot;)                     the nuke&#39;s white flash
+screen.effect(&quot;shockEffect&quot;, 2000)        Kino&#39;s electric shock, for 2 seconds
+screen.fog(&quot;Monkeys&quot;)                     a fog config (the level&#39;s or one a round uses)
+</code></pre>
+<p>Full-screen effects (CFullscreenFXConfig resources): nuke (every map), shockEffect and crawler_gas (Kino), lazarus and romeroElectricutionEffect (Call of the Dead). Fogs (CIwFogConfig, misc group): KINO, Ascension, Monkeys, callofthedead and the level&#39;s others. A map project&#39;s build brings any effect or fog its scripts name from another map.</p>
+<details><summary>How it works</summary>
+
+<p>CFullscreenFXManager (singleton) plays one when it gets its play event (id kept at image +0x4672f0) with the config&#39;s name hash and a display time (0: the config&#39;s own): materials fade in, show and fade out (m_FadeTime, m_DurationTime, m_InitialDelay). Fog: the SwitchFog command (CVFXManager, CIwFogManager).</p>
+</details>
+
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>screen.effect(name, ms)</code></td>
+<td>Plays a full-screen effect by name (or hash) for <code>ms</code> milliseconds (default: its own time). Returns false when the effect is not loaded.</td>
+</tr>
+<tr>
+<td><code>screen.fog(name)</code></td>
+<td>Switches the fog to a fog config by name.</td>
+</tr>
+</tbody></table></div>
+<h3 id="bozhud">boz.hud</h3>
+<p>The in-game HUD&#39;s elements.</p>
+<pre><code class="language-lua">hud.set_visible(&quot;Insta_Kill_Image&quot;, true)       hud.hide(&quot;Clip_Label&quot;)
+hud.ELEMENTS                                    the HUD&#39;s named elements
+hud.message(&quot;The power is on&quot;, 3)               a line of text for 3 seconds
+</code></pre>
+<p>Elements (IwUI, found by name): the power-up icons and labels (Insta_Kill_Image, Double_Points, Fire_Sale, Death_Machine; _Image and _Label), the perk icons (Perk_Juggernog_Image, ...), Clip_Label, Grenade_Label, Low_Ammo_Label, No_Ammo_Label, Headshot_Image/Label, Being_Revived_Label. Text on the screen: boz.text (strings) and boz.iwui (any element).</p>
+<details><summary>How it works</summary>
+
+<p>HUD_SetElementVisible(name, visible) finds the element in the current page (CUIPageManager::FindElement), shows or hides it (CIwUIElement::SetVisible) and makes it opaque; the power-up code calls it with the icon names.</p>
+</details>
+
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>hud.set_visible(name, visible)</code></td>
+<td>Shows or hides a HUD element by name (the game shows and hides its own as things happen).</td>
+</tr>
+<tr>
+<td><code>hud.show(name)</code></td>
+<td>Shows a HUD element.</td>
+</tr>
+<tr>
+<td><code>hud.hide(name)</code></td>
+<td>Hides a HUD element.</td>
+</tr>
+<tr>
+<td><code>hud.message(text, seconds, x, y)</code></td>
+<td>Shows a line of text in the HUD&#39;s font for <code>seconds</code> (default 3; a new message replaces the last), where the game writes &quot;Reviving&quot; (left of the crosshair), or at <code>x, y</code> (screen pixels, its left edge). Returns false outside a match.</td>
+</tr>
+<tr>
+<td><code>hud.clear_message()</code></td>
+<td>Hides the message now.</td>
+</tr>
+</tbody></table></div>
+<h3 id="bozstats">boz.stats</h3>
+<p>The player&#39;s statistics and achievements.</p>
+<pre><code class="language-lua">stats.get(&quot;STAT_ZOMBIESKILLED&quot;)     stats.add(&quot;STAT_HEADSHOTS&quot;, 1)
+stats.unlock(&quot;BOGravity&quot;)           stats.progress(&quot;BOWhackAZombie&quot;)  -&gt; current, target
+</code></pre>
+<p>Stats: STAT_ZOMBIESKILLED, STAT_HEADSHOTS, STAT_REVIVED, STAT_COMRADESREVIVED, STAT_PLAYERDEATHS, STAT_POINTSSPENT, STAT_WAVES (this match) and their _TOTAL forms (all time). Achievements are CAchievement resources by name (BOGravity, BOWhackAZombie, BOEagleLanded, ...).</p>
+<details><summary>How it works</summary>
+
+<p>CStatsManager (singleton) keeps a map per mode (Stats_GetMode: 1 Zombies, 2 Dead Ops) from a stat&#39;s name hash to its value: Stats_Get(manager, name), Stats_Add(manager, mode, hash, delta). Achievements are CAchievement resources (boz.resources): target at +0x24, progress +0x28, enabled +0x36; Achievement_SetProgress clamps, unlocks at the target and saves (CAchievementDB).</p>
+</details>
+
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>stats.get(name)</code></td>
+<td>A stat&#39;s value (this mode&#39;s), or nil when the game has no stats manager.</td>
+</tr>
+<tr>
+<td><code>stats.add(name, amount)</code></td>
+<td>Adds to a stat. Returns the new value.</td>
+</tr>
+<tr>
+<td><code>stats.all()</code></td>
+<td>Every stat: {[name] = value}.</td>
+</tr>
+<tr>
+<td><code>stats.progress(name)</code></td>
+<td>An achievement&#39;s progress and target, or nil when the game has no such achievement.</td>
+</tr>
+<tr>
+<td><code>stats.set_progress(name, value)</code></td>
+<td>Sets an achievement&#39;s progress (the target unlocks it, and the game saves).</td>
+</tr>
+<tr>
+<td><code>stats.unlock(name)</code></td>
+<td>Unlocks an achievement.</td>
+</tr>
+<tr>
+<td><code>stats.unlocked(name)</code></td>
+<td>True once an achievement is unlocked.</td>
+</tr>
+</tbody></table></div>
+<h3 id="bozsaves">boz.saves</h3>
+<p>The game&#39;s saves.</p>
+<pre><code class="language-lua">saves.save()                 saves the match now (as the round-start autosave does)
+saves.on_save(fn)            fn() when the game writes its save (every system adds its part)
+saves.on_load(fn)            fn() when a saved match is continued
+</code></pre>
+<p>A script&#39;s own state: boz.globals / script globals are saved with the game (boz.prefabs). Saving on pause and on suspend: the SaveOnPause and SaveOnSuspend variables (boz.cvars).</p>
+<details><summary>How it works</summary>
+
+<p>CSaveManager::AutoSave writes the in-game save (SaveGame: SUBJECT_SAVE to every system, then <slot>_save_game.i3d) and the profile and stats; a continued match sends SUBJECT_LOAD (CSaveManager::NotifyLoad) and every system reads its section back.</p>
+</details>
+
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>saves.save()</code></td>
+<td>Saves the match now (single player). Returns false outside a match.</td>
+</tr>
+<tr>
+<td><code>saves.on_save(fn)</code></td>
+<td>Calls fn() whenever the game writes its save. Returns a handle (boz.game_events.off).</td>
+</tr>
+<tr>
+<td><code>saves.on_load(fn)</code></td>
+<td>Calls fn() when a saved match is continued.</td>
+</tr>
+</tbody></table></div>
+<h3 id="boznetwork">boz.network</h3>
+<p>Co-op state.</p>
+<pre><code class="language-lua">network.host()          true when this game runs the match (single player too)
+network.wifi()          true for local Wi-Fi co-op
+network.players()       the other players in the match: {entity, ...}
+</code></pre>
+<details><summary>How it works</summary>
+
+<p>CGameNetwork (singleton) +0x54 is the host flag the gameplay code checks (only the host spawns zombies, counts kills, drops power-ups; the others follow its NetworkProperty fields and network events); CGameNetwork::IsWifiMode is the Bonjour TCP configuration; other players are entities with a CRemotePlayer (their weapons CRemotePlayerWeapon, perks CRemotePerkManager). The online services (DemonWare) are not used by BOZ Redux.</p>
+</details>
+
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>network.host()</code></td>
+<td>True when this game runs the match.</td>
+</tr>
+<tr>
+<td><code>network.wifi()</code></td>
+<td>True for local Wi-Fi co-op.</td>
+</tr>
+<tr>
+<td><code>network.players()</code></td>
+<td>The other players: a list of their entities.</td>
+</tr>
+</tbody></table></div>
+<h2 id="controls">Controls</h2>
+<h3 id="bozinput">boz.input</h3>
+<p>The player&#39;s controls during a Zombies match: watch, change or send the game&#39;s actions.</p>
+<pre><code class="language-lua">local input = require(&quot;boz.input&quot;)
+input.on_action(&quot;melee&quot;, function(down)
+    log(&quot;knife &quot; .. (down and &quot;pressed&quot; or &quot;released&quot;))
+end)
+input.send(&quot;reload&quot;)
+</code></pre>
+<p>Actions: shoot, aim, reload, use, melee, grenade, tactical, crouch, fire_mode, switch_weapon. They are the game&#39;s own actions, whatever keys the player bound to them.</p>
+<details><summary>How it works</summary>
+
+<p>the client sends the player&#39;s key presses straight to the game&#39;s input (native controls) and raises the &quot;action&quot; event first; a handler that returns true keeps the action from the game. Dead Ops Arcade still uses the touchpad path and raises no actions.</p>
+</details>
+
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>M.ACTIONS</code></td>
+<td>The action names.</td>
+</tr>
+<tr>
+<td><code>M.on_action(name, fn)</code></td>
+<td>Calls fn(down) when the player presses (true) or releases (false) the action. If fn returns true the game does not get it. Several handlers may watch one action; any one returning true keeps it from the game.</td>
+</tr>
+<tr>
+<td><code>M.send(name, down)</code></td>
+<td>Sends an action to the game as if its button was pressed (down = true, the default) or released. Handlers from on_action do not see it.</td>
+</tr>
+<tr>
+<td><code>M.held(name)</code></td>
+<td>True while the player holds the action&#39;s key or button.</td>
+</tr>
+<tr>
+<td><code>M.aiming()</code></td>
+<td>True while the player is aiming down sights (approximate: it can miss aiming in some states).</td>
+</tr>
+<tr>
+<td><code>M.native()</code></td>
+<td>True when the client sends controls straight to the game (actions work); false with the old touchpad controls.</td>
+</tr>
+</tbody></table></div>
+<h2 id="console">Console</h2>
+<h3 id="bozconsole">boz.console</h3>
+<p>The game&#39;s developer console.</p>
+<pre><code class="language-lua">local console = require(&quot;boz.console&quot;)
+console.set(&quot;WeaponsUnlimitedAmmo&quot;, true)
+print(console.exec(&quot;listVars Unlimited&quot;))
+</code></pre>
+<p>Runs console lines, reads and sets console variables (cvars), registers new ones, and passes on everything the console prints. Every variable and command is listed in the <a href="console-reference.html">console reference</a>.</p>
+<details><summary>How it works</summary>
+
+<p>the release build kept the console (CIwConsole, g_console) but no display, so Console_Print has nowhere to send text. This module hooks Console_Print and wraps the console&#39;s own functions (Console_Execute, Console_FindVar, Cvar_Register*).</p>
+</details>
+
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>console.ready()</code></td>
+<td>True once the game created its console (from the first frame on, in practice).</td>
+</tr>
+<tr>
+<td><code>console.print(text)</code></td>
+<td>Prints a line on the game&#39;s console (the Developer console shows it).</td>
+</tr>
+<tr>
+<td><code>console.on_output(fn)</code></td>
+<td>Calls fn(text) for every line the console prints.</td>
+</tr>
+<tr>
+<td><code>console.exec(line)</code></td>
+<td>Runs a console line as if typed. Returns what it printed, or nil and an error.</td>
+</tr>
+<tr>
+<td><code>console.get(name)</code></td>
+<td>A console variable&#39;s value as text, or nil when the game has not registered it.</td>
+</tr>
+<tr>
+<td><code>console.set(name, value)</code></td>
+<td>Sets a registered variable from text (numbers and booleans are converted). Returns the value the game kept, or nil and an error.</td>
+</tr>
+<tr>
+<td><code>console.register(name, value, kind)</code></td>
+<td>Registers a variable with the game (if it does not exist yet) and sets it. kind: bool, int, float or string; guessed from the value when omitted. Makes values the game only reads, like StartingScore, take effect. Returns the value and the kind used.</td>
+</tr>
+<tr>
+<td><code>console.vars()</code></td>
+<td>Every known variable: {name, type, default, used_by, lookup_only}.</td>
+</tr>
+<tr>
+<td><code>console.commands()</code></td>
+<td>Every known command: {name, id, owner}.</td>
+</tr>
+</tbody></table></div>
+<h3 id="bozcvars">boz.cvars</h3>
+<p>Every console variable of the game, typed, with its default and what it does.</p>
+<pre><code class="language-lua">cvars.get(&quot;SprintSpeed&quot;)            -&gt; 1.85 (a number, boolean or string by its type)
+cvars.set(&quot;SprintSpeed&quot;, 3)         registers it when the game has not yet, then sets it
+cvars.reset(&quot;SprintSpeed&quot;)          back to the game&#39;s default
+cvars.info(&quot;SprintSpeed&quot;)           {type, default, note}
+cvars.find(&quot;Zombie&quot;)                every variable whose name has &quot;Zombie&quot; in it
+cvars.commands()                    every command {name, args, note}
+</code></pre>
+<p>664 variables: the player (WalkSpeed, SprintSpeed, PlayerStartWeapon, ...), zombies (AI*, Zombie*), rounds (StartWaveOnStart, StaggerStartingZombies, ...), power-ups (Pickup*, <em>Time), the HUD (HUD</em>), Dead Ops (do*), the camera, sound, saves and debug. The <a href="console-reference.html">console reference</a> lists them all. Changes last for the session; the Game tab sets a map&#39;s own (only on that map).</p>
+<details><summary>How it works</summary>
+
+<p>boz.console registers and sets them (CIwConsole); boz/cvar_data.lua is the game definition&#39;s catalog (tools/stdlib/generate_data.py) with the notes of tools/symbols/console_notes.toml.</p>
+</details>
+
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>cvars.info(name)</code></td>
+<td>What the library knows of a variable: {type, default, note}, or nil.</td>
+</tr>
+<tr>
+<td><code>cvars.get(name)</code></td>
+<td>A variable&#39;s value (by its type), or nil when the game has not registered it.</td>
+</tr>
+<tr>
+<td><code>cvars.set(name, value)</code></td>
+<td>Sets a variable (registering it first when the game has not: values the game only reads, like StartingScore, then take effect). Returns the value kept.</td>
+</tr>
+<tr>
+<td><code>cvars.reset(name)</code></td>
+<td>Sets a variable back to the game&#39;s default.</td>
+</tr>
+<tr>
+<td><code>cvars.find(text)</code></td>
+<td>Every variable whose name contains <code>text</code> (any case), sorted: {name, ...}.</td>
+</tr>
+<tr>
+<td><code>cvars.all()</code></td>
+<td>Every variable name, sorted.</td>
+</tr>
+<tr>
+<td><code>cvars.commands()</code></td>
+<td>Every command: {{name, args, note}, ...}, sorted by name.</td>
+</tr>
+<tr>
+<td><code>cvars.run(name, ...)</code></td>
+<td>Runs a command with arguments (as typed in the console). Returns what it printed.</td>
+</tr>
+</tbody></table></div>
+<h2 id="menus-and-text">Menus and text</h2>
+<h3 id="bozpause_settings">boz.pause_settings</h3>
+<p>Settings in the game&#39;s pause menu (Settings page, CIngameStateOptions).</p>
+<pre><code class="language-lua">local pause_settings = require(&quot;boz.pause_settings&quot;)
+pause_settings.add_slider{id = &quot;fov&quot;, label = &quot;Field of view&quot;, min = 50, max = 120, step = 1,
+                          get = function() return value end, set = function(v) ... end}
+pause_settings.add_checkbox{id = &quot;aim_toggle&quot;, label = &quot;Toggle aim&quot;,
+                            get = function() return on end, set = function(on) ... end}
+</code></pre>
+<p>Call these when the mod&#39;s script starts. Each time the page opens, the rows are added in the order they were registered, stacked in the free column right of the game&#39;s sliders, styled exactly like the game&#39;s own (they are copies of its widgets).</p>
+<details><summary>How it works</summary>
+
+<p>the page is one flat IwUI panel. A slider row is copied from the detail level row (bar image, slider, title label), a checkbox row from the auto aim row (label, box, cross, button). Copies keep the original&#39;s slot (OnLODChanged, OnAutoAim); hooks on those slots take the events that come from a copy and leave the game&#39;s own alone. Labels show a string id registered with boz.text.</p>
+</details>
+
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>pause_settings.add_slider(spec)</code></td>
+<td>Adds a slider. spec: id, label, min, max, step (optional), get() -&gt; number, set(number).</td>
+</tr>
+<tr>
+<td><code>pause_settings.add_checkbox(spec)</code></td>
+<td>Adds a checkbox. spec: id, label, get() -&gt; boolean, set(boolean).</td>
+</tr>
+</tbody></table></div>
+<h3 id="boztext">boz.text</h3>
+<p>Adding text to the game&#39;s string table.</p>
+<pre><code class="language-lua">text.add(&quot;S_MYMOD_TITLE&quot;, &quot;My setting&quot;)
+iwui.set_text_id(label, &quot;S_MYMOD_TITLE&quot;)
+</code></pre>
+<p>The game shows text by string id (like S_MENU_MUSIC) in the current language. text.add registers an id of the mod&#39;s own; use it wherever the game takes a string id.</p>
+<details><summary>How it works</summary>
+
+<p>menus and labels hash the id and ask Localise_GetString for the text; a hook answers for the mod&#39;s ids.</p>
+</details>
+
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>text.cstring(value)</code></td>
+<td>The address of a zero-terminated copy of a text in game memory, for game functions that keep the pointer (labels, prompts). The same text gives the same address; it is never freed.</td>
+</tr>
+<tr>
+<td><code>text.add(id, value)</code></td>
+<td>Adds (or replaces) the text for a string id. Returns the id&#39;s hash.</td>
+</tr>
+</tbody></table></div>
+<h2 id="game-ui-building-blocks">Game UI building blocks</h2>
+<h3 id="boziwui">boz.iwui</h3>
+<p>The in-game menus (Marmalade IwUI pages, e.g. the pause menu).</p>
+<pre><code class="language-lua">local slider = iwui.find(&quot;musicSlider&quot;)
+local copy = iwui.clone(slider)
+iwui.add_child(iwui.parent(slider), copy)
+iwui.set_position(copy, 800, 300)
+</code></pre>
+<p>Find elements by name, walk and dump a page, copy and place widgets, set labels, slider values and visibility. boz.pause_settings is built on it; use that for settings rows.</p>
+<details><summary>How it works</summary>
+
+<p>pages are trees of elements shown by CUIPageManager. Element layout: +4 name hash, +0x18 parent, +0x1c children (data, +0x20 count), +0x34 event handlers, +0x48/+0x4c slots, +0x5c position, +0x64 size, +0x8c layout, +0xa0 properties. Widgets call named slots on their page&#39;s event handler (a slider&#39;s OnSliderChanged calls e.g. CIngameStateOptions::OnMusicChanged with itself as the element).</p>
+</details>
+
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>iwui.find(name)</code></td>
+<td>The element with this name on the current page, or nil.</td>
+</tr>
+<tr>
+<td><code>iwui.parent(element)</code></td>
+<td>The element&#39;s parent, or nil.</td>
+</tr>
+<tr>
+<td><code>iwui.children(element)</code></td>
+<td>The element&#39;s children (list of addresses).</td>
+</tr>
+<tr>
+<td><code>iwui.class_name(element)</code></td>
+<td>The element&#39;s C++ class (from its RTTI), e.g. &quot;CIwUISlider&quot;.</td>
+</tr>
+<tr>
+<td><code>iwui.name_hash(element)</code></td>
+<td>The hash of the element&#39;s name (compare with boz.hash.name).</td>
+</tr>
+<tr>
+<td><code>iwui.rect(element)</code></td>
+<td>Position and size in the parent (pixels): +0x5c/+0x60 position, +0x64/+0x68 size.</td>
+</tr>
+<tr>
+<td><code>iwui.set_position(element, x, y)</code></td>
+<td>Moves an element within its parent.</td>
+</tr>
+<tr>
+<td><code>iwui.is_named(element, name)</code></td>
+<td>True if the element&#39;s name is name.</td>
+</tr>
+<tr>
+<td><code>iwui.clone(element)</code></td>
+<td>A deep copy of an element (not yet on any page; add it with add_child).</td>
+</tr>
+<tr>
+<td><code>iwui.add_child(parent, child)</code></td>
+<td>Adds an element to a parent (and to the parent&#39;s layout, if it has one).</td>
+</tr>
+<tr>
+<td><code>iwui.set_name(element, name)</code></td>
+<td>Renames an element (CIwManaged::SetName, vtable slot 9) so FindElement finds it.</td>
+</tr>
+<tr>
+<td><code>iwui.set_visible(element, visible)</code></td>
+<td>Shows or hides an element.</td>
+</tr>
+<tr>
+<td><code>iwui.set_caption(label, text)</code></td>
+<td>Sets a label&#39;s text. SetCaption only stores the &quot;caption&quot; property and skips the redraw in some states, so the label is also told the property changed (vtable +0xb8).</td>
+</tr>
+<tr>
+<td><code>iwui.set_text_id(label, id)</code></td>
+<td>Points a label at a string id (boz.text.add, or one of the game&#39;s like S_MENU_MUSIC). The game&#39;s labels show their localiseCaption string id rather than their caption. Changes only the label&#39;s own property (not one shared through its style). Returns false if it has none.</td>
+</tr>
+<tr>
+<td><code>iwui.set_value(slider, value)</code></td>
+<td>Sets a slider&#39;s value (0..4096 on the game&#39;s sliders); calls its OnSliderChanged slot.</td>
+</tr>
+<tr>
+<td><code>iwui.find_in(element, test, depth)</code></td>
+<td>The first descendant (depth first) for which test(element) is true.</td>
+</tr>
+<tr>
+<td><code>iwui.dump(element, names, depth)</code></td>
+<td>Logs the element tree under element (class, name, children); names resolves known names.</td>
+</tr>
+</tbody></table></div>
+<h3 id="bozfrontend">boz.frontend</h3>
+<p>Changing the main menu (front end), one Flash movie played by gameswf.</p>
+<p>Building blocks for mods that change main-menu screens; higher-level helpers (adding widgets to a screen) will grow here. frontend.patch_screen adds ActionScript (built with boz.avm1) to a screen; frontend.call runs one of the movie&#39;s ActionScript functions.</p>
+<details><summary>How it works</summary>
+
+<p>ActionScript talks to the game with _root.sendMsg(name, a, b), which the native IsSendMessage turns into the active CFlashMenuState&#39;s OnEvent(IwHashString(name), a, b) (numbers arrive as integers); screens pass events they do not know to CFlashMenuState::OnEvent, so hooks can add new ones. The game calls ActionScript with CFlashMenuState::CallActionScript(state, function, format, ...) (gameswf format: &quot;%d&quot;, &quot;%f&quot;, &quot;%s&quot;, comma separated). The movie is patched as it loads (assets.patch), so no game file is changed or shipped.</p>
+</details>
+
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>frontend.patch_screen(names, build)</code></td>
+<td>Adds a frame script to the screen (sprite) whose scripts use all of names (e.g. {&quot;initialise&quot;, &quot;SUBJECT_OPTIONS_VOLUME&quot;} is the Options screen). build(b) fills an avm1 builder; the script runs after the screen&#39;s own first-frame script. Call while the mod&#39;s script starts (before the menu loads).</td>
+</tr>
+<tr>
+<td><code>frontend.call(state, fn, format, ...)</code></td>
+<td>Calls an ActionScript function on a Flash menu state (CFlashMenuState) with gameswf&#39;s format, e.g. frontend.call(state, &quot;setMusicVol&quot;, &quot;%d&quot;, 50).</td>
+</tr>
+<tr>
+<td><code>frontend.capture_log</code></td>
+<td>Shows ActionScript trace() output and gameswf warnings in the log (boz.flash.capture_log).</td>
+</tr>
+</tbody></table></div>
+<h3 id="bozflash">boz.flash</h3>
+<p>Debugging the game&#39;s Flash menus (gameswf).</p>
+<p>flash.capture_log() makes ActionScript trace() output and gameswf&#39;s own warnings appear in boz-log.txt as &quot;[flash] ...&quot;.</p>
+<details><summary>How it works</summary>
+
+<p>the release build sets no gameswf log handler, so nothing is formatted. A hook on gameswf_LogMsg formats each message with the game&#39;s vsnprintf.</p>
+</details>
+
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>flash.capture_log()</code></td>
+<td>Shows ActionScript trace() output and gameswf warnings in boz-log.txt as &quot;[flash] ...&quot;.</td>
+</tr>
+</tbody></table></div>
+<h3 id="bozswf">boz.swf</h3>
+<p>Reading and changing Flash movies (SWF), for patching the game&#39;s menus.</p>
+<p>Most mods use boz.frontend instead. swf.parse(bytes) gives a movie whose sprites can be found by the names their scripts use and given extra frame scripts; movie:serialize() writes it back.</p>
+<details><summary>How it works</summary>
+
+<p>works on the uncompressed movies the game ships (FWS). Tags keep their original bytes unless changed, so an untouched movie serializes back byte for byte.</p>
+</details>
+
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Sprite:actions()</code></td>
+<td>The frame scripts (DoAction bodies) of the sprite&#39;s tags, in order.</td>
+</tr>
+<tr>
+<td><code>Sprite:uses(text)</code></td>
+<td>True if any frame script of the sprite contains text (a name used in its code).</td>
+</tr>
+<tr>
+<td><code>Sprite:add_first_frame_action(action_bytes)</code></td>
+<td>Adds a frame script to the sprite&#39;s first frame, after the scripts already there.</td>
+</tr>
+<tr>
+<td><code>Sprite:serialize()</code></td>
+<td>The sprite&#39;s tag bytes (used by Movie:serialize).</td>
+</tr>
+<tr>
+<td><code>swf.parse(bytes)</code></td>
+<td>Parses a movie. Returns the movie, or nil and an error.</td>
+</tr>
+<tr>
+<td><code>Movie:sprites()</code></td>
+<td>Every sprite (DefineSprite) in the movie, parsed.</td>
+</tr>
+<tr>
+<td><code>Movie:sprite(id)</code></td>
+<td>The sprite with this character id, or nil.</td>
+</tr>
+<tr>
+<td><code>Movie:find_sprite_using(...)</code></td>
+<td>The first sprite whose frame scripts use all the given names, or nil.</td>
+</tr>
+<tr>
+<td><code>Movie:serialize()</code></td>
+<td>The movie as bytes, with changed sprites rebuilt.</td>
+</tr>
+</tbody></table></div>
+<h3 id="bozavm1">boz.avm1</h3>
+<p>Building ActionScript 2 bytecode (AVM1) for the game&#39;s Flash menus.</p>
+<pre><code class="language-lua">local b = avm1.builder()
+b:push(&quot;hello from a mod&quot;):op(&quot;Trace&quot;)
+local bytes = b:bytes()   -- a frame script for boz.swf / boz.frontend.patch_screen
+</code></pre>
+<p>A builder collects actions. Values are pushed with :push(...) (strings, numbers, booleans, avm1.NULL, avm1.UNDEFINED); :get(&quot;a.b.c&quot;) pushes a path; functions are built with :func(name, params, body_fn); jumps use labels. Used by boz.frontend.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>avm1.builder()</code></td>
+<td>A new ActionScript (AVM1) bytecode builder.</td>
+</tr>
+<tr>
+<td><code>Builder:push(...)</code></td>
+<td>Pushes values onto the stack (one Push action).</td>
+</tr>
+<tr>
+<td><code>Builder:op(name)</code></td>
+<td>Emits a simple action by name (GetVariable, SetMember, CallMethod, ...).</td>
+</tr>
+<tr>
+<td><code>Builder:label(name)</code></td>
+<td>Marks a jump target.</td>
+</tr>
+<tr>
+<td><code>Builder:if_true(name)</code></td>
+<td>Jumps to a label if the value on the stack is true.</td>
+</tr>
+<tr>
+<td><code>Builder:jump(name)</code></td>
+<td>Jumps to a label.</td>
+</tr>
+<tr>
+<td><code>Builder:func(name, params, body)</code></td>
+<td>Defines a function: name (&quot;&quot; for an anonymous one, left on the stack), parameter names, and body(b) which fills a builder for the function body.</td>
+</tr>
+<tr>
+<td><code>Builder:bytes(inner)</code></td>
+<td>The finished bytecode; frame scripts end with an End action unless inner is set.</td>
+</tr>
+<tr>
+<td><code>Builder:get(path)</code></td>
+<td>Pushes the value of a dotted path, e.g. b:get(&quot;_root.Options.settings&quot;).</td>
+</tr>
+<tr>
+<td><code>Builder:call_method(push_obj, method, ...)</code></td>
+<td>Calls obj.method(args...) where obj is pushed by push_obj(b); leaves the result on the stack.</td>
+</tr>
+<tr>
+<td><code>Builder:trace(text, path)</code></td>
+<td>trace(text .. value-of-path): writes a line to the Flash log (see boz.flash.capture_log).</td>
+</tr>
+</tbody></table></div>
+<h2 id="low-level-helpers">Low-level helpers</h2>
+<h3 id="bozhash">boz.hash</h3>
+<p>The game&#39;s name hash.</p>
+<p>Event ids (SUBJECT_*), element names, resource names, string ids and console names are all hashed this way: hash.name(&quot;musicSlider&quot;).</p>
+<details><summary>How it works</summary>
+
+<p>IwHashString is djb2 (h = h * 33 + c from 5381) over the name with A-Z lower-cased.</p>
+</details>
+
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>hash.name(text)</code></td>
+<td>The game&#39;s hash of a name (IwHashString).</td>
+</tr>
+<tr>
+<td><code>hash.of(value)</code></td>
+<td>A hash from a name, a &quot;0x...&quot; hash or a number (returned as it is).</td>
+</tr>
+</tbody></table></div>
+<h3 id="bozenums">boz.enums</h3>
+<p>The names of the game&#39;s enumerations (the values reflected fields hold).</p>
+<pre><code class="language-lua">enums.name(&quot;WeaponBehaviourType&quot;, 10)   -&gt; &quot;eDeathMachine&quot;
+enums.value(&quot;PerkType&quot;, &quot;ePerkJuggernog&quot;) -&gt; 2
+enums.WeaponBehaviourType[3]            -&gt; &quot;eAutomatic&quot; (lists are 1-based: value + 1)
+</code></pre>
+<details><summary>How it works</summary>
+
+<p>CParsableEnumManager registers each enum from a null-terminated table of names in the game&#39;s data (value = position): these are those tables, read from the 1.0.11 image.</p>
+</details>
+
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>enums.name(enum, value)</code></td>
+<td>The name of an enum&#39;s value (the game&#39;s number), or nil.</td>
+</tr>
+<tr>
+<td><code>enums.value(enum, name)</code></td>
+<td>The game&#39;s number for an enum value&#39;s name, or nil.</td>
+</tr>
+</tbody></table></div>
+
+            </article>
+            <div class="doc-pagination" role="navigation" aria-label="Previous and next page">
+              <a class="doc-prev" href="weapons-and-assets.html"><small>PREVIOUS</small><span>← Weapons &amp; assets</span></a>
+              <a class="doc-next" href="console-reference.html"><small>NEXT</small><span>Console reference →</span></a>
+            </div>
+          </div>
+          <aside class="doc-toc" aria-label="On this page">
+            <p>ON THIS PAGE</p>
+            <a href="#contents">Contents</a>
+            <a href="#gameplay">Gameplay</a>
+            <a href="#bozplayer" class="sub">boz.player</a>
+            <a href="#bozcamera" class="sub">boz.camera</a>
+            <a href="#bozrounds" class="sub">boz.rounds</a>
+            <a href="#bozzombies" class="sub">boz.zombies</a>
+            <a href="#bozweapons" class="sub">boz.weapons</a>
+            <a href="#bozeffects" class="sub">boz.effects</a>
+            <a href="#bozscore" class="sub">boz.score</a>
+            <a href="#bozpickups" class="sub">boz.pickups</a>
+            <a href="#bozpieces" class="sub">boz.pieces</a>
+            <a href="#bozmap" class="sub">boz.map</a>
+            <a href="#bozfly" class="sub">boz.fly</a>
+            <a href="#bozdeadops" class="sub">boz.deadops</a>
+            <a href="#map-scripting">Map scripting</a>
+            <a href="#bozworld" class="sub">boz.world</a>
+            <a href="#bozprefabs" class="sub">boz.prefabs</a>
+            <a href="#bozobjects" class="sub">boz.objects</a>
+            <a href="#bozmatch_events" class="sub">boz.match_events</a>
+            <a href="#boztimers" class="sub">boz.timers</a>
+            <a href="#bozsaved" class="sub">boz.saved</a>
+            <a href="#bozhooks" class="sub">boz.hooks</a>
+            <a href="#bozgame" class="sub">boz.game</a>
+            <a href="#bozlevels" class="sub">boz.levels</a>
+            <a href="#engine-access">Engine access</a>
+            <a href="#bozentities" class="sub">boz.entities</a>
+            <a href="#bozcomponents" class="sub">boz.components</a>
+            <a href="#bozreflect" class="sub">boz.reflect</a>
+            <a href="#bozresources" class="sub">boz.resources</a>
+            <a href="#bozphysics" class="sub">boz.physics</a>
+            <a href="#bozgame_events" class="sub">boz.game_events</a>
+            <a href="#bozspawns" class="sub">boz.spawns</a>
+            <a href="#bozaudio" class="sub">boz.audio</a>
+            <a href="#bozscreen" class="sub">boz.screen</a>
+            <a href="#bozhud" class="sub">boz.hud</a>
+            <a href="#bozstats" class="sub">boz.stats</a>
+            <a href="#bozsaves" class="sub">boz.saves</a>
+            <a href="#boznetwork" class="sub">boz.network</a>
+            <a href="#controls">Controls</a>
+            <a href="#bozinput" class="sub">boz.input</a>
+            <a href="#console">Console</a>
+            <a href="#bozconsole" class="sub">boz.console</a>
+            <a href="#bozcvars" class="sub">boz.cvars</a>
+            <a href="#menus-and-text">Menus and text</a>
+            <a href="#bozpause_settings" class="sub">boz.pause_settings</a>
+            <a href="#boztext" class="sub">boz.text</a>
+            <a href="#game-ui-building-blocks">Game UI building blocks</a>
+            <a href="#boziwui" class="sub">boz.iwui</a>
+            <a href="#bozfrontend" class="sub">boz.frontend</a>
+            <a href="#bozflash" class="sub">boz.flash</a>
+            <a href="#bozswf" class="sub">boz.swf</a>
+            <a href="#bozavm1" class="sub">boz.avm1</a>
+            <a href="#low-level-helpers">Low-level helpers</a>
+            <a href="#bozhash" class="sub">boz.hash</a>
+            <a href="#bozenums" class="sub">boz.enums</a>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+<footer>
+      <a class="brand" href="../index.html"
+        ><img src="../assets/client-logo.png" alt="BOZ Redux" width="640" height="260" loading="lazy"
+      /></a>
+      <p>BOZ Redux</p>
+      <span>Not affiliated with Activision. Game files are not included.</span
+      ><a href="https://github.com/ZappaVinny/boz-redux">Source ↗</a>
+    </footer>
+<dialog id="discord-dialog">
+      <button class="dialog-close" aria-label="Close dialog">×</button>
+      <h2>Discord</h2>
+      <p>
+        The Discord invite hasn’t been added yet. Check GitHub for project
+        updates.
+      </p>
+      <a
+        class="button"
+        href="https://github.com/ZappaVinny/boz-redux"
+        target="_blank"
+        rel="noopener"
+        >Visit the project ↗</a
+      >
+    </dialog>
+  </body>
+</html>

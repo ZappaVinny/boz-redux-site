@@ -1,0 +1,1140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Weapons &amp; assets | BOZ Redux Docs</title>
+    <meta name="description" content="The parts of a map that go beyond its level: the weapons players use, your own models, the game's effects and projectiles, and sounds. Each has its own…" />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://boz-redux.com/docs/weapons-and-assets.html" />
+    <meta name="theme-color" content="#0d0e10" />
+    <link rel="icon" href="../assets/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="256x256" href="../assets/favicon.png" />
+    <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png" />
+    <link rel="manifest" href="../site.webmanifest" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="BOZ Redux" />
+    <meta property="og:title" content="Weapons &amp; assets | BOZ Redux Docs" />
+    <meta property="og:description" content="The parts of a map that go beyond its level: the weapons players use, your own models, the game's effects and projectiles, and sounds. Each has its own…" />
+    <meta property="og:url" content="https://boz-redux.com/docs/weapons-and-assets.html" />
+    <meta property="og:image" content="https://boz-redux.com/assets/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Weapons & assets","description":"The parts of a map that go beyond its level: the weapons players use, your own models, the game's effects and projectiles, and sounds. Each has its own…","url":"https://boz-redux.com/docs/weapons-and-assets.html","dateModified":"2026-10-28T19:01:17.236Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Weapons & assets","item":"https://boz-redux.com/docs/weapons-and-assets.html"}]}]}</script>
+    <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="stylesheet" href="../styles.css" />
+    <script defer src="../config.js"></script>
+    <script defer src="../app.js"></script>
+  </head>
+  <body class="is-docs">
+    <a class="skip" href="#main">Skip to content</a>
+<header>
+      <a class="brand" href="../index.html" aria-label="BOZ Redux home"
+        ><img src="../assets/client-logo.png" alt="BOZ Redux" width="640" height="260"
+      /></a>
+      <nav aria-label="Main navigation">
+        <a href="../index.html" data-nav="home">Home</a
+        ><a href="../docs/index.html" data-nav="docs" class="active" aria-current="page">Documentation</a
+        ><a href="#discord" data-discord>Discord</a>
+      </nav>
+      <a
+        class="header-github"
+        href="https://github.com/ZappaVinny/boz-redux"
+        target="_blank"
+        rel="noopener"
+        >GitHub ↗</a
+      >
+    </header>
+
+    <main id="main" tabindex="-1">
+      <div id="docs-view">
+        <button class="docs-mobile" aria-expanded="false">
+          ☰ Browse documentation
+        </button>
+        <div class="docs-shell">
+          <aside class="docs-sidebar" aria-label="Documentation navigation">
+            <div class="search-wrap">
+              <input
+                id="docs-search"
+                aria-label="Search all documentation"
+                placeholder="Search documentation…"
+                type="search"
+                autocomplete="off"
+                data-index="../docs-data.js"
+              />
+            </div>
+            <div class="search-results" aria-live="polite"></div>
+            <!--
+              The docs page list. Order here sets sidebar order and previous/next.
+              Each link's href is docs/<name>.html for docs/<name>.md (README is index.html).
+              Each link belongs to the nearest label above it (used for the breadcrumb).
+              After changing it, run `node rebuild-docs.mjs`.
+            -->
+            <div class="page-links" role="navigation" aria-label="Documentation pages">
+              <p class="docs-label">START HERE</p>
+              <a href="index.html">Introduction</a>
+              <a href="getting-started.html">Getting started</a>
+
+              <p class="docs-label">CREATE</p>
+              <a href="lua-mods.html">Lua mods</a>
+              <a href="map-editor.html">Map editor</a>
+              <a href="weapons-and-assets.html" class="current" aria-current="page">Weapons &amp; assets</a>
+
+              <p class="docs-label">REFERENCE</p>
+              <a href="standard-library.html">Standard library</a>
+              <a href="console-reference.html">Console reference</a>
+              <a href="game-events.html">Game events</a>
+              <a href="sdk-reference.html">SDK reference</a>
+
+              <p class="docs-label">UNDER THE HOOD</p>
+              <a href="how-the-game-works.html">How the game works</a>
+              <a href="contributing.html">Contributing</a>
+            </div>
+          </aside>
+          <div class="doc-area">
+            <div class="breadcrumb">DOCUMENTATION / <span>CREATE</span></div>
+            <article class="doc-content">
+<h1 id="weapons-models-effects-and-sounds">Weapons, models, effects and sounds</h1>
+<p>The parts of a map that go beyond its level: the weapons players use, your own models, the
+game&#39;s effects and projectiles, and sounds. Each has its own tab in
+<a href="map-editor.html">the map editor</a>, and all of them are saved in the map project and built into
+the map&#39;s mod. The weapon field reference at the end of the weapons section lists every value
+a weapon has.</p>
+<h2 id="weapons">Weapons</h2>
+<p>The editor&#39;s <strong>Weapons</strong> tab changes the weapons of a map project: their damage, fire rate, ammo,
+spread and the rest of the game&#39;s weapon data. You can also make new weapons from existing ones,
+bring in weapons from other maps, give a weapon your own model, change its animations and sounds,
+and add Lua for special behaviour. Changes are saved as you make them and applied when the map
+builds. Your changes affect your map only; the game&#39;s other maps keep their weapons.</p>
+<h3 id="the-weapons-tab">The Weapons tab</h3>
+<ul>
+<li><p><strong>The viewport</strong> shows the selected weapon as the player sees it, through the game&#39;s eye,
+with the game&#39;s textures. The arms and the gun are one Blender armature with the game&#39;s
+skeletons (the gun under the arms&#39; <code>TAG_WEAPON</code> bone, called &quot;gun position&quot;), and their models
+move with it the way the game skins them. The first-person view frames the gun exactly as the
+game does: the game&#39;s camera setting (50 unless you changed it) becomes a horizontal angle
+across a 16:9 screen the way its projection does it (about 71 degrees). <strong>Field of view</strong> takes
+the same number as the game&#39;s field of view setting: set it to what you play with.</p>
+</li>
+<li><p><strong>Placement</strong> (panel):</p>
+<ul>
+<li><strong>First person</strong> / <strong>Free view</strong>, <strong>Arms</strong> and <strong>Bones</strong> switch what the view shows.</li>
+<li><strong>Position on screen</strong> (or click the arms): G moves and R turns the arms and gun together in
+front of the camera; the arrow puts them back. It is the start of every animation, saved
+with the weapon (<code>&quot;arms&quot;</code> in its file) and built into all its arm animations.</li>
+<li><strong>Model</strong>: the stock gun or one of your assets (see <a href="#a-weapon-with-your-own-model">Your own model</a>).</li>
+</ul>
+</li>
+<li><p><strong>Animation</strong> (panel) plays the weapon&#39;s animations: pick one, then Play, step a frame or to a
+change, Loop or drag the Frame slider. Change them in the Animation tab (see
+<a href="#animations">Animations</a>); one you changed is marked &quot;(edited)&quot;.</p>
+</li>
+<li><p><strong>The list</strong> shows the project&#39;s weapons. A map made from a whole shipped level lists its guns;
+an Empty or Debug map starts with the Colt alone. The list is what wall buys and the mystery
+box offer. Icons: a pencil for a changed weapon, a plus for a new one, an arrow for one from
+another map.</p>
+</li>
+<li><p><strong>Import from game</strong> adds a weapon: one of the map&#39;s own, or another map&#39;s (Call of the Dead&#39;s
+V-R11, Scavenger and Wunderwaffe DG-2, Ascension&#39;s matryoshka dolls and minigun, ...). An
+imported weapon brings its models, skins, skeleton, animations, animation state machines and
+projectile. Its sounds, effects and special behaviour belong to its own map and are not
+brought over: plain guns work, but a wonder weapon (V-R11, Wunderwaffe) crashes the game when
+it hits a zombie. Give a weapon special behaviour with a Lua script (<strong>Add script</strong>) instead.</p>
+</li>
+<li><p><strong>New weapon</strong> copies the selected weapon under a new name: same model and animations, your
+values.</p>
+</li>
+<li><p><strong>Properties</strong> lists every field, grouped. Each shows its unit; the <strong>?</strong> button explains it;
+the arrow resets a changed value. A <code>*</code> marks a meaning read from the shipped weapons that the
+game&#39;s code has not proven yet.</p>
+</li>
+<li><p><strong>Pack-a-Punch result</strong> picks the weapon an upgrade turns it into.</p>
+</li>
+<li><p><strong>Starting weapon</strong> (tick box): players start with this weapon instead of the Colt, with its
+<strong>spare rounds</strong> (the game&#39;s default is 40); they still get the knife and two grenades. Untick
+it to go back to the Colt. It applies to this map only: other maps keep the Colt.</p>
+</li>
+<li><p><strong>Script</strong> (optional) adds a Lua script for special behaviour: see below.</p>
+</li>
+</ul>
+<p>Wall buys pick from the project&#39;s list (World tab → the wall buy&#39;s <strong>Choose…</strong>); a mystery box&#39;s
+<strong>Weapon pool</strong> (its settings → <strong>Edit…</strong>) picks which listed weapons it rolls.</p>
+<h3 id="a-weapon-with-your-own-model">A weapon with your own model</h3>
+<p>A weapon can show one of your <strong>Weapon</strong> assets (made in the Assets tab, see
+<a href="#your-own-models">Your own models</a>) instead of its stock gun. It keeps the rest of the gun it is made from:
+the arms&#39; animations, sounds and effects. Make a <strong>New weapon</strong> from a stock gun whose
+animations suit your model (a big two-handed one: the Thundergun), then in its <strong>Model</strong> panel
+pick your asset.</p>
+<ul>
+<li><strong>Its own skeleton:</strong> the gun becomes your asset&#39;s bones (<code>tag_weapon</code>, <code>tag_clip</code>,
+<code>tag_flash</code>, ...) under a root at the origin like every stock gun&#39;s, so its parts sit where they belong. The stock gun&#39;s animations are moved
+onto them: each of your bones moves the way a stock bone does (the list under <strong>Original motion
+of your bones comes from</strong>:
+<code>tag_clip</code> follows the gun&#39;s magazine bone, <code>J_Clip</code> or <code>tag_clip</code>, else the bone its reload
+moves most; <code>tag_flash</code> its muzzle; everything else the root). Change any of them in the list.</li>
+<li><strong>Fit model in hand</strong> (or click your model) shows a copy of it on the gun position to move
+(G), turn (R) and scale (S), with the stock gun see-through to line it up against; turn it off
+to keep the fit. <strong>Auto fit</strong> lines it up with the stock gun again: its barrel (<code>tag_weapon</code> to
+<code>tag_flash</code>) along the stock gun&#39;s, upright, as long as it and centred on it. <strong>Position</strong>,
+<strong>Rotation</strong> and <strong>Scale</strong> change the fit by number (in the stock gun&#39;s model units).</li>
+</ul>
+<p>The build writes your model and its skin on its own skeleton, its textures and materials, the
+lighter models the game shows while aiming down the sights (on guns that have one) and at a
+distance (three levels, made with the asset; an asset made before these existed uses its full
+model for them: make it again), every animation of the gun on its skeleton, and the gun&#39;s state
+machine (a copy of the stock one: same timing, transitions and events) pointing at them.</p>
+<h3 id="animations">Animations</h3>
+<p>The <strong>Animation</strong> tab changes the selected weapon&#39;s animations, one at a time. Its small view is
+the game&#39;s eye, its big view is free to work in, and the rig is ready to pose: click a bone, R
+turns it, G moves it. Grab <strong>gun position</strong> to move the gun (the hands come with it: each arm
+reaches its grip with IK) and <strong>hand L</strong> / <strong>hand R</strong> to change a grip.</p>
+<p>Arms and gun each have their own timeline. Before a part&#39;s first change it plays the original.
+<strong>When you change a pose and then go to another frame, the change is kept and holds from that
+frame on</strong>, until your next change; earlier frames never move. So you can keep the original up
+to a point and go on frame by frame from there: change, step, adjust, step. The panel shows each
+part&#39;s timeline (for example &quot;original 0-29, yours 30-59, original 60+&quot;).</p>
+<ul>
+<li>The <strong>arrow</strong> next to Arms or Gun sends that part back to the original from the frame shown
+(until your next change).</li>
+<li><strong>Copy pose</strong> / <strong>Paste pose</strong>: copy the arms, the gun or both at this frame, from the
+<strong>Original</strong> or from <strong>Yours</strong>, and paste them at another frame or into another animation;
+the pasted pose holds from there.</li>
+<li><strong>Copy original frames here</strong>: the original&#39;s frames From..To play from the frame shown, then
+its last pose holds.</li>
+<li>The arrows step a frame back or forward, or to the previous or next change; <strong>Length</strong> sets the
+last frame (30 frames a second).</li>
+<li><strong>Save animation</strong> stores it (it is also stored when you save, switch animations or leave the
+tab); <strong>Reset this animation</strong> throws every change away.</li>
+</ul>
+<p>Animations are stored in the project (<code>source/weapons/anims/&lt;weapon&gt;/&lt;state&gt;.json</code>: your changes
+to edit again, and the result at every frame with the IK worked out, which the build uses). The
+build writes your arms animations into a copy of the weapon&#39;s arms state machine and the gun&#39;s
+into its gun state machine, so only that weapon changes. The state machines keep their timing and
+events (when a reload refills the magazine, for example): an animation much longer or shorter
+than the stock one still has its events at the stock times.</p>
+<h3 id="weapon-scripts">Weapon scripts</h3>
+<p>A weapon script runs with <code>self</code> as the weapon: <code>self.name</code>, and the live weapon&#39;s methods.</p>
+<pre><code class="language-lua">-- weapons/mp40_heavy.lua
+shots = 0                       -- saved with the game, like any script global
+
+function on_fire(data)          -- every shot (data.clip: rounds before it)
+    shots = shots + 1
+    if shots % 10 == 0 then self:set_ammo(nil, self:reserve() + 5) end
+end
+
+function on_equip() end         -- taken in hand
+function on_given() end         -- bought, rolled from the box, or given by a script
+function on_reload() end        -- a reload started
+</code></pre>
+<p>Any script can use <code>boz.weapons</code> (require(&quot;boz.weapons&quot;)): <code>current()</code>, <code>get(name)</code>,
+<code>give(name)</code>, and on a weapon <code>clip()</code>, <code>reserve()</code>, <code>set_ammo(clip, reserve)</code>, <code>clip_size()</code>,
+<code>damage()</code>, <code>set_damage(head, torso, limbs)</code>, <code>fire_rate()</code>, <code>set_fire_rate(rpm)</code>, <code>in_hand()</code>.
+These change the weapon for the match; the Weapons tab changes it for good. Game events on the
+bus: <code>weapon_given</code>, <code>weapon_equipped</code>, <code>weapon_reloaded</code> (<code>data.weapon</code>); <code>weapon_fired</code> reaches
+<code>boz.on</code> listeners only (every shot).</p>
+<h3 id="weapon-project-files">Weapon project files</h3>
+<p>The weapon list is <code>source/weapons/index.json</code>; each changed, new or imported weapon has its own
+<code>source/weapons/&lt;name&gt;.json</code>:</p>
+<pre><code class="language-json">{&quot;name&quot;: &quot;mp40_heavy&quot;, &quot;base&quot;: &quot;mp40&quot;, &quot;level&quot;: &quot;&quot;, &quot;fields&quot;: {&quot;m_clipSize&quot;: 50,
+ &quot;m_damage.m_headDamage&quot;: 900, &quot;Upgrade&quot;: &quot;Afterburner&quot;}, &quot;script&quot;: &quot;weapons/mp40_heavy.lua&quot;}
+</code></pre>
+<p><code>base</code> is the weapon it is made from (empty: itself), <code>level</code> the map it is imported from (empty:
+this map&#39;s own), <code>display</code> its <strong>In-game name</strong> (Properties). The game names weapons in its
+prompts from its own text: a wall buy asks for the string id <code>&lt;weapon&gt;_S_WEAPON</code>
+(CIngameStatePlaying::UpdatePoiPrompt hashes the weapon&#39;s name on with <code>_S_WEAPON</code>). A new
+weapon has no entry there, so the prompt shows &quot;&gt;&gt;Unknown Hash&lt;&lt;&quot; until you give it an in-game
+name; boz.prefabs adds that text (boz.text) when the level starts. Empty keeps the game&#39;s own name.
+<code>sounds</code> maps sound fields to the weapon&#39;s own sounds (<code>{&quot;reloadSoundSequence&quot;: &quot;my_reload&quot;}</code>,
+the Audio tab&#39;s saved sounds): the build gives the field a sound of the weapon&#39;s own and points
+the field at it (<a href="#a-weapons-own-sounds">Sounds</a>).</p>
+<h3 id="how-weapons-work">How weapons work</h3>
+<p>Each map has a weapons group (<code>ingame/weapons/weapons_&lt;map&gt;</code>): one entity per weapon with a
+<code>CPlayerWeapon</code> component, plus the weapon&#39;s models, skins, skeleton, animations and two animation
+state machines (the arms&#39; and the gun&#39;s; the arms&#39; live in <code>arms_&lt;map&gt;</code>). The fire mode is a
+class the game makes from <strong>Fire mode</strong> (<code>CPlayerWeapon::CreateBehaviour</code>): automatic modes fire
+at <strong>Fire rate</strong>; single-shot weapons fire as fast as their fire animation plays, and a reload
+lasts as long as its animation (the bullet and the end of a reload are events in the animations),
+so those two come with the animation tools, not this form.</p>
+<h3 id="field-reference">Field reference</h3>
+<p><em>Likely (from the shipped weapons)</em> marks a meaning worked out from the values the game&#39;s own
+weapons use but not yet proven in the game&#39;s code (the <code>*</code> in the editor&#39;s Properties list, and
+the <code>likely</code> confidence level of the <a href="contributing.html#conventions">game definition</a>).</p>
+<!-- fields:start -->
+<h4 id="firing-fields">Firing fields</h4>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Key</th>
+<th>Unit</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Fire mode</td>
+<td><code>behaviour</code></td>
+<td></td>
+<td>Single shot</td>
+<td>How the weapon fires (CPlayerWeapon::CreateBehaviour). Automatic, Automatic shotgun and Death Machine keep firing while the trigger is held. Values: 0 Melee / no gun, 1 Single shot, 2 Automatic, 3 Burst, 4 Shotgun, 5 Automatic shotgun, 6 Revolver, 7 Grenade, 8 Special grenade, 9 Launcher, 10 Death Machine, 11 Claymore, 12 Monkey bomb, 15 Thundergun, 16 V-R11, 17 Wunderwaffe.</td>
+</tr>
+<tr>
+<td>Fire rate</td>
+<td><code>autoROF</code></td>
+<td>rounds/min</td>
+<td>0</td>
+<td>Automatic modes only (MP40 535, AK-74u 750). Single-shot weapons fire as fast as their fire animation plays.</td>
+</tr>
+<tr>
+<td>Burst size</td>
+<td><code>semiBurst</code></td>
+<td>rounds</td>
+<td>0</td>
+<td>Rounds per trigger pull (Burst). <em>Likely (from the shipped weapons).</em></td>
+</tr>
+<tr>
+<td>Fires only when aiming</td>
+<td><code>requiresADS</code></td>
+<td></td>
+<td>False</td>
+<td>The trigger does nothing unless the player aims down sights.</td>
+</tr>
+<tr>
+<td>Aim assist</td>
+<td><code>autoAim</code></td>
+<td></td>
+<td>True</td>
+<td>The crosshair is pulled toward zombies. <em>Likely (from the shipped weapons).</em></td>
+</tr>
+<tr>
+<td>Recoil</td>
+<td><code>recoil</code></td>
+<td></td>
+<td>None</td>
+<td>How much the view kicks per shot. Values: 0 None, 1 Light, 2 Medium, 3 Heavy. <em>Likely (from the shipped weapons).</em></td>
+</tr>
+<tr>
+<td>Muzzle flash</td>
+<td><code>muzzleFlash</code></td>
+<td></td>
+<td>0</td>
+<td>The muzzle flash effect.</td>
+</tr>
+</tbody></table></div>
+<h4 id="ammo-fields">Ammo fields</h4>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Key</th>
+<th>Unit</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Clip</td>
+<td><code>m_clipSize</code></td>
+<td>rounds</td>
+<td>0</td>
+<td>Rounds in one magazine.</td>
+</tr>
+<tr>
+<td>Reserve</td>
+<td><code>m_ammoSize</code></td>
+<td>rounds</td>
+<td>0</td>
+<td>Spare rounds carried besides the clip (Colt: 8 + 80).</td>
+</tr>
+<tr>
+<td>Reloads one at a time</td>
+<td><code>loopedReload</code></td>
+<td></td>
+<td>False</td>
+<td>Rounds go in one by one and the reload can be cut short (pump shotguns).</td>
+</tr>
+<tr>
+<td>Two shells per step</td>
+<td><code>doubleShellReload</code></td>
+<td></td>
+<td>False</td>
+<td>A looped reload loads two shells each step. <em>Likely (from the shipped weapons).</em></td>
+</tr>
+<tr>
+<td>Taped magazines</td>
+<td><code>flipClipReload</code></td>
+<td></td>
+<td>False</td>
+<td>Every other reload uses the second (flipped) magazine animation.</td>
+</tr>
+<tr>
+<td>Ammo pickup when empty</td>
+<td><code>lightningBoltPickup</code></td>
+<td></td>
+<td>False</td>
+<td>When the weapon runs dry the pickup manager is told (shipped weapons leave it off). <em>Likely (from the shipped weapons).</em></td>
+</tr>
+</tbody></table></div>
+<h4 id="damage-fields">Damage fields</h4>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Key</th>
+<th>Unit</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Head</td>
+<td><code>m_damage.m_headDamage</code></td>
+<td>points</td>
+<td>0</td>
+<td>Damage of a hit to the head (MP40 400).</td>
+</tr>
+<tr>
+<td>Torso</td>
+<td><code>m_damage.m_torsoDamage</code></td>
+<td>points</td>
+<td>0</td>
+<td>Damage of a hit to the body (MP40 100).</td>
+</tr>
+<tr>
+<td>Limbs</td>
+<td><code>m_damage.m_limbDamage</code></td>
+<td>points</td>
+<td>0</td>
+<td>Damage of a hit to an arm or leg (MP40 100).</td>
+</tr>
+<tr>
+<td>Falloff starts</td>
+<td><code>m_falloff.m_startDistance</code></td>
+<td>cm</td>
+<td>0</td>
+<td>Full damage up to this distance (shotguns 400, Thundergun 1200).</td>
+</tr>
+<tr>
+<td>Falloff ends</td>
+<td><code>m_falloff.m_endDistance</code></td>
+<td>cm</td>
+<td>0</td>
+<td>Distance where damage reaches the falloff damage (shotguns 800).</td>
+</tr>
+<tr>
+<td>Falloff damage</td>
+<td><code>m_falloff.m_damageMod</code></td>
+<td>%</td>
+<td>0</td>
+<td>Damage left at the end distance (shotguns 50). <em>Likely (from the shipped weapons).</em></td>
+</tr>
+<tr>
+<td>Penetration</td>
+<td><code>m_penetration.m_penetrationRating</code></td>
+<td></td>
+<td>1</td>
+<td>How far bullets go through zombies and thin surfaces (rifles 10, shotguns 15). <em>Likely (from the shipped weapons).</em></td>
+</tr>
+<tr>
+<td>Penetration loss</td>
+<td><code>m_penetration.m_damageFalloff</code></td>
+<td>%</td>
+<td>0.0</td>
+<td>Damage lost each time a bullet goes through something (30 to 50). <em>Likely (from the shipped weapons).</em></td>
+</tr>
+<tr>
+<td>Penetration minimum</td>
+<td><code>m_penetration.m_damageMin</code></td>
+<td>points</td>
+<td>0</td>
+<td>Damage never drops below this after going through things. <em>Likely (from the shipped weapons).</em></td>
+</tr>
+<tr>
+<td>Fire rounds</td>
+<td><code>incendiaryRounds</code></td>
+<td></td>
+<td>False</td>
+<td>Hits set zombies on fire (Hades, the upgraded Olympia). <em>Likely (from the shipped weapons).</em></td>
+</tr>
+<tr>
+<td>Melee range</td>
+<td><code>m_meleeRange</code></td>
+<td>m</td>
+<td>0.0</td>
+<td>Reach of a melee weapon (knives 1.5). <em>Likely (from the shipped weapons).</em></td>
+</tr>
+</tbody></table></div>
+<h4 id="accuracy-fields">Accuracy fields</h4>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Key</th>
+<th>Unit</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Spread, steady</td>
+<td><code>m_accuracy.m_spreadMin</code></td>
+<td></td>
+<td>0.0</td>
+<td>Bullet spread when still and not firing (crosshair size; Colt 0.28).</td>
+</tr>
+<tr>
+<td>Spread, moving</td>
+<td><code>m_accuracy.m_spreadMax</code></td>
+<td></td>
+<td>1.0</td>
+<td>Bullet spread at its widest, while moving or firing (Colt 0.525).</td>
+</tr>
+<tr>
+<td>Crouched</td>
+<td><code>m_accuracy.m_modCrouched</code></td>
+<td>x</td>
+<td>1.0</td>
+<td>Spread multiplier while crouched (0.85: 15% tighter).</td>
+</tr>
+<tr>
+<td>Prone</td>
+<td><code>m_accuracy.m_modProne</code></td>
+<td>x</td>
+<td>1.0</td>
+<td>Spread multiplier while prone.</td>
+</tr>
+<tr>
+<td>Crosshair</td>
+<td><code>m_accuracy.m_crosshairType</code></td>
+<td></td>
+<td>Standard</td>
+<td>The crosshair drawn for this weapon. Values: 0 None, 1 Standard, 2 Launcher, 3 Minigun, 4 Thundergun.</td>
+</tr>
+</tbody></table></div>
+<h4 id="aiming-fields">Aiming fields</h4>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Key</th>
+<th>Unit</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Aiming field of view</td>
+<td><code>m_ADSFoV</code></td>
+<td>degrees</td>
+<td>0.0</td>
+<td>Field of view while aiming down sights (MP40 40, AK-74u 30); 0 keeps the normal view.</td>
+</tr>
+</tbody></table></div>
+<h4 id="projectile-fields">Projectile fields</h4>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Key</th>
+<th>Unit</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Projectile</td>
+<td><code>m_projectileName</code></td>
+<td></td>
+<td>0</td>
+<td>What a launcher or grenade throws (an entity of weapon_projectiles).</td>
+</tr>
+<tr>
+<td>Launch force</td>
+<td><code>m_projectileLaunchForce</code></td>
+<td></td>
+<td>0.0</td>
+<td>Speed the projectile leaves with (Thundergun 3000). <em>Likely (from the shipped weapons).</em></td>
+</tr>
+</tbody></table></div>
+<h4 id="pack-a-punch-fields">Pack-a-Punch fields</h4>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Key</th>
+<th>Unit</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Pack-a-Punch result</td>
+<td><code>Upgrade</code></td>
+<td></td>
+<td>0</td>
+<td>The weapon Pack-a-Punch turns this one into (none: it cannot be upgraded).</td>
+</tr>
+<tr>
+<td>Pack-a-Punch sound</td>
+<td><code>m_playPAPSound</code></td>
+<td></td>
+<td>False</td>
+<td>Plays the upgraded-weapon sound when fired. <em>Likely (from the shipped weapons).</em></td>
+</tr>
+<tr>
+<td>Once per game</td>
+<td><code>isUnique</code></td>
+<td></td>
+<td>False</td>
+<td>The mystery box gives it only once (Thundergun). <em>Likely (from the shipped weapons).</em></td>
+</tr>
+<tr>
+<td>Weak weapon</td>
+<td><code>crappyWeapon</code></td>
+<td></td>
+<td>False</td>
+<td>Marked as a poor weapon (set on the CZ75 only). <em>Likely (from the shipped weapons).</em></td>
+</tr>
+</tbody></table></div>
+<h4 id="hud-fields">HUD fields</h4>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Key</th>
+<th>Unit</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Ammo icon</td>
+<td><code>ammoIcon</code></td>
+<td></td>
+<td>None</td>
+<td>The ammo symbol on the HUD. Values: 0 None, 1 Rifle, 3 Shotgun shells, 4 Grenade launcher, 8 Belt / large, 9 Pistol, 10 Grenade, 11 Claymore, 12 Monkey bomb.</td>
+</tr>
+</tbody></table></div>
+<h4 id="sounds-fields">Sounds fields</h4>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Key</th>
+<th>Unit</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Fire</td>
+<td><code>fireSoundSequence</code></td>
+<td></td>
+<td>0</td>
+<td>Played on every shot.</td>
+</tr>
+<tr>
+<td>Last round</td>
+<td><code>m_fireLastBulletSoundSequence</code></td>
+<td></td>
+<td>0</td>
+<td>Played on the last round of a clip.</td>
+</tr>
+<tr>
+<td>Empty click</td>
+<td><code>fireEmptySound</code></td>
+<td></td>
+<td>0</td>
+<td>Firing with no ammo.</td>
+</tr>
+<tr>
+<td>Reload</td>
+<td><code>reloadSoundSequence</code></td>
+<td></td>
+<td>0</td>
+<td>A full reload.</td>
+</tr>
+<tr>
+<td>Reload (rounds left)</td>
+<td><code>reloadPartialSequence</code></td>
+<td></td>
+<td>0</td>
+<td>A reload with rounds still in the clip.</td>
+</tr>
+<tr>
+<td>Equip / pickup</td>
+<td><code>buySound</code></td>
+<td></td>
+<td>0</td>
+<td>Played on equip, including after a wall purchase; also plays on weapon switches.</td>
+</tr>
+<tr>
+<td>Bought (player)</td>
+<td><code>playerBuySound</code></td>
+<td></td>
+<td>0</td>
+<td>The buyer&#39;s own purchase sound.</td>
+</tr>
+</tbody></table></div>
+<!-- fields:end -->
+
+<h2 id="your-own-models">Your own models</h2>
+<p>The <strong>Assets</strong> tab brings your own models into the game at the game&#39;s level of detail. You
+import a high-quality model, and the editor makes a game version of it: a few thousand triangles
+at most and small textures, the way the game&#39;s own models are made. You then place the game
+version in a map, or give a weapon your model (<a href="#a-weapon-with-your-own-model">Weapons</a>).</p>
+<h3 id="importing">Importing</h3>
+<p><strong>Import…</strong> takes a <code>.blend</code>, <code>.fbx</code>, <code>.glb</code>/<code>.gltf</code> or <code>.obj</code> file. Choose:</p>
+<ul>
+<li><strong>Kind:</strong> <strong>Prop</strong> (a model to place in maps) or <strong>Weapon</strong> (a gun: its armature, bones and
+bone weights are kept, and its parts are found from the bones).</li>
+<li><strong>Preset:</strong> how detailed the game version is.</li>
+</ul>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Preset</th>
+<th>Weapon</th>
+<th>Prop</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Stock</strong> (like the game&#39;s own)</td>
+<td>1,500 triangles, textures up to 512</td>
+<td>800 triangles, textures up to 256</td>
+</tr>
+<tr>
+<td><strong>PC</strong> (sharper)</td>
+<td>4,000 triangles, textures up to 1024</td>
+<td>2,500 triangles, textures up to 512</td>
+</tr>
+</tbody></table></div>
+<p>For comparison, the game&#39;s guns have about 1,000 to 1,300 triangles and 256 to 512 textures. A
+busy model (lots of thin spikes, tentacles, teeth) keeps its shape much better on PC; import a
+gun as a Weapon, since a Prop&#39;s budget is about half.</p>
+<p>The file is copied into the project (<code>assets/&lt;name&gt;/</code>), and its original location is remembered,
+so <strong>Refresh from source</strong> picks up later changes to it (for example a magazine added to the
+gun). The game version is made straight away.</p>
+<h3 id="making-the-game-version">Making the game version</h3>
+<p><strong>Make game version</strong> runs in the background (the editor stays usable; progress shows in the
+Log). It:</p>
+<ol>
+<li><p>Loads the model&#39;s meshes (from a <code>.blend</code>: all its meshes, with their armatures). The
+armature with the most bones is the model&#39;s; another armature that shares a bone name with it
+(a magazine with its own <code>tag_clip</code>, as ripped attachments come) is snapped so that bone lines
+up with the model&#39;s, the way the game attaches parts, wherever it sits in the file.</p>
+</li>
+<li><p>Works out the size: the <strong>Source unit</strong> (centimetres, metres, inches, millimetres) is guessed
+from the model&#39;s length (a weapon 30 to 200 cm, a prop 10 to 600 cm) unless you set it.</p>
+</li>
+<li><p>Reduces every mesh to its share of the triangle budget (bigger meshes get more; small parts
+such as eyes keep at least a few dozen triangles). Each mesh is welded first, so it reduces as
+one surface without cracks; afterwards every triangle reads its texture coordinates back from
+the original surface, from the texture island under its centre, so no triangle smears the
+texture across a seam. Bone weights are kept.</p>
+</li>
+<li><p>Makes one texture per material: the colour image reduced to a power of two, the biggest
+surfaces getting the preset&#39;s size and smaller ones less (about the same detail per
+centimetre everywhere). The game has no normal maps, so with <strong>Bake normal map</strong> on the normal
+map&#39;s detail is shaded into the colour (lit from above and in front). Two-channel normal maps
+(Call of Duty&#39;s, with an empty blue channel) work too. A material without an image gets a
+small texture of its colour.</p>
+</li>
+<li><p>Closes what reducing opened, so nothing is see-through: reducing rounds corners off and lets
+the borders of the model&#39;s open shells (parts tucked into each other) creep back, which opens
+gaps. The reduced surface is pushed out gently to cover the original, and every open border
+grows back a little so neighbouring shells overlap again. Then the game version is drawn as
+the game draws it (one side) from six directions against the original: if anything is
+see-through, it is made again from the original with more triangles (up to five times). Game
+checks says when it needed more triangles than your budget; a model this busy at the Stock
+preset may need two or three times as many.</p>
+</li>
+</ol>
+<p><strong>Own budget</strong> sets the triangle count yourself; <strong>Textures</strong> caps the texture size.</p>
+<h3 id="the-view">The view</h3>
+<p>The tab has its own scene: the map is never touched. The viewport header switches between
+<strong>High quality</strong>, <strong>Game</strong> and <strong>Side by side</strong>. The game version is drawn the way the game draws
+it (the texture only, no lighting). The image editor shows its textures.</p>
+<p>The game version is an ordinary mesh: you can touch it up by hand and <strong>Save edits</strong> keeps your
+changes (bone weights follow the nearest original vertex). Making it again asks first, because
+it replaces your edits.</p>
+<h3 id="game-checks">Game checks</h3>
+<p><strong>Game checks</strong> lists the game version&#39;s triangles, vertices, textures (and their memory), size
+and bones, then:</p>
+<ul>
+<li><strong>Problems</strong> (they stop the map from building): more than 65,535 vertices, a model more than
+3.2 m from its centre (usually the wrong unit), texture coordinates past -8..8, texture sides
+that are not powers of two from 4 to 1024, a vertex following more than 4 bones.</li>
+<li><strong>Warnings</strong>: over the triangle budget, textures over the preset, and for weapons a missing
+part (the magazine, <code>tag_clip</code>: the reload would show none).</li>
+</ul>
+<p>Where there is a one-click fix (reduce the budget, halve the textures, use centimetres), a
+<strong>Fix</strong> button sits next to it.</p>
+<h3 id="using-an-asset">Using an asset</h3>
+<p><strong>Place in map</strong> puts a copy at the 3D cursor in the World tab; <strong>Add → My assets</strong> and the
+palette&#39;s <strong>My assets</strong> catalog (drag it in) do the same. A placed asset is a model like any
+other (collision, start state, scripts, prefabs) that refers to the asset: making the asset
+again updates every copy. An asset placed in the map cannot be removed until its copies are
+deleted.</p>
+<p>The game version is stored in tenths of a centimetre (the game&#39;s positions are 16-bit
+integers, so this keeps small details) and placed at 0.1 scale, the way the game itself places
+some of its models.</p>
+<h3 id="model-project-files">Model project files</h3>
+<pre><code class="language-text">assets/&lt;name&gt;/&lt;file&gt;              the source file (a copy)
+source/assets/&lt;name&gt;.json         settings: kind, preset, budget, texture size, unit, ...
+source/assets/&lt;name&gt;/model.json   the game version: vertices, uvs, triangles, materials;
+                                  weapons also bones, bone weights and parts
+source/assets/&lt;name&gt;/textures/    one PNG per material
+source/assets/&lt;name&gt;/stats.json   the figures and checks shown in the tab
+</code></pre>
+<p><code>bozkit.assets</code> reads and writes these; <code>blender/boz_suite/asset_build.py</code> makes the game version.
+Third-party models (ripped game models and the like) belong in your project only: do not
+publish them.</p>
+<h2 id="effects-and-projectiles">Effects and projectiles</h2>
+<p>Scripts can spawn the game&#39;s effects and projectiles anywhere, for as long as they want, with
+<code>boz.effects</code>. A projectile brings the game&#39;s own behaviour with it: a Gersch device opens a black
+hole that pulls zombies in and kills them, a monkey bomb lures them, a bolt explodes where it
+hits.</p>
+<h3 id="the-effects-tab">The Effects tab</h3>
+<p><strong>Game effects</strong> lists everything the game can spawn. <strong>Show</strong> filters it:</p>
+<ul>
+<li><strong>Effects:</strong> particles and visual effects (the shared ones, and each map&#39;s own).</li>
+<li><strong>Projectiles:</strong> each map&#39;s grenades, bolts, lures and devices, with what they do and which
+weapons fire them (Ascension&#39;s <code>bh_bomb projectile</code> is the Gersch device: &quot;Black hole&quot;).</li>
+</ul>
+<p>Every one works on any map: the build brings whatever a map uses with everything it needs (its
+models, materials, textures, and the sounds its code plays by name), from whichever map it comes
+from. Search by name, map or behaviour. Pick one, give it a <strong>Name</strong> (what scripts call it) and
+<strong>Name it</strong>. Scripts can also spawn any of them by the game&#39;s name or <code>&quot;0x...&quot;</code> hash without a
+name: the build finds those in the scripts.</p>
+<p><strong>Named effects</strong> lists the names: rename or forget them, and <strong>Copy script line</strong>
+copies a line of Lua that spawns the selected one where the player aims. A projectile has two
+switches, and the build gives the map its own copy of it without what they leave out:</p>
+<ul>
+<li><strong>Hide its model:</strong> no model (a black hole without the Gersch device lying on the floor).</li>
+<li><strong>Stays where spawned:</strong> no physics (no gravity or rolling: it stays exactly where a script
+spawns it; a black hole then opens right where the shot lands).</li>
+</ul>
+<h3 id="bozeffects">boz.effects</h3>
+<pre><code class="language-lua">local effects = require(&quot;boz.effects&quot;)
+
+-- A one-off effect, removed after two seconds.
+effects.spawn(&quot;impactRayGun&quot;, effects.aim(), {lifetime = 2})
+
+-- A black hole where the player aims, for six seconds, its swirl at chest height.
+local hole = effects.projectile(&quot;gersch&quot;, effects.aim(), {trigger = &quot;open&quot;, lifetime = 6, raise = 200})
+hole:remove()               -- or close it early (with its own sound)
+</code></pre>
+<ul>
+<li><code>effects.spawn(name, position, options)</code>: an effect at <code>{x, y, z}</code> (game centimetres, y up).
+Options: <code>rotation</code> <code>{x, y, z, w}</code>, <code>lifetime</code> (seconds, then it is removed).</li>
+<li><code>effects.projectile(name, position, options)</code>: a projectile the game runs. Options: <code>trigger</code>
+(<code>&quot;open&quot;</code>), <code>lifetime</code> (seconds), <code>raise</code> (centimetres: it floats that far above the position;
+for one that <strong>Stays where spawned</strong>), <code>hidden</code> (its own model is not drawn: a black hole
+without the device lying on the floor), <code>freeze</code> (stay where spawned instead of settling on the
+floor), <code>lift</code> (centimetres up, default 10, so it does not start in the floor; <code>raise</code> replaces
+it), <code>rotation</code>. It is the
+player&#39;s (zombies turning to a device ask for its owner, so it always has one). The game sets a new projectile up a frame after it spawns; the trigger, lifetime and
+hiding are applied then (<code>:ready()</code> says when), so scripts need not wait.</li>
+<li><code>effects.aim()</code>: the point the player&#39;s crosshair is on (where a shot lands, up to 100 m) and
+whether it is a live zombie.</li>
+<li>What they return: <code>:alive()</code>, <code>:ready()</code>, <code>:position()</code>, <code>:move(position)</code>,
+<code>:trigger(name)</code>, <code>:hide()</code>, <code>:show()</code>, <code>:freeze()</code>, <code>:lifetime(seconds)</code>, <code>:remove()</code>.</li>
+</ul>
+<p>Names are the Effects tab&#39;s names, or the game&#39;s own names (<code>&quot;gersch_Effect&quot;</code>, <code>&quot;impactRayGun&quot;</code>,
+<code>&quot;iceShatter&quot;</code>, ...), or <code>&quot;0x...&quot;</code> hashes; the build bundles every one a script names.</p>
+<h4 id="what-projectiles-do">What projectiles do</h4>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Behaviour</th>
+<th>What it does</th>
+<th>Triggers</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Thrown (lifetime)</td>
+<td>Grenades: explode after their time</td>
+<td><code>explode</code></td>
+</tr>
+<tr>
+<td>Bolt</td>
+<td>Ray gun, launchers: explode where they hit</td>
+<td><code>explode</code></td>
+</tr>
+<tr>
+<td>Lure</td>
+<td>Monkey bomb: zombies are drawn to it</td>
+<td></td>
+</tr>
+<tr>
+<td>Black hole</td>
+<td>Gersch device: zombies within 50 m walk into it and die within 1.5 m; a player inside is sent to one of the map&#39;s Gersch teleport points (a map without them: nothing happens)</td>
+<td><code>open</code></td>
+</tr>
+</tbody></table></div>
+<p>A black hole&#39;s swirl draws about a metre below the device (the device normally lies on the floor
+and the swirl model is built downwards from it), so a hole spawned on the floor shows its centre
+under the floor: <code>raise = 200</code> puts the ball at chest height. A raised black hole kills just as
+far around it on the floor: its kill reach grows with the height, so zombies walking under it
+still die.</p>
+<p>A black hole normally opens once it has come to rest and lasts 8 seconds; <code>trigger = &quot;open&quot;</code>
+opens it at once and <code>lifetime</code> sets how long it stays open.</p>
+<p>The game kills the zombies a black hole takes without naming who killed them, so they do not
+count as the player&#39;s kills (stats, achievements). A script that wants them counted asks once:
+<code>require(&quot;boz.zombies&quot;).credit_kills(&quot;SUBJECT_ZOMBIE_GERSCH_DEATH&quot;)</code>. The Effects tab&#39;s <strong>Copy
+script line</strong> adds that line for a black hole.</p>
+<h3 id="example-a-gun-that-opens-a-black-hole-where-it-fires">Example: a gun that opens a black hole where it fires</h3>
+<p>This example makes <code>idgun</code>, a new weapon copied from the Thundergun (<strong>New weapon</strong> in the
+Weapons tab), whose shots open black holes. In the Effects tab, name Ascension&#39;s
+<code>bh_bomb projectile</code> <code>gersch</code> and tick <strong>Hide its model</strong> and <strong>Stays where spawned</strong>. In the
+Weapons tab, set <code>idgun</code>&#39;s <strong>Fire mode</strong> to <strong>Single shot</strong> (a Thundergun-based weapon would otherwise still fire its
+own blast; the Thundergun&#39;s bullets do no damage, so the black hole does the killing), and give it
+a script (<strong>Add script</strong>):</p>
+<pre><code class="language-lua">local effects = require(&quot;boz.effects&quot;)
+require(&quot;boz.zombies&quot;).credit_kills(&quot;SUBJECT_ZOMBIE_GERSCH_DEATH&quot;)   -- its kills are the player&#39;s
+
+-- Every shot: a black hole where the shot lands, for six seconds.
+function on_fire(data)
+    local where = effects.aim()
+    if where then
+        effects.projectile(&quot;gersch&quot;, where, {trigger = &quot;open&quot;, lifetime = 6, raise = 200})
+    end
+end
+</code></pre>
+<h3 id="how-effects-work">How effects work</h3>
+<p>From the game&#39;s code (Ghidra names in the game definition): <code>Spawn_ByHash(CSpawnManager, spec hash, position, rotation)</code> creates any entity spec a loaded group holds (<code>Entity_CreateFromSpec</code>,
+then the <code>CIsTransform</code>&#39;s position +0xa8 and rotation +0x98, stored scalar first: s x y z). A projectile is an entity
+with a <code>CProjectileEntity</code> whose <code>behaviourType</code> (1 thrown, 2 bolt, 4 lure, 6 Gersch device)
+decides what <code>Projectile_UpdateFlight</code>, <code>Projectile_UpdateGersch</code> and <code>Projectile_Impact</code> do; it
+keeps its lifetime (ms) at +0xc0, its open state at +0xc7 and its owner at +0x88, and takes events
+on its subject at +0x28. A Gersch device that receives <code>SUBJECT_SPAWN_GERSCH_EFFECT</code> spawns
+<code>gersch_Effect</code> (shared), plays <code>gersch_opens</code> and loops <code>gersch_loop</code> (Ascension&#39;s sounds), and
+counts its lifetime down to <code>SUBJECT_TERMINATE</code> (removes the effect, plays <code>gersch_shuts</code>). Zombies
+(<code>CAIControllerZombie</code>) ask <code>ProjectileManager_FindNearest</code> for an open device within 5000 units,
+walk into it, and die (<code>SUBJECT_ZOMBIE_GERSCH_DEATH</code>) within <code>m_proximityRadius</code> x 100 (the
+projectile&#39;s +0x90, metres, measured in 3D from its centre: <code>raise</code> widens it to
+sqrt(r² + raise²)). The swirl (<code>gersch_Effect</code>, a billboard model) spawns at the device&#39;s
+position and rotation and draws from 22 to 205 units below it.
+<code>WeaponManager_UpdateAim</code> ray-casts the crosshair every frame into the weapon manager&#39;s +0xcc.</p>
+<p>The catalog is <code>bozkit/effects.py</code>, the bundling <code>bozkit/bundle.py</code>
+(<a href="how-the-game-works.html#map-agnostic-assets-bozkitbundle">Asset formats</a>); the names are
+<code>source/effects.json</code>.</p>
+<h2 id="sounds">Sounds</h2>
+<p>The <strong>Audio</strong> tab replaces the game&#39;s sounds with your own. It has two parts:</p>
+<ul>
+<li><strong>Game sounds:</strong> every sound your map plays, as slots you can hear and replace.</li>
+<li><strong>Your sounds:</strong> the processor every sound goes through before it can be used: Import a
+recording, shape it, Preview it as the game will play it, then Save.</li>
+</ul>
+<p>Only saved sounds go in slots. Changing a saved sound&#39;s settings asks you to Save again; the
+slots using it play the new version from the next build.</p>
+<h3 id="game-sounds">Game sounds</h3>
+<p>Pick <strong>Show the sounds</strong> the first time (it needs the asset library). The list shows each sound
+with its length; <strong>Show</strong> filters it:</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Filter</th>
+<th>What it shows</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>All</td>
+<td>Every sound the map plays</td>
+</tr>
+<tr>
+<td>Replaced</td>
+<td>The slots you filled</td>
+</tr>
+<tr>
+<td>Weapons</td>
+<td>Fire, reload, empty click, buy sounds of every weapon</td>
+</tr>
+<tr>
+<td>Shared</td>
+<td>The game&#39;s shared sounds: weapons, zombies, power-ups, rounds, buying</td>
+</tr>
+<tr>
+<td>This map</td>
+<td>The base map&#39;s own sounds (its dogs, teleporters, music box, ...)</td>
+</tr>
+<tr>
+<td>Characters</td>
+<td>The player characters&#39; voice lines</td>
+</tr>
+<tr>
+<td>Interface</td>
+<td>Menu and interface sounds</td>
+</tr>
+</tbody></table></div>
+<p>Type in the list&#39;s search field to find a sound by name or by what plays it (&quot;Reload&quot;,
+&quot;ak74u&quot;).</p>
+<p>Slots are named after what plays them: a weapon&#39;s sound is &quot;Thundergun: Fire&quot;; sounds the game
+names are named after it (&quot;Carpenter pickup&quot;, &quot;Dog spawn&quot;); voice lines start with the
+character (&quot;Takeo: …&quot;); a sound many weapons share names the first and how many more (&quot;colt45
++10: Empty click&quot;); the rest show where they live and their number (&quot;Shared 0x…&quot;). <strong>Played
+by</strong> lists everything that plays the selected sound.</p>
+<p>The game stores weapon sounds in pieces, and the names say which kind:</p>
+<ul>
+<li><strong>Parts</strong> (&quot;ak74u: Reload part 2 of 4&quot;): a reload is several short recordings (mag out, mag
+in, bolt, ...) played in order with set waits between them (the ak74u&#39;s: 350, 350, 550 and
+250 ms), timed to the animation. Replace the part you want to change.</li>
+<li><strong>Takes</strong> (&quot;ak74u: Fire take 1 of 2&quot;): a shot plays one of a few recordings picked at random,
+so firing does not sound the same every time. Replace every take for a new fire sound (the
+same sound in each is fine).</li>
+</ul>
+<p>The <strong>wave view</strong> on the right draws the selected slot&#39;s original (grey, top) over your
+replacement (orange, bottom); for one of your sounds, the recording (with what the trim cuts
+shaded) over the game version. Both share one time scale, with a tick every 0.1 s.</p>
+<ul>
+<li><strong>Play original</strong> plays the game&#39;s sound (as the game stores it).</li>
+<li><strong>Replace with</strong> puts one of your saved sounds in the slot; <strong>Play</strong> then plays yours.</li>
+<li><strong>Reset</strong> gives the slot its original back.</li>
+</ul>
+<p>A slot is one recording of the game. Everything that plays it plays your sound: a weapon made
+from another (New weapon) plays its base&#39;s sounds, so replacing one changes both.</p>
+<h3 id="a-weapons-own-sounds">A weapon&#39;s own sounds</h3>
+<p>The Weapons tab&#39;s <strong>Sounds</strong> panel gives the selected weapon sounds of its own: for Fire, Last
+round, Empty click, Reload, Reload (rounds left), Equip / pickup and Bought (player), <strong>Use one
+sound</strong> picks one of your saved sounds. The build gives sequence fields a new sequence and
+direct-play fields a new sound spec (with the volume and pitch of the sound it replaces), so:</p>
+<ul>
+<li>one recording can replace a reload the game plays in four parts, with nothing left over;</li>
+<li>the weapon it is made from keeps its own sounds (a new reload sound on <code>idgun</code>, from the
+<a href="#example-a-gun-that-opens-a-black-hole-where-it-fires">black hole example</a>, leaves the
+Thundergun&#39;s alone).</li>
+</ul>
+<p><strong>Equip / pickup</strong> plays when the weapon is equipped, including after a wall buy, but also on
+ordinary weapon switches. <strong>Bought (player)</strong> is the buyer&#39;s sound on a wall purchase. The
+shared wall-buy click plays separately and is not replaced by either field. These native fields
+do not cover every way a weapon can be acquired. For a grant-only sound, assign a saved sound to
+<strong>Bought (player)</strong>, then call its generated spec from the weapon script&#39;s <code>on_given()</code> callback:</p>
+<pre><code class="language-lua">function on_given()
+    require(&quot;boz.audio&quot;).play(self.name .. &quot;_playerBuySound&quot;)
+end
+</code></pre>
+<p>That callback runs for <code>CWeaponManager::GiveWeapon</code> (wall buy, mystery box, and
+<code>boz.weapons.give</code>). A wall purchase may also play the native <strong>Bought (player)</strong> field, so
+this example can play the sound twice on that path; use it only when that trade-off is acceptable.</p>
+<p>Your recording carries its own timing: line it up with the weapon&#39;s reload animation (the wave
+view shows its length). <strong>Use the game&#39;s</strong> (✕) goes back. Below, the panel lists the game sounds
+the weapon still plays, which you can replace as slots (for every weapon that plays them).</p>
+<h3 id="your-sounds">Your sounds</h3>
+<p><strong>Import…</strong> reads any file Blender&#39;s audio library reads (WAV, MP3, OGG, FLAC, AIFF, ...). The
+recording is kept in the project as it is; nothing is changed until you Save.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Rate</td>
+<td>22050 Hz (better quality; most weapon sounds) or 11025 Hz (half the size; most voices and effects). The game plays only these two.</td>
+</tr>
+<tr>
+<td>Trim start / end</td>
+<td>Seconds cut from the start and the end</td>
+</tr>
+<tr>
+<td>Normalize</td>
+<td>Brings the loudest point to -1 dB first</td>
+</tr>
+<tr>
+<td>Gain</td>
+<td>Then raises or lowers the level (dB)</td>
+</tr>
+<tr>
+<td>Fade in / out</td>
+<td>Seconds of fade at the start and the end</td>
+</tr>
+</tbody></table></div>
+<p>Stereo recordings are mixed down to mono (the game&#39;s sounds are mono). <strong>Recording</strong> plays the
+imported file; <strong>Preview (game)</strong> plays it with the settings, through the game&#39;s own compression
+and back, so you hear exactly what players will. <strong>Save</strong> makes the game version.</p>
+<h3 id="sounds-in-the-game">Sounds in the game</h3>
+<p>Build &amp; Run puts your sounds in. A sound of the map&#39;s own groups is replaced in the level the
+build makes; a shared or character sound is replaced in a copy of the game&#39;s group the mod
+carries (the client serves a mod&#39;s files in place of the game&#39;s), so it changes wherever that
+mod is enabled. The sound&#39;s volume, pitch, polyphony and everything that plays it stay the
+game&#39;s.</p>
+<p>Not yet: the streamed music (mp3 files) and placing new sound emitters.</p>
+<h3 id="sound-project-files">Sound project files</h3>
+<pre><code class="language-text">source/sounds/&lt;name&gt;.json        the sound&#39;s settings and where it was imported from
+source/sounds/&lt;name&gt;/source.wav  the imported recording (as read)
+source/sounds/&lt;name&gt;/game.wav    the saved game version (mono, 16-bit, the chosen rate)
+source/sounds/slots.json         {&quot;&lt;group path&gt;#0x&lt;sound hash&gt;&quot;: &quot;&lt;name&gt;&quot;}: the filled slots
+</code></pre>
+<p>The formats and the slot catalog are in <code>bozkit/sound.py</code> and
+<a href="how-the-game-works.html#sounds-ciwsounddata-ciwsoundspec-csoundsequence">Asset formats</a>.</p>
+
+            </article>
+            <div class="doc-pagination" role="navigation" aria-label="Previous and next page">
+              <a class="doc-prev" href="map-editor.html"><small>PREVIOUS</small><span>← Map editor</span></a>
+              <a class="doc-next" href="standard-library.html"><small>NEXT</small><span>Standard library →</span></a>
+            </div>
+          </div>
+          <aside class="doc-toc" aria-label="On this page">
+            <p>ON THIS PAGE</p>
+            <a href="#weapons">Weapons</a>
+            <a href="#the-weapons-tab" class="sub">The Weapons tab</a>
+            <a href="#a-weapon-with-your-own-model" class="sub">A weapon with your own model</a>
+            <a href="#animations" class="sub">Animations</a>
+            <a href="#weapon-scripts" class="sub">Weapon scripts</a>
+            <a href="#weapon-project-files" class="sub">Weapon project files</a>
+            <a href="#how-weapons-work" class="sub">How weapons work</a>
+            <a href="#field-reference" class="sub">Field reference</a>
+            <a href="#your-own-models">Your own models</a>
+            <a href="#importing" class="sub">Importing</a>
+            <a href="#making-the-game-version" class="sub">Making the game version</a>
+            <a href="#the-view" class="sub">The view</a>
+            <a href="#game-checks" class="sub">Game checks</a>
+            <a href="#using-an-asset" class="sub">Using an asset</a>
+            <a href="#model-project-files" class="sub">Model project files</a>
+            <a href="#effects-and-projectiles">Effects and projectiles</a>
+            <a href="#the-effects-tab" class="sub">The Effects tab</a>
+            <a href="#bozeffects" class="sub">boz.effects</a>
+            <a href="#example-a-gun-that-opens-a-black-hole-where-it-fires" class="sub">Example: a gun that opens a black hole where it fires</a>
+            <a href="#how-effects-work" class="sub">How effects work</a>
+            <a href="#sounds">Sounds</a>
+            <a href="#game-sounds" class="sub">Game sounds</a>
+            <a href="#a-weapons-own-sounds" class="sub">A weapon's own sounds</a>
+            <a href="#your-sounds" class="sub">Your sounds</a>
+            <a href="#sounds-in-the-game" class="sub">Sounds in the game</a>
+            <a href="#sound-project-files" class="sub">Sound project files</a>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+<footer>
+      <a class="brand" href="../index.html"
+        ><img src="../assets/client-logo.png" alt="BOZ Redux" width="640" height="260" loading="lazy"
+      /></a>
+      <p>BOZ Redux</p>
+      <span>Not affiliated with Activision. Game files are not included.</span
+      ><a href="https://github.com/ZappaVinny/boz-redux">Source ↗</a>
+    </footer>
+<dialog id="discord-dialog">
+      <button class="dialog-close" aria-label="Close dialog">×</button>
+      <h2>Discord</h2>
+      <p>
+        The Discord invite hasn’t been added yet. Check GitHub for project
+        updates.
+      </p>
+      <a
+        class="button"
+        href="https://github.com/ZappaVinny/boz-redux"
+        target="_blank"
+        rel="noopener"
+        >Visit the project ↗</a
+      >
+    </dialog>
+  </body>
+</html>

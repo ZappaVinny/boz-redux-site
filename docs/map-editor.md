@@ -243,14 +243,8 @@ your own. A script is a Lua file attached to an object in the editor; it reacts 
 game events, and changes objects. This section builds an example step by step, then lists
 everything a script can use.
 
-A map is made of three kinds of object ([Building the world](#building-the-world)), and scripts tie them
-together:
-
-| Kind | What it is | In the editor |
-| --- | --- | --- |
-| **Model** | A mesh you see and bump into: a game model, or your own | Palette Models, Add → Game shapes, Project → Import model |
-| **Volume** | An invisible box that sends events: **Trigger** (walked into), **Hit** (shot), **Use** (player presses use) | Palette Volumes |
-| **Prefab** | One object made of parts (models, volumes, prefabs), with an optional script. **Game prefabs** are the game's own: perk machines, wall buys, doors, spawns, ... | Select objects, **Make prefab** (Ctrl+G); palette Game prefabs and Level markers |
+A map is made of three kinds of object, models, volumes and prefabs
+([Three kinds of object](#three-kinds-of-object)), and scripts tie them together.
 
 Every object's **name** is how scripts find it. Inside a prefab, a part keeps its **part name**
 (Door, Skull, ...), and scripts reach it with `self:part("Door")`.
@@ -261,7 +255,7 @@ An example: a vault door that opens when a skull is shot.
 
 1. Add a wall: Add → Game shapes → Wall. In its Game panel, under **When the level starts**,
    tick **Blocks the walkable area**, so zombies and players can't walk through until it opens.
-2. Drop a **Hit volume** from the palette (Volumes) where the skull should be. Drop the
+2. Drop a **Hit volume** from the asset browser (Volumes) where the skull should be. Drop the
    Insta-Kill model from Models → Shared on the same spot, so there is something to see.
 3. Select the wall, the volume and the model, then **Make prefab** (Ctrl+G). Name the prefab
    `Vault`. Set the parts' **part names** to `Door`, `Skull` and `Skull_model`.
@@ -288,8 +282,7 @@ single Hit volume there is nothing to check; with several, `volume` says which o
 
 Save the script, then press **Reload properties** in the Script box. The `---@property` lines
 show up as fields, here **Reward**. Each prefab using the script has its own value, and at
-runtime it is `self.properties.reward`.
-Build & Run.
+runtime it is `self.properties.reward`. Then **Build & Run** to try it.
 
 ### 3. Reuse it
 
@@ -304,7 +297,7 @@ again under another name.
 A script is just its functions. When the level starts, it runs once for every object it is
 attached to, each run with its own `self` and its own top-level variables (a `local hits = 0` at
 the top counts for that object alone). `boz` is the scripting module. `print(...)` shows in the
-Developer console (` or F1) and in `boz-log.txt`. Every handler is optional:
+Developer console (`` ` `` or F1) and in `boz-log.txt`. Every handler is optional:
 
 | Handler | When |
 | --- | --- |
@@ -733,8 +726,9 @@ A `CIsNavMesh` resource holds the build settings and a tiled Detour v7 navmesh (
 RecastDemo's: cell size and height, agent height, radius, climb and slope, region minimum and
 merge sizes, edge length and error, vertices per polygon, detail sampling distance and error,
 tile size, and the build bounds. Tiles are `tile size × cell height` wide (32 × 0.15 = 4.8 m in
-Kino; the original tool multiplied by the wrong cell dimension), and positions are metres, the
-game's units divided by 100.
+Kino). Recast normally multiplies the tile size by the cell size; the game's original build tool
+used the cell height instead, and the shipped navmeshes are laid out that way.
+Positions are metres, the game's units divided by 100.
 
 BOZ modified Detour. A polygon is 40 bytes instead of 32: `firstLink`, six vertices, six
 neighbours, **32-bit flags**, a **32-bit name hash**, the vertex count, the area and type, and two
@@ -755,8 +749,8 @@ one-way.
 
 ### How the rebuild works
 
-The shipped navmeshes were built from the level's collision (79% of their surfaces lie within one
-cell height of it), with triangles wound the opposite way to Recast's convention. Collision
+The shipped navmeshes were built from the level's collision, with triangles wound the opposite
+way to Recast's convention. Collision
 boxes on entities count as obstacles; doors do not, because the navmesh runs under doors and
 their tags gate it.
 
@@ -779,19 +773,23 @@ nothing else changed.
   jump areas and water carry over.
 - A tile whose rebuild would drop one of its window crossings or climbs keeps its shipped data.
 
-Rebuilding every Kino tile at once (the worst case) reproduces 94% of the shipped walkable area,
-96% of the rebuilt area lies on shipped floor, and 44 of the 48 window crossings and climbs are
-rebuilt (the other four tiles keep their shipped data). In normal use only the tiles around an
-edit are rebuilt.
+In normal use only the tiles around an edit are rebuilt.
+
+**Accuracy.** 79% of the shipped navmesh surfaces lie within one cell height of the level's
+collision, which is how the collision is known to be their source. Rebuilding every Kino tile at
+once (the worst case) reproduces 94% of the shipped walkable area, 96% of the rebuilt area lies on
+shipped floor, and 44 of the 48 window crossings and climbs are rebuilt (the other four tiles keep
+their shipped data).
 
 ### Blocking objects: cutting instead of rebuilding
 
 An object set to **Block the walkable area** (a wall a script opens) does not change the
 level's collision: the floor under it is tagged with its name, so `NavMesh_SetTagOpen` can shut
 and open it. Rebuilding its tiles with Recast would lose floor the designers made from other
-input than the collision (Kino's stairs are a ramp up to 0.8 m under the steps, and a rebuilt
-tile next to them lost a quarter of their floor, trapping players). So the SDK keeps those
-tiles exactly as shipped and cuts the blocker's outline into their polygons (`bozkit.navcut`):
+input than the collision. Kino's stairs, for example, are a ramp up to 0.8 m under the steps:
+rebuilding a tile next to them loses a quarter of their floor and traps players. So the SDK keeps
+those tiles exactly as shipped and cuts the blocker's outline into their polygons
+(`bozkit.navcut`):
 
 - the pieces inside the outline are tagged (flags `| 0x2`, the object's name hash);
 - every new corner also goes into each polygon edge it lies on, so neighbouring polygons
@@ -824,7 +822,7 @@ at how the game's maps are built. Format details are in [Asset formats](how-the-
 
 ### Open the tools
 
-Open any map project in the editor (**Open in Editor** in the SDK launcher). The tools are in the
+Open any map project in the editor (**Open in Editor** in the SDK app). The tools are in the
 **Shipped files** tab of the 3D View sidebar; set the client folder there.
 
 ### Extract the game data
@@ -938,8 +936,8 @@ its radius and Z its half height; a reach disc's scale is the interaction distan
 the height offset. Shapes cannot be rotated relative to their entity. The level's world collision
 (orange wire) is separate from these shapes.
 
-**Collision.** A level's world collision is one mesh, cooked from the render models: in Kino, 82%
-of its triangles lie exactly on one placed model. Those triangles are imported as a hidden wire
+**Collision.** A level's world collision is one mesh, cooked from the render models (in Kino, 82%
+of its triangles lie exactly on a single placed model). Those triangles are imported as a hidden wire
 child of that model (`<model> collision`), so moving, rotating or scaling the model carries its
 collision with it. Collision that belongs to no single model (invisible walls, simplified
 surfaces) stays in the level's collision object. Saving stitches everything back into the one
@@ -1015,8 +1013,8 @@ tab switches your edits on and off.
 3. **Import level folder** has **Include mod edits** enabled by default: groups already saved to
    your mod are loaded instead of the game's copies, exactly as the client does. Continue editing
    and save again.
-4. Start the game. New mods are enabled automatically (the launcher's Mods tab can disable it),
-   so the edits appear the next time the level loads.
+4. Start the game. New mods are enabled automatically (the launcher's Mods tab can disable
+   them), so the edits appear the next time the level loads.
 
 Every unknown section and unsupported resource body stays byte-identical. Editing the geometry of
 a model that lives in the shared `ingame` group saves a new `ingame.group.bin` in the mod; moving
@@ -1040,9 +1038,10 @@ Under **Files**, **Import native group** opens a single `.group.bin`, **Export e
 changed groups into any folder (for example an SDK project's `assets/`), and **Export edited
 group** writes one group to a new file (`<name>-edited.group.bin`, byte-identical without edits).
 
-### Try the shipped-file tools
+### Example: a round trip
 
-A short round trip, all in the editor's sidebar and the game:
+This walk-through edits Kino in place with the tools above, saves the edits to a mod and plays
+them, all from the editor's sidebar and the game:
 
 1. Set **Client** to your `boz-redux` folder. **Import level folder** on `levels/kino`.
 2. Move two objects, rotate one, scale one, and raise a small wall of floor collision in

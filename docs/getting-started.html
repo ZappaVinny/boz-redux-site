@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Getting started | BOZ Redux Docs</title>
+    <meta name="description" content="This page takes you from nothing to a working mod and a playable map. First you install the client, the SDK and the editor, then you meet the SDK app, and…" />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://boz-redux.com/docs/getting-started.html" />
+    <meta name="theme-color" content="#0d0e10" />
+    <link rel="icon" href="../assets/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="256x256" href="../assets/favicon.png" />
+    <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png" />
+    <link rel="manifest" href="../site.webmanifest" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="BOZ Redux" />
+    <meta property="og:title" content="Getting started | BOZ Redux Docs" />
+    <meta property="og:description" content="This page takes you from nothing to a working mod and a playable map. First you install the client, the SDK and the editor, then you meet the SDK app, and…" />
+    <meta property="og:url" content="https://boz-redux.com/docs/getting-started.html" />
+    <meta property="og:image" content="https://boz-redux.com/assets/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Getting started","description":"This page takes you from nothing to a working mod and a playable map. First you install the client, the SDK and the editor, then you meet the SDK app, and…","url":"https://boz-redux.com/docs/getting-started.html","dateModified":"2026-10-17T17:36:34-05:00","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Getting started","item":"https://boz-redux.com/docs/getting-started.html"}]}]}</script>
+    <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="stylesheet" href="../styles.css" />
+    <script defer src="../config.js"></script>
+    <script defer src="../app.js"></script>
+  </head>
+  <body class="is-docs">
+    <a class="skip" href="#main">Skip to content</a>
+<header>
+      <a class="brand" href="../index.html" aria-label="BOZ Redux home"
+        ><img src="../assets/client-logo.png" alt="BOZ Redux" width="640" height="260"
+      /></a>
+      <nav aria-label="Main navigation">
+        <a href="../index.html" data-nav="home">Home</a
+        ><a href="../docs/index.html" data-nav="docs" class="active" aria-current="page">Documentation</a
+        ><a href="#discord" data-discord>Discord</a>
+      </nav>
+      <a
+        class="header-github"
+        href="https://github.com/ZappaVinny/boz-redux"
+        target="_blank"
+        rel="noopener"
+        >GitHub ↗</a
+      >
+    </header>
+
+    <main id="main" tabindex="-1">
+      <div id="docs-view">
+        <button class="docs-mobile" aria-expanded="false">
+          ☰ Browse documentation
+        </button>
+        <div class="docs-shell">
+          <aside class="docs-sidebar" aria-label="Documentation navigation">
+            <div class="search-wrap">
+              <input
+                id="docs-search"
+                aria-label="Search all documentation"
+                placeholder="Search documentation…"
+                type="search"
+                autocomplete="off"
+                data-index="../docs-data.js"
+              />
+            </div>
+            <div class="search-results" aria-live="polite"></div>
+            <!--
+              The docs page list. Order here sets sidebar order and previous/next.
+              Each link's href is docs/<name>.html for docs/<name>.md (README is index.html).
+              Each link belongs to the nearest label above it (used for the breadcrumb).
+              After changing it, run `node rebuild-docs.mjs`.
+            -->
+            <div class="page-links" role="navigation" aria-label="Documentation pages">
+              <p class="docs-label">START HERE</p>
+              <a href="index.html">Introduction</a>
+              <a href="getting-started.html" class="current" aria-current="page">Getting started</a>
+
+              <p class="docs-label">CREATE</p>
+              <a href="lua-mods.html">Lua mods</a>
+              <a href="map-editor.html">Map editor</a>
+              <a href="weapons-and-assets.html">Weapons &amp; assets</a>
+
+              <p class="docs-label">REFERENCE</p>
+              <a href="standard-library.html">Standard library</a>
+              <a href="console-reference.html">Console reference</a>
+              <a href="game-events.html">Game events</a>
+              <a href="sdk-reference.html">SDK reference</a>
+
+              <p class="docs-label">UNDER THE HOOD</p>
+              <a href="how-the-game-works.html">How the game works</a>
+              <a href="contributing.html">Contributing</a>
+            </div>
+          </aside>
+          <div class="doc-area">
+            <div class="breadcrumb">DOCUMENTATION / <span>START HERE</span></div>
+            <article class="doc-content">
+<h1 id="getting-started">Getting started</h1>
+<p>This page takes you from nothing to a working mod and a playable map. First you install the
+client, the SDK and the editor, then you meet the SDK app, and then you make a small script mod
+and a small map, step by step.</p>
+<h2 id="installation">Installation</h2>
+<p>You need three things: the BOZ Redux client with the game installed, the SDK, and (for maps)
+the editor&#39;s Blender.</p>
+<h3 id="1-the-client-and-the-game">1. The client and the game</h3>
+<p>The client is the program that runs the game on PC. It also loads mods.</p>
+<ol>
+<li>Download the client for your system from the
+<a href="https://github.com/ZappaVinny/boz-redux/releases" target="_blank" rel="noopener">BOZ Redux releases</a> and unpack it anywhere.</li>
+<li>Start <code>boz-redux</code> (Linux) or <code>boz-redux.exe</code> (Windows).</li>
+<li>In the launcher&#39;s <strong>Game files</strong> tab, choose your own copy of the Android game (APK, version
+1.0.11) and click <strong>Install</strong>. Then click <strong>Download</strong> to fetch the game&#39;s data packs, or
+import them from a folder.</li>
+<li>Click <strong>PLAY</strong> once to check that the game runs.</li>
+</ol>
+<p>The folder you unpacked is your <strong>client folder</strong>. It holds <code>mods/</code> (installed mods),
+<code>saves/</code>, <code>client.ini</code> (settings) and <code>boz-log.txt</code> (the log you will read when something goes
+wrong). The SDK asks for this folder the first time it starts.</p>
+<h3 id="2-the-sdk">2. The SDK</h3>
+<p>The SDK needs Python 3.11 or newer and Git.</p>
+<pre><code class="language-bash">git clone --recurse-submodules https://github.com/ZappaVinny/boz-redux-sdk.git
+cd boz-redux-sdk
+python3 -m pip install -e &#39;.[desktop]&#39;
+</code></pre>
+<p>This installs two commands:</p>
+<ul>
+<li><code>boz-sdk</code> starts <a href="#the-sdk-app">the SDK app</a>: your projects, the asset library and the editor.</li>
+<li><code>bozkit</code> is the <a href="sdk-reference.html#bozkit-command-line">command line</a>: build, install and package projects,
+and read or edit game files.</li>
+</ul>
+<p>You can also run the app without installing, from the checkout: <code>./boz-sdk</code>. On Linux,
+<code>boz-sdk --add-to-menu</code> adds it, with its icon, to your desktop&#39;s application menu. Leave out
+<code>[desktop]</code> if you only want the command line.</p>
+<h3 id="3-the-map-editor-maps-only">3. The map editor (maps only)</h3>
+<p>The map editor is Blender 5.2 LTS with the SDK&#39;s editor add-on. Install Blender 5.2 LTS from
+<a href="https://www.blender.org/download/lts/" target="_blank" rel="noopener">blender.org</a>, or put it in the SDK&#39;s <code>blender/</code> folder.
+The SDK app finds it there or on your <code>PATH</code>; <strong>Settings</strong> in the app can point at another
+Blender. The app prepares the editor itself the first time you open a map.</p>
+<h4 id="the-navmesh-helper">The navmesh helper</h4>
+<p>When you change a map&#39;s walls or floors, the SDK rebuilds where players and zombies can walk
+with a small native helper. Build it once (needs CMake and a C++ compiler):</p>
+<pre><code class="language-bash">git submodule update --init tools/navmesh/third_party/recast
+cmake -S tools/navmesh -B tools/navmesh/build -DCMAKE_BUILD_TYPE=Release
+cmake --build tools/navmesh/build -j
+</code></pre>
+<p>Without it everything still works, but edits that change collision keep the old walkable area
+(the editor tells you so when you save). See <a href="map-editor.html#navigation-meshes">Navigation meshes</a>.</p>
+<h3 id="check-that-it-works">Check that it works</h3>
+<ol>
+<li>Run <code>boz-sdk</code>, and choose your client folder when it asks.</li>
+<li>The <strong>Client</strong> page should say the game data is installed.</li>
+<li>The <strong>Library</strong> page builds the asset library from your game files the first time (about
+half a minute). When it shows previews of the game&#39;s models, you are ready.</li>
+</ol>
+<h2 id="the-sdk-app">The SDK app</h2>
+<p>The SDK app (<code>boz-sdk</code>) is where your work lives: it keeps your projects, opens maps in the
+editor, builds and installs mods into the client, and browses every asset in the game. It uses
+the same compiler as the <code>bozkit</code> command line, so both always give the same result.</p>
+<p>The first time it starts, it asks for your BOZ Redux client folder and checks that the game data
+is installed. Without game data, script mods still work, but maps cannot be built.</p>
+<h3 id="projects">Projects</h3>
+<p>The project list, with search and sorting. A <strong>project</strong> is the source of one mod (see
+<a href="lua-mods.html#projects-and-packaging">Projects and packaging</a>).</p>
+<ul>
+<li><strong>New project</strong> makes a map or a script mod from a template. Projects go in <code>~/BOZ Projects</code>
+unless you choose another folder in <strong>Settings</strong>.</li>
+<li><strong>Open</strong>, <strong>Duplicate</strong>, <strong>Rename</strong>, <strong>Delete</strong> (to the trash), <strong>Show in file manager</strong> and
+<strong>Remove from list</strong> work on the selected project.</li>
+</ul>
+<h3 id="a-projects-page">A project&#39;s page</h3>
+<ul>
+<li>Edit the mod&#39;s details: name, version, author, description.</li>
+<li><strong>Open folder</strong> opens the project in VS Code if you have it, else in the file manager.</li>
+<li><strong>Run in game</strong> (script mods) installs the mod and the Developer mod into the client, then
+starts the game.</li>
+<li><strong>Build &amp; Run</strong> (maps) builds the map, installs it into the client last in the load order, and
+starts the game straight into the map once the main menu is up.</li>
+<li><strong>Open in Editor</strong> (maps) opens the map in <a href="map-editor.html">the map editor</a>, which has its
+own Build &amp; Run with start options (unlimited health or points, starting points).</li>
+<li>The game&#39;s log, filtered to your mod and to errors.</li>
+</ul>
+<h3 id="client">Client</h3>
+<p>Your client folder, whether the game data is installed, and the installed mods, which you can
+switch on and off. <strong>Open client launcher</strong> starts the client&#39;s own launcher.</p>
+<h3 id="library">Library</h3>
+<p>Every Zombies asset in the game, with previews: props, weapons, models, textures, materials,
+effects, sounds and animations. Search by name, description or <code>0x</code> hash, filter by kind and
+map, and copy an asset&#39;s name or hash for your scripts.</p>
+<p>The app builds the library from your own game files the first time it sees them (about half a
+minute, in the background), and again when the game files change. Nothing in it is shipped. The
+editor&#39;s palettes use the same library.</p>
+<p>The game stores most assets by a hash of their name only, so many have no name. The library
+labels them by what uses them (for example <em>Model of Juggernog perk</em>) or shows the hash. The same
+name can hold different contents in different files (each map&#39;s loading screen, for example);
+the library lists each one as a separate <em>variant</em>.</p>
+<h3 id="learn">Learn</h3>
+<p>The guides and references, and the Developer mod as an example to read.</p>
+<h3 id="settings">Settings</h3>
+<p>Your client folder, where new projects go, the default author, the editor&#39;s Blender (by default
+the SDK&#39;s own, else <code>blender</code> on your <code>PATH</code>) and <strong>Rebuild library</strong>.</p>
+<h3 id="where-the-app-keeps-its-data">Where the app keeps its data</h3>
+<p>Settings, the project list and the asset library live in the SDK data folder:
+<code>~/.local/share/boz-redux-sdk</code> on Linux, <code>%APPDATA%\BOZ Redux SDK</code> on Windows. Set
+<code>BOZ_SDK_HOME</code> to use another folder.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Path</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>library/1.0.11/groups/</code></td>
+<td>Untouched copies of every Zombies group file; map templates start from these</td>
+</tr>
+<tr>
+<td><code>library/1.0.11/index.sqlite</code></td>
+<td>One row per asset: kind, hash, variant, name, label, description, groups, maps, size, triangles, thumbnail</td>
+</tr>
+<tr>
+<td><code>library/1.0.11/thumbs/</code></td>
+<td>128-pixel previews</td>
+</tr>
+<tr>
+<td><code>library/1.0.11/names.txt</code></td>
+<td>Names recovered from the game&#39;s strings, for hash lookups</td>
+</tr>
+<tr>
+<td><code>library/1.0.11/stamp.json</code></td>
+<td>The game files and library version the library was built from</td>
+</tr>
+</tbody></table></div>
+<p>Tools can read the library with <code>bozkit.library.Library</code>.</p>
+<h2 id="your-first-mod">Your first mod</h2>
+<p>In ten minutes you will make a mod that switches unlimited ammo on and off with F5 and shows a
+label while it is on. It needs no reverse engineering, only a text editor.</p>
+<h3 id="1-create-the-project">1. Create the project</h3>
+<p>In the SDK app, click <strong>New project</strong>, choose <strong>Script-only mod</strong> and the <strong>Hotkey</strong> template, and
+name it <code>hello</code>. Or from a terminal:</p>
+<pre><code class="language-bash">bozkit new hello --id hello --name Hello --author you --template hotkey
+</code></pre>
+<p>You get a folder like this:</p>
+<pre><code class="language-text">hello/
+  boz-project.toml     the mod&#39;s name, version and author
+  scripts/
+    main.lua           your code
+    boz/               the standard library, a copy the mod carries
+</code></pre>
+<h3 id="2-write-the-script">2. Write the script</h3>
+<p>Open <code>scripts/main.lua</code> (<strong>Open folder</strong> in the app opens it in VS Code) and replace what is
+there with:</p>
+<pre><code class="language-lua">local console = require(&quot;boz.console&quot;)
+
+log(&quot;Hello from my first mod&quot;)
+
+local ammo = false
+
+input.bind(&quot;F5&quot;, function()
+    ammo = not ammo
+    console.set(&quot;WeaponsUnlimitedAmmo&quot;, ammo)
+end)
+
+events.on(&quot;frame&quot;, function()
+    if ammo then
+        ui.window(&quot;hello&quot;, {x = 20, y = 20, auto_size = true, no_title = true, no_inputs = true}, function()
+            ui.text(&quot;Unlimited ammo&quot;)
+        end)
+    end
+end)
+</code></pre>
+<p>What it does:</p>
+<ul>
+<li><code>require(&quot;boz.console&quot;)</code> loads the standard library&#39;s console module. <code>WeaponsUnlimitedAmmo</code>
+is one of the game&#39;s own console variables; the
+<a href="console-reference.html">console reference</a> lists all of them.</li>
+<li><code>input.bind</code> runs a function when a key is pressed.</li>
+<li><code>events.on(&quot;frame&quot;, ...)</code> runs every frame. <code>ui.window</code> draws a small window over the game
+for as long as you keep calling it.</li>
+</ul>
+<h3 id="3-run-it">3. Run it</h3>
+<p>Click <strong>Run in game</strong> on the project&#39;s page in the SDK app. It installs the mod into the client
+and starts the game. From a terminal, the same is:</p>
+<pre><code class="language-bash">bozkit install hello --client path/to/boz-redux --force
+</code></pre>
+<p>then start the game from the client&#39;s launcher. Start a match and press F5.</p>
+<h3 id="4-read-the-log">4. Read the log</h3>
+<p>Everything your mod prints goes to <code>boz-log.txt</code> in the client folder:</p>
+<pre><code class="language-text">[lua] hello: Hello from my first mod
+</code></pre>
+<p>Errors show up there too, with the line they happened on. An error never crashes the game: the
+part of the mod that failed is switched off until you restart.</p>
+<p>Next, <a href="lua-mods.html">Lua mods</a> explains how scripts run and has recipes for settings,
+pause-menu options, overlays and hooks; the <a href="standard-library.html">standard library</a> lists
+everything <code>boz.*</code> can do.</p>
+<h2 id="your-first-map">Your first map</h2>
+<p>This walk-through makes a small playable map: the debug arena with a perk machine and a wall buy
+you place yourself. You will use the SDK app, the map editor and the client.</p>
+<p>You need Blender set up (<a href="#3-the-map-editor-maps-only">Installation</a>), and the SDK app&#39;s asset
+library built once (the <strong>Library</strong> page).</p>
+<h3 id="1-create-a-map-project">1. Create a map project</h3>
+<p>In the SDK app, click <strong>New project</strong>, choose <strong>Map</strong>, and pick a template:</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Template</th>
+<th>What you start with</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Empty</strong></td>
+<td>A 6 m floor and the four player spawns. No zombies; the Colt is the only weapon.</td>
+</tr>
+<tr>
+<td><strong>Debug arena</strong></td>
+<td>A walled 24 m square with zombie spawns, Juggernog and the power switch. The quickest way to test.</td>
+</tr>
+<tr>
+<td><strong>Kino der Toten</strong>, <strong>Call of the Dead</strong>, <strong>Ascension</strong>, <strong>Tutorial</strong></td>
+<td>The whole original map, to change and add to.</td>
+</tr>
+</tbody></table></div>
+<p>Pick <strong>Debug arena</strong> and name the map <code>my_arena</code>. The name becomes the level&#39;s name in the game,
+so it cannot be one of the game&#39;s own maps.</p>
+<h3 id="2-open-it-in-the-editor">2. Open it in the editor</h3>
+<p>Click <strong>Open in Editor</strong>. The editor opens on the <strong>World</strong> tab with the arena in the viewport.
+On the left is the asset browser with the game&#39;s objects, grouped as <strong>Game prefabs</strong> (perk
+machines, wall buys, doors, ...), <strong>Level markers</strong> (spawns, jump points), <strong>Volumes</strong> and
+<strong>Models</strong>.</p>
+<h3 id="3-add-things">3. Add things</h3>
+<ol>
+<li>In the asset browser, open <strong>Game prefabs → Machines</strong> and drag <strong>Speed Cola</strong> into the
+arena.</li>
+<li>A wall buy sells one of the map&#39;s weapons, and the debug arena starts with the Colt alone.
+Switch to the <strong>Weapons</strong> tab, click <strong>Import from game</strong> and pick the MP40. Then go back to
+the <strong>World</strong> tab.</li>
+<li>Open <strong>Game prefabs → Buying</strong> and drag a <strong>Wall buy</strong> onto one of the walls. In the
+Properties editor&#39;s <strong>Game</strong> panel, click <strong>Choose…</strong> and pick the MP40.</li>
+<li>Select the perk machine. Its <strong>Game</strong> panel shows its settings: set <strong>Cost</strong> to 1000.</li>
+</ol>
+<p>Move objects with G, turn them with R, as anywhere in Blender. One Blender unit is one game
+centimetre.</p>
+<h3 id="4-build-run">4. Build &amp; Run</h3>
+<p>Click <strong>Build &amp; Run</strong> at the right of the top bar. The editor saves the map, builds it into a mod
+in your client, and starts the game. Once the main menu is up, the game goes straight into your
+map. Buy the perk, buy the MP40, and play a few rounds.</p>
+<p>If something stops the build, the <strong>Problems</strong> tab in the sidebar lists it, with a button that
+selects the object at fault. The build output and the game&#39;s log are in the editor&#39;s <strong>Log</strong>
+areas.</p>
+<h3 id="5-play-it-from-the-client">5. Play it from the client</h3>
+<p>Your map is now a mod in the client, and the client knows it is a map. In the client&#39;s launcher,
+the list next to <strong>PLAY</strong> offers <strong>Main menu</strong> and every map from your enabled mods. Pick
+<strong>my_arena</strong> (it shows your mod&#39;s name) and press <strong>PLAY</strong>: the game starts straight into it.
+Pick <strong>Main menu</strong> to start the game normally. No scripting is needed for this; every map built
+by the SDK can be started this way.</p>
+<p>Next, <a href="map-editor.html">The map editor</a> explains every tab and tool, and
+<a href="weapons-and-assets.html">Weapons, models, effects and sounds</a> covers your own guns, models and
+audio.</p>
+
+            </article>
+            <div class="doc-pagination" role="navigation" aria-label="Previous and next page">
+              <a class="doc-prev" href="index.html"><small>PREVIOUS</small><span>← Introduction</span></a>
+              <a class="doc-next" href="lua-mods.html"><small>NEXT</small><span>Lua mods →</span></a>
+            </div>
+          </div>
+          <aside class="doc-toc" aria-label="On this page">
+            <p>ON THIS PAGE</p>
+            <a href="#installation">Installation</a>
+            <a href="#1-the-client-and-the-game" class="sub">1. The client and the game</a>
+            <a href="#2-the-sdk" class="sub">2. The SDK</a>
+            <a href="#3-the-map-editor-maps-only" class="sub">3. The map editor (maps only)</a>
+            <a href="#check-that-it-works" class="sub">Check that it works</a>
+            <a href="#the-sdk-app">The SDK app</a>
+            <a href="#projects" class="sub">Projects</a>
+            <a href="#a-projects-page" class="sub">A project's page</a>
+            <a href="#client" class="sub">Client</a>
+            <a href="#library" class="sub">Library</a>
+            <a href="#learn" class="sub">Learn</a>
+            <a href="#settings" class="sub">Settings</a>
+            <a href="#where-the-app-keeps-its-data" class="sub">Where the app keeps its data</a>
+            <a href="#your-first-mod">Your first mod</a>
+            <a href="#1-create-the-project" class="sub">1. Create the project</a>
+            <a href="#2-write-the-script" class="sub">2. Write the script</a>
+            <a href="#3-run-it" class="sub">3. Run it</a>
+            <a href="#4-read-the-log" class="sub">4. Read the log</a>
+            <a href="#your-first-map">Your first map</a>
+            <a href="#1-create-a-map-project" class="sub">1. Create a map project</a>
+            <a href="#2-open-it-in-the-editor" class="sub">2. Open it in the editor</a>
+            <a href="#3-add-things" class="sub">3. Add things</a>
+            <a href="#4-build-run" class="sub">4. Build &amp; Run</a>
+            <a href="#5-play-it-from-the-client" class="sub">5. Play it from the client</a>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+<footer>
+      <a class="brand" href="../index.html"
+        ><img src="../assets/client-logo.png" alt="BOZ Redux" width="640" height="260" loading="lazy"
+      /></a>
+      <p>BOZ Redux</p>
+      <span>Not affiliated with Activision. Game files are not included.</span
+      ><a href="https://github.com/ZappaVinny/boz-redux">Source ↗</a>
+    </footer>
+<dialog id="discord-dialog">
+      <button class="dialog-close" aria-label="Close dialog">×</button>
+      <h2>Discord</h2>
+      <p>
+        The Discord invite hasn’t been added yet. Check GitHub for project
+        updates.
+      </p>
+      <a
+        class="button"
+        href="https://github.com/ZappaVinny/boz-redux"
+        target="_blank"
+        rel="noopener"
+        >Visit the project ↗</a
+      >
+    </dialog>
+  </body>
+</html>

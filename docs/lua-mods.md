@@ -436,25 +436,21 @@ note = "Edited from my installed 1.0.11 data"
 
 When a small code change does the job, `assets.patch` changes a game file as the game loads it,
 so the file never has to be shipped (see
-[Making Lua mods](#change-a-file-as-it-loads)).
+[Change a file as it loads](#change-a-file-as-it-loads)).
 
 ## Client Lua API
 
 Everything the client itself gives a mod script, in Lua 5.4. The
 [standard library](standard-library.md) is built on it and covers most needs in friendlier
-form; use these functions directly when it does not. The API grows with each client release;
+form: it turns the game's internals into plain functions (`camera.set_fov(90)`,
+`pause_settings.add_slider{...}`), so most mods should use it and call these functions directly
+only when it does not cover something. The API grows with each client release;
 anything not listed here is not part of it yet.
 
 ### Scripts and modules
 
-A mod is a folder in the client's `mods/` folder:
-
-```
-mods/my-mod/
-  mod.toml          id, name, version, author, game, description
-  assets/           replacement game files (see making-mods.md)
-  scripts/main.lua  runs when the game starts, if the mod is switched on
-```
+A mod is a folder in the client's `mods/` folder (see [The mod folder](#the-mod-folder)), and
+its `scripts/main.lua` runs when the game starts, if the mod is switched on.
 
 `main.lua` runs once, just before the game starts, so its hooks and file patches see everything
 the game does. It sets things up: registers event handlers, key bindings, hooks and so on; game
@@ -519,7 +515,8 @@ Names from the game definition the client loaded (`gamedef/`).
 | `gamedef.commands()` | array | Every known console command: `{name, id, owner}`. |
 
 The game's console itself (running lines, reading and setting variables, its output) is not part
-of the client: the standard library's `boz.console` provides it (see *Standard library* below).
+of the client: the standard library's `boz.console` provides it (see
+[boz.console](standard-library.md#bozconsole)).
 The [console reference](console-reference.md) lists every variable and command.
 
 ### game module
@@ -629,19 +626,13 @@ after `##` is not shown, so `"Run##SetRound"` shows "Run" with its own identity.
 | --- | --- |
 | `assets.patch(file, fn)` | Every time the game opens `file` (matched by file name, without case), `fn(bytes)` gets the player's copy as a string and returns the changed bytes, or `nil` to leave it alone. Several mods can patch one file; patches run in load order. Register in `main.lua`, before the game loads the file. |
 
-Replacement files in a mod's `assets/` folder (see [Making Lua mods](#replace-game-files)) are applied
+Replacement files in a mod's `assets/` folder (see [Replace game files](#replace-game-files)) are applied
 before patches.
 
 ### shared module
 
 `shared` is one table every mod sees (each mod's own globals are separate). Code that several
 mods carry, like the standard lib, uses it to coordinate; mods can use it to talk to each other.
-
-### Lua API and the standard library
-
-Most mods should use the standard lib (`boz.*`) rather than the functions on this page: it turns
-the game's internals into plain functions (`camera.set_fov(90)`,
-`pause_settings.add_slider{...}`). See the [standard library](standard-library.md).
 
 ### API example
 

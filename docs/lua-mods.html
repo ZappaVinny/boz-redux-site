@@ -1,0 +1,1068 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Lua mods | BOZ Redux Docs</title>
+    <meta name="description" content="A Lua mod changes the game with scripts: new rules, cheats, settings in the pause menu, windows over the game, or your own code running inside any game…" />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://boz-redux.com/docs/lua-mods.html" />
+    <meta name="theme-color" content="#0d0e10" />
+    <link rel="icon" href="../assets/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="256x256" href="../assets/favicon.png" />
+    <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png" />
+    <link rel="manifest" href="../site.webmanifest" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="BOZ Redux" />
+    <meta property="og:title" content="Lua mods | BOZ Redux Docs" />
+    <meta property="og:description" content="A Lua mod changes the game with scripts: new rules, cheats, settings in the pause menu, windows over the game, or your own code running inside any game…" />
+    <meta property="og:url" content="https://boz-redux.com/docs/lua-mods.html" />
+    <meta property="og:image" content="https://boz-redux.com/assets/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Lua mods","description":"A Lua mod changes the game with scripts: new rules, cheats, settings in the pause menu, windows over the game, or your own code running inside any game…","url":"https://boz-redux.com/docs/lua-mods.html","dateModified":"2026-10-28T19:00:14.359Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Lua mods","item":"https://boz-redux.com/docs/lua-mods.html"}]}]}</script>
+    <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="stylesheet" href="../styles.css" />
+    <script defer src="../config.js"></script>
+    <script defer src="../app.js"></script>
+  </head>
+  <body class="is-docs">
+    <a class="skip" href="#main">Skip to content</a>
+<header>
+      <a class="brand" href="../index.html" aria-label="BOZ Redux home"
+        ><img src="../assets/client-logo.png" alt="BOZ Redux" width="640" height="260"
+      /></a>
+      <nav aria-label="Main navigation">
+        <a href="../index.html" data-nav="home">Home</a
+        ><a href="../docs/index.html" data-nav="docs" class="active" aria-current="page">Documentation</a
+        ><a href="#discord" data-discord>Discord</a>
+      </nav>
+      <a
+        class="header-github"
+        href="https://github.com/ZappaVinny/boz-redux"
+        target="_blank"
+        rel="noopener"
+        >GitHub ↗</a
+      >
+    </header>
+
+    <main id="main" tabindex="-1">
+      <div id="docs-view">
+        <button class="docs-mobile" aria-expanded="false">
+          ☰ Browse documentation
+        </button>
+        <div class="docs-shell">
+          <aside class="docs-sidebar" aria-label="Documentation navigation">
+            <div class="search-wrap">
+              <input
+                id="docs-search"
+                aria-label="Search all documentation"
+                placeholder="Search documentation…"
+                type="search"
+                autocomplete="off"
+                data-index="../docs-data.js"
+              />
+            </div>
+            <div class="search-results" aria-live="polite"></div>
+            <!--
+              The docs page list. Order here sets sidebar order and previous/next.
+              Each link's href is docs/<name>.html for docs/<name>.md (README is index.html).
+              Each link belongs to the nearest label above it (used for the breadcrumb).
+              After changing it, run `node rebuild-docs.mjs`.
+            -->
+            <div class="page-links" role="navigation" aria-label="Documentation pages">
+              <p class="docs-label">START HERE</p>
+              <a href="index.html">Introduction</a>
+              <a href="getting-started.html">Getting started</a>
+
+              <p class="docs-label">CREATE</p>
+              <a href="lua-mods.html" class="current" aria-current="page">Lua mods</a>
+              <a href="map-editor.html">Map editor</a>
+              <a href="weapons-and-assets.html">Weapons &amp; assets</a>
+
+              <p class="docs-label">REFERENCE</p>
+              <a href="standard-library.html">Standard library</a>
+              <a href="console-reference.html">Console reference</a>
+              <a href="game-events.html">Game events</a>
+              <a href="sdk-reference.html">SDK reference</a>
+
+              <p class="docs-label">UNDER THE HOOD</p>
+              <a href="how-the-game-works.html">How the game works</a>
+              <a href="contributing.html">Contributing</a>
+            </div>
+          </aside>
+          <div class="doc-area">
+            <div class="breadcrumb">DOCUMENTATION / <span>CREATE</span></div>
+            <article class="doc-content">
+<h1 id="lua-mods">Lua mods</h1>
+<p>A Lua mod changes the game with scripts: new rules, cheats, settings in the pause menu, windows
+over the game, or your own code running inside any game function. This page explains how mod
+scripts run and walks through the things most mods do, then how a project becomes a mod you can
+share, and ends with the reference of everything the client gives Lua. If you have not made a
+mod yet, start with <a href="getting-started.html#your-first-mod">Your first mod</a>.</p>
+<p>Two other pages go with it:</p>
+<ul>
+<li><a href="standard-library.html">Standard library</a>: the <code>boz.*</code> modules most mods are built from. Start
+there when looking for something.</li>
+<li><a href="console-reference.html">Console reference</a>: every console variable and command in the game.</li>
+</ul>
+<h2 id="writing-a-mod">Writing a mod</h2>
+<h3 id="how-it-fits-together">How it fits together</h3>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>What it is</th>
+<th>You</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Client</strong></td>
+<td>The program that runs the game: emulator, window, sound, controls, file loading, and the Lua runtime with its low-level functions (<code>game</code>, <code>hook</code>, <code>events</code>, <code>ui</code>, ...).</td>
+<td>use it</td>
+</tr>
+<tr>
+<td><strong>Standard library</strong> (<code>boz.*</code>)</td>
+<td>Lua modules that turn the game&#39;s internals into plain functions: <code>camera.set_fov(90)</code>, <code>pause_settings.add_slider{...}</code>, <code>console.set(...)</code>.</td>
+<td>use it</td>
+</tr>
+<tr>
+<td><strong>Your mod</strong></td>
+<td>A folder with a manifest, scripts and optional replacement files.</td>
+<td>write it</td>
+</tr>
+</tbody></table></div>
+<p>Two habits keep mods working:</p>
+<ul>
+<li><strong>Use names, not addresses.</strong> Standard library functions and the game definition&#39;s names
+(<code>&quot;CScoreManager::AddScore&quot;</code>) keep working when the game definition is updated; raw addresses
+do not.</li>
+<li><strong>Prefer the standard library.</strong> If something you need is missing, it probably belongs in the
+standard library rather than in your mod.</li>
+</ul>
+<h3 id="the-mod-folder">The mod folder</h3>
+<p>An SDK project builds into this folder (see <a href="#projects-and-packaging">Projects and packaging</a>); you can also
+write one by hand in the client&#39;s <code>mods/</code> folder:</p>
+<pre><code class="language-text">mods/&lt;folder&gt;/
+  mod.toml        id, name, version, author, game, description
+  scripts/        Lua: main.lua runs; other files load with require
+  assets/         replacement files (optional), see &quot;Replace game files&quot;
+</code></pre>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th><code>mod.toml</code> key</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>id</code></td>
+<td>Unique, lower-case, no spaces. Used for settings and the load order. Defaults to the folder name.</td>
+</tr>
+<tr>
+<td><code>name</code>, <code>version</code>, <code>author</code>, <code>description</code></td>
+<td>Shown in the launcher.</td>
+</tr>
+<tr>
+<td><code>game</code></td>
+<td>The game version the mod is made for (<code>1.0.11</code>). The launcher warns about others.</td>
+</tr>
+<tr>
+<td><code>maps</code></td>
+<td>The levels the mod adds (<code>[&quot;my_arena&quot;]</code>). The client&#39;s launcher offers each of them next to <strong>PLAY</strong>. The SDK writes it for map projects.</td>
+</tr>
+</tbody></table></div>
+<p>A mod that uses the standard library carries its own copy in <code>scripts/boz</code>. SDK projects add it
+for you; for a hand-made mod, copy the SDK&#39;s <code>lib/boz</code> folder there.</p>
+<p>The launcher&#39;s <strong>Mods</strong> tab turns mods on and off and sets their order; when two mods replace
+the same file, the later one wins.</p>
+<h3 id="how-your-script-runs">How your script runs</h3>
+<ul>
+<li><p><code>main.lua</code> runs <strong>once, before the game starts</strong>. Use it to register things: event handlers,
+key bindings, hooks, settings rows, file patches. The game is not running yet, so do not read
+game state here.</p>
+</li>
+<li><p>After that your code runs only from <strong>events</strong> and <strong>hooks</strong>:</p>
+<pre><code class="language-lua">events.on(&quot;frame&quot;, function(dt) ... end)          -- every frame, dt in seconds
+events.on(&quot;key&quot;, function(name, down) ... end)    -- every key press and release
+input.bind(&quot;F6&quot;, function() ... end)              -- one key press
+</code></pre>
+</li>
+<li><p>Each mod has its own globals. <code>mod.id</code>, <code>mod.name</code>, <code>mod.dir</code> describe your mod.</p>
+</li>
+<li><p><code>require(&quot;name&quot;)</code> loads <code>scripts/name.lua</code> from your mod (<code>require(&quot;ui.tabs&quot;)</code> loads
+<code>scripts/ui/tabs.lua</code>), once.</p>
+</li>
+<li><p><strong>Errors</strong> do not crash the game: they are written to <code>boz-log.txt</code> as <code>[lua] &lt;mod&gt;: ...</code> with a
+traceback, and the handler that failed is switched off. Fix the script and restart.</p>
+</li>
+</ul>
+<h3 id="using-the-standard-lib">Using the standard lib</h3>
+<p>Require the modules you need:</p>
+<pre><code class="language-lua">local player = require(&quot;boz.player&quot;)
+local console = require(&quot;boz.console&quot;)
+local pause_settings = require(&quot;boz.pause_settings&quot;)
+</code></pre>
+<p>What is in it (everything is in the <a href="standard-library.html">standard library reference</a>):</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Module</th>
+<th>For</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>boz.player</code></td>
+<td>Health, god mode, position, stance, speeds, perks (give and take), field of view</td>
+</tr>
+<tr>
+<td><code>boz.weapons</code></td>
+<td>The player&#39;s weapons: give, take, Pack-a-Punch, ammo, damage, fire rate, events</td>
+</tr>
+<tr>
+<td><code>boz.zombies</code></td>
+<td>Zombies, dogs, monkeys and George: spawn, kill, teleport, speed, freeze/burn/explode, ...</td>
+</tr>
+<tr>
+<td><code>boz.rounds</code></td>
+<td>The round: next round, go to a round, counts, spawning on or off, time</td>
+</tr>
+<tr>
+<td><code>boz.score</code></td>
+<td>Points: add, spend, set, what actions are worth</td>
+</tr>
+<tr>
+<td><code>boz.pickups</code></td>
+<td>Power-ups: spawn, give, timers</td>
+</tr>
+<tr>
+<td><code>boz.pieces</code></td>
+<td>Mystery boxes, perk machines, doors, traps, Pack-a-Punch, ...: use (or use for free), move the box, costs</td>
+</tr>
+<tr>
+<td><code>boz.effects</code></td>
+<td>The game&#39;s effects and projectiles anywhere (black holes, explosions, ...)</td>
+</tr>
+<tr>
+<td><code>boz.hud</code>, <code>boz.camera</code>, <code>boz.screen</code>, <code>boz.audio</code></td>
+<td>HUD elements and messages; camera shakes; full-screen effects and fog; sounds and music</td>
+</tr>
+<tr>
+<td><code>boz.map</code>, <code>boz.spawns</code>, <code>boz.stats</code></td>
+<td>The level (power, map events), spawn points, achievements and stats</td>
+</tr>
+<tr>
+<td><code>boz.input</code></td>
+<td>Watch, block or send the game&#39;s actions (shoot, aim, reload, ...)</td>
+</tr>
+<tr>
+<td><code>boz.fly</code></td>
+<td>Noclip</td>
+</tr>
+<tr>
+<td><code>boz.console</code>, <code>boz.cvars</code></td>
+<td>Console variables and commands</td>
+</tr>
+<tr>
+<td><code>boz.reflect</code>, <code>boz.entities</code>, <code>boz.game_events</code></td>
+<td>Anything else: every reflected field, every entity and component, every game event</td>
+</tr>
+<tr>
+<td><code>boz.pause_settings</code></td>
+<td>Sliders and checkboxes in the pause menu&#39;s Settings page</td>
+</tr>
+<tr>
+<td><code>boz.text</code></td>
+<td>Your own text for the game&#39;s menus</td>
+</tr>
+<tr>
+<td><code>boz.iwui</code>, <code>boz.frontend</code></td>
+<td>Building blocks for menu changes</td>
+</tr>
+</tbody></table></div>
+<p>Functions that only make sense in a match (perks, zombies, field of view, fly) return <code>nil</code> or
+<code>false</code> outside one, so you can call them any time.</p>
+<h3 id="recipes">Recipes</h3>
+<h4 id="save-a-setting">Save a setting</h4>
+<pre><code class="language-lua">local volume = settings.get(&quot;volume&quot;, 0.5)   -- the saved value, or the default
+settings.set(&quot;volume&quot;, 0.8)                   -- saved to saves/mods/&lt;id&gt;.cfg
+</code></pre>
+<p>Values are strings, numbers or booleans.</p>
+<h4 id="add-a-setting-to-the-pause-menu">Add a setting to the pause menu</h4>
+<p>The pause menu&#39;s Settings page gets new rows that look exactly like the game&#39;s own. This is a
+field of view setting, complete:</p>
+<pre><code class="language-lua">local pause_settings = require(&quot;boz.pause_settings&quot;)
+local camera = require(&quot;boz.camera&quot;)
+
+local function saved_fov()
+    local value = settings.get(&quot;fov&quot;)
+    return type(value) == &quot;number&quot; and value or 50
+end
+
+pause_settings.add_slider{
+    id = &quot;fov&quot;,
+    label = &quot;Field of view&quot;,
+    min = 50, max = 120, step = 1,
+    get = saved_fov,
+    set = function(value)
+        settings.set(&quot;fov&quot;, value)
+        camera.set_fov(value)
+    end,
+}
+
+camera.set_fov(saved_fov())   -- apply the saved value from the start
+</code></pre>
+<p>A checkbox works the same way:</p>
+<pre><code class="language-lua">pause_settings.add_checkbox{
+    id = &quot;god_mode&quot;,
+    label = &quot;God mode&quot;,
+    get = function() return console.get(&quot;UnlimitedHealth&quot;) == &quot;true&quot; end,
+    set = function(on) console.set(&quot;UnlimitedHealth&quot;, on) end,
+}
+</code></pre>
+<p>Call them in <code>main.lua</code>. Rows appear in the order mods register them; rows from several mods
+stack without overlapping.</p>
+<h4 id="use-the-games-console-variables">Use the game&#39;s console variables</h4>
+<p>The game has hundreds of settings and cheats as console variables
+(<a href="console-reference.html">console reference</a>):</p>
+<pre><code class="language-lua">local console = require(&quot;boz.console&quot;)
+console.set(&quot;WeaponsUnlimitedAmmo&quot;, true)
+print(console.get(&quot;WalkSpeed&quot;))
+console.exec(&quot;SwitchPowerOn&quot;)
+</code></pre>
+<p>Many variables exist only during a match (the game creates them when the code using them first
+runs); <code>console.get</code> returns <code>nil</code> until then. Some the game reads but never creates (marked
+<em>lookup only</em>): create them with <code>console.register(&quot;StartingScore&quot;, 5000)</code>.</p>
+<h4 id="show-a-window-or-overlay">Show a window or overlay</h4>
+<p>The client draws windows over the game with Dear ImGui (<code>ui.*</code>, in the <a href="#client-lua-api">Lua API</a>).
+Draw them from a <code>frame</code> handler, every frame you want them visible:</p>
+<pre><code class="language-lua">local open = false
+input.bind(&quot;F7&quot;, function()
+    open = not open
+    overlay.capture(open)   -- free the mouse and keyboard for the window
+end)
+
+events.on(&quot;frame&quot;, function()
+    if not open then return end
+    open = ui.window(&quot;My mod&quot;, {x = 100, y = 100, w = 400, h = 200, closable = true}, function()
+        if ui.button(&quot;Give all perks&quot;) then
+            require(&quot;boz.player&quot;).give_all_perks()
+        end
+    end)
+    overlay.capture(open)
+end)
+</code></pre>
+<h4 id="replace-game-files">Replace game files</h4>
+<p>Put replacement files in your mod&#39;s <code>assets/</code> folder; the client uses them instead of the
+game&#39;s when the game loads them. The game&#39;s packs store plain file names, so
+<code>assets/weapons_kino.group.bin</code> replaces that file wherever the game asks for it. Turn on
+<strong>Log every file the game opens</strong> in the launcher&#39;s settings to see the names it uses.</p>
+<p>Game data files (<code>.group.bin</code>) can be read and edited with the
+<a href="sdk-reference.html#bozkit-command-line">bozkit command line</a> (formats: <a href="how-the-game-works.html#asset-formats">Asset formats</a>), for example
+<code>python3 -m bozkit set weapons_kino.group.bin colt45 m_clipSize 12 --component CPlayerWeapon -o out.group.bin</code>.</p>
+<p>Complete or edited game files are fine in your own projects. Before you share a mod that
+contains them, decide whether you may (see
+<a href="#game-files-in-a-mod">Projects and packaging</a>). When a code-only change does the job,
+<code>assets.patch</code> avoids shipping the file at all:</p>
+<h4 id="change-a-file-as-it-loads">Change a file as it loads</h4>
+<pre><code class="language-lua">assets.patch(&quot;weapons_kino.group.bin&quot;, function(bytes)
+    -- return the changed bytes (a Lua string), or nil to leave the file alone
+    return bytes
+end)
+</code></pre>
+<p>The function gets the player&#39;s own copy of the file each time the game opens it. Register the
+patch in <code>main.lua</code>, before the game loads the file. The standard lib uses this for the main
+menu (<code>boz.frontend</code>).</p>
+<h3 id="hooks-when-the-standard-lib-is-not-enough">Hooks: when the standard lib is not enough</h3>
+<p>A hook runs your code when a game function is called. You can read and change its arguments,
+skip it, or change what it returns. Names come from the game definition
+(<code>gamedef/symbols/boz-1.0.11.toml</code>); each entry&#39;s <code>notes</code> describe the arguments.</p>
+<p>For example, <code>CScoreManager::AddScore</code> is noted as <em>&quot;AddScore(playerId, delta, countForStats):
+adds to the player&#39;s score&quot;</em>. As a method, its first argument is the score manager itself
+(<code>this</code>), so <code>delta</code> is argument 3. To double every point earned:</p>
+<pre><code class="language-lua">hook.add(&quot;CScoreManager::AddScore&quot;, {before = function(call)
+    local delta = call:arg_signed(3)
+    if delta &gt; 0 then
+        call:set_arg(3, delta * 2)
+    end
+end})
+</code></pre>
+<p>An <code>after</code> handler sees the result:</p>
+<pre><code class="language-lua">hook.add(&quot;CWaveManager::StartWave&quot;, {after = function(call)
+    log(&quot;a new round started&quot;)
+end})
+</code></pre>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>In a handler</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>call:arg(i)</code>, <code>call:arg_signed(i)</code>, <code>call:arg_float(i)</code></td>
+<td>Argument <code>i</code> (1 = <code>this</code> for methods)</td>
+</tr>
+<tr>
+<td><code>call:set_arg(i, v)</code> (before)</td>
+<td>Change an argument</td>
+</tr>
+<tr>
+<td><code>call:skip(value)</code> (before)</td>
+<td>Return <code>value</code> at once; the function does not run</td>
+</tr>
+<tr>
+<td><code>call:result()</code>, <code>call:set_result(v)</code> (after)</td>
+<td>The return value</td>
+</tr>
+</tbody></table></div>
+<p>Several mods can hook the same function. A handler that raises an error is switched off and
+logged. Hooks only see the game&#39;s main thread (game logic, menus, drawing). See the
+<a href="#client-lua-api">Lua API</a> for all of it, and keep hook handlers short: some functions run many
+times per frame.</p>
+<p>Reading and writing game memory (<code>game.read</code>, <code>game.write</code>) and calling functions
+(<code>game.call</code>) are also available. They are powerful and unforgiving: a wrong address crashes the
+game. Prefer the standard lib; if you write something reusable this way, it probably belongs in
+the standard lib.</p>
+<h3 id="debugging">Debugging</h3>
+<ul>
+<li><strong><code>boz-log.txt</code></strong> (next to <code>client.ini</code>) has your <code>log(...)</code> and <code>print(...)</code> lines, every
+error with a traceback, and what the client loaded (<code>[mods]</code>, <code>[lua]</code>, <code>[gamedef]</code>).</li>
+<li>The <strong>Developer</strong> mod (in the SDK&#39;s <code>mods/developer</code>) opens the game&#39;s console with <code>`</code>:
+run commands, watch variables, try cheats. Turn it on in the launcher.</li>
+<li><strong>Log every file the game opens</strong> (launcher settings) shows file names for <code>assets/</code> and
+<code>assets.patch</code>.</li>
+<li>For menu work: <code>iwui.dump(element)</code> logs a page&#39;s widgets; <code>require(&quot;boz.flash&quot;).capture_log()</code>
+logs the main menu&#39;s ActionScript <code>trace()</code> output and warnings.</li>
+</ul>
+<h3 id="mods-working-together">Mods working together</h3>
+<ul>
+<li>Every mod has its own globals and its own copy of the standard lib; copies cooperate (pause
+menu rows stack, hooks chain).</li>
+<li>The load order (Mods tab) decides which file wins when two mods replace the same one, and the
+order hooks and settings rows are added.</li>
+<li><code>shared</code> is one table every mod can read and write, for mods that want to talk to each other.</li>
+</ul>
+<h3 id="sharing-your-mod">Sharing your mod</h3>
+<p><code>bozkit package</code> (or the SDK app) makes a ZIP of the mod with its copy of the standard library.
+Players unzip it into their client&#39;s <code>mods/</code> folder and tick it in the launcher. See
+<a href="#share-a-mod">Projects and packaging</a>.</p>
+<h2 id="projects-and-packaging">Projects and packaging</h2>
+<p>A <strong>project</strong> is the editable source of one mod. It holds your Lua scripts, any replacement game
+files, and for a map everything the editor makes. <strong>Building</strong> a project makes the mod folder
+the client loads; <strong>packaging</strong> makes the same folder as a ZIP to share.</p>
+<p>The SDK app does all of this with buttons (see <a href="getting-started.html#the-sdk-app">The SDK app</a>).
+This section explains what happens underneath, with the matching <code>bozkit</code> commands.</p>
+<h3 id="create-a-project">Create a project</h3>
+<pre><code class="language-bash">bozkit new my-mod --id my_mod --name &quot;My mod&quot; --author &quot;Your name&quot;
+</code></pre>
+<ul>
+<li><code>--kind script</code> (the default) makes a Lua mod; <code>--kind map</code> makes a map for the editor.</li>
+<li><code>--template</code> picks what you start from. Script mods: <code>blank</code>, <code>round</code> (code at every round
+start), <code>hotkey</code> (a key runs a console line) and <code>settings</code> (options in the pause menu). Maps:
+<code>empty</code>, <code>debug</code>, <code>kino</code>, <code>callofthedead</code>, <code>ascension</code> and <code>tutorial</code> (see
+<a href="getting-started.html#1-create-a-map-project">Your first map</a>).</li>
+</ul>
+<p>The mod id must start with a lower-case letter and use only <code>a-z</code>, <code>0-9</code>, <code>_</code> and <code>-</code>.</p>
+<h3 id="the-project-folder">The project folder</h3>
+<pre><code class="language-text">my-mod/
+  boz-project.toml       the manifest
+  scripts/
+    main.lua             runs when the game starts
+    boz/                 a copy of the standard library
+    .luarc.json          tells Lua editors (VS Code with LuaLS) where boz.* is
+  assets/                replacement game files (optional)
+  build/                 build output, made by the SDK
+</code></pre>
+<p>A map project also has <code>source/</code>, where the editor keeps the world, weapons, models, sounds,
+effects and rules (<a href="sdk-reference.html#project-files">Project files</a>), and <code>map.blend</code>, the
+editor&#39;s scene.</p>
+<h3 id="the-manifest">The manifest</h3>
+<p><code>boz-project.toml</code> describes the mod:</p>
+<pre><code class="language-toml">schema = 2
+
+[mod]
+id = &quot;my_mod&quot;
+name = &quot;My mod&quot;
+version = &quot;0.1.0&quot;
+author = &quot;Your name&quot;
+game = &quot;1.0.11&quot;
+description = &quot;&quot;
+
+[project]
+kind = &quot;script&quot;          # &quot;script&quot; or &quot;map&quot;
+
+[paths]
+scripts = &quot;scripts&quot;
+assets = &quot;assets&quot;
+
+[build]
+include_standard_library = false
+</code></pre>
+<ul>
+<li>A map project also has a <code>[map]</code> table: the level&#39;s <code>name</code> (the mod id with <code>-</code> turned into
+<code>_</code>; it cannot be one of the game&#39;s own level names) and the <code>template</code> it started from.</li>
+<li>New projects carry their own copy of the standard library in <code>scripts/boz</code>, so your editor can
+autocomplete it; the SDK app refreshes the copy. With <code>include_standard_library = true</code> the
+build copies the SDK&#39;s current library in instead.</li>
+<li>Schema 1 projects still load; the SDK writes schema 2 when it saves one.</li>
+</ul>
+<h3 id="build-install-run">Build, install, run</h3>
+<pre><code class="language-bash">bozkit validate my-mod
+bozkit build my-mod
+bozkit install my-mod --client path/to/boz-redux
+</code></pre>
+<ul>
+<li><code>build</code> writes the mod to <code>build/&lt;mod id&gt;/</code>, with a <code>boz-build.json</code> report: the project
+schema, dependencies, warnings and the SHA-256 of every file. A map is compiled first; this
+needs the game&#39;s files (the SDK&#39;s asset library, or a client given with <code>--client</code>).</li>
+<li><code>install</code> builds and copies the mod into the client&#39;s <code>mods/</code> folder. It refuses to replace an
+existing mod unless you pass <code>--force</code>.</li>
+<li>The SDK app&#39;s <strong>Run in game</strong> and <strong>Build &amp; Run</strong> install the mod, switch it on and start the
+game; a map starts straight into its level.</li>
+</ul>
+<h3 id="share-a-mod">Share a mod</h3>
+<pre><code class="language-bash">bozkit package my-mod
+</code></pre>
+<p>This writes <code>build/&lt;mod id&gt;-&lt;version&gt;.zip</code>. Identical projects always give identical ZIPs: file
+order, times and paths are normalised. Players unzip it into their client&#39;s <code>mods/</code> folder and
+tick it in the launcher&#39;s <strong>Mods</strong> tab. A map mod then appears in the list next to <strong>PLAY</strong>.</p>
+<p>Before you share:</p>
+<ul>
+<li>bump <code>version</code> when you change the mod;</li>
+<li>keep <code>game</code> set to the game version you tested with;</li>
+<li>run <code>bozkit validate my-mod --profile distribution</code> and read its warnings (see below).</li>
+</ul>
+<h3 id="dependencies">Dependencies</h3>
+<p>A mod can record the mods it needs:</p>
+<pre><code class="language-toml">[[dependencies]]
+id = &quot;another_mod&quot;
+version = &quot;&gt;=0.2.0&quot;
+</code></pre>
+<p>They go into the build report and the mod&#39;s manifest. The client does not check them yet.</p>
+<h3 id="game-files-in-a-mod">Game files in a mod</h3>
+<p>A project may contain complete or edited game files (for example an edited
+<code>kino_statics.group.bin</code> in <code>assets/</code>). That is fine for your own use. Whether you may share
+them is your decision; the SDK helps you keep track. Mark where a file came from in the
+manifest:</p>
+<pre><code class="language-toml">[[provenance]]
+path = &quot;assets/kino_statics.group.bin&quot;
+kind = &quot;game-derived&quot;
+note = &quot;Edited from my installed 1.0.11 data&quot;
+</code></pre>
+<p><code>kind</code> is one of <code>authored</code>, <code>game</code>, <code>game-derived</code>, <code>extracted</code>, <code>generated</code> and <code>unknown</code>
+(other values are kept as they are). <code>bozkit validate --profile distribution</code> warns about
+<code>game</code>, <code>game-derived</code> and <code>extracted</code> files. It never fails the build or leaves a file out.</p>
+<p>When a small code change does the job, <code>assets.patch</code> changes a game file as the game loads it,
+so the file never has to be shipped (see
+<a href="#change-a-file-as-it-loads">Change a file as it loads</a>).</p>
+<h2 id="client-lua-api">Client Lua API</h2>
+<p>Everything the client itself gives a mod script, in Lua 5.4. The
+<a href="standard-library.html">standard library</a> is built on it and covers most needs in friendlier
+form: it turns the game&#39;s internals into plain functions (<code>camera.set_fov(90)</code>,
+<code>pause_settings.add_slider{...}</code>), so most mods should use it and call these functions directly
+only when it does not cover something. The API grows with each client release;
+anything not listed here is not part of it yet.</p>
+<h3 id="scripts-and-modules">Scripts and modules</h3>
+<p>A mod is a folder in the client&#39;s <code>mods/</code> folder (see <a href="#the-mod-folder">The mod folder</a>), and
+its <code>scripts/main.lua</code> runs when the game starts, if the mod is switched on.</p>
+<p><code>main.lua</code> runs once, just before the game starts, so its hooks and file patches see everything
+the game does. It sets things up: registers event handlers, key bindings, hooks and so on; game
+state (the console, a match) does not exist yet. The <code>frame</code> event starts with the first frame.
+The game keeps running between events; a script never blocks.</p>
+<p>Every mod has its own globals. The API below is shared, and <code>mod</code> describes the running mod:
+<code>mod.id</code>, <code>mod.name</code>, <code>mod.version</code>, <code>mod.dir</code> (full path of the mod folder).</p>
+<p><code>require(&quot;name&quot;)</code> loads <code>scripts/name.lua</code> from the same mod (dots become folders:
+<code>require(&quot;ui.tabs&quot;)</code> loads <code>scripts/ui/tabs.lua</code>), runs it once and returns what it returns.
+<code>loadscript(&quot;name&quot;, env)</code> loads <code>scripts/name.lua</code> the same way but does not run it or remember
+it: it returns the script as a function whose globals are the table <code>env</code>. The standard
+library&#39;s <code>boz.prefabs</code> uses it to run a prefab&#39;s script once per object, each with its own
+<code>self</code> (clients from before October 2026 do not have it).</p>
+<p>Available standard libraries: <code>string</code>, <code>table</code>, <code>math</code>, <code>utf8</code>, <code>coroutine</code>, and <code>os</code> limited to
+<code>os.time</code>, <code>os.clock</code>, <code>os.date</code> and <code>os.difftime</code>. There is no <code>io</code>, <code>dofile</code> or <code>loadfile</code>.</p>
+<h3 id="script-errors">Script errors</h3>
+<p>An error in <code>main.lua</code> stops that mod&#39;s setup and is written to <code>boz-log.txt</code> as
+<code>[lua] &lt;mod&gt;: &lt;message&gt;</code> with a traceback. An error inside an event handler switches that handler
+off (other handlers keep running) and is logged the same way. <code>print</code> and <code>log</code> also write to
+<code>boz-log.txt</code> as <code>[lua] &lt;mod&gt;: ...</code>.</p>
+<h3 id="events-module">events module</h3>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>events.on(name, fn)</code></td>
+<td>Calls <code>fn</code> on every event <code>name</code>.</td>
+</tr>
+<tr>
+<td><code>events.off(name, fn)</code></td>
+<td>Removes a handler added with <code>events.on</code>.</td>
+</tr>
+</tbody></table></div>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Arguments</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>frame</code></td>
+<td><code>dt</code> (seconds since the last frame)</td>
+<td>Once per displayed frame. The only place <code>ui</code> functions work.</td>
+</tr>
+<tr>
+<td><code>key</code></td>
+<td><code>name</code>, <code>down</code>, <code>repeat</code></td>
+<td>Every key press and release. <code>name</code> is the key name used in <code>client.ini</code> (SDL names: <code>A</code>, <code>F1</code>, <code>`</code>, <code>Left Shift</code>, <code>Escape</code>). Return <code>true</code> to say the mod used the key.</td>
+</tr>
+<tr>
+<td><code>action</code></td>
+<td><code>name</code>, <code>down</code></td>
+<td>A game action pressed or released during a Zombies match (see <code>input</code>), before the game gets it. Return <code>true</code> to keep it from the game.</td>
+</tr>
+</tbody></table></div>
+<h3 id="input-module">input module</h3>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>input.bind(key, fn)</code></td>
+<td>Calls <code>fn()</code> when <code>key</code> is pressed (not on key repeat). One binding per key across all mods; the last one wins. A key a mod binds does not also type its character into the overlay.</td>
+</tr>
+<tr>
+<td><code>input.unbind(key)</code></td>
+<td>Removes the binding.</td>
+</tr>
+<tr>
+<td><code>input.send(action, down)</code></td>
+<td>Sends a game action as if its button was pressed (<code>down</code> true, the default) or released. Does not raise the <code>action</code> event.</td>
+</tr>
+<tr>
+<td><code>input.down(action)</code></td>
+<td>True while the player holds the action&#39;s binding.</td>
+</tr>
+<tr>
+<td><code>input.aiming()</code></td>
+<td>True while the player is aiming down sights. Approximate: it can miss aiming in some states.</td>
+</tr>
+<tr>
+<td><code>input.native()</code></td>
+<td>True when the client sends controls straight to the game (actions work). False with the old touchpad controls (<code>BOZ_TOUCHPAD_CONTROLS</code>, or a game definition without the input functions).</td>
+</tr>
+</tbody></table></div>
+<p>The game still sees bound keys unless the overlay is capturing input (see <code>overlay</code>).</p>
+<p>Actions are the game&#39;s own, whatever keys the player bound: <code>shoot</code>, <code>aim</code> (a toggle in the game), <code>reload</code>, <code>use</code>, <code>melee</code>, <code>grenade</code>, <code>tactical</code>, <code>crouch</code> (tap crouches, hold goes prone), <code>fire_mode</code>, <code>switch_weapon</code>. During a Zombies match the client turns the player&#39;s bindings into these (mouse look and movement go to the game directly). Dead Ops Arcade still uses the touchpad controls and raises no actions. The standard lib&#39;s <code>boz.input</code> wraps them.</p>
+<h3 id="gamedef-module">gamedef module</h3>
+<p>Names from the game definition the client loaded (<code>gamedef/</code>).</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>gamedef.cvars()</code></td>
+<td>array</td>
+<td>Every known console variable: <code>{name, type, default, used_by, lookup_only}</code>.</td>
+</tr>
+<tr>
+<td><code>gamedef.commands()</code></td>
+<td>array</td>
+<td>Every known console command: <code>{name, id, owner}</code>.</td>
+</tr>
+</tbody></table></div>
+<p>The game&#39;s console itself (running lines, reading and setting variables, its output) is not part
+of the client: the standard library&#39;s <code>boz.console</code> provides it (see
+<a href="standard-library.html#bozconsole">boz.console</a>).
+The <a href="console-reference.html">console reference</a> lists every variable and command.</p>
+<h3 id="game-module">game module</h3>
+<p>Low-level access to the game. Addresses are numbers (the game is 32-bit); names are looked up in
+the game definition (<code>gamedef/symbols</code>), so mods keep working when addresses are re-mapped.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>game.symbol(name)</code></td>
+<td>Address of a named function or global, or <code>nil</code>. Thumb functions carry bit 0.</td>
+</tr>
+<tr>
+<td><code>game.base()</code></td>
+<td>Address the game image is loaded at.</td>
+</tr>
+<tr>
+<td><code>game.read(type, address)</code></td>
+<td>Reads memory. Types: <code>u8</code>, <code>i8</code>, <code>u16</code>, <code>i16</code>, <code>u32</code>, <code>i32</code>, <code>ptr</code>, <code>f32</code>, <code>bool</code>, <code>string</code> (third argument: maximum length, default 256).</td>
+</tr>
+<tr>
+<td><code>game.write(type, address, value)</code></td>
+<td>Writes memory (same types except <code>string</code>).</td>
+</tr>
+<tr>
+<td><code>game.call(target, ...)</code></td>
+<td>Calls a game function by name or address with up to 6 arguments: integers, booleans, <code>nil</code> (0) or strings (passed as a pointer to a copy, at most 4 per call, 1 KB each). Returns the result as an integer. Pass floats as <code>hook.float_bits(x)</code> (the game passes floats in integer registers).</td>
+</tr>
+<tr>
+<td><code>game.alloc(size)</code> / <code>game.free(address)</code></td>
+<td>Memory the game can read and write (zeroed), for buffers passed to game functions.</td>
+</tr>
+</tbody></table></div>
+<p><code>address</code> may also be a symbol name. Reading or writing a wrong address crashes the game: these
+functions are for mod authors who know the data they touch.</p>
+<h3 id="hook-module">hook module</h3>
+<p>Runs Lua when a game function is called. The game&#39;s code is never patched; a hook costs nothing
+until its function runs. Several hooks (from one or many mods) can share a function; they run in
+the order they were added.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>hook.add(target, {before = fn, after = fn})</code></td>
+<td>Hooks a function by gamedef name or address. Returns a handle. Either handler may be left out.</td>
+</tr>
+<tr>
+<td><code>hook.remove(handle)</code></td>
+<td>Removes a hook.</td>
+</tr>
+<tr>
+<td><code>hook.float_bits(x)</code> / <code>hook.bits_float(u)</code></td>
+<td>Converts between a float and the 32-bit pattern the game passes it as.</td>
+</tr>
+</tbody></table></div>
+<p>Handlers receive a <code>call</code> object, valid only while the handler runs:</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Method</th>
+<th>In</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>call:arg(i)</code>, <code>call:arg_signed(i)</code>, <code>call:arg_float(i)</code></td>
+<td>before, after</td>
+<td>Argument <code>i</code> (1-based; <code>this</code> is argument 1 for methods). In <code>after</code>, the values the function was called with.</td>
+</tr>
+<tr>
+<td><code>call:set_arg(i, v)</code>, <code>call:set_arg_float(i, v)</code></td>
+<td>before</td>
+<td>Changes an argument.</td>
+</tr>
+<tr>
+<td><code>call:skip([value])</code>, <code>call:skip_float(value)</code></td>
+<td>before</td>
+<td>Returns at once with <code>value</code> (default 0); the function does not run, <code>after</code> handlers are not called.</td>
+</tr>
+<tr>
+<td><code>call:result()</code>, <code>call:result_signed()</code>, <code>call:result_float()</code></td>
+<td>after</td>
+<td>The return value.</td>
+</tr>
+<tr>
+<td><code>call:set_result(v)</code>, <code>call:set_result_float(v)</code></td>
+<td>after</td>
+<td>Changes the return value.</td>
+</tr>
+<tr>
+<td><code>call:address()</code></td>
+<td>both</td>
+<td>The hooked function&#39;s address.</td>
+</tr>
+</tbody></table></div>
+<p>Hooks fire on the game thread (game logic, menus, rendering); functions run by the game&#39;s audio or
+network threads are not hooked. An error in a handler switches that handler off.</p>
+<pre><code class="language-lua">-- Halve all damage the player takes (illustrative: check the function and its arguments in gamedef).
+hook.add(&quot;CHealth::Damage&quot;, {before = function(call)
+    call:set_arg(2, call:arg(2) // 2)
+end})
+</code></pre>
+<h3 id="settings-module">settings module</h3>
+<p>Values a mod keeps between sessions, saved per mod in <code>saves/mods/&lt;mod id&gt;.cfg</code>.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>settings.get(key, [default])</code></td>
+<td>A saved value (string, number or boolean), or <code>default</code>.</td>
+</tr>
+<tr>
+<td><code>settings.set(key, value)</code></td>
+<td>Saves a value (<code>nil</code> removes it). Changes are written at the end of the frame.</td>
+</tr>
+</tbody></table></div>
+<h3 id="overlay-module">overlay module</h3>
+<p>The overlay draws over the game. While it captures input, the game gets no mouse or keyboard
+input, the mouse pointer is free and the overlay draws its own cursor.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>overlay.capture(on)</code></td>
+<td>Takes the mouse and keyboard from the game (<code>true</code>) or gives them back.</td>
+</tr>
+<tr>
+<td><code>overlay.capturing()</code></td>
+<td>True while capturing.</td>
+</tr>
+</tbody></table></div>
+<h3 id="ui-module">ui module</h3>
+<p>Immediate-mode widgets (Dear ImGui), called from a <code>frame</code> handler every frame you want them
+shown. Widgets that hold others take a function and close themselves even if it raises an error.
+Sizes are in 720p units and scale with the window. Labels must be unique within a window; text
+after <code>##</code> is not shown, so <code>&quot;Run##SetRound&quot;</code> shows &quot;Run&quot; with its own identity.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ui.window(title, [opts], fn)</code></td>
+<td>open</td>
+<td>A window. <code>opts</code>: <code>x</code>, <code>y</code>, <code>w</code>, <code>h</code> (first use), <code>closable</code> (adds a close button; returns false once it was pressed), <code>focus</code>, <code>no_title</code>, <code>no_resize</code>, <code>no_move</code>, <code>no_collapse</code>, <code>auto_size</code>, <code>no_background</code>, <code>no_inputs</code>, <code>no_scrollbar</code>.</td>
+</tr>
+<tr>
+<td><code>ui.child(id, w, h, fn)</code></td>
+<td></td>
+<td>A scrolling area. <code>0</code> fills the space; negative values leave that much room.</td>
+</tr>
+<tr>
+<td><code>ui.tab_bar(id, fn)</code> / <code>ui.tab(label, fn)</code></td>
+<td>/ open</td>
+<td>Tabs; <code>fn</code> runs for the selected tab.</td>
+</tr>
+<tr>
+<td><code>ui.collapsing(label, fn, [open])</code></td>
+<td>open</td>
+<td>A collapsible section; <code>open</code> sets its first state.</td>
+</tr>
+<tr>
+<td><code>ui.tree(label, fn)</code></td>
+<td>open</td>
+<td>A tree node.</td>
+</tr>
+<tr>
+<td><code>ui.table(id, columns, fn)</code></td>
+<td></td>
+<td>A table; call <code>ui.next_column()</code> before each cell.</td>
+</tr>
+<tr>
+<td><code>ui.text(s)</code>, <code>ui.text_wrapped(s)</code>, <code>ui.text_disabled(s)</code></td>
+<td></td>
+<td>Text.</td>
+</tr>
+<tr>
+<td><code>ui.text_colored(s, r, g, b, [a])</code></td>
+<td></td>
+<td>Coloured text (components 0 to 1).</td>
+</tr>
+<tr>
+<td><code>ui.button(label, [w, h])</code></td>
+<td>clicked</td>
+<td>A button.</td>
+</tr>
+<tr>
+<td><code>ui.selectable(label, selected)</code></td>
+<td>clicked</td>
+<td>A selectable row.</td>
+</tr>
+<tr>
+<td><code>ui.checkbox(label, value)</code></td>
+<td>changed, value</td>
+<td>A checkbox.</td>
+</tr>
+<tr>
+<td><code>ui.slider(label, value, min, max, [integer])</code></td>
+<td>changed, value</td>
+<td>A slider.</td>
+</tr>
+<tr>
+<td><code>ui.combo(label, index, items)</code></td>
+<td>changed, index</td>
+<td>A drop-down; <code>index</code> counts from 1.</td>
+</tr>
+<tr>
+<td><code>ui.input(label, text, [opts])</code></td>
+<td>changed, text</td>
+<td>A text box. <code>opts</code>: <code>hint</code>, <code>width</code> (negative: fill), <code>focus</code>, <code>submit</code> (returns true only when Enter is pressed), <code>history</code> (array of earlier lines for Up/Down).</td>
+</tr>
+<tr>
+<td><code>ui.same_line()</code>, <code>ui.spacing()</code></td>
+<td></td>
+<td>Layout.</td>
+</tr>
+<tr>
+<td><code>ui.separator([text])</code></td>
+<td></td>
+<td>A line, with a title if given.</td>
+</tr>
+<tr>
+<td><code>ui.tooltip(text)</code></td>
+<td></td>
+<td>Shows <code>text</code> while the previous widget is hovered.</td>
+</tr>
+<tr>
+<td><code>ui.item_width(w)</code></td>
+<td></td>
+<td>Width of the next widget.</td>
+</tr>
+<tr>
+<td><code>ui.focus_next()</code></td>
+<td></td>
+<td>Gives keyboard focus to the next widget.</td>
+</tr>
+<tr>
+<td><code>ui.scroll_to_bottom()</code>, <code>ui.at_bottom()</code></td>
+<td>/ boolean</td>
+<td>Scrolling inside the current window or child.</td>
+</tr>
+<tr>
+<td><code>ui.scale()</code></td>
+<td>number</td>
+<td>The overlay scale (window height / 720).</td>
+</tr>
+<tr>
+<td><code>ui.wants_keyboard()</code></td>
+<td>boolean</td>
+<td>True while a text box has focus.</td>
+</tr>
+</tbody></table></div>
+<h3 id="assets-module">assets module</h3>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>assets.patch(file, fn)</code></td>
+<td>Every time the game opens <code>file</code> (matched by file name, without case), <code>fn(bytes)</code> gets the player&#39;s copy as a string and returns the changed bytes, or <code>nil</code> to leave it alone. Several mods can patch one file; patches run in load order. Register in <code>main.lua</code>, before the game loads the file.</td>
+</tr>
+</tbody></table></div>
+<p>Replacement files in a mod&#39;s <code>assets/</code> folder (see <a href="#replace-game-files">Replace game files</a>) are applied
+before patches.</p>
+<h3 id="shared-module">shared module</h3>
+<p><code>shared</code> is one table every mod sees (each mod&#39;s own globals are separate). Code that several
+mods carry, like the standard lib, uses it to coordinate; mods can use it to talk to each other.</p>
+<h3 id="api-example">API example</h3>
+<pre><code class="language-lua">-- Toggle unlimited ammo with F5 and show its state in a corner.
+local console = require(&quot;boz.console&quot;)
+local on = false
+
+input.bind(&quot;F5&quot;, function()
+    on = not on
+    console.set(&quot;WeaponsUnlimitedAmmo&quot;, on)
+end)
+
+events.on(&quot;frame&quot;, function()
+    ui.window(&quot;ammo&quot;, {x = 10, y = 10, auto_size = true, no_title = true, no_inputs = true}, function()
+        ui.text(on and &quot;Unlimited ammo: on&quot; or &quot;Unlimited ammo: off&quot;)
+    end)
+end)
+</code></pre>
+<p>The Developer mod (<code>mods/developer</code>) is the complete reference: a console window, variable
+browser, cheats and commands.</p>
+
+            </article>
+            <div class="doc-pagination" role="navigation" aria-label="Previous and next page">
+              <a class="doc-prev" href="getting-started.html"><small>PREVIOUS</small><span>← Getting started</span></a>
+              <a class="doc-next" href="map-editor.html"><small>NEXT</small><span>Map editor →</span></a>
+            </div>
+          </div>
+          <aside class="doc-toc" aria-label="On this page">
+            <p>ON THIS PAGE</p>
+            <a href="#writing-a-mod">Writing a mod</a>
+            <a href="#how-it-fits-together" class="sub">How it fits together</a>
+            <a href="#the-mod-folder" class="sub">The mod folder</a>
+            <a href="#how-your-script-runs" class="sub">How your script runs</a>
+            <a href="#using-the-standard-lib" class="sub">Using the standard lib</a>
+            <a href="#recipes" class="sub">Recipes</a>
+            <a href="#hooks-when-the-standard-lib-is-not-enough" class="sub">Hooks: when the standard lib is not enough</a>
+            <a href="#debugging" class="sub">Debugging</a>
+            <a href="#mods-working-together" class="sub">Mods working together</a>
+            <a href="#sharing-your-mod" class="sub">Sharing your mod</a>
+            <a href="#projects-and-packaging">Projects and packaging</a>
+            <a href="#create-a-project" class="sub">Create a project</a>
+            <a href="#the-project-folder" class="sub">The project folder</a>
+            <a href="#the-manifest" class="sub">The manifest</a>
+            <a href="#build-install-run" class="sub">Build, install, run</a>
+            <a href="#share-a-mod" class="sub">Share a mod</a>
+            <a href="#dependencies" class="sub">Dependencies</a>
+            <a href="#game-files-in-a-mod" class="sub">Game files in a mod</a>
+            <a href="#client-lua-api">Client Lua API</a>
+            <a href="#scripts-and-modules" class="sub">Scripts and modules</a>
+            <a href="#script-errors" class="sub">Script errors</a>
+            <a href="#events-module" class="sub">events module</a>
+            <a href="#input-module" class="sub">input module</a>
+            <a href="#gamedef-module" class="sub">gamedef module</a>
+            <a href="#game-module" class="sub">game module</a>
+            <a href="#hook-module" class="sub">hook module</a>
+            <a href="#settings-module" class="sub">settings module</a>
+            <a href="#overlay-module" class="sub">overlay module</a>
+            <a href="#ui-module" class="sub">ui module</a>
+            <a href="#assets-module" class="sub">assets module</a>
+            <a href="#shared-module" class="sub">shared module</a>
+            <a href="#api-example" class="sub">API example</a>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+<footer>
+      <a class="brand" href="../index.html"
+        ><img src="../assets/client-logo.png" alt="BOZ Redux" width="640" height="260" loading="lazy"
+      /></a>
+      <p>BOZ Redux</p>
+      <span>Not affiliated with Activision. Game files are not included.</span
+      ><a href="https://github.com/ZappaVinny/boz-redux">Source ↗</a>
+    </footer>
+<dialog id="discord-dialog">
+      <button class="dialog-close" aria-label="Close dialog">×</button>
+      <h2>Discord</h2>
+      <p>
+        The Discord invite hasn’t been added yet. Check GitHub for project
+        updates.
+      </p>
+      <a
+        class="button"
+        href="https://github.com/ZappaVinny/boz-redux"
+        target="_blank"
+        rel="noopener"
+        >Visit the project ↗</a
+      >
+    </dialog>
+  </body>
+</html>

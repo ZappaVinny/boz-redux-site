@@ -1,0 +1,2401 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Game events | BOZ Redux Docs</title>
+    <meta name="description" content="The game's systems talk to each other with events named SUBJECT_* (see How the game works). This page lists every one, with the classes that send and…" />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://boz-redux.com/docs/game-events.html" />
+    <meta name="theme-color" content="#0d0e10" />
+    <link rel="icon" href="../assets/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="256x256" href="../assets/favicon.png" />
+    <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png" />
+    <link rel="manifest" href="../site.webmanifest" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="BOZ Redux" />
+    <meta property="og:title" content="Game events | BOZ Redux Docs" />
+    <meta property="og:description" content="The game's systems talk to each other with events named SUBJECT_* (see How the game works). This page lists every one, with the classes that send and…" />
+    <meta property="og:url" content="https://boz-redux.com/docs/game-events.html" />
+    <meta property="og:image" content="https://boz-redux.com/assets/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Game events","description":"The game's systems talk to each other with events named SUBJECT_* (see How the game works). This page lists every one, with the classes that send and…","url":"https://boz-redux.com/docs/game-events.html","dateModified":"2026-10-17T17:36:34-05:00","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Game events","item":"https://boz-redux.com/docs/game-events.html"}]}]}</script>
+    <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="stylesheet" href="../styles.css" />
+    <script defer src="../config.js"></script>
+    <script defer src="../app.js"></script>
+  </head>
+  <body class="is-docs">
+    <a class="skip" href="#main">Skip to content</a>
+<header>
+      <a class="brand" href="../index.html" aria-label="BOZ Redux home"
+        ><img src="../assets/client-logo.png" alt="BOZ Redux" width="640" height="260"
+      /></a>
+      <nav aria-label="Main navigation">
+        <a href="../index.html" data-nav="home">Home</a
+        ><a href="../docs/index.html" data-nav="docs" class="active" aria-current="page">Documentation</a
+        ><a href="#discord" data-discord>Discord</a>
+      </nav>
+      <a
+        class="header-github"
+        href="https://github.com/ZappaVinny/boz-redux"
+        target="_blank"
+        rel="noopener"
+        >GitHub ↗</a
+      >
+    </header>
+
+    <main id="main" tabindex="-1">
+      <div id="docs-view">
+        <button class="docs-mobile" aria-expanded="false">
+          ☰ Browse documentation
+        </button>
+        <div class="docs-shell">
+          <aside class="docs-sidebar" aria-label="Documentation navigation">
+            <div class="search-wrap">
+              <input
+                id="docs-search"
+                aria-label="Search all documentation"
+                placeholder="Search documentation…"
+                type="search"
+                autocomplete="off"
+                data-index="../docs-data.js"
+              />
+            </div>
+            <div class="search-results" aria-live="polite"></div>
+            <!--
+              The docs page list. Order here sets sidebar order and previous/next.
+              Each link's href is docs/<name>.html for docs/<name>.md (README is index.html).
+              Each link belongs to the nearest label above it (used for the breadcrumb).
+              After changing it, run `node rebuild-docs.mjs`.
+            -->
+            <div class="page-links" role="navigation" aria-label="Documentation pages">
+              <p class="docs-label">START HERE</p>
+              <a href="index.html">Introduction</a>
+              <a href="getting-started.html">Getting started</a>
+
+              <p class="docs-label">CREATE</p>
+              <a href="lua-mods.html">Lua mods</a>
+              <a href="map-editor.html">Map editor</a>
+              <a href="weapons-and-assets.html">Weapons &amp; assets</a>
+
+              <p class="docs-label">REFERENCE</p>
+              <a href="standard-library.html">Standard library</a>
+              <a href="console-reference.html">Console reference</a>
+              <a href="game-events.html" class="current" aria-current="page">Game events</a>
+              <a href="sdk-reference.html">SDK reference</a>
+
+              <p class="docs-label">UNDER THE HOOD</p>
+              <a href="how-the-game-works.html">How the game works</a>
+              <a href="contributing.html">Contributing</a>
+            </div>
+          </aside>
+          <div class="doc-area">
+            <div class="breadcrumb">DOCUMENTATION / <span>REFERENCE</span></div>
+            <article class="doc-content">
+<h1 id="game-events">Game events</h1>
+<p>The game&#39;s systems talk to each other with events named <code>SUBJECT_*</code> (see
+<a href="how-the-game-works.html#events">How the game works</a>). This page lists every one, with the
+classes that send and handle it and, where known, what its two arguments mean.</p>
+<h2 id="following-an-event">Following an event</h2>
+<pre><code class="language-lua">local game_events = require(&quot;boz.game_events&quot;)
+
+game_events.on(&quot;SUBJECT_ADD_SCORE&quot;, function(event)
+    log(&quot;points earned: &quot; .. event.a)
+end)
+</code></pre>
+<p>The handler gets <code>{name, id, subject, sender, a, b}</code>; <code>a</code> and <code>b</code> mean what the notes say
+(pointers to the game&#39;s structs where noted). Returning true from a handler stops the event.
+Most mods never need this: the <a href="standard-library.html">standard library</a> already turns the common
+events into functions such as <code>boz.rounds.on_start</code>.</p>
+<h2 id="all-events">All events</h2>
+<p>372 events; 26 with notes on their arguments.
+This list is generated from the game definition by <code>tools/docgen/events_doc.py</code>.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Sent by</th>
+<th>Handled by</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>SUBJECT_ACHIEVEMENT_FLUXCAPACITOR</code></td>
+<td></td>
+<td>CTeleportManager</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ACKNOWLEDGE_TARGET_CHANGE</code></td>
+<td></td>
+<td>CDOAIController</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ACTIONSCRIPT_TEST</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ACTIVATE_MONKEY_LANDER_ANIM</code></td>
+<td></td>
+<td>CMonkeyLander</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ACTIVATING_CC</code></td>
+<td>CPackAPunch</td>
+<td>CLevelManager, CMysteryBox, CPackAPunch</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ADD_CARPENTER_SCORE</code></td>
+<td></td>
+<td>CPlayerController</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ADD_SCORE</code></td>
+<td>CPlayerController, CScoreHandler</td>
+<td>CMysteryBox, CPickupManager, CPlayerController, CScoreHandler, CScoreManager</td>
+<td>Points earned (CScoreHandler, CPlayerController for revives): a: points, b: the player&#39;s name hash. The pickup manager counts them toward the next drop.</td>
+</tr>
+<tr>
+<td><code>SUBJECT_ADD_SCORE_INTERNAL</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ALL</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ALL_PLAYERS_DEAD</code></td>
+<td>CDOPlayerController</td>
+<td>CDOPlayerController</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ANALOG_TOUCH_PAD_CHANGE</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ANIMATEDSCENERY_SYNCH</code></td>
+<td>CAnimatedScenery</td>
+<td>CAnimatedScenery</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ANIMATOR_XFORM_UPDATED</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_BARRICADE_FIX</code></td>
+<td></td>
+<td>CBarricade</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_BARRICADE_SYNCH</code></td>
+<td>CBarricade</td>
+<td>CBarricade</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_BATTLE_CHICKEN_EXPIRED</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_BEING_REVIVED</code></td>
+<td></td>
+<td>CPlayerController, CRemotePlayer</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_BLED_OUT</code></td>
+<td>CHealth</td>
+<td>CHealth</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_BLUR_EFFECT</code></td>
+<td></td>
+<td>CAIControllerMonkey, CAIControllerZombie, CGameStateIngame</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_BODYDAMAGE_DO_GIBBING</code></td>
+<td></td>
+<td>CBodyDamageController</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_BODYDAMAGE_GUTS_OFF</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_BODYDAMAGE_HEAD_OFF</code></td>
+<td></td>
+<td>CHealth, CRigCollision</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_BODYDAMAGE_LARM_OFF</code></td>
+<td></td>
+<td>CRigCollision</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_BODYDAMAGE_LEGS_OFF</code></td>
+<td></td>
+<td>CAIControllerZombie, CBodyDamageController, CRigCollision</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_BODYDAMAGE_RARM_OFF</code></td>
+<td></td>
+<td>CRigCollision</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_BODY_HIT_WORLD</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_BO_DAMAGE_RESPONSE</code></td>
+<td></td>
+<td>CDamageActionSpawn</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_BUY_ANTHOLOGY</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_BUY_HEROES</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_BUY_WORLD_AT_WAR</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_CARPENTER_ACTIVATED</code></td>
+<td></td>
+<td>CBarricade</td>
+<td>The carpenter power-up: every barricade is rebuilt.</td>
+</tr>
+<tr>
+<td><code>SUBJECT_CENTRIFUGE_DAMAGE</code></td>
+<td></td>
+<td>CAIControllerZombie, CCentrifuge, CPlayerController</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_CENTRIFUGE_PLAYER_AUTO_CROUCH</code></td>
+<td></td>
+<td>CCentrifuge, CPlayerController</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_CHAIN_LIGHTNING_HIT</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_CHARGE_POINTS</code></td>
+<td>CDoor, CLunarLander, CMysteryBox, CPackAPunch, CPerk</td>
+<td>CDoor, CLunarLander, CMysteryBox, CPackAPunch, CPerk</td>
+<td>A purchase: points taken from the player (skipped with UnlimitedScore).</td>
+</tr>
+<tr>
+<td><code>SUBJECT_COLOURISER_INTERPOLATION_COMPLETE</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_CONSTRAIN_WALKING_BODY_TARGET_POSITION</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_CRWD_AGENT_OFF_KINO_STAGE</code></td>
+<td></td>
+<td>CAIControllerZombie, CLevelManager</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_CRWD_AGENT_ON_KINO_STAGE</code></td>
+<td>CIsCrowdAgent</td>
+<td>CAIControllerZombie, CLevelManager</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_CRWD_AGENT_ON_WATER</code></td>
+<td>CIsCrowdAgent</td>
+<td>CAIControllerRomero, CAIControllerZombie</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_CRWD_AGENT_OUT_OF_WATER</code></td>
+<td></td>
+<td>CAIControllerRomero, CAIControllerZombie</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_CRWD_AGENT_POS_UPDATED</code></td>
+<td>CIsCrowdAgent</td>
+<td>CAIControllerHellhound, CAIControllerMonkey, CAIControllerRomero, CAIControllerZombie</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_CRWD_AGENT_STEP_IN_OFF_MESH_CONNECTION</code></td>
+<td>CIsCrowdAgent</td>
+<td>CAIControllerRomero, CAIControllerZombie</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_CRWD_AGENT_STEP_OUT_OFF_MESH_CONNECTION</code></td>
+<td>CIsCrowdAgent</td>
+<td>CAIControllerRomero, CAIControllerZombie</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_DAMAGE</code></td>
+<td></td>
+<td>CDOHealth</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_DAMAGE_ADJUST</code></td>
+<td></td>
+<td>CDOAIControllerSilverback, CDOHealth</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_DAMAGE_RESPONSE</code></td>
+<td></td>
+<td>CDOAIController, CDODamageActionSpawn, CDOHealth</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_DEACTIVATING_CC</code></td>
+<td>CMysteryBox</td>
+<td>CLevelManager, CMysteryBox, CPackAPunch</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_DEATH_BY_PENETRATIVE_WEAPON</code></td>
+<td>CAIControllerZombie</td>
+<td>CAIControllerZombie</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_DEVICE_BACK</code></td>
+<td>CGameStateFrontEnd</td>
+<td>CFlashMenuState</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_DIED</code></td>
+<td></td>
+<td>CAIControllerHellhound, CAIControllerMonkey, CAIControllerRomero, CAIControllerZombie, CDamageActionSpawn</td>
+<td>A CHealth fell below 1 (CHealth::CheckDeath, host). b: the last attacker (m_LastDamagerEnt).</td>
+</tr>
+<tr>
+<td><code>SUBJECT_DIRTY_APES</code></td>
+<td></td>
+<td>CPlayerController, CWaveManager</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_DIRTY_APES_INTERNAL</code></td>
+<td>CWaveMonkey</td>
+<td>CWaveManager</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_DISABLE_COLLISION</code></td>
+<td></td>
+<td>CDoor, CIsCollisionObject, CPerk</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_DISPLAY_ACHIEVEMENT</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_DOOR_SYNCH</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_DO_RESPAWN_PICKUP</code></td>
+<td></td>
+<td>CDOSpawnPointPickup</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_DO_SPAWN_PICKUP</code></td>
+<td></td>
+<td>CDOSpawnPointPickup</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_DROP_TACTICAL_BOMB</code></td>
+<td></td>
+<td>CDOPlayerController</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ENABLE_COLLISION</code></td>
+<td></td>
+<td>CIsCollisionObject</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ENABLE_POWER_SWITCH</code></td>
+<td>CRocketLauncher</td>
+<td>CPowerSwitch, CRocketLauncher</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_END_GAME</code></td>
+<td></td>
+<td>CGameStateIngame, CPlayerController, CScoreManager</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ENEMY_ATTACK_DAMAGE</code></td>
+<td></td>
+<td>CPerk, CPlayerController, CRemotePlayer</td>
+<td>A zombie hit the player. a: damage info* (first word: amount).</td>
+</tr>
+<tr>
+<td><code>SUBJECT_ENTER_COLLISION</code></td>
+<td>CIsCollisionObject</td>
+<td>CCentrifuge, CDOAIControllerSilverback, CDOBuffalo, CDOFateBonusTrigger, CDOHelicopterBodyHandler</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ENTER_COMPOUND_COLLISION</code></td>
+<td>CIsCollisionCompound</td>
+<td>CDOProjectileWeaponHandler</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ENTER_HELP_SCREEN</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ENTER_MAP_VOTE</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ENTITY_DIED</code></td>
+<td></td>
+<td>CDOAIControllerBossSilverback, CDOBuffalo, CDODamageActionSpawn, CDOHordeManager, CDOPlayerController</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_EXIT_COLLISION</code></td>
+<td></td>
+<td>CCentrifuge, CDOPlayerController, CLunarLander, CProjectileEntity, CSnowTrigger</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_EXIT_RESULTS</code></td>
+<td></td>
+<td>CDOIngameStateResult</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_EXPLODE</code></td>
+<td>CAIControllerZombie, CProjectileEntity</td>
+<td>CAIControllerZombie, CBodyDamageController, CExplosion, CProjectileEntity</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_EXPLODED</code></td>
+<td></td>
+<td>CAIControllerMonkey</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_EXPLOSION_HIT</code></td>
+<td></td>
+<td>CAIControllerHellhound, CAIControllerMonkey, CAIControllerRomero, CAIControllerZombie, CBodyDamageController</td>
+<td>An explosion hit the player. a: info* (+4 position for the tinnitus sound).</td>
+</tr>
+<tr>
+<td><code>SUBJECT_FINISH_INTERPOLATION</code></td>
+<td></td>
+<td>CShortcut</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_FLING_ENTITY</code></td>
+<td></td>
+<td>CAIControllerRomero, CAIControllerZombie, CBodyHandler, CFlinger, CPlayerController</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_FORCE_ZOMBIE_DEATH</code></td>
+<td></td>
+<td>CAIControllerHellhound, CAIControllerMonkey, CAIControllerRomero, CAIControllerZombie</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_FREEZE_ME</code></td>
+<td></td>
+<td>CRemotePlayer</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_GROUND_POUND_FX</code></td>
+<td>CAIControllerMonkey</td>
+<td>CAIControllerMonkey</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_HEALTH_DECREASE</code></td>
+<td></td>
+<td>CHealth</td>
+<td>CHealth::Damage sends it to the damaged health component; its OnEvent applies the damage.</td>
+</tr>
+<tr>
+<td><code>SUBJECT_HEALTH_DECREASED</code></td>
+<td>CHealth</td>
+<td>CAIControllerRomero</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_HEALTH_MODIFY</code></td>
+<td></td>
+<td>CHealth, CPlayerController</td>
+<td>CHealth::SetHealth: a: the new health (whole number), b: the source.</td>
+</tr>
+<tr>
+<td><code>SUBJECT_HEALTH_SYNC_REQUEST</code></td>
+<td></td>
+<td>CHealth</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_HEALTH_SYNC_RESPONSE</code></td>
+<td>CHealth</td>
+<td>CHealth</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_HIDE_MODAL_POPUP</code></td>
+<td></td>
+<td>CFlashMenuState</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_HUMAN_GUN_HIT</code></td>
+<td></td>
+<td>CAIControllerRomero, CAIControllerZombie, CPlayerController, CRemotePlayer</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ICE_SLIDE_FINISHED</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_INGAME_LEVEL_VOTED</code></td>
+<td></td>
+<td>CIngameStateVoteMap</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_INGAME_STATE_RESULT_TICK</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_LAUNCH_PLAYER</code></td>
+<td>CDOAIControllerSilverbackResult</td>
+<td>CDOIngameStateResult</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_LAZARUS_END</code></td>
+<td></td>
+<td>CRemotePlayer</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_LEAVE_MULTI_LOBBY</code></td>
+<td></td>
+<td>CFlashMenuState</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_LEFT_ANALOGUE_CHANGED</code></td>
+<td>CDOPlayerInput</td>
+<td>CDOFreeCameraDevice</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_LEVEL_VOTED</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_LIGHTNING_BOLT_FINISH</code></td>
+<td></td>
+<td>CPickupManager</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_LIGHTNING_STRIKE</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_LOAD</code></td>
+<td></td>
+<td>CAnimatedScenery, CBarricade, CCentrifuge, CDOAIController, CDOAIControllerSilverback</td>
+<td>Every system reads its state back from the save.</td>
+</tr>
+<tr>
+<td><code>SUBJECT_LOD_QUOTA_REGISTER</code></td>
+<td>CIsLODControllerQuota</td>
+<td>CIsLODControllerQuota, CIsLODControllerQuotaManager</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_LOD_QUOTA_UNREGISTER</code></td>
+<td>CIsLODControllerQuota</td>
+<td>CIsLODControllerQuota, CIsLODControllerQuotaManager</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_LOSE_PERK</code></td>
+<td>CPerk</td>
+<td>CPerk, CPerkManager</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_LUNARLANDER_CLOSE_DOOR</code></td>
+<td></td>
+<td>CLunarLanderDoor</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_LUNARLANDER_CRUSH</code></td>
+<td></td>
+<td>CAIControllerHellhound, CAIControllerMonkey, CAIControllerRomero, CAIControllerZombie, CPlayerController</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_LUNARLANDER_FLYING_INDICATOR</code></td>
+<td>CLunarLander</td>
+<td>CLunarLanderStation</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_LUNARLANDER_LAND</code></td>
+<td></td>
+<td>CMonkeyLander, CPlayerController, CRocketLauncher</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_LUNARLANDER_OPEN_DOOR</code></td>
+<td></td>
+<td>CLunarLanderDoor</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_LUNARLANDER_SYNCH</code></td>
+<td></td>
+<td>CLunarLander</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_MAIN_MENU_ACHIEVEMENT</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_MAIN_MENU_LEADERBOARD</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_MB_ADD_WEAPON</code></td>
+<td></td>
+<td>CMysteryBox</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_MB_CHOOSE_WEAPON</code></td>
+<td></td>
+<td>CMysteryBox</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_MB_DESPAWN</code></td>
+<td></td>
+<td>CMysteryBox</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_MB_DO_SYNC</code></td>
+<td></td>
+<td>CMysteryBox</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_MB_FIRESALE_COMPLETE</code></td>
+<td></td>
+<td>CMysteryBox</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_MB_LOWER_WEAPON_ENT</code></td>
+<td></td>
+<td>CMysteryBox</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_MB_PAUSE_WEAPON_ENT</code></td>
+<td></td>
+<td>CMysteryBox</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_MB_REMOVE_WEAPON</code></td>
+<td></td>
+<td>CMysteryBox</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_MB_REPORT_ACTIVE</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_MB_SPAWN</code></td>
+<td></td>
+<td>CMysteryBox</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_MB_SPAWN_INTERNAL</code></td>
+<td></td>
+<td>CMysteryBox</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_MB_SPAWN_WEAPON_ENT</code></td>
+<td>CMysteryBox</td>
+<td>CMysteryBox</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_MB_SWITCH_WEAPON</code></td>
+<td></td>
+<td>CMysteryBox</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_MB_SYNC_COUNT</code></td>
+<td></td>
+<td>CMysteryBox</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_MB_WEAPON_COMPLETE</code></td>
+<td>CMysteryBox</td>
+<td>CMysteryBox</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_MELEE_ATTACK_COMPLETE</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_MP_ENTER_SINGLE_MAP</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_MP_LEVEL_SELECT</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_MTX_PURCHASE</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_MULTIPLAYER_ENTER_LOBBY</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_MULTIPLAYER_START</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_NETWORK_POSITION_SYNCHRONISED</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_NEW_WAVE</code></td>
+<td></td>
+<td>CPickupManager, CPlayerController, CWaveManager</td>
+<td>A round starts (CWaveManager::StartWave). a: StartWaveInfo* (+4 wave name hash, +8 health and +0xc zombie count for a special round, +0x10 next wave, +0x14 round number when set).</td>
+</tr>
+<tr>
+<td><code>SUBJECT_NOTABLE_ENT_ACTIVATE</code></td>
+<td></td>
+<td>CAIControllerHellhound, CAIControllerMonkey, CAIControllerRomero, CAIControllerZombie, CNotableEntity</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_NOTABLE_ENT_DEACTIVATE</code></td>
+<td></td>
+<td>CAIControllerHellhound, CAIControllerMonkey, CAIControllerRomero, CAIControllerZombie, CNotableEntity</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_NUKE_EXPANDING</code></td>
+<td>CRadialEffectNuke</td>
+<td>CAIControllerZombie, CRadialEffectNuke</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_NUKE_EXPLODED</code></td>
+<td>CRadialEffectNuke</td>
+<td>CAIControllerZombie</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_NUKE_EXPLODED_SCORE</code></td>
+<td></td>
+<td>CPlayerController</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_NUKE_NOW</code></td>
+<td></td>
+<td>CPickupManager</td>
+<td>The nuke goes off. a: SpawnInfo* for nuke_effect_kill (spec, name, position, rotation).</td>
+</tr>
+<tr>
+<td><code>SUBJECT_OFFER_MTX_REVIVE</code></td>
+<td></td>
+<td>CGameStateIngame, CPerk</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ON_ASM_SIGNAL</code></td>
+<td>CLunarLander</td>
+<td>CLunarLander</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ON_DISABLE_FIRE_SALE</code></td>
+<td>CPickupManager</td>
+<td>CPickupManager</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ON_LOAD_ZOMBIE</code></td>
+<td></td>
+<td>CAIControllerHellhound, CAIControllerMonkey, CAIControllerRomero, CAIControllerZombie</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ON_PERK_GAINED</code></td>
+<td></td>
+<td>CPerk, CPerkManager, CPlayerController</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ON_PERK_LOST</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ON_PICKUP</code></td>
+<td></td>
+<td>CPickupManager</td>
+<td>A power-up was collected. a: struct* (+4 player id, +8 type 0-8: double_points, insta_kill, max_ammo, nuke, carpenter, firesale, deathmachine, perkbottle, lightningbolt, +0xc sound sequence).</td>
+</tr>
+<tr>
+<td><code>SUBJECT_ON_POWER_SWITCH_ACTIVATE</code></td>
+<td>CPowerSwitch</td>
+<td>CDoor, CFlinger, CLevelManager, CLighthouse, CLunarLander</td>
+<td>The power was turned on.</td>
+</tr>
+<tr>
+<td><code>SUBJECT_ON_SAVE_ZOMBIE</code></td>
+<td></td>
+<td>CAIControllerHellhound, CAIControllerMonkey, CAIControllerRomero, CAIControllerZombie</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ON_SETUP_TAKEOFF_SEQUENCE</code></td>
+<td></td>
+<td>CLunarLander</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ON_SHOW_TV_SEQUENCE</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ON_TELEPORTER_ACTIVATED</code></td>
+<td></td>
+<td>CTeleportMainframe, CTeleportManager, CTeleporter</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ON_TELEPORTER_ADD_PLAYER</code></td>
+<td></td>
+<td>CTeleportManager</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ON_TELEPORTER_FINISH_COOLDOWN</code></td>
+<td></td>
+<td>CTeleportMainframe, CTeleportManager, CTeleporter</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ON_TELEPORTER_INITIATE_LINK</code></td>
+<td></td>
+<td>CTeleportMainframe, CTeleportManager, CTeleporter</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ON_TELEPORTER_READY</code></td>
+<td></td>
+<td>CTeleportMainframe, CTeleportManager, CTeleporter, CTeleporterCable</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ON_TELEPORTER_REQUEST_PLAYER</code></td>
+<td></td>
+<td>CTeleportManager, CTeleporter</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ON_TELEPORTER_START_COOLDOWN</code></td>
+<td></td>
+<td>CTeleportMainframe, CTeleportManager, CTeleporter, CTeleporterCable</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ON_TELEPORT_SYNC</code></td>
+<td></td>
+<td>CTeleportManager</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ON_TRANSITION_STATE</code></td>
+<td>CLunarLander</td>
+<td>CLunarLander</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ON_TRAP_ACTIVATED</code></td>
+<td>CTrap</td>
+<td>CTrapSwitch</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ON_TRAP_COOLING</code></td>
+<td></td>
+<td>CTrapSwitch</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ON_TRAP_IDLE</code></td>
+<td></td>
+<td>CTrapSwitch</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ON_TURRET_ACTIVATE</code></td>
+<td>CTurret</td>
+<td>CTurret</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_OPEN_LINK</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_OPTIONS_AUTO_AIM</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_OPTIONS_BRIGHTNESS</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_OPTIONS_CONTROL_METHOD</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_OPTIONS_DEFAULT_SETTINGS</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_OPTIONS_DETAIL_LEVEL</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_OPTIONS_INVERT_Y_AXIS</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_OPTIONS_LEFTY_CONTROLS</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_OPTIONS_SENSITIVITY_X_AXIS</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_OPTIONS_SENSITIVITY_Y_AXIS</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_OPTIONS_SFX</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_OPTIONS_USER_RADIO</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_OPTIONS_VOLUME</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_PACKAPUNCH_DEACTIVATING</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_PACKAPUNCH_DESPAWN</code></td>
+<td></td>
+<td>CPackAPunch</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_PACKAPUNCH_DO_SYNC</code></td>
+<td></td>
+<td>CPackAPunch</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_PACKAPUNCH_END</code></td>
+<td></td>
+<td>CPackAPunch</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_PACKAPUNCH_REPORT_ACTIVE</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_PACKAPUNCH_SPAWN</code></td>
+<td></td>
+<td>CPackAPunch</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_PACKAPUNCH_START</code></td>
+<td>CPackAPunch</td>
+<td>CPackAPunch</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_PATH_COMPLETED</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_PERK_MACHINE_FINISHED</code></td>
+<td></td>
+<td>CPerk</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_PERK_MACHINE_UNDER_ATTACK</code></td>
+<td>CPerk</td>
+<td>CPerk, CPerkManager, CWaveManager, CWaveMonkey</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_PERSIST_COLLISION</code></td>
+<td>CIsCollisionObject</td>
+<td>CCentrifuge, CDOAIControllerSilverback, CDOHelicopterBodyHandler, CDOMeleeAttackHandler, CDONextRoundTrigger</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_PERSIST_COMPOUND_COLLISION</code></td>
+<td>CIsCollisionCompound</td>
+<td>CDOProjectileWeaponHandler</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_PICKED_UP</code></td>
+<td>CDOPickupBase</td>
+<td>CDOPickupBase</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_PICKUP_DIED</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_PLAYER_ACTION</code></td>
+<td></td>
+<td>CDOPlayerController</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_PLAYER_ASCEND</code></td>
+<td></td>
+<td>CPlayerFreeFly</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_PLAYER_DESTROY_ASSOCIATED_ENTITIES</code></td>
+<td></td>
+<td>CDOBattleChickenController, CDORoundManager, CDOSentryGunController</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_PLAYER_FREE_MODE</code></td>
+<td>CInputManager</td>
+<td>CPlayerFreeFly</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_PLAYER_INPUT_FACE_CHANGED</code></td>
+<td>CDOPlayerInput</td>
+<td>CDOPlayerController</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_PLAYER_INPUT_MOVE_CHANGED</code></td>
+<td></td>
+<td>CDOPlayerController</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_PLAYER_REMOVE_ASSOCIATED_ENTITIES</code></td>
+<td></td>
+<td>CDOBattleChickenController, CDOPlayerController, CDOSentryGunController</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_PLAYER_REVIVING</code></td>
+<td></td>
+<td>CPlayerController, CRemotePlayer</td>
+<td>a: the downed player&#39;s name hash, b: the reviver&#39;s entity id; sets the revive time (PlayerReviveTime, PlayerQuickReviveTime with Quick Revive).</td>
+</tr>
+<tr>
+<td><code>SUBJECT_PLAYER_SHIELD_EXPIRED</code></td>
+<td></td>
+<td>CDOShield</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_PLAY_FULLSCREEN_FX</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_PLAY_FULLSCREEN_FX_REMOTE</code></td>
+<td></td>
+<td>CAIControllerRomero, CPlayerController, CRemotePlayer</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_POINTS_PENALTY</code></td>
+<td>CPlayerController</td>
+<td>CPlayerController, CScoreManager</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_POI_ACTION</code></td>
+<td>CInputManager</td>
+<td>CIngameStatePlaying</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_POI_INTERACT</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_POI_TRIGGER</code></td>
+<td></td>
+<td>CIngameStatePlaying</td>
+<td>A point of interest came into reach (the use prompt: CIngameStatePlaying::UpdatePoiPrompt).</td>
+</tr>
+<tr>
+<td><code>SUBJECT_POPUP_CODPOINTS_HELP</code></td>
+<td></td>
+<td>CFlashMenuState</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_POPUP_MODAL</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_POWERSWITCH_SYNCH</code></td>
+<td>CPowerSwitch</td>
+<td>CPowerSwitch</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_PRIVACY_POLICY</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_PROCESS_CAMERA_VIEW_MATRIX</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_PROFILE_GC_LOGIN</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_PROJECTER_START_SEQUENCE</code></td>
+<td></td>
+<td>CProjectorScreen, CRocketLauncher, CTVScreen</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_PROJECTILE_FIRED</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_QUIT</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_RAYCASTED_PARTICLE_COLLIDED</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_RECONNECT_PREV_GAME</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_RELAY_TELEPORTER_ACTIVATED</code></td>
+<td></td>
+<td>CTeleportManager</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_RELAY_TELEPORTER_FINISH_COOLDOWN</code></td>
+<td></td>
+<td>CTeleportManager</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_RELAY_TELEPORTER_INITIATE_LINK</code></td>
+<td>CTeleportManager</td>
+<td>CTeleportManager</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_RELAY_TELEPORTER_READY</code></td>
+<td></td>
+<td>CTeleportManager</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_RELAY_TELEPORTER_START_COOLDOWN</code></td>
+<td></td>
+<td>CTeleportManager</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_REMOVE_ICE_EFFECT</code></td>
+<td></td>
+<td>CRemotePlayer</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_REMOVE_TELEPORT_PLAYER_FROM_LIST</code></td>
+<td></td>
+<td>CTeleportManager</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_RENDER_CONDITIONAL</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_REQUEST_LOCK</code></td>
+<td></td>
+<td>CLock</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_REQUEST_SYNC</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_REQUEST_TARGET_CHANGE</code></td>
+<td>CDOAIController</td>
+<td>CDOAIController</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_RESPAWN</code></td>
+<td></td>
+<td>CDOPlayerController</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_RESPAWN_DO_ZOMBIE</code></td>
+<td></td>
+<td>CDOSpawnPointZombie</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_RESPAWN_ENTITY</code></td>
+<td></td>
+<td>CDOSpawnPointBase</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_RESTART_LEVEL</code></td>
+<td></td>
+<td>CPickupManager, CProjectileManager, CScoreManager, CSpawnManager, CTeleportManager</td>
+<td>The level restarts: managers reset (rounds to 0, power off).</td>
+</tr>
+<tr>
+<td><code>SUBJECT_REVIVAL_MACHINE_USED</code></td>
+<td></td>
+<td>CPerk</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_REVIVE_PLAYER</code></td>
+<td></td>
+<td>CPlayerController, CRemotePlayer</td>
+<td>a: the reviving player&#39;s entity id, b: nonzero while reviving (CPlayerController keeps them).</td>
+</tr>
+<tr>
+<td><code>SUBJECT_REVIVE_SCORE</code></td>
+<td></td>
+<td>CPlayerController, CRemotePlayer</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_RIGHT_ANALOGUE_CHANGED</code></td>
+<td>CDOPlayerInput</td>
+<td>CDOFreeCameraDevice</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ROAST_CHIMP</code></td>
+<td></td>
+<td>CAIControllerMonkey, CPlayerController</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ROCKET_DESTROYED</code></td>
+<td></td>
+<td>CPlayerController, CRocket, CRocketLauncher</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ROCKET_LAUNCH</code></td>
+<td></td>
+<td>CRocket, CRocketLauncher</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ROMERO_CHAIN_LIGHTNING_HIT</code></td>
+<td>CAIControllerRomero</td>
+<td>CAIControllerRomero</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ROMERO_CHANGE_TARGET</code></td>
+<td></td>
+<td>CAIControllerRomero</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ROMERO_DESTROYED</code></td>
+<td></td>
+<td>CAIControllerRomero, CWaveManager</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ROMERO_ELECTRIFY_ZOMBIES</code></td>
+<td></td>
+<td>CAIControllerRomero, CAIControllerZombie</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ROMERO_GROUND_POUND_FX</code></td>
+<td>CAIControllerRomero</td>
+<td>CAIControllerRomero</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ROMERO_HUMAN_GUN_HIT</code></td>
+<td></td>
+<td>CAIControllerRomero</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ROMERO_MOVE</code></td>
+<td></td>
+<td>CAIControllerRomero</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ROMERO_PLAYER_ELECTROCUTION</code></td>
+<td>CAIControllerRomero</td>
+<td>CAIControllerRomero</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ROMERO_SET_DESPAWN_POINT</code></td>
+<td></td>
+<td>CAIControllerRomero</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ROMERO_TRANSFORM</code></td>
+<td></td>
+<td>CAIControllerRomero</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ROMERO_TRIGGER_ANIM</code></td>
+<td></td>
+<td>CAIControllerRomero</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ROMERO_TRIGGER_GROUND_ATTACK</code></td>
+<td></td>
+<td>CAIControllerRomero</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ROMERO_TRIGGER_SWIPE_ATTACK</code></td>
+<td></td>
+<td>CAIControllerRomero</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SAVE</code></td>
+<td></td>
+<td>CAnimatedScenery, CBarricade, CCentrifuge, CDOAIController, CDOAIControllerSilverback</td>
+<td>Every system writes its state into the save (CSaveManager).</td>
+</tr>
+<tr>
+<td><code>SUBJECT_SENTRY_GUN_EXPIRED</code></td>
+<td>CDOSentryGunController</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SET_IN_MONKEY_BOMB_EFFECT_AREA</code></td>
+<td>CDOAIController</td>
+<td>CDOAIController</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SET_IN_RAINBOW_RING</code></td>
+<td></td>
+<td>CDOAIController</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SET_KEY</code></td>
+<td>CLock</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SET_PLAYER_BODY</code></td>
+<td>CDOPlayerController</td>
+<td>CDOPlayerController</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SET_PLAYER_SHIELD</code></td>
+<td></td>
+<td>CDOPlayerController</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SET_SENTRY_GUN_FACING</code></td>
+<td>CDOSentryGunController</td>
+<td>CDOSentryGunController</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SHOCKWAVE_LETHAL_HIT</code></td>
+<td></td>
+<td>CAIControllerHellhound, CAIControllerMonkey, CAIControllerZombie</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SHOCKWAVE_STUN_HIT</code></td>
+<td></td>
+<td>CAIControllerMonkey, CAIControllerZombie</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SHORTCUT_AREA_UNLOCKED</code></td>
+<td></td>
+<td>CFlinger, CZipLine, CZiplineBarrier</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SILVERBACK_LAND</code></td>
+<td></td>
+<td>CDOAIControllerBossSilverback</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SILVERBACK_LEAP</code></td>
+<td>CDOAIControllerBossSilverback</td>
+<td>CDOAIControllerBossSilverback</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SILVERBACK_RESULTS_ASCEND</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SILVERBACK_RESULTS_LEAP</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SINGLEPLAYER_CHECK_SAVED_GAME</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SINGLEPLAYER_CONTINUE_SAVED_GAME</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SINGLEPLAYER_SET_CHARACTER</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SINGLEPLAYER_SET_DIFFICULTY</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SINGLEPLAYER_SET_LEVEL</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SINGLEPLAYER_START</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SLOW_DOWN_PLAYER</code></td>
+<td>CAIControllerMonkey</td>
+<td>CAIControllerMonkey</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SNOW_TRIGGER</code></td>
+<td>CSnowTrigger</td>
+<td>CSnowTrigger, CVFXManager</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SPAWNED_ENTITY_DESTROYED</code></td>
+<td>CDOSpawnedEntityTracker</td>
+<td>CDOSpawnPointBase</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SPAWNED_ENTITY_DIED</code></td>
+<td>CDOSpawnedEntityTracker</td>
+<td>CDOSpawnPointZombie</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SPAWNPOINT_ACTIVATE</code></td>
+<td></td>
+<td>CSpawnPoint</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SPAWNPOINT_DEACTIVATE</code></td>
+<td></td>
+<td>CSpawnPoint</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SPAWN_ACKNOWLEDGED</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SPAWN_BONUS_LIFE</code></td>
+<td></td>
+<td>CDOPlayerController</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SPAWN_BOOTS_FLAME</code></td>
+<td></td>
+<td>CDOPlayerController</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SPAWN_CHICKEN</code></td>
+<td>CDOPlayerController</td>
+<td>CDOPlayerController</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SPAWN_CLUSTER_BOMB</code></td>
+<td></td>
+<td>CProjectileEntity</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SPAWN_DEATH_GEM</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SPAWN_DO_ZOMBIE</code></td>
+<td></td>
+<td>CDOSpawnPointZombie</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SPAWN_ENTITY</code></td>
+<td></td>
+<td>CDOSpawnPointBase</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SPAWN_GEORGE_ROMERO</code></td>
+<td>CWaveManager</td>
+<td>CWaveManager</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SPAWN_GEORGE_WITH_NCHECK</code></td>
+<td></td>
+<td>CWaveManager</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SPAWN_GERSCH_EFFECT</code></td>
+<td></td>
+<td>CProjectileEntity</td>
+<td>A Gersch device opens its black hole (CProjectileEntity::OnEvent: gersch_Effect, gersch_opens, gersch_loop; lifetime 8000 ms).</td>
+</tr>
+<tr>
+<td><code>SUBJECT_SPAWN_PICKUP</code></td>
+<td></td>
+<td>CPickupManager</td>
+<td>Spawns a power-up entity. a: struct* (+4 spec hash, +8 position, +0x14 rotation, +0x24 name hash, +0x28 flags).</td>
+</tr>
+<tr>
+<td><code>SUBJECT_SPAWN_STARTING_ZOMBIES</code></td>
+<td>CWaveManager</td>
+<td>CWaveManager</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SPAWN_ZOMBIE</code></td>
+<td></td>
+<td>CPlayerController, CWaveManager</td>
+<td>CWaveManager::SpawnZombies asks to spawn one: a: ZombieSpawnInfo* (spec, configuration, position, speed, spawn point).</td>
+</tr>
+<tr>
+<td><code>SUBJECT_SPAWN_ZOMBIE_WITH_NCHECK</code></td>
+<td></td>
+<td>CWaveManager</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_START_BURNING</code></td>
+<td>CAIControllerZombie</td>
+<td>CAIControllerZombie</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_START_SPAWNING_MONKEY</code></td>
+<td></td>
+<td>CMonkeyLander, CWaveManager</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_START_SPEED_BOOST</code></td>
+<td></td>
+<td>CDOPlayerController</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SWITCHED_CONNECT_TYPE</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SWITCH_FOG</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SWITCH_MODEL_BLOCK</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SWITCH_PAGE</code></td>
+<td></td>
+<td>CFlashMenuState</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SWITCH_PAGE_POPSTACK</code></td>
+<td></td>
+<td>CFlashMenuState</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SWITCH_PLAYER_TARGET</code></td>
+<td></td>
+<td>CDOAIController</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SYNCH_HEALTH</code></td>
+<td>CDOHealth</td>
+<td>CDOHealth</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SYNCH_WAVE_DATA</code></td>
+<td></td>
+<td>CWaveManager</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SYNC_FATAL_WEAPON</code></td>
+<td>CAIControllerHellhound, CAIControllerMonkey, CAIControllerZombie</td>
+<td>CAIControllerHellhound, CAIControllerMonkey, CAIControllerZombie</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SYNC_STATS</code></td>
+<td></td>
+<td>CPlayerController, CRemotePlayer</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_SYNC_TO_NEW_PLAYER</code></td>
+<td></td>
+<td>CDOTeleporter</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_TAKE_PLAYER_LIFE_REQUEST</code></td>
+<td></td>
+<td>CDOPlayerController</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_TAKE_PLAYER_LIFE_RESPONSE</code></td>
+<td></td>
+<td>CDOPlayerController</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_TELEPORTER_SYNCH</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_TELEPORT_CABLE_SYNCH</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_TELEPORT_MAINFRAME_SYNCH</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_TELEPORT_PLAYER</code></td>
+<td></td>
+<td>CTeleportManager</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_TEMP_MOVEMENT_SLOW_DOWN</code></td>
+<td></td>
+<td>CAIControllerMonkey, CAIControllerRomero, CAIControllerZombie, CPlayerController, CRemotePlayer</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_TERMINATE</code></td>
+<td>CProjectileEntity</td>
+<td>CProjectileEntity</td>
+<td>A projectile ends (a black hole closes: gersch_shuts).</td>
+</tr>
+<tr>
+<td><code>SUBJECT_TERMS_OF_USE</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_TRANSFORM_UPDATED</code></td>
+<td></td>
+<td></td>
+<td>Engine: a transform moved (every frame for moving things; not in SubjectId_Register).</td>
+</tr>
+<tr>
+<td><code>SUBJECT_TRANSITION_MENU</code></td>
+<td></td>
+<td>CFlashMenuState</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_TRANSITION_MENU_POPSTACK</code></td>
+<td></td>
+<td>CFlashMenuState</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_TRANSITION_STATE</code></td>
+<td></td>
+<td>CTeleportManager</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_TRAP_DAMAGE</code></td>
+<td></td>
+<td>CAIControllerHellhound, CAIControllerMonkey, CAIControllerRomero, CAIControllerZombie, CPlayerController</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_TRAP_STATE_SYNCH</code></td>
+<td></td>
+<td>CTrap</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_TRAP_TRANSITION_STATE</code></td>
+<td>CTrap</td>
+<td>CTrap</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_TURRET_CHANGE_TARGET</code></td>
+<td></td>
+<td>CTurret</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_TURRET_STATE_SYNCH</code></td>
+<td></td>
+<td>CTurret</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_TURRET_TRANSITION_STATE</code></td>
+<td>CTurret</td>
+<td>CTurret</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_TUTORIAL_PICKUP_ACTIVATE</code></td>
+<td></td>
+<td>CTutorialPickup</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_TUTORIAL_PICKUP_DEACTIVATE</code></td>
+<td></td>
+<td>CTutorialPickup</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_TUTORIAL_PICKUP_USER_INTERACT</code></td>
+<td>CTutorialPickup</td>
+<td>CTutorialManager, CTutorialPickup</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_UNLOCK</code></td>
+<td></td>
+<td>CLock</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_UPDATE_LOD</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_USE_ICESLIDE</code></td>
+<td></td>
+<td>CRemotePlayer</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_USE_ZIPLINE</code></td>
+<td></td>
+<td>CRemotePlayer</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_VFX_EFFECT_COMPLETE</code></td>
+<td></td>
+<td>CExplosion</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_VFX_SPAWN_EFFECT</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_VOTE_MAP_RESTART_LEVEL</code></td>
+<td>CIngameStateVoteMap</td>
+<td>CIngameStateVoteMap</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_WAVE_ENDED</code></td>
+<td>CWaveManager</td>
+<td>CMonkeyLander, CPlayerController, CScoreHandler, CWaveManager, CWeaponManager</td>
+<td>The round&#39;s last zombie died (killed reached the wave&#39;s zombie count).</td>
+</tr>
+<tr>
+<td><code>SUBJECT_WEAPON_EQUIPPED</code></td>
+<td></td>
+<td>CMysteryBox, CWeaponChalkOutline</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_WEAPON_HIT</code></td>
+<td></td>
+<td>CAIControllerHellhound, CAIControllerMonkey, CAIControllerRomero, CAIControllerZombie, CBodyDamageController</td>
+<td>A bullet or knife hit an entity (Weapon_FireBullets, CWeaponManager::MeleeAttack: to the entity&#39;s CIsBroadcaster) with the body part.</td>
+</tr>
+<tr>
+<td><code>SUBJECT_WEAPON_MELEE</code></td>
+<td></td>
+<td>CRemotePlayer, CRemotePlayerWeapon</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_WEAPON_RELOAD</code></td>
+<td></td>
+<td>CRemotePlayer, CRemotePlayerWeapon</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_WEAPON_SET</code></td>
+<td></td>
+<td>CRemotePlayer, CRemotePlayerWeapon</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_WEAPON_SHOOT</code></td>
+<td></td>
+<td>CAITutor, CRemotePlayer, CRemotePlayerWeapon</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_WEAPON_SHOOT_STOP</code></td>
+<td></td>
+<td>CRemotePlayerWeapon</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_WEAPON_SPAWN_PROJECTILE</code></td>
+<td></td>
+<td>CRemotePlayerWeapon, CWeaponManager</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_WEAPON_UNEQUIPPED</code></td>
+<td></td>
+<td>CMysteryBox, CWeaponChalkOutline</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ZOMBIE_CHAIN_LIGHTNING_DEATH</code></td>
+<td>CAIControllerZombie</td>
+<td>CAIControllerZombie</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ZOMBIE_CHANGE_TARGET</code></td>
+<td></td>
+<td>CAIControllerHellhound, CAIControllerMonkey, CAIControllerZombie</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ZOMBIE_CHANGE_TARGET_ACK</code></td>
+<td></td>
+<td>CAIControllerZombie</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ZOMBIE_CHANGE_TARGET_SYNACK</code></td>
+<td></td>
+<td>CAIControllerZombie</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ZOMBIE_DEATH</code></td>
+<td></td>
+<td>CAIControllerHellhound, CAIControllerMonkey, CAIControllerZombie, CPickupManager, CPlayerController</td>
+<td>A zombie died (from the level manager). b: the zombie&#39;s name hash (CIsEntityDB::FindEntity finds it while it lingers). Several subjects pass it on: once per subject.</td>
+</tr>
+<tr>
+<td><code>SUBJECT_ZOMBIE_GASSY_DEATH</code></td>
+<td></td>
+<td>CAIControllerZombie</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ZOMBIE_GERSCH_DEATH</code></td>
+<td>CAIControllerZombie</td>
+<td>CAIControllerZombie</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ZOMBIE_ICE_SHATTER</code></td>
+<td>CAIControllerZombie</td>
+<td>CAIControllerZombie</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ZOMBIE_INVISIBLE</code></td>
+<td></td>
+<td>CAIControllerMonkey, CAIControllerZombie</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ZOMBIE_LEG_DISMEMBERMENT_ENABLE</code></td>
+<td></td>
+<td>CAIControllerZombie</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ZOMBIE_PLAYER_ELECTROCUTION</code></td>
+<td></td>
+<td>CAIControllerZombie</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ZOMBIE_PLAY_SPAWN_ANIM</code></td>
+<td></td>
+<td>CAIControllerZombie</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ZOMBIE_SCORE_HIT</code></td>
+<td></td>
+<td>CAIControllerHellhound, CAIControllerMonkey, CAIControllerRomero, CAIControllerZombie, CPlayerController</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ZOMBIE_SCORE_KILL_GRENADE</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ZOMBIE_SCORE_KILL_HEAD</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ZOMBIE_SCORE_KILL_KNIFE</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ZOMBIE_SCORE_KILL_LIMB</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ZOMBIE_SCORE_KILL_TORSO</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ZOMBIE_SCORE_KILL_UNDEFINED</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ZOMBIE_SHOCKWAVE_DEATH</code></td>
+<td>CAIControllerZombie</td>
+<td>CAIControllerZombie</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ZOMBIE_SPAWN_ICE</code></td>
+<td>CAIControllerZombie</td>
+<td>CAIControllerZombie</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ZOMBIE_TARGET_PERK_MACHINE</code></td>
+<td></td>
+<td>CAIControllerMonkey</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ZOMBIE_TRIGGER_ANIM</code></td>
+<td></td>
+<td>CAIControllerMonkey, CAIControllerZombie</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ZOMBIE_TRIGGER_ATTACK</code></td>
+<td></td>
+<td>CAIControllerHellhound, CAIControllerMonkey, CAIControllerZombie</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ZOMBIE_TRIGGER_CLIMB</code></td>
+<td></td>
+<td>CAIControllerHellhound, CAIControllerMonkey, CAIControllerZombie</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ZOMBIE_TRIGGER_CRAWL</code></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ZOMBIE_TRIGGER_FULL_BODY_EXPLOSION</code></td>
+<td>CAIControllerZombie</td>
+<td>CAIControllerZombie</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ZOMBIE_TRIGGER_WALK</code></td>
+<td></td>
+<td>CAIControllerHellhound, CAIControllerMonkey, CAIControllerZombie</td>
+<td></td>
+</tr>
+<tr>
+<td><code>SUBJECT_ZOMBIE_TURN_HUMAN</code></td>
+<td>CAIControllerZombie</td>
+<td>CAIControllerZombie</td>
+<td></td>
+</tr>
+</tbody></table></div>
+
+            </article>
+            <div class="doc-pagination" role="navigation" aria-label="Previous and next page">
+              <a class="doc-prev" href="console-reference.html"><small>PREVIOUS</small><span>← Console reference</span></a>
+              <a class="doc-next" href="sdk-reference.html"><small>NEXT</small><span>SDK reference →</span></a>
+            </div>
+          </div>
+          <aside class="doc-toc" aria-label="On this page">
+            <p>ON THIS PAGE</p>
+            <a href="#following-an-event">Following an event</a>
+            <a href="#all-events">All events</a>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+<footer>
+      <a class="brand" href="../index.html"
+        ><img src="../assets/client-logo.png" alt="BOZ Redux" width="640" height="260" loading="lazy"
+      /></a>
+      <p>BOZ Redux</p>
+      <span>Not affiliated with Activision. Game files are not included.</span
+      ><a href="https://github.com/ZappaVinny/boz-redux">Source ↗</a>
+    </footer>
+<dialog id="discord-dialog">
+      <button class="dialog-close" aria-label="Close dialog">×</button>
+      <h2>Discord</h2>
+      <p>
+        The Discord invite hasn’t been added yet. Check GitHub for project
+        updates.
+      </p>
+      <a
+        class="button"
+        href="https://github.com/ZappaVinny/boz-redux"
+        target="_blank"
+        rel="noopener"
+        >Visit the project ↗</a
+      >
+    </dialog>
+  </body>
+</html>

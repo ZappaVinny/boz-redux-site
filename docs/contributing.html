@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Contributing | BOZ Redux Docs</title>
+    <meta name="description" content="For people who work on the SDK itself: how the repository is laid out and tested, how names from reverse engineering get into the game definition, and…" />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://boz-redux.com/docs/contributing.html" />
+    <meta name="theme-color" content="#0d0e10" />
+    <link rel="icon" href="../assets/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="256x256" href="../assets/favicon.png" />
+    <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png" />
+    <link rel="manifest" href="../site.webmanifest" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="BOZ Redux" />
+    <meta property="og:title" content="Contributing | BOZ Redux Docs" />
+    <meta property="og:description" content="For people who work on the SDK itself: how the repository is laid out and tested, how names from reverse engineering get into the game definition, and…" />
+    <meta property="og:url" content="https://boz-redux.com/docs/contributing.html" />
+    <meta property="og:image" content="https://boz-redux.com/assets/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Contributing","description":"For people who work on the SDK itself: how the repository is laid out and tested, how names from reverse engineering get into the game definition, and…","url":"https://boz-redux.com/docs/contributing.html","dateModified":"2026-10-17T17:36:34-05:00","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Contributing","item":"https://boz-redux.com/docs/contributing.html"}]}]}</script>
+    <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="stylesheet" href="../styles.css" />
+    <script defer src="../config.js"></script>
+    <script defer src="../app.js"></script>
+  </head>
+  <body class="is-docs">
+    <a class="skip" href="#main">Skip to content</a>
+<header>
+      <a class="brand" href="../index.html" aria-label="BOZ Redux home"
+        ><img src="../assets/client-logo.png" alt="BOZ Redux" width="640" height="260"
+      /></a>
+      <nav aria-label="Main navigation">
+        <a href="../index.html" data-nav="home">Home</a
+        ><a href="../docs/index.html" data-nav="docs" class="active" aria-current="page">Documentation</a
+        ><a href="#discord" data-discord>Discord</a>
+      </nav>
+      <a
+        class="header-github"
+        href="https://github.com/ZappaVinny/boz-redux"
+        target="_blank"
+        rel="noopener"
+        >GitHub ↗</a
+      >
+    </header>
+
+    <main id="main" tabindex="-1">
+      <div id="docs-view">
+        <button class="docs-mobile" aria-expanded="false">
+          ☰ Browse documentation
+        </button>
+        <div class="docs-shell">
+          <aside class="docs-sidebar" aria-label="Documentation navigation">
+            <div class="search-wrap">
+              <input
+                id="docs-search"
+                aria-label="Search all documentation"
+                placeholder="Search documentation…"
+                type="search"
+                autocomplete="off"
+                data-index="../docs-data.js"
+              />
+            </div>
+            <div class="search-results" aria-live="polite"></div>
+            <!--
+              The docs page list. Order here sets sidebar order and previous/next.
+              Each link's href is docs/<name>.html for docs/<name>.md (README is index.html).
+              Each link belongs to the nearest label above it (used for the breadcrumb).
+              After changing it, run `node rebuild-docs.mjs`.
+            -->
+            <div class="page-links" role="navigation" aria-label="Documentation pages">
+              <p class="docs-label">START HERE</p>
+              <a href="index.html">Introduction</a>
+              <a href="getting-started.html">Getting started</a>
+
+              <p class="docs-label">CREATE</p>
+              <a href="lua-mods.html">Lua mods</a>
+              <a href="map-editor.html">Map editor</a>
+              <a href="weapons-and-assets.html">Weapons &amp; assets</a>
+
+              <p class="docs-label">REFERENCE</p>
+              <a href="standard-library.html">Standard library</a>
+              <a href="console-reference.html">Console reference</a>
+              <a href="game-events.html">Game events</a>
+              <a href="sdk-reference.html">SDK reference</a>
+
+              <p class="docs-label">UNDER THE HOOD</p>
+              <a href="how-the-game-works.html">How the game works</a>
+              <a href="contributing.html" class="current" aria-current="page">Contributing</a>
+            </div>
+          </aside>
+          <div class="doc-area">
+            <div class="breadcrumb">DOCUMENTATION / <span>UNDER THE HOOD</span></div>
+            <article class="doc-content">
+<h1 id="contributing">Contributing</h1>
+<p>For people who work on the SDK itself: how the repository is laid out and tested, how names
+from reverse engineering get into the game definition, and where the SDK is going.</p>
+<h2 id="working-on-the-sdk">Working on the SDK</h2>
+<p>How the SDK repository is laid out, how to run its tests, and which files are generated. For
+changes to the game definition (names from Ghidra), see
+<a href="#contributing-to-the-game-definition">Contributing to the game definition</a>.</p>
+<h3 id="the-repository">The repository</h3>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Path</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>tools/bozkit/</code></td>
+<td>The Python SDK: project compiler, game file formats, the asset library, the SDK app (<code>bozkit.desktop</code>). Tests in <code>tools/bozkit/tests</code> use synthetic data only.</td>
+</tr>
+<tr>
+<td><code>blender/boz_suite/</code></td>
+<td>The map editor, a Blender application template</td>
+</tr>
+<tr>
+<td><code>lib/boz/</code></td>
+<td>The standard library (<code>boz.*</code>), with its tests in <code>lib/tests/</code></td>
+</tr>
+<tr>
+<td><code>mods/developer/</code></td>
+<td>The Developer mod, carrying a copy of the standard library</td>
+</tr>
+<tr>
+<td><code>gamedef/</code></td>
+<td>The game definition (<a href="https://github.com/ZappaVinny/boz-redux-gamedef" target="_blank" rel="noopener">boz-redux-gamedef</a>, a submodule)</td>
+</tr>
+<tr>
+<td><code>tools/ghidra/</code>, <code>tools/symbols/</code></td>
+<td>Reverse-engineering scripts and the converters between Ghidra and the game definition</td>
+</tr>
+<tr>
+<td><code>tools/stdlib/</code>, <code>tools/docgen/</code></td>
+<td>Generators for the standard library&#39;s data and documentation</td>
+</tr>
+<tr>
+<td><code>tools/navmesh/</code></td>
+<td><code>boz-navmesh</code>, the native Recast helper (with recastnavigation as a submodule)</td>
+</tr>
+<tr>
+<td><code>tools/destin/</code></td>
+<td><a href="https://github.com/Tatsh/destin" target="_blank" rel="noopener">destin</a> (submodule): <code>.dz</code> pack extraction</td>
+</tr>
+<tr>
+<td><code>docs/</code></td>
+<td>This documentation</td>
+</tr>
+</tbody></table></div>
+<p>The layers have a strict order: the client provides universal facilities, the standard library
+turns game internals into general-purpose functions, and anything specific to one mod or map
+lives in that mod. A feature moves down a layer only when many mods need it.</p>
+<p>No game files are ever committed: no APK, packs, extracted assets, converted binaries or Ghidra
+projects. <code>re/</code> (reverse-engineering output) is ignored by Git.</p>
+<h3 id="tests">Tests</h3>
+<pre><code class="language-bash">python3 -m unittest discover tools/bozkit/tests     # bozkit and the compiler
+lua5.4 lib/tests/run.lua                            # the standard library
+python3 blender/tests/run_suite_test.py             # the editor, in a background Blender
+</code></pre>
+<p>The shipped-file tools have their own headless Blender tests:</p>
+<pre><code class="language-bash">for test in headless_roundtrip texture_sampling texture_pixels; do
+  ALSOFT_DRIVERS=null blender -b --factory-startup --python-exit-code 1 \
+    --python blender/tests/$test.py
+done
+</code></pre>
+<p>Each prints <code>BOZ_..._OK</code>. CI (<code>.github/workflows/test.yml</code>) runs the Python and Lua tests, a lint
+pass and the generated-file check below.</p>
+<h3 id="generated-files">Generated files</h3>
+<p>These files are generated; change their sources and run the generator, never edit them by hand.
+CI fails when one is out of date.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>File</th>
+<th>Source</th>
+<th>Generator</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>docs/standard-library.md</code></td>
+<td>The <code>---</code> comments in <code>lib/boz/*.lua</code></td>
+<td><code>python3 tools/stdlib/generate_doc.py</code></td>
+</tr>
+<tr>
+<td><code>lib/boz/*_data.lua</code></td>
+<td>The game definition</td>
+<td><code>python3 tools/stdlib/generate_data.py</code></td>
+</tr>
+<tr>
+<td><code>docs/game-events.md</code></td>
+<td>The game definition and <code>tools/symbols/event_notes.toml</code></td>
+<td><code>python3 tools/docgen/events_doc.py</code></td>
+</tr>
+<tr>
+<td>The weapon field tables in <code>docs/weapons-and-assets.md</code></td>
+<td><code>bozkit.weapons.FIELDS</code></td>
+<td><code>python3 tools/docgen/weapons_doc.py</code></td>
+</tr>
+<tr>
+<td><code>docs/console-reference.md</code></td>
+<td>The game definition and <code>tools/symbols/console_notes.toml</code></td>
+<td><code>python3 tools/symbols/symbols.py console-doc gamedef/console/boz-1.0.11.toml tools/symbols/console_notes.toml docs/console-reference.md</code></td>
+</tr>
+<tr>
+<td><code>mods/developer/scripts/boz/</code></td>
+<td><code>lib/boz/</code></td>
+<td><code>python3 tools/stdlib/sync.py</code> (<code>--check</code> only compares)</td>
+</tr>
+</tbody></table></div>
+<h3 id="the-editor">The editor</h3>
+<p><code>tools/build_suite.py</code> assembles the editor: the <code>boz_suite</code> add-on and the bozkit modules go into
+<code>build/suite/</code> (a Blender user scripts folder), with a <code>startup.blend</code> generated from
+<code>boz_suite/tabs.py</code>. The SDK app rebuilds it in a checkout when the sources change.
+<code>blender/README.md</code> describes the editor&#39;s modules.</p>
+<h3 id="documentation">Documentation</h3>
+<p>The documentation is a few large pages, one per big subject; each file&#39;s <code>#</code> title is a main
+section of the documentation site, and <code>##</code> and <code>###</code> headings split it into sections. Add new
+material as a section of the page it belongs to; start a new page only for a subject that is
+really different, and list it in <code>docs/README.md</code>. Link with relative paths and anchors
+(<code>lua-mods.md#client-lua-api</code>). Write for modders first: say what a feature does and how to use
+it, then how it works inside, at the end of the section.</p>
+<h2 id="contributing-to-the-game-definition">Contributing to the game definition</h2>
+<p>The game definition (<a href="https://github.com/ZappaVinny/boz-redux-gamedef" target="_blank" rel="noopener">boz-redux-gamedef</a>, the
+<code>gamedef/</code> submodule) is what mods and the standard lib use to find game functions and data by
+name. This section is for people who want to extend it: how to build an annotated Ghidra project
+from your own copy of the game, and how names get from Ghidra into the game definition.</p>
+<p>Only knowledge is committed (names, layouts, notes), never the game&#39;s code: the Ghidra project,
+the converted binary and anything under <code>re/</code> stay on your machine (<code>re/</code> is gitignored).</p>
+<h3 id="requirements">Requirements</h3>
+<ul>
+<li>Ghidra 12.1 or newer (Java scripts only, no PyGhidra needed).</li>
+<li>Python 3.11+.</li>
+<li>The game set up by the client (<a href="https://github.com/ZappaVinny/boz-redux" target="_blank" rel="noopener">boz-redux</a>: its launcher, or <code>scripts/setup-game.sh</code>), linked into this repo as <code>game</code> (<code>ln -s ../boz-redux game</code>, see <code>sdk.toml</code>).</li>
+</ul>
+<h3 id="build-the-project">Build the project</h3>
+<ol>
+<li><p>Convert the game image to an ELF:</p>
+<pre><code class="language-bash">python3 tools/ghidra/s3e_to_elf.py game/assets/boz.s3e.unpacked re/boz-1.0.11.elf
+</code></pre>
+<p>This also writes <code>re/boz-1.0.11.elf.code-pointers.txt</code>, the Thumb functions the game only
+reaches through stored pointers.</p>
+</li>
+<li><p>In Ghidra: <strong>File → New Project</strong> (non-shared) in <code>re/ghidra</code>, then <strong>File → Import File</strong> on
+<code>re/boz-1.0.11.elf</code> with the defaults, and let auto-analysis run.</p>
+</li>
+<li><p>Add <code>tools/ghidra</code> under <strong>Window → Script Manager → Manage Script Directories</strong>. The scripts
+then appear under <strong>Tools → BOZ</strong>.</p>
+</li>
+<li><p>Run <strong>Seed Functions From Code Pointers</strong> (<code>BozSeedFunctions.java</code>). It creates about 9,700
+functions analysis misses (callbacks and C++ virtual methods). Then
+<strong>Analysis → Auto Analyze</strong> again.</p>
+</li>
+<li><p>Recover the C++ class map from the game&#39;s run-time type information and apply it:</p>
+<pre><code class="language-bash">python3 tools/ghidra/rtti_classes.py game/assets/boz.s3e.unpacked re/classes.json \
+    --symbols gamedef/symbols/boz-1.0.11.toml
+</code></pre>
+<p>then run <strong>Repair Virtual Functions</strong> (<code>BozRepairVirtuals.java</code>) and <strong>Apply Class Map</strong>
+(<code>ApplyBozClasses.java</code>) on <code>re/classes.json</code>, then <strong>Name Component Tables</strong>
+(<code>BozNameComponentTables.java</code>) and <strong>Name Singletons</strong> (<code>BozNameSingletons.java</code>), which
+labels the instance global of each of the 65 <code>CIsSingleton&lt;T&gt;</code> systems as <code>T::s_instance</code>. Every C++ class
+(about 2,400, from game code, the Ideaworks studio layer, Marmalade, Bullet, gameswf and
+DemonWare) becomes a Ghidra class with <code>typeinfo</code> and <code>vtable</code> labels, and each virtual
+function is named <code>Class::vf&lt;slot&gt;</code> in the class that introduces it and tagged <code>lib:&lt;library&gt;</code>.
+Destructors (<code>~Class</code>, <code>~Class_deleting</code>) are found by behaviour: the deleting destructor
+calls the slot before it and then <code>operator_delete</code>. That pair is usually slots 0 and 1, but
+not always (<code>CIsSystemStatic&lt;T&gt;</code> has it at 9 and 10). Constructors are found by the vtable
+pointer they store into <code>this</code> (<code>Class::Class</code>). Slots named in the database&#39;s
+<code>[[vslot]]</code> entries name every override (<code>CMysteryBox::Init</code>, <code>CMysteryBox::OnEvent</code>),
+including implementations reached through secondary-vtable thunks. The component tables
+script labels each <code>CIsComponentTable&lt;T&gt;</code> global as <code>T::s_table</code> and names the lookups that
+find an entity&#39;s component as <code>T::FromEntity</code>. These names are rebuilt from the game at any
+time, so they are not exported; rename one (for example <code>CMysteryBox::vf24</code> to
+<code>CMysteryBox::Update</code>) and it is. To name a slot for every class at once, add a <code>[[vslot]]</code>
+to the database instead.</p>
+</li>
+<li><p>Load the symbol database:</p>
+<pre><code class="language-bash">python3 tools/symbols/symbols.py to-json gamedef/symbols/boz-1.0.11.toml re/symbols.json
+</code></pre>
+<p>and run <strong>Apply Symbol Database</strong> (<code>ApplyBozSymbols.java</code>) on <code>re/symbols.json</code>.</p>
+</li>
+<li><p>Run <strong>Export Reflection</strong> (<code>ExportBozReflection.java</code>) with arguments
+<code>re/reflection.json structs</code>. It reads the game&#39;s own reflection registrations (see below)
+and writes every reflected class, its bases and its named fields to <code>re/reflection.json</code>. It
+also creates a structure named after each class (at the class&#39;s path, where Ghidra looks for
+the type of <code>this</code>), with every field (own and
+inherited) at its offset, and sets <code>__thiscall</code> on the class&#39;s methods whose signature was
+never set, so decompiled methods read <code>this-&gt;m_Health</code> instead of raw offsets.
+Finally it names each class&#39;s <code>T::GetClassInfo</code> and <code>T::RegisterReflection</code>. Then refresh the
+SDK schema:</p>
+<pre><code class="language-bash">python3 tools/symbols/symbols.py reflection re/reflection.json gamedef/reflection/boz-1.0.11.toml
+</code></pre>
+</li>
+<li><p>Name the hashes and the event bus:</p>
+<ul>
+<li><strong>Name Hash Globals</strong> (<code>BozNameHashGlobals.java</code>, argument <code>re/hash-globals.json</code>) labels
+every global caching <code>IwHashString(&quot;name&quot;)</code>, including the observer event ids registered
+through <code>SubjectId_Register</code>, as <code>hash_&lt;name&gt;</code>.</li>
+<li><strong>Type GOT Pointers</strong> (<code>BozTypeGotPointers.java</code>) types the pointer slots code reaches those
+globals through, so the decompiler prints <code>PTR_hash_SUBJECT_NEW_WAVE</code> instead of
+<code>DAT_4a412eec</code>.</li>
+<li><strong>Export Events</strong> (<code>ExportBozEvents.java</code>, arguments <code>re/events.json annotate</code>) lists who
+sends, subscribes to and handles each <code>SUBJECT_*</code> event, and notes it on each function.</li>
+</ul>
+<p>Then refresh the SDK catalog:</p>
+<pre><code class="language-bash">python3 tools/symbols/symbols.py events re/hash-globals.json re/events.json gamedef/events/boz-1.0.11.toml
+</code></pre>
+</li>
+<li><p><strong>Export Console Commands</strong> (<code>ExportBozCommands.java</code>, argument <code>re/commands.json</code>) lists every
+developer console command (name, id, owning class). <strong>Export Console Variables</strong>
+(<code>ExportBozCvars.java</code>, <code>re/cvars.json</code>) lists the cvars registered through the
+<code>Cvar_Register*</code> wrappers; <strong>Export Direct Console Variables</strong> (<code>ExportBozDirectCvars.java</code>,
+<code>re/cvars-direct.json</code>) adds the ones registered straight through the console&#39;s vtable and the
+names the code only reads. Refresh the catalog and its readable reference:</p>
+<pre><code class="language-bash">python3 tools/symbols/symbols.py console re/cvars.json re/commands.json \
+    gamedef/console/boz-1.0.11.toml --direct re/cvars-direct.json
+python3 tools/symbols/symbols.py console-doc gamedef/console/boz-1.0.11.toml \
+    tools/symbols/console_notes.toml docs/console-reference.md
+</code></pre>
+<p>What each variable or command does, and in-game test results, go in
+<code>tools/symbols/console_notes.toml</code>.</p>
+</li>
+<li><p>Optional: <strong>Export Engine Boundary</strong> (<code>ExportBozEngineBoundary.java</code>) reports which
+   functions call each family of engine imports. <strong>Find String References</strong>
+   (<code>BozFindStringRefs.java</code>, arguments: hex addresses) lists the functions using a string or
+   global; Ghidra&#39;s own references miss the game&#39;s <code>ldr</code> + <code>add pc</code> addressing.</p>
+</li>
+</ol>
+<h4 id="how-the-reflection-data-is-found">How the reflection data is found</h4>
+<p>Each reflected class has a registration function that runs at start-up:</p>
+<pre><code>info = T::GetClassInfo();                      // static CIsClassInfo(&amp;s_info, &quot;T&quot;)
+ClassRegistry_Add(ClassRegistry_Get(), IwHashString(&quot;T&quot;), info);
+CIsClassInfo::AddBase(info, Base::GetClassInfo(), offset);
+spec = new CIsReflectPropertySpec&lt;float&gt;(spec, info, &quot;m_fov&quot;, 0x40, 4, flags);
+CIsClassInfo::AddProperty(info, spec);
+</code></pre>
+<p>The constructor call is often inlined, leaving stores into the 0x1c-byte spec instead:
++0 vtable (which gives the field type), +8 name, +0x10 flags (2 = network property),
++0x14 offset. The exporter handles both forms. Data resources (<code>CIsReflectedResource</code>) store
+their fields as a property blob in <code>.group.bin</code>. <code>Serialise</code> reads it, and slot 6 decodes it
+through the class info, so the schema is also the format of the game&#39;s gameplay data.</p>
+<h3 id="save-your-work-to-the-database">Save your work to the database</h3>
+<ol>
+<li><p>Run <strong>Export Symbol Database</strong> (<code>ExportBozSymbols.java</code>) to <code>re/symbols-export.json</code>.</p>
+</li>
+<li><p>Rewrite the database from it:</p>
+<pre><code class="language-bash">python3 tools/symbols/symbols.py from-json re/symbols-export.json gamedef/symbols/boz-1.0.11.toml
+python3 tools/symbols/symbols.py stats gamedef/symbols/boz-1.0.11.toml
+</code></pre>
+</li>
+<li><p>Review <code>git diff gamedef/symbols</code> and commit.</p>
+</li>
+</ol>
+<p>Pull before you start and apply the database first, so you export on top of everyone else&#39;s work.</p>
+<h3 id="conventions">Conventions</h3>
+<ul>
+<li><strong>What gets exported</strong>: functions and labels inside the game image that a person named
+(Ghidra source &quot;User Defined&quot;), plus every struct in the data type category <code>/BOZ</code>. Names from
+analysis (<code>FUN_...</code>, <code>DAT_...</code>) and the ELF import (<code>PTR_...</code>, the import stubs) are not.</li>
+<li><strong>Names</strong>: <code>Subsystem_Function</code> for functions (<code>Weapon_Fire</code>), <code>g_name</code> for globals,
+<code>s_name</code> for constant data (strings, tables), <code>PascalCase</code> for structs.</li>
+<li><strong>Subsystem</strong>: a function tag, one of <code>engine runtime state entities weapons rendering ui audio saves network libc unknown</code>. For a global, put <code>@subsystem</code> on the first line of its
+plate comment.</li>
+<li><strong>Confidence</strong>: add the function tag <code>confirmed</code> (or <code>@confirmed</code> for a global) only when the
+meaning is proven, by tracing the running game or by unambiguous code. Everything else is
+<code>likely</code>.</li>
+<li><strong>Notes</strong>: the function comment (plate comment above the function) for functions, the rest of
+the plate comment for globals. Say what it does and how you know.</li>
+<li><strong>Structs</strong>: create them in <code>/BOZ</code>; field names and comments are exported.</li>
+<li>Coverage per subsystem is the <code>[coverage]</code> table in the database; update it by hand when a
+subsystem&#39;s mapping moves forward.</li>
+</ul>
+<h2 id="roadmap">Roadmap</h2>
+<p>The SDK is becoming a Lua-first development suite for Zombies: a shared compiler, desktop project
+manager and Blender add-on that edit existing maps first, then create complete new maps. Dead Ops
+modding and LAN co-op are not part of this work.</p>
+<h3 id="architecture-boundary">Architecture boundary</h3>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Owns</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Client</td>
+<td>Universal facilities every mod can use: loading, Lua, hooks, files, input, rendering and diagnostics</td>
+</tr>
+<tr>
+<td>Standard library (<code>boz.*</code>)</td>
+<td>Safe domain APIs that combine the game&#39;s internal systems into concepts such as player, weapons and world</td>
+</tr>
+<tr>
+<td>Mods</td>
+<td>Concrete gameplay, maps, objectives, settings and menus built from those abstractions</td>
+</tr>
+</tbody></table></div>
+<p>A missing feature moves downward only when it is reusable: mod behavior becomes a standard-library
+API when many mods need it; client code is added only for universal runtime infrastructure.</p>
+<h3 id="phases">Phases</h3>
+<ol>
+<li><strong>Project foundation:</strong> versioned projects, validation, deterministic builds, installation,
+packaging, compatibility metadata and the desktop shell.</li>
+<li><strong>Writable formats:</strong> native textures, materials, models, entities, collision, sectors, portals
+and navigation, with lossless preservation of unknown data.</li>
+<li><strong>Existing-map Blender tools:</strong> import, edit, validate and export map content through the shared
+compiler.</li>
+<li><strong>Lua platform:</strong> world, entity, weapon, interaction, navigation, audio, asset and debugging APIs,
+plus generated editor annotations.</li>
+<li><strong>Custom-map MVP:</strong> generate and register a complete Zombies map whose gameplay lives in Lua.</li>
+<li><strong>Full suite:</strong> skeletal models, animations, weapons, effects, audio, localization, UI,
+lightmaps, migrations and compatibility guarantees.</li>
+</ol>
+<p>The full 64-bit runtime rewrite waits until the custom-map MVP. A bounded design and benchmark
+prototype may start after the existing-map editor, but project, package, gamedef and Lua interfaces
+must remain independent of host bitness.</p>
+<h3 id="game-files">Game files</h3>
+<p>Projects and packages may contain extracted, complete or modified game files; distribution
+validation warns about them but never blocks a build. The official BOZ Redux repositories never
+contain game data.</p>
+<h3 id="milestones">Milestones</h3>
+<p>Each phase ends in a tested, documented, buildable state. Phases 1 to 4 are development
+milestones, not public releases; a first preview of the SDK comes only after the custom-map MVP
+passes its acceptance tests.</p>
+
+            </article>
+            <div class="doc-pagination" role="navigation" aria-label="Previous and next page">
+              <a class="doc-prev" href="how-the-game-works.html"><small>PREVIOUS</small><span>← How the game works</span></a>
+              <span class="doc-next"></span>
+            </div>
+          </div>
+          <aside class="doc-toc" aria-label="On this page">
+            <p>ON THIS PAGE</p>
+            <a href="#working-on-the-sdk">Working on the SDK</a>
+            <a href="#the-repository" class="sub">The repository</a>
+            <a href="#tests" class="sub">Tests</a>
+            <a href="#generated-files" class="sub">Generated files</a>
+            <a href="#the-editor" class="sub">The editor</a>
+            <a href="#documentation" class="sub">Documentation</a>
+            <a href="#contributing-to-the-game-definition">Contributing to the game definition</a>
+            <a href="#requirements" class="sub">Requirements</a>
+            <a href="#build-the-project" class="sub">Build the project</a>
+            <a href="#save-your-work-to-the-database" class="sub">Save your work to the database</a>
+            <a href="#conventions" class="sub">Conventions</a>
+            <a href="#roadmap">Roadmap</a>
+            <a href="#architecture-boundary" class="sub">Architecture boundary</a>
+            <a href="#phases" class="sub">Phases</a>
+            <a href="#game-files" class="sub">Game files</a>
+            <a href="#milestones" class="sub">Milestones</a>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+<footer>
+      <a class="brand" href="../index.html"
+        ><img src="../assets/client-logo.png" alt="BOZ Redux" width="640" height="260" loading="lazy"
+      /></a>
+      <p>BOZ Redux</p>
+      <span>Not affiliated with Activision. Game files are not included.</span
+      ><a href="https://github.com/ZappaVinny/boz-redux">Source ↗</a>
+    </footer>
+<dialog id="discord-dialog">
+      <button class="dialog-close" aria-label="Close dialog">×</button>
+      <h2>Discord</h2>
+      <p>
+        The Discord invite hasn’t been added yet. Check GitHub for project
+        updates.
+      </p>
+      <a
+        class="button"
+        href="https://github.com/ZappaVinny/boz-redux"
+        target="_blank"
+        rel="noopener"
+        >Visit the project ↗</a
+      >
+    </dialog>
+  </body>
+</html>

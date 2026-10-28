@@ -1,0 +1,13 @@
+{
+  "name": "BOZ Redux",
+  "short_name": "BOZ Redux",
+  "description": "Black Ops Zombies Mobile on PC: the client, modding SDK and documentation.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#0d0e10",
+  "theme_color": "#0d0e10",
+  "icons": [
+    { "src": "assets/favicon.png", "sizes": "256x256", "type": "image/png" },
+    { "src": "assets/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}

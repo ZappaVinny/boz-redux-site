@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>BOZ Redux Docs: Modding SDK documentation</title>
+    <meta name="description" content="The BOZ Redux SDK is the toolkit for modding Call of Duty: Black Ops Zombies (Android 1.0.11) on PC with the BOZ Redux client." />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://boz-redux.com/docs/" />
+    <meta name="theme-color" content="#0d0e10" />
+    <link rel="icon" href="../assets/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="256x256" href="../assets/favicon.png" />
+    <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png" />
+    <link rel="manifest" href="../site.webmanifest" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="BOZ Redux" />
+    <meta property="og:title" content="BOZ Redux Docs: Modding SDK documentation" />
+    <meta property="og:description" content="The BOZ Redux SDK is the toolkit for modding Call of Duty: Black Ops Zombies (Android 1.0.11) on PC with the BOZ Redux client." />
+    <meta property="og:url" content="https://boz-redux.com/docs/" />
+    <meta property="og:image" content="https://boz-redux.com/assets/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Introduction","description":"The BOZ Redux SDK is the toolkit for modding Call of Duty: Black Ops Zombies (Android 1.0.11) on PC with the BOZ Redux client.","url":"https://boz-redux.com/docs/","dateModified":"2026-10-17T17:36:34-05:00","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"}]}]}</script>
+    <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="stylesheet" href="../styles.css" />
+    <script defer src="../config.js"></script>
+    <script defer src="../app.js"></script>
+  </head>
+  <body class="is-docs">
+    <a class="skip" href="#main">Skip to content</a>
+<header>
+      <a class="brand" href="../index.html" aria-label="BOZ Redux home"
+        ><img src="../assets/client-logo.png" alt="BOZ Redux" width="640" height="260"
+      /></a>
+      <nav aria-label="Main navigation">
+        <a href="../index.html" data-nav="home">Home</a
+        ><a href="../docs/index.html" data-nav="docs" class="active" aria-current="page">Documentation</a
+        ><a href="#discord" data-discord>Discord</a>
+      </nav>
+      <a
+        class="header-github"
+        href="https://github.com/ZappaVinny/boz-redux"
+        target="_blank"
+        rel="noopener"
+        >GitHub ↗</a
+      >
+    </header>
+
+    <main id="main" tabindex="-1">
+      <div id="docs-view">
+        <button class="docs-mobile" aria-expanded="false">
+          ☰ Browse documentation
+        </button>
+        <div class="docs-shell">
+          <aside class="docs-sidebar" aria-label="Documentation navigation">
+            <div class="search-wrap">
+              <input
+                id="docs-search"
+                aria-label="Search all documentation"
+                placeholder="Search documentation…"
+                type="search"
+                autocomplete="off"
+                data-index="../docs-data.js"
+              />
+            </div>
+            <div class="search-results" aria-live="polite"></div>
+            <!--
+              The docs page list. Order here sets sidebar order and previous/next.
+              Each link's href is docs/<name>.html for docs/<name>.md (README is index.html).
+              Each link belongs to the nearest label above it (used for the breadcrumb).
+              After changing it, run `node rebuild-docs.mjs`.
+            -->
+            <div class="page-links" role="navigation" aria-label="Documentation pages">
+              <p class="docs-label">START HERE</p>
+              <a href="index.html" class="current" aria-current="page">Introduction</a>
+              <a href="getting-started.html">Getting started</a>
+
+              <p class="docs-label">CREATE</p>
+              <a href="lua-mods.html">Lua mods</a>
+              <a href="map-editor.html">Map editor</a>
+              <a href="weapons-and-assets.html">Weapons &amp; assets</a>
+
+              <p class="docs-label">REFERENCE</p>
+              <a href="standard-library.html">Standard library</a>
+              <a href="console-reference.html">Console reference</a>
+              <a href="game-events.html">Game events</a>
+              <a href="sdk-reference.html">SDK reference</a>
+
+              <p class="docs-label">UNDER THE HOOD</p>
+              <a href="how-the-game-works.html">How the game works</a>
+              <a href="contributing.html">Contributing</a>
+            </div>
+          </aside>
+          <div class="doc-area">
+            <div class="breadcrumb">DOCUMENTATION / <span>START HERE</span></div>
+            <article class="doc-content">
+<h1 id="introduction">Introduction</h1>
+<p>The BOZ Redux SDK is the toolkit for modding <em>Call of Duty: Black Ops Zombies</em> (Android 1.0.11)
+on PC with the <a href="https://github.com/ZappaVinny/boz-redux" target="_blank" rel="noopener">BOZ Redux client</a>. With it you can:</p>
+<ul>
+<li>write <strong>Lua mods</strong> that change how the game plays: new rules, cheats, settings, menus, hooks
+into any game function;</li>
+<li>build <strong>maps</strong> in the BOZ Redux editor (built on Blender): change Kino der Toten, Ascension or
+Call of the Dead, or make a level of your own, with your own weapons, models, sounds, effects
+and scripted objects;</li>
+<li>read and edit the game&#39;s <strong>data files</strong> directly from the command line.</li>
+</ul>
+<p>No game files come with the SDK. You need your own copy of the game, installed with the client.</p>
+<h2 id="the-documentation">The documentation</h2>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Page</th>
+<th>What it covers</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="getting-started.html">Getting started</a></td>
+<td>Installing the client, the SDK and the editor; the SDK app; your first mod and your first map, step by step</td>
+</tr>
+<tr>
+<td><a href="lua-mods.html">Lua mods</a></td>
+<td>How mod scripts run, recipes, hooks, projects and packaging, and the client&#39;s Lua API</td>
+</tr>
+<tr>
+<td><a href="map-editor.html">The map editor</a></td>
+<td>The editor, building the world, map scripting, game rules, the game&#39;s objects, walkable areas, editing the original levels</td>
+</tr>
+<tr>
+<td><a href="weapons-and-assets.html">Weapons, models, effects and sounds</a></td>
+<td>Weapons and their animations, your own models, the game&#39;s effects and projectiles, sounds</td>
+</tr>
+<tr>
+<td><a href="standard-library.html">Standard library</a></td>
+<td>Every <code>boz.*</code> function</td>
+</tr>
+<tr>
+<td><a href="console-reference.html">Console reference</a></td>
+<td>Every console variable and command in the game</td>
+</tr>
+<tr>
+<td><a href="game-events.html">Game events</a></td>
+<td>Every <code>SUBJECT_*</code> event the game sends</td>
+</tr>
+<tr>
+<td><a href="sdk-reference.html">SDK reference</a></td>
+<td>The <code>bozkit</code> command line, map project files, compatibility</td>
+</tr>
+<tr>
+<td><a href="how-the-game-works.html">How the game works</a></td>
+<td>The game&#39;s systems, how levels load, how the game stores its data</td>
+</tr>
+<tr>
+<td><a href="contributing.html">Contributing</a></td>
+<td>Working on the SDK, reverse-engineering the game, the roadmap</td>
+</tr>
+</tbody></table></div>
+<p>New here? Start with <a href="getting-started.html">Getting started</a>.</p>
+
+            </article>
+            <div class="doc-pagination" role="navigation" aria-label="Previous and next page">
+              <span class="doc-prev"></span>
+              <a class="doc-next" href="getting-started.html"><small>NEXT</small><span>Getting started →</span></a>
+            </div>
+          </div>
+          <aside class="doc-toc" aria-label="On this page">
+            <p>ON THIS PAGE</p>
+            <a href="#the-documentation">The documentation</a>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+<footer>
+      <a class="brand" href="../index.html"
+        ><img src="../assets/client-logo.png" alt="BOZ Redux" width="640" height="260" loading="lazy"
+      /></a>
+      <p>BOZ Redux</p>
+      <span>Not affiliated with Activision. Game files are not included.</span
+      ><a href="https://github.com/ZappaVinny/boz-redux">Source ↗</a>
+    </footer>
+<dialog id="discord-dialog">
+      <button class="dialog-close" aria-label="Close dialog">×</button>
+      <h2>Discord</h2>
+      <p>
+        The Discord invite hasn’t been added yet. Check GitHub for project
+        updates.
+      </p>
+      <a
+        class="button"
+        href="https://github.com/ZappaVinny/boz-redux"
+        target="_blank"
+        rel="noopener"
+        >Visit the project ↗</a
+      >
+    </dialog>
+  </body>
+</html>

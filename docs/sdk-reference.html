@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>SDK reference | BOZ Redux Docs</title>
+    <meta name="description" content="Reference for the SDK's own tools and formats: every bozkit command, the files of a map project, and which versions of the game, client and formats work…" />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://boz-redux.com/docs/sdk-reference.html" />
+    <meta name="theme-color" content="#0d0e10" />
+    <link rel="icon" href="../assets/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="256x256" href="../assets/favicon.png" />
+    <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png" />
+    <link rel="manifest" href="../site.webmanifest" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="BOZ Redux" />
+    <meta property="og:title" content="SDK reference | BOZ Redux Docs" />
+    <meta property="og:description" content="Reference for the SDK's own tools and formats: every bozkit command, the files of a map project, and which versions of the game, client and formats work…" />
+    <meta property="og:url" content="https://boz-redux.com/docs/sdk-reference.html" />
+    <meta property="og:image" content="https://boz-redux.com/assets/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"SDK reference","description":"Reference for the SDK's own tools and formats: every bozkit command, the files of a map project, and which versions of the game, client and formats work…","url":"https://boz-redux.com/docs/sdk-reference.html","dateModified":"2026-10-28T19:01:30.404Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"SDK reference","item":"https://boz-redux.com/docs/sdk-reference.html"}]}]}</script>
+    <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="stylesheet" href="../styles.css" />
+    <script defer src="../config.js"></script>
+    <script defer src="../app.js"></script>
+  </head>
+  <body class="is-docs">
+    <a class="skip" href="#main">Skip to content</a>
+<header>
+      <a class="brand" href="../index.html" aria-label="BOZ Redux home"
+        ><img src="../assets/client-logo.png" alt="BOZ Redux" width="640" height="260"
+      /></a>
+      <nav aria-label="Main navigation">
+        <a href="../index.html" data-nav="home">Home</a
+        ><a href="../docs/index.html" data-nav="docs" class="active" aria-current="page">Documentation</a
+        ><a href="#discord" data-discord>Discord</a>
+      </nav>
+      <a
+        class="header-github"
+        href="https://github.com/ZappaVinny/boz-redux"
+        target="_blank"
+        rel="noopener"
+        >GitHub ↗</a
+      >
+    </header>
+
+    <main id="main" tabindex="-1">
+      <div id="docs-view">
+        <button class="docs-mobile" aria-expanded="false">
+          ☰ Browse documentation
+        </button>
+        <div class="docs-shell">
+          <aside class="docs-sidebar" aria-label="Documentation navigation">
+            <div class="search-wrap">
+              <input
+                id="docs-search"
+                aria-label="Search all documentation"
+                placeholder="Search documentation…"
+                type="search"
+                autocomplete="off"
+                data-index="../docs-data.js"
+              />
+            </div>
+            <div class="search-results" aria-live="polite"></div>
+            <!--
+              The docs page list. Order here sets sidebar order and previous/next.
+              Each link's href is docs/<name>.html for docs/<name>.md (README is index.html).
+              Each link belongs to the nearest label above it (used for the breadcrumb).
+              After changing it, run `node rebuild-docs.mjs`.
+            -->
+            <div class="page-links" role="navigation" aria-label="Documentation pages">
+              <p class="docs-label">START HERE</p>
+              <a href="index.html">Introduction</a>
+              <a href="getting-started.html">Getting started</a>
+
+              <p class="docs-label">CREATE</p>
+              <a href="lua-mods.html">Lua mods</a>
+              <a href="map-editor.html">Map editor</a>
+              <a href="weapons-and-assets.html">Weapons &amp; assets</a>
+
+              <p class="docs-label">REFERENCE</p>
+              <a href="standard-library.html">Standard library</a>
+              <a href="console-reference.html">Console reference</a>
+              <a href="game-events.html">Game events</a>
+              <a href="sdk-reference.html" class="current" aria-current="page">SDK reference</a>
+
+              <p class="docs-label">UNDER THE HOOD</p>
+              <a href="how-the-game-works.html">How the game works</a>
+              <a href="contributing.html">Contributing</a>
+            </div>
+          </aside>
+          <div class="doc-area">
+            <div class="breadcrumb">DOCUMENTATION / <span>REFERENCE</span></div>
+            <article class="doc-content">
+<h1 id="sdk-reference">SDK reference</h1>
+<p>Reference for the SDK&#39;s own tools and formats: every <code>bozkit</code> command, the files of a map
+project, and which versions of the game, client and formats work together.</p>
+<h2 id="bozkit-command-line">bozkit command line</h2>
+<p><code>bozkit</code> is the SDK&#39;s command-line tool. It builds and packages projects, and reads and edits the
+game&#39;s data files. The SDK app and the editor use the same code, so the command line always
+gives the same result. Install it with the SDK (<a href="getting-started.html#installation">Installation</a>);
+without installing, run <code>python3 -m bozkit</code> from <code>tools/bozkit</code>.</p>
+<p>Every command that edits a file writes a new file (<code>-o</code>) and never changes its input. Parts of a
+file bozkit does not understand are kept byte for byte.</p>
+<h3 id="all-commands">All commands</h3>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Projects</strong></td>
+<td></td>
+</tr>
+<tr>
+<td><code>new</code></td>
+<td>Create a project: <code>bozkit new my-mod --id my_mod --name &quot;My mod&quot; --author you [--kind map] [--template ...]</code></td>
+</tr>
+<tr>
+<td><code>inspect</code></td>
+<td>Show a project and its validation result</td>
+</tr>
+<tr>
+<td><code>validate</code></td>
+<td>Check a project (<code>--profile distribution</code> warns about game files)</td>
+</tr>
+<tr>
+<td><code>build</code></td>
+<td>Build a project into <code>build/&lt;mod id&gt;/</code></td>
+</tr>
+<tr>
+<td><code>install</code></td>
+<td>Build and install a project into a client: <code>--client path/to/boz-redux [--force]</code></td>
+</tr>
+<tr>
+<td><code>package</code></td>
+<td>Build a project into a reproducible ZIP</td>
+</tr>
+<tr>
+<td><strong>Game data</strong></td>
+<td></td>
+</tr>
+<tr>
+<td><code>extract</code></td>
+<td>Extract a <code>.dz</code> pack or a <code>.group.bin</code> (with <code>dade</code>; the source is never deleted)</td>
+</tr>
+<tr>
+<td><code>dump</code></td>
+<td>A group file as JSON (<code>--class CIsEntitySpec</code> limits it to one class)</td>
+</tr>
+<tr>
+<td><code>set</code></td>
+<td>Change one reflected field: <code>bozkit set weapons_kino.group.bin colt45 m_clipSize 12 --component CPlayerWeapon -o out.group.bin</code></td>
+</tr>
+<tr>
+<td><code>names</code></td>
+<td>Add the names found in the given files to the local name dictionary (<code>~/.cache/bozkit</code>), so hashes show as names</td>
+</tr>
+<tr>
+<td><code>corpus</code></td>
+<td>Check that bozkit reads and writes every file in a folder byte for byte</td>
+</tr>
+<tr>
+<td><strong>Saves</strong></td>
+<td></td>
+</tr>
+<tr>
+<td><code>save</code></td>
+<td>A game save (<code>.i3d</code>) as JSON</td>
+</tr>
+<tr>
+<td><code>settings</code></td>
+<td>Show or change <code>save_settings.i3d</code> (<code>--set name=value</code>)</td>
+</tr>
+<tr>
+<td><strong>Resources</strong></td>
+<td></td>
+</tr>
+<tr>
+<td><code>model-export</code>, <code>model-import</code></td>
+<td>A model to glTF and back</td>
+</tr>
+<tr>
+<td><code>material-dump</code>, <code>material-set</code></td>
+<td>Show a material; change its flags or textures</td>
+</tr>
+<tr>
+<td><code>texture-export</code>, <code>texture</code></td>
+<td>A texture to PNG; replace a texture with a PNG</td>
+</tr>
+<tr>
+<td><code>collision-export</code>, <code>collision-import</code></td>
+<td>A collision mesh to glTF and back</td>
+</tr>
+<tr>
+<td><code>nav</code></td>
+<td>Show or change a navmesh&#39;s build settings</td>
+</tr>
+<tr>
+<td><code>nav-connection</code></td>
+<td>Show or move a navigation connection (window and barricade climbs)</td>
+</tr>
+<tr>
+<td><code>portal</code></td>
+<td>Show or change a visibility portal</td>
+</tr>
+</tbody></table></div>
+<p><code>bozkit &lt;command&gt; --help</code> lists each command&#39;s options. Projects are explained in
+<a href="lua-mods.html#projects-and-packaging">Projects and packaging</a>; the file formats in
+<a href="how-the-game-works.html#asset-formats">Asset formats</a>.</p>
+<h3 id="getting-the-games-files">Getting the game&#39;s files</h3>
+<p>The game&#39;s data is in <code>.dz</code> packs in your client&#39;s <code>original/obb/</code> folder. Extract one to a
+folder of its own (keep extracted files out of any repository):</p>
+<pre><code class="language-bash">bozkit extract path/to/boz-redux/original/obb/blackops_etc.dz ~/boz-etc --kind dz
+</code></pre>
+<p>The examples below use <code>~/boz-etc</code> and write their results to <code>~/boz-edits</code>. To change a map in
+the editor instead, see <a href="map-editor.html#editing-shipped-map-files">Editing shipped map files</a>.</p>
+<h3 id="models-and-gltf">Models and glTF</h3>
+<p>Export the named Colt M1911 model and open the resulting glTF in Blender:</p>
+<pre><code class="language-bash">bozkit model-export \
+  ~/boz-etc/ingame/weapons/weapons_kino.group.bin colt45 ~/boz-edits/colt45.gltf
+</code></pre>
+<p>The exporter decodes center-offset component-planar positions, the unique-to-render vertex remap,
+UVs, and GL triangle lists. Model bodies and unknown blocks still round-trip byte-identically.
+Source-backed geometry edits require unchanged topology. Models using other primitive block types
+or multiple primitive groups are rejected or remain preservation-only rather than being guessed.</p>
+<h3 id="material-commands">Material commands</h3>
+<p>Inspect a material and change its flags or a texture hash by zero-based slot:</p>
+<pre><code class="language-bash">bozkit material-dump \
+  ~/boz-etc/ingame/ingame.group.bin 0x61ec0f93 -o ~/boz-edits/material.json
+bozkit material-set \
+  ~/boz-etc/ingame/ingame.group.bin 0x61ec0f93 \
+  --texture 0=0x12345678 -o ~/boz-edits/ingame-material-test.group.bin
+</code></pre>
+<p>The material writer retains unknown header and trailer bytes.</p>
+<h3 id="navigation-commands">Navigation commands</h3>
+<p>Inspect the tutorial map&#39;s Recast settings and create a copy with a different agent radius:</p>
+<pre><code class="language-bash">bozkit nav \
+  ~/boz-etc/levels/tutorial/tutorial_statics.group.bin 0x021eeaf7
+bozkit nav \
+  ~/boz-etc/levels/tutorial/tutorial_statics.group.bin 0x021eeaf7 \
+  --set agent_radius=0.5 -o ~/boz-edits/tutorial-nav-test.group.bin
+</code></pre>
+<p>The editable settings are <code>cell_size</code>, <code>cell_height</code>, <code>agent_height</code>, <code>agent_radius</code>,
+<code>agent_max_climb</code>, and <code>agent_max_slope</code>. Detour tiles remain byte-identical.</p>
+<p>Inspect or translate a navigation connection from the shared in-game group:</p>
+<pre><code class="language-bash">bozkit nav-connection \
+  ~/boz-etc/ingame/ingame.group.bin 0x67b09c42
+bozkit nav-connection \
+  ~/boz-etc/ingame/ingame.group.bin 0x67b09c42 \
+  --translate 0 0 10 -o ~/boz-edits/ingame-nav-connection-test.group.bin
+</code></pre>
+<p>Fields whose behavior is not yet proven retain offset-based names in output and <code>--set</code>; this keeps
+the format writable without presenting guesses as stable semantics.</p>
+<h3 id="portal-commands">Portal commands</h3>
+<p>Inspect a tutorial visibility portal or translate it while retaining its sector relationship:</p>
+<pre><code class="language-bash">bozkit portal \
+  ~/boz-etc/levels/tutorial/tutorial_statics.group.bin 0x332aca12
+bozkit portal \
+  ~/boz-etc/levels/tutorial/tutorial_statics.group.bin 0x332aca12 \
+  --translate 0 0 10 -o ~/boz-edits/tutorial-portal-test.group.bin
+</code></pre>
+<p><code>--front</code> and <code>--back</code> change the connected sector names and regenerate their cached hashes.</p>
+<h3 id="collision-commands">Collision commands</h3>
+<p>Export and losslessly re-import the tutorial map&#39;s collision triangles:</p>
+<pre><code class="language-bash">bozkit collision-export \
+  ~/boz-etc/levels/tutorial/tutorial_statics.group.bin 0xebf33ad1 \
+  ~/boz-edits/tutorial-collision.gltf
+bozkit collision-import \
+  ~/boz-etc/levels/tutorial/tutorial_statics.group.bin 0xebf33ad1 \
+  ~/boz-edits/tutorial-collision.gltf -o ~/boz-edits/tutorial-collision-test.group.bin
+</code></pre>
+<p>The default import requires unchanged vertex and index counts and keeps the material names and
+per-triangle material bytes. <code>--rebuild-mesh</code> allows topology changes; new triangles receive
+material byte zero when the old material array no longer fits. Either way, the embedded Bullet
+physics shape is updated to the same triangles, and its stale BVH is dropped so the game rebuilds
+it at load (see <a href="how-the-game-works.html#collision-meshes">collision meshes</a>).</p>
+<h3 id="texture-commands">Texture commands</h3>
+<p>Export the main menu&#39;s red logo:</p>
+<pre><code class="language-bash">bozkit texture-export \
+  ~/boz-etc/frontend/frontend.group.bin main_menu_logo ~/boz-edits/main_menu_logo.png
+</code></pre>
+<p>Row-major ABGR_4444 (<code>0x05</code>) and ABGR_8888 (<code>0x0e</code>, bytes R, G, B, A) textures can be exported and replaced. PNG import
+preserves a source texture&#39;s unknown header fields and native pixel format. Cooked ETC1 and DXT1
+textures, which make up most map textures, decode for previews (Blender) but cannot be written yet.
+Other layouts fail rather than producing a plausible-looking corrupt image.</p>
+<p>Edited groups go in a project&#39;s <code>assets/</code> folder, and the build puts them in the mod (see
+<a href="lua-mods.html#game-files-in-a-mod">Projects and packaging</a>).</p>
+<h2 id="project-files">Project files</h2>
+<p>The formats of a map project&#39;s <code>source/</code> folder. The editor writes these files every time you
+save, and the build reads them; you can also read or edit them by hand, or generate them with
+your own tools. Positions are in game centimetres with Y up; rotations are <code>x, y, z, w</code>
+quaternions in the game&#39;s axes.</p>
+<h3 id="the-source-folder">The source folder</h3>
+<pre><code class="language-text">source/
+  world.json                 the world: base level, meshes, models, volumes, prefabs
+  meshes/&lt;name&gt;.json         a mesh of the world&#39;s own
+  textures/&lt;name&gt;.png        its textures (&lt;name&gt;_1.png, ... for further textures)
+  prefabs/&lt;Name&gt;.json        the prefab library (with &lt;Name&gt;/meshes and &lt;Name&gt;/textures)
+  chalk/&lt;file&gt;.png           wall-buy chalk drawings of your own
+  weapons/index.json         the project&#39;s weapon list
+  weapons/&lt;name&gt;.json        a changed, new or imported weapon
+  weapons/anims/&lt;weapon&gt;/&lt;state&gt;.json   your animations of a weapon
+  assets/&lt;name&gt;.json         one of your models: its settings
+  assets/&lt;name&gt;/             its game version: model.json, textures/N.png, stats.json
+  sounds/&lt;name&gt;.json         one of your sounds: its settings
+  sounds/&lt;name&gt;/             source.wav (as imported) and game.wav (saved)
+  sounds/slots.json          which game sounds you replaced
+  effects.json               the effects and projectiles the map names
+  game.json                  the map&#39;s rules
+assets/&lt;name&gt;/&lt;file&gt;         the original file a model was imported from (never shipped)
+scripts/                     Lua: main.lua, prefab scripts, weapon scripts, hooks
+</code></pre>
+<p>The other files are described with their tools: <a href="weapons-and-assets.html#weapon-project-files">Weapons</a>,
+<a href="weapons-and-assets.html#model-project-files">Your own models</a>, <a href="weapons-and-assets.html#sound-project-files">Sounds</a>,
+<a href="weapons-and-assets.html#effects-and-projectiles">Effects and projectiles</a> and <a href="map-editor.html#game-rules">Game rules</a>.</p>
+<h3 id="worldjson">world.json</h3>
+<pre><code class="language-json">{
+  &quot;format&quot;: 3,
+  &quot;base&quot;: &quot;kino&quot;,
+  &quot;meshes&quot;: [
+    {&quot;name&quot;: &quot;wall&quot;, &quot;file&quot;: &quot;meshes/wall.json&quot;, &quot;textures&quot;: [&quot;textures/wall.png&quot;], &quot;double_sided&quot;: false}
+  ],
+  &quot;models&quot;: [
+    {&quot;name&quot;: &quot;Wall_1&quot;, &quot;mesh&quot;: &quot;wall&quot;, &quot;collision&quot;: &quot;solid&quot;, &quot;shape&quot;: &quot;mesh&quot;, &quot;position&quot;: [0.0, 0.0, 300.0], &quot;rotation&quot;: [0.0, 0.0, 0.0, 1.0]},
+    {&quot;name&quot;: &quot;Rock&quot;, &quot;game&quot;: &quot;levels/kino/alley_shared.group.bin#0x1a2b3c4d&quot;, &quot;collision&quot;: &quot;solid&quot;, &quot;shape&quot;: &quot;box&quot;, &quot;position&quot;: [0.0, 0.0, 600.0], &quot;rotation&quot;: [0.0, 0.0, 0.0, 1.0], &quot;start&quot;: {&quot;visible&quot;: false}}
+  ],
+  &quot;volumes&quot;: [
+    {&quot;name&quot;: &quot;Room&quot;, &quot;volume&quot;: &quot;trigger&quot;, &quot;position&quot;: [0.0, 100.0, 0.0], &quot;rotation&quot;: [0.0, 0.0, 0.0, 1.0], &quot;size&quot;: [400.0, 200.0, 400.0], &quot;who&quot;: &quot;players&quot;}
+  ],
+  &quot;prefabs&quot;: [
+    {&quot;name&quot;: &quot;Vault_1&quot;, &quot;script&quot;: &quot;prefabs/Vault.lua&quot;, &quot;properties&quot;: {&quot;delay&quot;: 2.0}, &quot;position&quot;: [500.0, 0.0, 0.0], &quot;rotation&quot;: [0.0, 0.0, 0.0, 1.0],
+     &quot;parts&quot;: [{&quot;name&quot;: &quot;Door&quot;, &quot;mesh&quot;: &quot;wall&quot;, &quot;collision&quot;: &quot;solid&quot;, &quot;shape&quot;: &quot;mesh&quot;, &quot;position&quot;: [0.0, 0.0, 0.0], &quot;rotation&quot;: [0.0, 0.0, 0.0, 1.0], &quot;start&quot;: {&quot;blocks&quot;: true}},
+               {&quot;name&quot;: &quot;Skull&quot;, &quot;volume&quot;: &quot;hit&quot;, &quot;position&quot;: [0.0, 150.0, 0.0], &quot;rotation&quot;: [0.0, 0.0, 0.0, 1.0], &quot;size&quot;: [40.0, 40.0, 40.0], &quot;who&quot;: &quot;players&quot;, &quot;once&quot;: true}]},
+    {&quot;name&quot;: &quot;Juggernog&quot;, &quot;source&quot;: &quot;Juggernog&quot;, &quot;piece&quot;: &quot;juggernog&quot;, &quot;settings&quot;: {&quot;CPerk.m_perkSinglePCost&quot;: 2000}, &quot;position&quot;: [-100.0, 0.0, 0.0], &quot;rotation&quot;: [0.0, 0.0, 0.0, 1.0]},
+    {&quot;name&quot;: &quot;spawn_player_1&quot;, &quot;source&quot;: &quot;spawn_player_1&quot;, &quot;piece&quot;: &quot;player_spawn&quot;, &quot;position&quot;: [-100.0, 5.0, -100.0], &quot;rotation&quot;: [0.0, 0.0, 0.0, 1.0]}
+  ]
+}
+</code></pre>
+<h4 id="the-level">The level</h4>
+<ul>
+<li><code>format</code> is 3. Other versions are refused.</li>
+<li><code>base</code> is the shipped level that provides the rounds, zombie types, sounds, cameras, weapons
+and arms.</li>
+<li><code>&quot;inherit&quot;: true</code> makes the map the <strong>whole base level</strong> (rooms, entities, navmesh) plus the
+world&#39;s contents. The original-map templates use it.</li>
+</ul>
+<h4 id="names-positions-and-start-state">Names, positions and start state</h4>
+<ul>
+<li>Every object has a <code>name</code> (letters, digits and <code>_</code>). It is the object&#39;s name in the game and
+in scripts. A prefab&#39;s parts are named <code>&lt;Prefab&gt;.&lt;Part&gt;</code> in the game.</li>
+<li><code>position</code> is in centimetres, <code>rotation</code> an <code>x, y, z, w</code> quaternion, <code>scale</code> optional.</li>
+<li><code>start</code> sets how an object starts: <code>visible</code>, <code>collision</code>, and <code>blocks</code> (the navmesh under it
+is shut until a script opens it). An object a script may change gets its own collision entity
+(<code>&lt;name&gt;_collision</code>) so <code>boz.objects</code> can switch it.</li>
+<li><code>script</code> is a Lua file in the project&#39;s <code>scripts/</code> folder, and <code>properties</code> the values of the
+<code>---@property</code> lines it declares (<a href="map-editor.html#map-scripting">Map scripting</a>).</li>
+</ul>
+<h4 id="meshes-and-models">Meshes and models</h4>
+<ul>
+<li>A <strong>mesh</strong> file holds vertices (centimetres, the model&#39;s own space), UVs, triangles, and for
+each triangle the texture it uses. Textures are PNGs with power-of-two sides from 4 to 1024.
+<code>double_sided</code> also draws the backs of triangles.</li>
+<li>A <strong>model</strong> draws one mesh: one of the world&#39;s <code>meshes</code> (<code>mesh</code>), a game model (<code>game</code>:
+<code>&lt;group path&gt;#0x&lt;hash&gt;</code>, copied into the level with its materials and textures), or one of
+your models (<code>asset</code>, stored in tenths of a centimetre and placed at 0.1 scale).</li>
+<li><code>collision</code> is <code>floor</code> (walkable: the navmesh is built on its top), <code>solid</code> (blocking: it cuts
+the navmesh) or <code>none</code>. The editor calls these Walkable, Blocking and None. <code>shape</code> is <code>box</code>
+(its bounds) or <code>mesh</code> (its triangles).</li>
+<li>Models that share a mesh share one game model.</li>
+</ul>
+<h4 id="volumes">Volumes</h4>
+<p>Invisible boxes that send events to scripts. <code>size</code> is in centimetres.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th><code>volume</code></th>
+<th>Event</th>
+<th>Made from</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>trigger</code></td>
+<td>enter / exit</td>
+<td>Call of the Dead&#39;s snow trigger (a ghost box)</td>
+</tr>
+<tr>
+<td><code>hit</code></td>
+<td>shot</td>
+<td>Kino&#39;s musical easter-egg skull, with a song of its own; a sphere of the box&#39;s largest side</td>
+</tr>
+<tr>
+<td><code>use</code></td>
+<td>the player pressed use</td>
+<td>a point of interest without a game prompt; <code>prompt</code> and <code>cost</code> add one</td>
+</tr>
+</tbody></table></div>
+<p><code>who</code> is <code>players</code>, <code>zombies</code> or <code>anyone</code>; <code>once</code> fires the first time only.</p>
+<h4 id="prefabs">Prefabs</h4>
+<ul>
+<li><strong>Your prefabs</strong> have <code>parts</code>: models, volumes and prefabs, placed in the prefab&#39;s space.</li>
+<li><strong>Game prefabs</strong> are one of the game&#39;s entities: <code>source</code> (a name or <code>0x</code> hash, from the base
+level or from any <code>group</code>), the editor <code>piece</code> it came from, its <code>settings</code> as the editor
+shows them, and the <code>fields</code> they write (<code>&quot;CPerk.m_perkSinglePCost&quot;: 2000</code>; names and the power
+link as names, <code>0</code> for none). A game prefab can draw one of the world&#39;s meshes (<code>mesh</code>) or a
+game model (<code>game</code>) instead of its own model, keeping its behaviour.</li>
+<li>In an inherited map, a game prefab with <code>&quot;base&quot;: true</code> is one of the base level&#39;s own entities
+(by its <code>0x</code> hash), moved and edited; further copies of it are ordinary game prefabs. <code>removed</code>
+lists base-level entities taken out.</li>
+<li>In a wall buy&#39;s <code>fields</code>, <code>&quot;boz.weapon&quot;</code> picks its weapon; in its <code>settings</code>, <code>&quot;boz.chalk&quot;</code> is
+<code>&quot;&quot;</code> (automatic), <code>&quot;none&quot;</code> or an image in <code>source/chalk/</code>.</li>
+</ul>
+<h3 id="what-the-build-does-with-it">What the build does with it</h3>
+<ul>
+<li><strong>Compiling:</strong> <code>bozkit.world_compile.compile_world</code> flattens prefabs into their parts and
+writes the level&#39;s groups into the mod&#39;s <code>assets/</code>. A generated map gets a collision mesh and a
+navmesh built from its floor and solid geometry (entities with a model get a box). An inherited
+map adds its own collision entity and rebuilds only the navmesh tiles near what changed.</li>
+<li><strong>Bringing things in from other maps:</strong> an entity or model from another map brings what it
+uses (models, materials, textures, skins, skeletons, animations, state machines, sounds),
+found by name hash in that map&#39;s groups and the shared <code>ingame</code> group, unless the level
+already loads it. A wall buy sells a weapon of the level&#39;s own weapons group.</li>
+<li><strong>Chalk:</strong> a shipped wall buy&#39;s chalk drawing is a separate decal next to it. Each placed wall
+buy gets one at the same offset: the weapon&#39;s own chalk when the game has one, else an outline
+drawn from the weapon model&#39;s side.</li>
+<li><strong>Doors:</strong> the floor under a door&#39;s collision box is cut out as its own navmesh polygons,
+tagged with the door&#39;s name, so players and zombies pass only once the door is bought. Copies
+get names of their own; doors in generated maps unlock no areas.</li>
+<li><strong>Scripts:</strong> the build adds <code>require(&quot;boz.world&quot;).start()</code> to <code>main.lua</code>, the standard
+library, and a generated <code>boz/world_data.lua</code> (start state, scripted objects, volumes).
+<code>boz.world</code> applies the start state when the level starts, starts the scripts, powers perk
+machines whose power switch is <code>boz_no_power</code> (the editor&#39;s <strong>Needs power</strong> off), and starts
+the map when the launcher or Build &amp; Run asks for it.</li>
+<li><strong>The manifest:</strong> the mod&#39;s <code>mod.toml</code> gets <code>maps = [&quot;&lt;level name&gt;&quot;]</code>, which is how the
+client&#39;s launcher knows to offer the map.</li>
+</ul>
+<h2 id="compatibility">Compatibility</h2>
+<p>Which versions of the game, the client and the SDK&#39;s formats work together. BOZ Redux is in
+development: there is no public SDK release yet, and formats can still change. When one of the
+formats below changes, its version number goes up and these notes say what to do.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Current version</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Game</td>
+<td>Android 1.0.11 (versionCode 1045111)</td>
+<td>The only supported version. A mod&#39;s <code>game</code> must be <code>1.0.11</code>.</td>
+</tr>
+<tr>
+<td>Client</td>
+<td>v0.1.1 development line</td>
+<td>Reads game definition schema 1, mod folders with <code>mod.toml</code>, and the <code>maps</code> list.</td>
+</tr>
+<tr>
+<td>Game definition</td>
+<td>Schema 1, target <code>boz-1.0.11</code></td>
+<td><code>gamedef/gamedef.toml</code>; the client and the SDK check it before loading.</td>
+</tr>
+<tr>
+<td>Projects</td>
+<td>Schema 2 (<code>boz-project.toml</code>)</td>
+<td>Schema 1 projects still load and are saved as schema 2.</td>
+</tr>
+<tr>
+<td>Map worlds</td>
+<td>Format 3 (<code>source/world.json</code>)</td>
+<td>Older formats are refused.</td>
+</tr>
+<tr>
+<td>Lua</td>
+<td>5.4</td>
+<td>The client&#39;s <a href="lua-mods.html#client-lua-api">Lua API</a> and the <a href="standard-library.html">standard library</a>.</td>
+</tr>
+<tr>
+<td>Editor</td>
+<td>Blender 5.2 LTS</td>
+<td></td>
+</tr>
+<tr>
+<td>Python</td>
+<td>3.11 or newer</td>
+<td>For <code>bozkit</code>, the SDK app and the symbol tools.</td>
+</tr>
+</tbody></table></div>
+
+            </article>
+            <div class="doc-pagination" role="navigation" aria-label="Previous and next page">
+              <a class="doc-prev" href="game-events.html"><small>PREVIOUS</small><span>← Game events</span></a>
+              <a class="doc-next" href="how-the-game-works.html"><small>NEXT</small><span>How the game works →</span></a>
+            </div>
+          </div>
+          <aside class="doc-toc" aria-label="On this page">
+            <p>ON THIS PAGE</p>
+            <a href="#bozkit-command-line">bozkit command line</a>
+            <a href="#all-commands" class="sub">All commands</a>
+            <a href="#getting-the-games-files" class="sub">Getting the game's files</a>
+            <a href="#models-and-gltf" class="sub">Models and glTF</a>
+            <a href="#material-commands" class="sub">Material commands</a>
+            <a href="#navigation-commands" class="sub">Navigation commands</a>
+            <a href="#portal-commands" class="sub">Portal commands</a>
+            <a href="#collision-commands" class="sub">Collision commands</a>
+            <a href="#texture-commands" class="sub">Texture commands</a>
+            <a href="#project-files">Project files</a>
+            <a href="#the-source-folder" class="sub">The source folder</a>
+            <a href="#worldjson" class="sub">world.json</a>
+            <a href="#what-the-build-does-with-it" class="sub">What the build does with it</a>
+            <a href="#compatibility">Compatibility</a>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+<footer>
+      <a class="brand" href="../index.html"
+        ><img src="../assets/client-logo.png" alt="BOZ Redux" width="640" height="260" loading="lazy"
+      /></a>
+      <p>BOZ Redux</p>
+      <span>Not affiliated with Activision. Game files are not included.</span
+      ><a href="https://github.com/ZappaVinny/boz-redux">Source ↗</a>
+    </footer>
+<dialog id="discord-dialog">
+      <button class="dialog-close" aria-label="Close dialog">×</button>
+      <h2>Discord</h2>
+      <p>
+        The Discord invite hasn’t been added yet. Check GitHub for project
+        updates.
+      </p>
+      <a
+        class="button"
+        href="https://github.com/ZappaVinny/boz-redux"
+        target="_blank"
+        rel="noopener"
+        >Visit the project ↗</a
+      >
+    </dialog>
+  </body>
+</html>

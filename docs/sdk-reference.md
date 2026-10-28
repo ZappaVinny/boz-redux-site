@@ -149,7 +149,7 @@ it at load (see [collision meshes](how-the-game-works.md#collision-meshes)).
 
 ### Texture commands
 
-Export the recognizable red main-menu logo:
+Export the main menu's red logo:
 
 ```bash
 bozkit texture-export \

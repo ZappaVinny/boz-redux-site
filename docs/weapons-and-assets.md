@@ -60,7 +60,7 @@ Wall buys pick from the project's list (World tab → the wall buy's **Choose…
 ### A weapon with your own model
 
 A weapon can show one of your **Weapon** assets (made in the Assets tab, see
-[assets.md](#your-own-models)) instead of its stock gun. It keeps the rest of the gun it is made from:
+[Your own models](#your-own-models)) instead of its stock gun. It keeps the rest of the gun it is made from:
 the arms' animations, sounds and effects. Make a **New weapon** from a stock gun whose
 animations suit your model (a big two-handed one: the Thundergun), then in its **Model** panel
 pick your asset.
@@ -171,6 +171,10 @@ lasts as long as its animation (the bullet and the end of a reload are events in
 so those two come with the animation tools, not this form.
 
 ### Field reference
+
+*Likely (from the shipped weapons)* marks a meaning worked out from the values the game's own
+weapons use but not yet proven in the game's code (the `*` in the editor's Properties list, and
+the `likely` confidence level of the [game definition](contributing.md#conventions)).
 
 <!-- fields:start -->
 #### Firing fields
@@ -460,11 +464,12 @@ count as the player's kills (stats, achievements). A script that wants them coun
 `require("boz.zombies").credit_kills("SUBJECT_ZOMBIE_GERSCH_DEATH")`. The Effects tab's **Copy
 script line** adds that line for a black hole.
 
-### Example: the idgun opens a black hole where it fires
+### Example: a gun that opens a black hole where it fires
 
-In the Effects tab, name Ascension's `bh_bomb projectile` `gersch` and tick **Hide its model** and
-**Stays where spawned**. In the Weapons tab, set the
-weapon's **Fire mode** to **Single shot** (a Thundergun-based weapon would otherwise still fire its
+This example makes `idgun`, a new weapon copied from the Thundergun (**New weapon** in the
+Weapons tab), whose shots open black holes. In the Effects tab, name Ascension's
+`bh_bomb projectile` `gersch` and tick **Hide its model** and **Stays where spawned**. In the
+Weapons tab, set `idgun`'s **Fire mode** to **Single shot** (a Thundergun-based weapon would otherwise still fire its
 own blast; the Thundergun's bullets do no damage, so the black hole does the killing), and give it
 a script (**Add script**):
 
@@ -566,8 +571,9 @@ sound** picks one of your saved sounds. The build gives sequence fields a new se
 direct-play fields a new sound spec (with the volume and pitch of the sound it replaces), so:
 
 - one recording can replace a reload the game plays in four parts, with nothing left over;
-- the weapon it is made from keeps its own sounds (the idgun's reload leaves the Thundergun's
-  alone).
+- the weapon it is made from keeps its own sounds (a new reload sound on `idgun`, from the
+  [black hole example](#example-a-gun-that-opens-a-black-hole-where-it-fires), leaves the
+  Thundergun's alone).
 
 **Equip / pickup** plays when the weapon is equipped, including after a wall buy, but also on
 ordinary weapon switches. **Bought (player)** is the buyer's sound on a wall purchase. The
