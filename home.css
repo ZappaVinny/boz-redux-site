@@ -1,5 +1,4 @@
 /* Homepage-only presentation. Documentation styles are kept in styles.css. */
-body:not(.is-docs) header { padding-left: 5%; padding-right: 5%; }
 body:not(.is-docs) main { width: 100%; max-width: none; margin: 0; padding: 0; }
 
 body:not(.is-docs) .hero { min-height: 570px; padding: 85px 6%; display: grid; grid-template-columns: 1.1fr 1fr; align-items: center; gap: 6%; background: radial-gradient(ellipse at 85% 45%, rgba(227, 28, 41, .2), transparent 57%), var(--bg); border-bottom: 1px solid var(--line); }
@@ -47,8 +46,6 @@ body:not(.is-docs) #project .text-link { display: inline-block; margin-top: 8px;
 }
 
 @media (max-width: 640px) {
-  body:not(.is-docs) header { gap: 18px; }
-  body:not(.is-docs) nav { gap: 14px; font-size: 14px; }
   body:not(.is-docs) .hero { grid-template-columns: 1fr; padding: 48px 6% 42px; gap: 42px; }
   body:not(.is-docs) .hero h1 { font-size: 50px; }
   body:not(.is-docs) .hero-art { justify-content: flex-start; }

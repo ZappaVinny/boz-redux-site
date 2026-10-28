@@ -32,7 +32,7 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid 
 ::selection { background: rgba(227, 28, 41, .4); }
 
 /* Header: the launcher's red rule under it. */
-header { height: 80px; padding: 0 max(5%, calc((100vw - 1100px) / 2)); display: flex; align-items: center; gap: 45px; border-bottom: 2px solid var(--red); background: var(--bg); position: sticky; top: 0; z-index: 20; }
+header { height: 80px; padding: 0 5%; display: flex; align-items: center; gap: 45px; border-bottom: 2px solid var(--red); background: var(--bg); position: sticky; top: 0; z-index: 20; }
 .brand img { display: block; width: 104px; height: auto; }
 nav { display: flex; gap: 28px; font: 700 17px/1 var(--heading); letter-spacing: .8px; text-transform: uppercase; color: var(--muted); }
 nav a { padding: 6px 0; border-bottom: 2px solid transparent; }
@@ -166,4 +166,10 @@ body.is-docs footer { display: none; }
   .doc-content h1 { font-size: 34px; }
   .doc-content { font-size: 15px; }
   html { scroll-padding-top: 135px; }
+}
+
+/* The header is the same on every page. */
+@media (max-width: 640px) {
+  header { gap: 18px; }
+  header nav { gap: 14px; font-size: 14px; }
 }
