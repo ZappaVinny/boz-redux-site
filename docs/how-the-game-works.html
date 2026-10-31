@@ -23,7 +23,7 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"How the game works","description":"A modder's tour of Call of Duty: Black Ops Zombies (1.0.11): first the systems you will meet, what they do and where to change them, then how the game…","url":"https://boz-redux.com/docs/how-the-game-works.html","dateModified":"2026-10-28T19:02:22.687Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"How the game works","item":"https://boz-redux.com/docs/how-the-game-works.html"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"How the game works","description":"A modder's tour of Call of Duty: Black Ops Zombies (1.0.11): first the systems you will meet, what they do and where to change them, then how the game…","url":"https://boz-redux.com/docs/how-the-game-works.html","dateModified":"2026-10-31T01:41:55.354Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"How the game works","item":"https://boz-redux.com/docs/how-the-game-works.html"}]}]}</script>
     <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="stylesheet" href="../styles.css" />
@@ -257,6 +257,14 @@ are separate connection objects. Per-round speeds come from the round definition
 <h3 id="co-op">Co-op</h3>
 <p>The game has local Wi-Fi co-op (discovery plus TCP), with the host running the match and the
 other players following it. Online play used Activision&#39;s servers, which BOZ Redux does not use.</p>
+<p>The Wi-Fi lobby has a level (<code>g_lobbyLevel</code>, set by <code>FrontEnd_SetLobbyLevel</code>). It first searches
+for <code>MultiplayerLobbyTimeWifiMs</code> (20 s) and joins a room whose name starts with that level
+(<code>CFrontendStateConnectWifi::MatchesRoom</code>); if none answers it publishes its own room as
+<code>&lt;level&gt;_&lt;n&gt;</code>. Joining runs a handshake in which the room refuses a full room or a second player
+with a name already in it (<code>CIwNetworkRoom::vf15</code>). With the map vote off
+(<code>FrontEnd_SetMapVote(0)</code>), the host&#39;s start sends <code>Event_Start_Game</code> with
+<code>CLevelManager+0x55</code> to every player, and like <code>StartLevel</code> it is not checked against a list, so
+co-op works on mod maps when every player has the mod (<code>boz.levels.coop</code>).</p>
 <h2 id="how-levels-load">How levels load</h2>
 <p>How the game finds and loads a level, and what a level the game does not ship needs to load. The
 SDK&#39;s map build (<code>bozkit.world_compile</code>, <code>bozkit.levels</code>) writes exactly these files; this section is

@@ -2,14 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://boz-redux.com/</loc><lastmod>2026-10-28</lastmod></url>
   <url><loc>https://boz-redux.com/docs/</loc><lastmod>2026-10-17</lastmod></url>
-  <url><loc>https://boz-redux.com/docs/getting-started.html</loc><lastmod>2026-10-17</lastmod></url>
-  <url><loc>https://boz-redux.com/docs/lua-mods.html</loc><lastmod>2026-10-28</lastmod></url>
+  <url><loc>https://boz-redux.com/docs/getting-started.html</loc><lastmod>2026-10-31</lastmod></url>
+  <url><loc>https://boz-redux.com/docs/lua-mods.html</loc><lastmod>2026-10-31</lastmod></url>
   <url><loc>https://boz-redux.com/docs/map-editor.html</loc><lastmod>2026-10-28</lastmod></url>
   <url><loc>https://boz-redux.com/docs/weapons-and-assets.html</loc><lastmod>2026-10-28</lastmod></url>
-  <url><loc>https://boz-redux.com/docs/standard-library.html</loc><lastmod>2026-10-28</lastmod></url>
+  <url><loc>https://boz-redux.com/docs/standard-library.html</loc><lastmod>2026-10-31</lastmod></url>
   <url><loc>https://boz-redux.com/docs/console-reference.html</loc><lastmod>2026-10-17</lastmod></url>
   <url><loc>https://boz-redux.com/docs/game-events.html</loc><lastmod>2026-10-17</lastmod></url>
   <url><loc>https://boz-redux.com/docs/sdk-reference.html</loc><lastmod>2026-10-28</lastmod></url>
-  <url><loc>https://boz-redux.com/docs/how-the-game-works.html</loc><lastmod>2026-10-28</lastmod></url>
+  <url><loc>https://boz-redux.com/docs/how-the-game-works.html</loc><lastmod>2026-10-31</lastmod></url>
   <url><loc>https://boz-redux.com/docs/contributing.html</loc><lastmod>2026-10-17</lastmod></url>
 </urlset>

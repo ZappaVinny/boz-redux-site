@@ -23,7 +23,7 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Standard library","description":"The standard lib (boz.*) is the friendly layer for writing mods: plain functions for the player, menus, the console and more, with the game's addresses,…","url":"https://boz-redux.com/docs/standard-library.html","dateModified":"2026-10-28T19:02:42.128Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Standard library","item":"https://boz-redux.com/docs/standard-library.html"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Standard library","description":"The standard lib (boz.*) is the friendly layer for writing mods: plain functions for the player, menus, the console and more, with the game's addresses,…","url":"https://boz-redux.com/docs/standard-library.html","dateModified":"2026-10-31T01:41:55.354Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Standard library","item":"https://boz-redux.com/docs/standard-library.html"}]}]}</script>
     <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="stylesheet" href="../styles.css" />
@@ -1807,11 +1807,11 @@ the event&#39;s data (see the Game tab or boz.prefabs for each event&#39;s data)
 </tbody></table></div>
 <h3 id="bozlevels">boz.levels</h3>
 <p>Start levels (Zombies maps) without going through the menus.</p>
-<pre><code class="language-lua">levels.start(&quot;kino&quot;)      levels.autostart_from_settings()
+<pre><code class="language-lua">levels.start(&quot;kino&quot;)      levels.coop(&quot;kino&quot;)      levels.autostart_from_settings()
 </code></pre>
 <details><summary>How it works</summary>
 
-<p>the front end&#39;s StartLevel console command starts a single-player match on a level by name (it sends the game&#39;s own start-game event). The command only works once the front end is running, so levels.start waits for the Flash menu&#39;s first ActionScript call and a short settling time. levels.autostart_from_settings reads a one-shot request from the mod&#39;s settings: the editor&#39;s Build &amp; Run writes it to start the level just saved.</p>
+<p>the front end&#39;s StartLevel console command starts a single-player match on a level by name (it sends the game&#39;s own start-game event). The command only works once the front end is running, so levels.start waits for the Flash menu&#39;s first ActionScript call and a short settling time. levels.autostart_from_settings reads a one-shot request from the mod&#39;s settings: the editor&#39;s Build &amp; Run and the launcher write it. levels.coop does what the multiplayer screen does on its Wi-Fi button with one map chosen: map vote off, the map as the lobby&#39;s level (CLevelManager+0x55 and FrontEnd_SetLobbyLevel), then the Flash page change to the Wi-Fi lobby. The lobby searches for a room whose name starts with the level, joins it, or else publishes its own; the host&#39;s start event carries the level to every player (each needs the map&#39;s mod).</p>
 </details>
 
 <div class="table-scroll" tabindex="0"><table>
@@ -1826,8 +1826,12 @@ the event&#39;s data (see the Game tab or boz.prefabs for each event&#39;s data)
 <td>Starts a single-player match on the level (e.g. &quot;kino&quot;) once the front end is up. Call it while the mod&#39;s script starts; the match starts after the main menu appears.</td>
 </tr>
 <tr>
+<td><code>levels.coop(name)</code></td>
+<td>Opens the Wi-Fi co-op room for the level once the front end is up, as the multiplayer screen does with one map chosen: it joins a room on the same level when it finds one, else hosts. Every player needs the level (the map&#39;s mod). Call it while the mod&#39;s script starts.</td>
+</tr>
+<tr>
 <td><code>levels.autostart_from_settings()</code></td>
-<td>Starts the level a tool asked for, once: reads and clears the mod&#39;s &quot;autostart_level&quot; setting (the SDK&#39;s Build &amp; Run writes it), and its &quot;autostart_vars&quot; (&quot;Name=value;...&quot;), console variables set just before the level starts (e.g. UnlimitedHealth=true). Returns the level name or nil.</td>
+<td>Starts the level a tool asked for, once: reads and clears the mod&#39;s &quot;autostart_level&quot; setting (the SDK&#39;s Build &amp; Run and the launcher write it), its &quot;autostart_mode&quot; (&quot;coop&quot;: the co-op room instead of a single-player match) and its &quot;autostart_vars&quot; (&quot;Name=value;...&quot;), console variables set just before the level starts (e.g. UnlimitedHealth=true). Returns the level name or nil.</td>
 </tr>
 </tbody></table></div>
 <h2 id="engine-access">Engine access</h2>
