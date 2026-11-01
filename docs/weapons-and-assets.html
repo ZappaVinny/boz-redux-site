@@ -23,7 +23,7 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Weapons & assets","description":"The parts of a map that go beyond its level: the weapons players use, your own models, the game's effects and projectiles, and sounds. Each has its own…","url":"https://boz-redux.com/docs/weapons-and-assets.html","dateModified":"2026-10-28T19:01:17.236Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Weapons & assets","item":"https://boz-redux.com/docs/weapons-and-assets.html"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Weapons & assets","description":"The parts of a map that go beyond its level: the weapons players use, your own models, the game's effects and projectiles, and sounds. Each has its own…","url":"https://boz-redux.com/docs/weapons-and-assets.html","dateModified":"2026-11-01T02:58:20.652Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Weapons & assets","item":"https://boz-redux.com/docs/weapons-and-assets.html"}]}]}</script>
     <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="stylesheet" href="../styles.css" />
@@ -933,6 +933,11 @@ recording, shape it, Preview it as the game will play it, then Save.</li>
 </ul>
 <p>Only saved sounds go in slots. Changing a saved sound&#39;s settings asks you to Save again; the
 slots using it play the new version from the next build.</p>
+<p>Every saved sound is also built into the map under its own name, so scripts play it with
+<code>audio.play(&quot;my_sound&quot;)</code> (<code>local audio = require(&quot;boz.audio&quot;)</code>). A name the game already uses
+for one of its sounds stays the game&#39;s: importing a recording called <code>fire</code> names it
+<code>imported_fire</code>, and a saved sound of yours with such a name plays as <code>imported_&lt;name&gt;</code>. Its
+details in <strong>Your sounds</strong> say so.</p>
 <h3 id="game-sounds">Game sounds</h3>
 <p>Pick <strong>Show the sounds</strong> the first time (it needs the asset library). The list shows each sound
 with its length; <strong>Show</strong> filters it:</p>
@@ -974,8 +979,9 @@ with its length; <strong>Show</strong> filters it:</p>
 </tbody></table></div>
 <p>Type in the list&#39;s search field to find a sound by name or by what plays it (&quot;Reload&quot;,
 &quot;ak74u&quot;).</p>
-<p>Slots are named after what plays them: a weapon&#39;s sound is &quot;Thundergun: Fire&quot;; sounds the game
-names are named after it (&quot;Carpenter pickup&quot;, &quot;Dog spawn&quot;); voice lines start with the
+<p>A sound the game names shows its spec name exactly as the game has it (&quot;meteor_affirm&quot;,
+&quot;buy_success&quot;): the name scripts play it by, <code>audio.play(&quot;meteor_affirm&quot;)</code>. Other slots are
+named after what plays them: a weapon&#39;s sound is &quot;Thundergun: Fire&quot;; voice lines start with the
 character (&quot;Takeo: …&quot;); a sound many weapons share names the first and how many more (&quot;colt45
 +10: Empty click&quot;); the rest show where they live and their number (&quot;Shared 0x…&quot;). <strong>Played
 by</strong> lists everything that plays the selected sound.</p>

@@ -23,7 +23,7 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Map editor","description":"Everything about making maps in the BOZ Redux editor: its layout and Build & Run, building the level, scripting it, its rules, what each of the game's…","url":"https://boz-redux.com/docs/map-editor.html","dateModified":"2026-10-28T19:01:04.720Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Map editor","item":"https://boz-redux.com/docs/map-editor.html"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Map editor","description":"Everything about making maps in the BOZ Redux editor: its layout and Build & Run, building the level, scripting it, its rules, what each of the game's…","url":"https://boz-redux.com/docs/map-editor.html","dateModified":"2026-10-31T22:56:29.801Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Map editor","item":"https://boz-redux.com/docs/map-editor.html"}]}]}</script>
     <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="stylesheet" href="../styles.css" />
@@ -517,11 +517,11 @@ its own name. Any other function a script defines can be called by other scripts
 </tr>
 <tr>
 <td><code>self:part(name)</code>, <code>self:parts()</code></td>
-<td>A part (a <code>boz.objects</code> handle), and all parts</td>
+<td>A part (a <code>boz.objects</code> handle; a part that is a prefab itself acts on all its parts), and all parts</td>
 </tr>
 <tr>
 <td><code>self:hide()</code>, <code>self:show()</code>, <code>self:set_collision(on)</code>, <code>self:open_navmesh()</code>, <code>self:close_navmesh()</code></td>
-<td>The whole prefab (every part), or the model</td>
+<td>The whole prefab (every part), or the model. A hidden volume does nothing: no events, no use prompt</td>
 </tr>
 <tr>
 <td><code>self:position()</code>, <code>self:near(target, cm)</code></td>
