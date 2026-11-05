@@ -1,0 +1,1227 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Game prefabs | BOZ Redux Docs</title>
+    <meta name="description" content="Game prefabs are the game's own objects: perk machines, doors, the mystery box and the rest. Drag one in and it works with no script. Each is a class you…" />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://boz-redux.com/docs/game-prefabs.html" />
+    <meta name="theme-color" content="#0d0e10" />
+    <link rel="icon" href="../assets/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="256x256" href="../assets/favicon.png" />
+    <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png" />
+    <link rel="manifest" href="../site.webmanifest" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="BOZ Redux" />
+    <meta property="og:title" content="Game prefabs | BOZ Redux Docs" />
+    <meta property="og:description" content="Game prefabs are the game's own objects: perk machines, doors, the mystery box and the rest. Drag one in and it works with no script. Each is a class you…" />
+    <meta property="og:url" content="https://boz-redux.com/docs/game-prefabs.html" />
+    <meta property="og:image" content="https://boz-redux.com/assets/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Game prefabs","description":"Game prefabs are the game's own objects: perk machines, doors, the mystery box and the rest. Drag one in and it works with no script. Each is a class you…","url":"https://boz-redux.com/docs/game-prefabs.html","dateModified":"2026-11-05T04:34:13.167Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Game prefabs","item":"https://boz-redux.com/docs/game-prefabs.html"}]}]}</script>
+    <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="stylesheet" href="../styles.css" />
+    <script defer src="../config.js"></script>
+    <script defer src="../app.js"></script>
+  </head>
+  <body class="is-docs">
+    <a class="skip" href="#main">Skip to content</a>
+<header>
+      <a class="brand" href="../index.html" aria-label="BOZ Redux home"
+        ><img src="../assets/client-logo.png" alt="BOZ Redux" width="640" height="260"
+      /></a>
+      <nav aria-label="Main navigation">
+        <a href="../index.html" data-nav="home">Home</a
+        ><a href="../docs/index.html" data-nav="docs" class="active" aria-current="page">Documentation</a
+        ><a href="#discord" data-discord>Discord</a>
+      </nav>
+      <a
+        class="header-github"
+        href="https://github.com/ZappaVinny/boz-redux"
+        target="_blank"
+        rel="noopener"
+        >GitHub ↗</a
+      >
+    </header>
+
+    <main id="main" tabindex="-1">
+      <div id="docs-view">
+        <button class="docs-mobile" aria-expanded="false">
+          ☰ Browse documentation
+        </button>
+        <div class="docs-shell">
+          <aside class="docs-sidebar" aria-label="Documentation navigation">
+            <div class="search-wrap">
+              <input
+                id="docs-search"
+                aria-label="Search all documentation"
+                placeholder="Search documentation…"
+                type="search"
+                autocomplete="off"
+                data-index="../docs-data.js"
+              />
+            </div>
+            <div class="search-results" aria-live="polite"></div>
+            <!--
+              The docs page list. Order here sets sidebar order and previous/next.
+              Each link's href is docs/<name>.html for docs/<name>.md (README is index.html).
+              Each link belongs to the nearest label above it (used for the breadcrumb).
+              After changing it, run `node rebuild-docs.mjs`.
+            -->
+            <div class="page-links" role="navigation" aria-label="Documentation pages">
+              <p class="docs-label">START HERE</p>
+              <a href="index.html">Introduction</a>
+              <a href="getting-started.html">Getting started</a>
+
+              <a href="how-a-map-works.html">How a map works</a>
+
+              <p class="docs-label">PREFABS</p>
+              <a href="prefabs.html">Prefabs</a>
+              <a href="game-prefabs.html" class="current" aria-current="page">Game prefabs</a>
+              <a href="events.html">Events</a>
+
+              <p class="docs-label">SCRIPTING</p>
+              <a href="scripting.html">Scripting reference</a>
+              <a href="script-mods.html">Script mods</a>
+
+              <p class="docs-label">THE EDITOR</p>
+              <a href="editor.html">The editor</a>
+              <a href="weapons-and-assets.html">Weapons &amp; assets</a>
+
+              <p class="docs-label">REFERENCE</p>
+              <a href="console-reference.html">Console reference</a>
+              <a href="game-events.html">Low-level events</a>
+              <a href="sdk-reference.html">SDK reference</a>
+
+              <p class="docs-label">UNDER THE HOOD</p>
+              <a href="map-internals.html">Map internals</a>
+              <a href="how-the-game-works.html">How the game works</a>
+              <a href="contributing.html">Contributing</a>
+            </div>
+          </aside>
+          <div class="doc-area">
+            <div class="breadcrumb">DOCUMENTATION / <span>PREFABS</span></div>
+            <article class="doc-content">
+<h1 id="game-prefabs">Game prefabs</h1>
+<p>Game prefabs are the game&#39;s own objects: perk machines, doors, the mystery box and the rest. Drag
+one in and it works with no script. Each is a class you can extend, so you can change what it
+does and keep the parts you like.</p>
+<h2 id="how-extending-works">How extending works</h2>
+<p>Select a game prefab and click <strong>New</strong> in its <strong>Script</strong> box. The popup starts on <strong>Object</strong>, with
+the right class in <strong>Extends</strong>, and the script has that class&#39;s hooks ready.</p>
+<p>Here a door stays shut until an easter egg is done:</p>
+<pre><code class="language-lua">local SealedDoor = boz.Door:extend(&quot;SealedDoor&quot;)
+
+function SealedDoor:on_use(player)
+    if not boz.saved.egg_done then
+        player:message(&quot;It won&#39;t move&quot;)
+        return
+    end
+    boz.Door.on_use(self, player)     -- pay and open as normal
+end
+
+return SealedDoor
+</code></pre>
+<p>Three rules cover every class on this page:</p>
+<ol>
+<li><strong>Your <code>on_use</code> replaces the game&#39;s.</strong> When a player uses the object, your function runs <em>instead</em>
+of the purchase.</li>
+<li><strong>To keep the game&#39;s behaviour, hand the use back to it.</strong> That&#39;s the line
+<code>boz.Door.on_use(self, player)</code>. Without it nothing is paid and nothing opens.</li>
+<li><strong>Only an object&#39;s script can stop it.</strong> A map script&#39;s <code>:on()</code> can watch, never stop.</li>
+</ol>
+<h3 id="handing-it-back-to-the-game">Handing it back to the game</h3>
+<p>This pattern is how every game prefab works, so it&#39;s worth reading once, slowly:</p>
+<pre><code class="language-lua">function LuckyBox:on_use(player)
+    boz.MysteryBox.on_use(self, player)
+end
+</code></pre>
+<ul>
+<li><strong><code>function LuckyBox:on_use(player)</code></strong> is your version. The game gives you <code>player</code>.</li>
+<li><strong><code>boz.MysteryBox.on_use</code></strong> is the original, on the class you extended. Your version replaced it
+for this object, but the original is still there on <code>boz.MysteryBox</code>.</li>
+<li><strong><code>(self, player)</code></strong> is the data, passed back by hand. The original doesn&#39;t see what your function
+was given, so you pass it on: first <code>self</code>, the object it should act on, then everything your
+function received.</li>
+<li><strong>The dot matters.</strong> You&#39;ve used a colon everywhere else, but <code>boz.MysteryBox:on_use(player)</code> would
+pass the <em>class</em> as <code>self</code>, not your box. Calling a parent is the one place you write the dot and
+pass <code>self</code> yourself.</li>
+</ul>
+<p>Everything you want to change goes around that line:</p>
+<pre><code class="language-lua">local LuckyBox = boz.MysteryBox:extend(&quot;LuckyBox&quot;)
+
+function LuckyBox:on_use(player)
+    if boz.round() &lt; 3 then                  -- before: decide whether it happens
+        player:message(&quot;The box is sleeping&quot;)
+        return                               -- leaving now stops it. Nothing is paid.
+    end
+    player:message(&quot;Good luck&quot;)              -- before: add something
+    boz.MysteryBox.on_use(self, player)      -- hand it back: the game pays and spins
+end
+
+function LuckyBox:on_weapon(player, weapon)  -- after: react to the result
+    player:message(&quot;You got &quot; .. weapon)
+end
+
+return LuckyBox
+</code></pre>
+<p>Code placed after the hand-back line runs straight away, and it can&#39;t tell whether the player could
+pay. To react to what really happened, use the object&#39;s event hook, like <code>on_weapon</code> here.</p>
+<h3 id="what-to-hand-back-by-class">What to hand back, by class</h3>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Class</th>
+<th>The line</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Door</td>
+<td><code>boz.Door.on_use(self, player)</code></td>
+</tr>
+<tr>
+<td>Debris</td>
+<td><code>boz.Debris.on_use(self, player)</code></td>
+</tr>
+<tr>
+<td>Perk</td>
+<td><code>boz.Perk.on_use(self, player)</code></td>
+</tr>
+<tr>
+<td>MysteryBox</td>
+<td><code>boz.MysteryBox.on_use(self, player)</code></td>
+</tr>
+<tr>
+<td>PackAPunch</td>
+<td><code>boz.PackAPunch.on_use(self, player)</code></td>
+</tr>
+<tr>
+<td>PowerSwitch</td>
+<td><code>boz.PowerSwitch.on_use(self, player)</code></td>
+</tr>
+<tr>
+<td>TrapSwitch</td>
+<td><code>boz.TrapSwitch.on_use(self, player)</code></td>
+</tr>
+<tr>
+<td>WallBuy</td>
+<td><code>boz.WallBuy.on_use(self, player)</code></td>
+</tr>
+<tr>
+<td>Barricade</td>
+<td><code>boz.Barricade.on_use(self, player)</code></td>
+</tr>
+</tbody></table></div>
+<p>Debris has two more originals, because it&#39;s written in Lua and not by the game:</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>When you override</th>
+<th>Hand back with</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>open(player)</code></td>
+<td><code>boz.Debris.open(self, player)</code>, which returns false when it was open already</td>
+</tr>
+<tr>
+<td><code>start()</code></td>
+<td><code>boz.Debris.start(self)</code>, or a saved game forgets that it was opened</td>
+</tr>
+</tbody></table></div>
+<p><strong>Event hooks have nothing to hand back.</strong> <code>on_opened</code>, <code>on_bought</code>, <code>on_spun</code>, <code>on_weapon</code>,
+<code>on_upgraded</code>, <code>on_on</code>, <code>on_activated</code>, <code>on_cooled</code> and <code>on_repaired</code> are yours alone, and the thing has already happened. Don&#39;t call a parent
+in them. The same goes for <code>on_event</code>, and for <code>start</code> on everything but Debris. Your own prefabs,
+Trap, ZombieSpawn, Volume and Weapon have no <code>on_use</code> of the game&#39;s, so there&#39;s nothing to hand back
+there either.</p>
+<p><strong>Always pass everything you were given.</strong> Leaving out <code>player</code> happens to work on some classes, but
+not all: Debris passes it on to <code>on_opened</code>.</p>
+<h3 id="when-it-goes-wrong">When it goes wrong</h3>
+<p>The error goes to the log. In the first two the use does nothing and no points are taken. In the
+third the door has already opened, and only the rest of your hook is skipped.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>The log says</th>
+<th>You wrote</th>
+<th>Write</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>attempt to index a nil value (field &#39;_handle&#39;)</code></td>
+<td><code>boz.Perk:on_use(player)</code></td>
+<td><code>boz.Perk.on_use(self, player)</code>, with a dot</td>
+</tr>
+<tr>
+<td><code>attempt to call a nil value (method &#39;_piece&#39;)</code></td>
+<td><code>boz.Perk.on_use(player)</code></td>
+<td><code>boz.Perk.on_use(self, player)</code>, with <code>self</code> first</td>
+</tr>
+<tr>
+<td><code>attempt to call a nil value (field &#39;on_opened&#39;)</code></td>
+<td><code>boz.Door.on_opened(self, player)</code></td>
+<td>Nothing: event hooks have no parent</td>
+</tr>
+</tbody></table></div>
+<h3 id="what-you-can-and-cant-change">What you can and can&#39;t change</h3>
+<p><strong>What you can override:</strong> <code>on_use</code> on everything a player can use, and the <code>on_&lt;event&gt;</code> hooks in
+each class&#39;s table. Those hooks run <em>after</em> the event, so they add to it.</p>
+<p><strong>What you can&#39;t override:</strong> the rest of what the game does by itself, such as how a box picks a
+weapon, how a trap kills, or how zombies pick a spawn. Change those with settings, or use the
+methods to trigger things yourself.</p>
+<h3 id="settings">Settings</h3>
+<p>Every class has settings in the editor&#39;s <strong>Settings</strong> box, and your script reads them through
+<code>self.settings</code>, by the names in each table below.</p>
+<p>The <strong>Live</strong> column says what a change does while the game runs:</p>
+<ul>
+<li><strong>Yes:</strong> read it or write it at any time, and the game uses the new value at once.</li>
+<li><strong>Read only:</strong> you get the value set in the editor; writing it changes nothing in the game.</li>
+<li><strong>Next move:</strong> the game uses the new value the next time the box arrives somewhere.</li>
+</ul>
+<pre><code class="language-lua">local CheapPerk = boz.Perk:extend(&quot;CheapPerk&quot;)
+
+function CheapPerk:on_event(name, data)
+    if name == &quot;round_started&quot; and data.round == 10 then
+        self.settings.cost = self.settings.cost // 2      -- half price from round 10
+    end
+end
+
+return CheapPerk
+</code></pre>
+<p>You can add your own <code>---@setting</code> and <code>---@link</code> lines too. They join the same boxes.</p>
+<h3 id="what-every-class-has">What every class has</h3>
+<p>All of <a href="prefabs.html#what-every-object-has">What every object has</a>: <code>self.name</code>, <code>self.settings</code>,
+<code>self:position()</code>, <code>self:visible()</code>, <code>self:links(&quot;power&quot;)</code>, <code>self:class_name()</code> and the rest. On top
+of that:</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Method</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>on_use(player)</code></td>
+<td>The game&#39;s purchase: pays and runs it. If you override it, <a href="#handing-it-back-to-the-game">hand it back</a>.</td>
+</tr>
+<tr>
+<td><code>use_free()</code></td>
+<td>Runs it without paying</td>
+</tr>
+<tr>
+<td><code>field(&quot;name&quot;)</code>, <code>set_field(&quot;name&quot;, value)</code></td>
+<td>Any field of the game&#39;s data by its game name, for when no setting exists. See <a href="map-internals.html#game-prefab-fields">Under the hood</a>.</td>
+</tr>
+</tbody></table></div>
+<h2 id="door">Door</h2>
+<p>A door the player buys open. Pick one of the game&#39;s designs from <strong>Doors</strong> in the asset browser.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Label</th>
+<th>Kind</th>
+<th>Live</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>cost</code></td>
+<td>Cost</td>
+<td>Whole number</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>needs_power</code></td>
+<td>Needs power</td>
+<td>Link</td>
+<td>Read only</td>
+</tr>
+<tr>
+<td><code>disappears_when_opened</code></td>
+<td>Disappears when opened</td>
+<td>On or off</td>
+<td>Yes</td>
+</tr>
+</tbody></table></div>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Method</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>open()</code></td>
+<td>Opens it, free</td>
+</tr>
+<tr>
+<td><code>is_open()</code></td>
+<td>True once open</td>
+</tr>
+</tbody></table></div>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Override</th>
+<th>When</th>
+<th>Can stop it?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>on_use(player)</code></td>
+<td>A player tries to buy it</td>
+<td><strong>Yes</strong>. To keep it, <a href="#handing-it-back-to-the-game">hand it back</a>.</td>
+</tr>
+<tr>
+<td><code>on_opened(player)</code></td>
+<td>It has opened</td>
+<td>No</td>
+</tr>
+</tbody></table></div>
+<p>Pay out when a door opens:</p>
+<pre><code class="language-lua">local BonusDoor = boz.Door:extend(&quot;BonusDoor&quot;)
+
+function BonusDoor:on_opened(player)
+    player:give_points(250)
+end
+
+return BonusDoor
+</code></pre>
+<p>A door can also open by itself, from any script:</p>
+<pre><code class="language-lua">boz.get(&quot;Front_Door&quot;):open()
+</code></pre>
+<h2 id="debris">Debris</h2>
+<p>Debris is a <strong>door of your own</strong>: any model that vanishes when bought. There&#39;s no game design to
+pick. You bring the model, and it does the rest. <code>boz.Debris</code> extends <code>boz.Door</code>, so it is a door
+to everything else, and <code>is_a(boz.Door)</code> is true.</p>
+<p><strong>Make it:</strong> drag <strong>Debris</strong> from <strong>Doors</strong>, or make a prefab with your model and a <strong>Use</strong>
+volume. The volume holds the <strong>Cost</strong> and <strong>Prompt</strong>, not a Cost setting.</p>
+<p>When bought it hides, which opens walking and bullets, plays the debris sound, sends <code>opened</code> and
+opens anything in its <strong>Opens with</strong> link. It stays open in saved games.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Method</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>open(player)</code></td>
+<td>Opens it. Returns false when already open. <strong>Override this one.</strong></td>
+</tr>
+<tr>
+<td><code>is_open()</code></td>
+<td>True once open</td>
+</tr>
+</tbody></table></div>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Override</th>
+<th>When</th>
+<th>Can stop it?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>on_use(player)</code></td>
+<td>The Use volume was bought, already paid</td>
+<td><strong>Yes</strong>, but the points are gone. To keep it, <a href="#handing-it-back-to-the-game">hand it back</a>.</td>
+</tr>
+<tr>
+<td><code>open(player)</code></td>
+<td>It opens, from any cause</td>
+<td><strong>Yes</strong>. To keep it, <a href="#handing-it-back-to-the-game">hand it back</a>.</td>
+</tr>
+<tr>
+<td><code>on_opened(player)</code></td>
+<td>It has opened</td>
+<td>No</td>
+</tr>
+</tbody></table></div>
+<p>Because a Debris can be anything, it can do more than open a path:</p>
+<pre><code class="language-lua">local Rubble = boz.Debris:extend(&quot;Rubble&quot;)
+
+function Rubble:open(player)
+    if not boz.Debris.open(self, player) then
+        return false
+    end
+    boz.audio.play(&quot;buy_debris&quot;)
+    boz.send(&quot;zone_opened&quot;, {name = self.name})
+    return true
+end
+
+return Rubble
+</code></pre>
+<h2 id="perk">Perk</h2>
+<p>A perk machine. Pick one from <strong>Machines</strong>.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Label</th>
+<th>Kind</th>
+<th>Live</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>cost</code></td>
+<td>Cost</td>
+<td>Whole number</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>co_op_cost</code></td>
+<td>Co-op cost</td>
+<td>Whole number</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>needs_power</code></td>
+<td>Needs power</td>
+<td>Link</td>
+<td>Read only</td>
+</tr>
+<tr>
+<td><code>use_distance</code></td>
+<td>Use distance</td>
+<td>Number (cm)</td>
+<td>Yes</td>
+</tr>
+</tbody></table></div>
+<p>Players also need to be in front of the machine. Standing behind it or to one side shows no prompt.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Method</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>give()</code></td>
+<td>Gives the perk to the player for free</td>
+</tr>
+</tbody></table></div>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Override</th>
+<th>When</th>
+<th>Can stop it?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>on_use(player)</code></td>
+<td>A player tries to buy it</td>
+<td><strong>Yes</strong>. To keep it, <a href="#handing-it-back-to-the-game">hand it back</a>.</td>
+</tr>
+<tr>
+<td><code>on_bought(player, perk)</code></td>
+<td>A player bought it. <code>perk</code> is its name.</td>
+<td>No</td>
+</tr>
+</tbody></table></div>
+<p>A perk you must earn:</p>
+<pre><code class="language-lua">local EarnedPerk = boz.Perk:extend(&quot;EarnedPerk&quot;)
+
+function EarnedPerk:on_use(player)
+    if boz.round() &lt; 5 then
+        player:message(&quot;Come back on round 5&quot;)
+        return
+    end
+    boz.Perk.on_use(self, player)
+end
+
+return EarnedPerk
+</code></pre>
+<p><code>on_bought</code> needs a real purchase at this machine. A perk given by a script
+(<code>player:give_perk(&quot;Juggernog&quot;)</code>) goes to the player without touching any machine, so no machine
+hears about it. <code>boz.on(&quot;perk_bought&quot;, ...)</code> still does.</p>
+<p>Perk names: <code>Deadshot</code>, <code>Double Tap</code>, <code>Juggernog</code>, <code>Stamin-Up</code>, <code>PHD Flopper</code>, <code>Quick Revive</code>,
+<code>Speed Cola</code>.</p>
+<h2 id="mysterybox">MysteryBox</h2>
+<p>The mystery box. The map can have several; the game moves it between them.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Label</th>
+<th>Kind</th>
+<th>Live</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>cost</code></td>
+<td>Cost</td>
+<td>Whole number</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>fire_sale_cost</code></td>
+<td>Fire sale cost</td>
+<td>Whole number</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>uses_before_it_moves_at_least</code></td>
+<td>Uses before it moves, at least</td>
+<td>Whole number</td>
+<td>Next move</td>
+</tr>
+<tr>
+<td><code>uses_before_it_moves_at_most</code></td>
+<td>Uses before it moves, at most</td>
+<td>Whole number</td>
+<td>Next move</td>
+</tr>
+<tr>
+<td><code>weapon_pool</code></td>
+<td>Weapons</td>
+<td>A list, edited with <strong>Edit…</strong></td>
+<td>Read only</td>
+</tr>
+</tbody></table></div>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Method</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>bring_out()</code></td>
+<td>Brings the box out here</td>
+</tr>
+<tr>
+<td><code>send_away()</code></td>
+<td>Sends it away, with its animation</td>
+</tr>
+</tbody></table></div>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Override</th>
+<th>When</th>
+<th>Can stop it?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>on_use(player)</code></td>
+<td>A player tries to spin it</td>
+<td><strong>Yes</strong>. To keep it, <a href="#handing-it-back-to-the-game">hand it back</a>.</td>
+</tr>
+<tr>
+<td><code>on_spun(player)</code></td>
+<td>A player spun it</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>on_weapon(player, weapon)</code></td>
+<td>The box picked a weapon</td>
+<td>No</td>
+</tr>
+</tbody></table></div>
+<pre><code class="language-lua">local LoudBox = boz.MysteryBox:extend(&quot;LoudBox&quot;)
+
+function LoudBox:on_weapon(player, weapon)
+    player:message(&quot;You rolled: &quot; .. weapon)
+end
+
+return LoudBox
+</code></pre>
+<h2 id="packapunch">PackAPunch</h2>
+<p>Upgrades the weapon in the player&#39;s hands. <strong>It needs a mystery box in the map</strong>: the build stops
+with an error otherwise. A weapon with no upgrade is refused, and nothing is paid. Set a weapon&#39;s
+upgrade with <strong>Pack-a-Punch result</strong> in the <strong>Weapons</strong> tab.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Label</th>
+<th>Kind</th>
+<th>Live</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>cost</code></td>
+<td>Cost</td>
+<td>Whole number</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>needs_power</code></td>
+<td>Needs power</td>
+<td>Link</td>
+<td>Read only</td>
+</tr>
+<tr>
+<td><code>use_distance</code></td>
+<td>Use distance</td>
+<td>Number (cm)</td>
+<td>Yes</td>
+</tr>
+</tbody></table></div>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Method</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>bring_out()</code></td>
+<td>Brings the machine out</td>
+</tr>
+<tr>
+<td><code>send_away()</code></td>
+<td>Sends it away</td>
+</tr>
+</tbody></table></div>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Override</th>
+<th>When</th>
+<th>Can stop it?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>on_use(player)</code></td>
+<td>A player tries to use it</td>
+<td><strong>Yes</strong>. To keep it, <a href="#handing-it-back-to-the-game">hand it back</a>.</td>
+</tr>
+<tr>
+<td><code>on_upgraded(player, weapon)</code></td>
+<td>A weapon went in</td>
+<td>No</td>
+</tr>
+</tbody></table></div>
+<pre><code class="language-lua">local OnePunch = boz.PackAPunch:extend(&quot;OnePunch&quot;)
+
+function OnePunch:on_use(player)
+    if self.used then
+        player:message(&quot;It&#39;s spent&quot;)
+        return
+    end
+    boz.PackAPunch.on_use(self, player)
+end
+
+function OnePunch:on_upgraded(player, weapon)
+    self.used = true
+end
+
+return OnePunch
+</code></pre>
+<h2 id="powerswitch">PowerSwitch</h2>
+<p>Turns on the power. Anything with <strong>Needs power</strong> waits for it.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Label</th>
+<th>Kind</th>
+<th>Live</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>usable_from_the_start</code></td>
+<td>Usable from the start</td>
+<td>On or off</td>
+<td>Yes</td>
+</tr>
+</tbody></table></div>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Method</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>turn_on()</code></td>
+<td>Turns the power on</td>
+</tr>
+</tbody></table></div>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Override</th>
+<th>When</th>
+<th>Can stop it?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>on_use(player)</code></td>
+<td>A player pulls it</td>
+<td><strong>Yes</strong>. To keep it, <a href="#handing-it-back-to-the-game">hand it back</a>.</td>
+</tr>
+<tr>
+<td><code>on_on(player)</code></td>
+<td>The power came on, from any cause</td>
+<td>No</td>
+</tr>
+</tbody></table></div>
+<p>The power needing a key:</p>
+<pre><code class="language-lua">local LockedSwitch = boz.PowerSwitch:extend(&quot;LockedSwitch&quot;)
+
+function LockedSwitch:on_use(player)
+    if not boz.saved.has_key then
+        player:message(&quot;It needs a key&quot;)
+        return
+    end
+    boz.PowerSwitch.on_use(self, player)
+end
+
+return LockedSwitch
+</code></pre>
+<h2 id="trapswitch-and-trap">TrapSwitch and Trap</h2>
+<p>A <strong>Trap</strong> is the thing that hurts. A <strong>TrapSwitch</strong> is what players pay at. Link them in the
+switch&#39;s <strong>Traps</strong> link. Any switch can run any trap, and one switch can run several. The palette
+has <strong>Trap: Firepit</strong>, <strong>Trap: Electro zapper</strong> and <strong>Trap: Firewall</strong> in <strong>Defence</strong>.</p>
+<h3 id="trapswitch">TrapSwitch</h3>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Label</th>
+<th>Kind</th>
+<th>Live</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>cost</code></td>
+<td>Cost</td>
+<td>Whole number</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>needs_power</code></td>
+<td>Needs power</td>
+<td>Link</td>
+<td>Read only</td>
+</tr>
+<tr>
+<td><code>use_distance</code></td>
+<td>Use distance</td>
+<td>Number (cm)</td>
+<td>Yes</td>
+</tr>
+</tbody></table></div>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Method</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>activate()</code></td>
+<td>Runs its traps without paying</td>
+</tr>
+<tr>
+<td><code>busy()</code></td>
+<td>True while one of its traps runs or cools down</td>
+</tr>
+</tbody></table></div>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Override</th>
+<th>When</th>
+<th>Can stop it?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>on_use(player)</code></td>
+<td>A player tries to run it</td>
+<td><strong>Yes</strong>. To keep it, <a href="#handing-it-back-to-the-game">hand it back</a>.</td>
+</tr>
+<tr>
+<td><code>on_activated(player)</code></td>
+<td>A player ran it</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>on_cooled()</code></td>
+<td>A trap of its traps is ready again</td>
+<td>No</td>
+</tr>
+</tbody></table></div>
+<p>While a linked trap runs or cools down, the switch does nothing and costs nothing.</p>
+<h3 id="trap">Trap</h3>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Label</th>
+<th>Kind</th>
+<th>Live</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>runs_for</code></td>
+<td>Runs for</td>
+<td>Seconds</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>cool_down</code></td>
+<td>Cool-down</td>
+<td>Seconds</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>player_damage</code></td>
+<td>Player damage</td>
+<td>Whole number</td>
+<td>Yes</td>
+</tr>
+</tbody></table></div>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Method</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>activate(seconds)</code></td>
+<td>Runs the trap, for <code>seconds</code> or its own time</td>
+</tr>
+</tbody></table></div>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Override</th>
+<th>When</th>
+<th>Can stop it?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>on_cooled()</code></td>
+<td>Its cool-down ended, and it&#39;s ready again</td>
+<td>No</td>
+</tr>
+</tbody></table></div>
+<p>A trap has no player use, so there&#39;s no <code>on_use</code>. Run it from something else:</p>
+<pre><code class="language-lua">local Tripwire = boz.Prefab:extend(&quot;Tripwire&quot;)
+
+---@link trap trap one &quot;Trap it sets off&quot;
+
+function Tripwire:on_enter(who)
+    self:links(&quot;trap&quot;)[1]:activate(5)
+end
+
+return Tripwire
+</code></pre>
+<h2 id="wallbuy">WallBuy</h2>
+<p>A weapon on a wall. Pick the weapon with <strong>Choose…</strong>; it must be one of the map&#39;s weapons, which
+you add in the <strong>Weapons</strong> tab.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Label</th>
+<th>Kind</th>
+<th>Live</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>weapon</code></td>
+<td>Weapon</td>
+<td>Picked with <strong>Choose…</strong></td>
+<td>Read only</td>
+</tr>
+<tr>
+<td><code>cost</code></td>
+<td>Cost</td>
+<td>Whole number</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>ammo_cost</code></td>
+<td>Ammo cost</td>
+<td>Whole number</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>upgraded_ammo_cost</code></td>
+<td>Upgraded ammo cost</td>
+<td>Whole number</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>chalk</code></td>
+<td>Chalk</td>
+<td>The drawing on the wall</td>
+<td>Read only</td>
+</tr>
+</tbody></table></div>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Override</th>
+<th>When</th>
+<th>Can stop it?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>on_use(player)</code></td>
+<td>A player tries to buy it</td>
+<td><strong>Yes</strong>. To keep it, <a href="#handing-it-back-to-the-game">hand it back</a>.</td>
+</tr>
+<tr>
+<td><code>on_bought(player, weapon)</code></td>
+<td>A player paid for the weapon or its ammo. <code>weapon</code> is its name.</td>
+<td>No</td>
+</tr>
+</tbody></table></div>
+<pre><code class="language-lua">local Sniper = boz.WallBuy:extend(&quot;Sniper&quot;)
+
+function Sniper:on_use(player)
+    if boz.round() &lt; 10 then
+        player:message(&quot;Locked until round 10&quot;)
+        return
+    end
+    boz.WallBuy.on_use(self, player)
+end
+
+return Sniper
+</code></pre>
+<h2 id="barricade">Barricade</h2>
+<p>The boards across a window. Zombies tear them down, and players rebuild them. Link a barricade to
+a zombie spawn of <strong>Type: Window</strong> to make a working window, or use <strong>Window</strong> in the palette,
+which gives you both to link yourself.</p>
+<p>A black arrow in the viewport shows which way zombies cross.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Label</th>
+<th>Kind</th>
+<th>Live</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>starts_broken</code></td>
+<td>Starts broken</td>
+<td>On or off</td>
+<td>Read only</td>
+</tr>
+</tbody></table></div>
+<p><strong>Stops bullets</strong> in the <strong>In the game</strong> box is off by default, so players can shoot through
+windows. It can&#39;t be changed from a script.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Method</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>repair()</code></td>
+<td>Puts one board back</td>
+</tr>
+</tbody></table></div>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Override</th>
+<th>When</th>
+<th>Can stop it?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>on_use(player)</code></td>
+<td>A player uses it</td>
+<td><strong>Yes</strong>. To keep it, <a href="#handing-it-back-to-the-game">hand it back</a>.</td>
+</tr>
+<tr>
+<td><code>on_repaired(player)</code></td>
+<td>A player put a board back. Runs for each board.</td>
+<td>No</td>
+</tr>
+</tbody></table></div>
+<p>There&#39;s no event yet for a torn board. <code>on_repaired</code> is for a player&#39;s repairs: a Carpenter or
+<code>repair()</code> from a script only shows as the game event <code>barricade_repaired</code>.</p>
+<h2 id="zombiespawn">ZombieSpawn</h2>
+<p>Where zombies come from. <strong>Zombie spawn</strong> is one marker in <strong>Level markers</strong>; its <strong>Type</strong> picks
+how they arrive: Window, Ground, From above, Ceiling, Climb, Dogs or Monkeys.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Label</th>
+<th>Kind</th>
+<th>Live</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>active_from_the_start</code></td>
+<td>Active from the start</td>
+<td>On or off</td>
+<td>Read only here; use <code>set_active</code></td>
+</tr>
+</tbody></table></div>
+<p><strong>Off</strong> means the spawn starts working once players reach its area.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Method</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>set_active(on)</code></td>
+<td>Lets zombies come out of it, or not</td>
+</tr>
+</tbody></table></div>
+<p>There&#39;s nothing to override: a spawn has no player use. Switch them from another object:</p>
+<pre><code class="language-lua">local Alarm = boz.Prefab:extend(&quot;Alarm&quot;)
+
+---@link spawns zombie_spawn many &quot;Spawns it wakes&quot;
+
+function Alarm:on_use(player)
+    for _, spawn in ipairs(self:links(&quot;spawns&quot;)) do
+        spawn:set_active(true)
+    end
+end
+
+return Alarm
+</code></pre>
+<h2 id="weapon">Weapon</h2>
+<p>A weapon isn&#39;t placed in the map, but it takes a script the same way: <strong>Weapons</strong> tab → <strong>Script</strong>.
+Weapons extend <code>boz.Weapon</code>.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Hook</th>
+<th>When it runs</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>on_given()</code></td>
+<td>Bought, rolled from the box, or given by a script</td>
+</tr>
+<tr>
+<td><code>on_equip()</code></td>
+<td>Taken in hand</td>
+</tr>
+<tr>
+<td><code>on_fire(data)</code></td>
+<td>Every shot. <code>data.clip</code> is the rounds before it.</td>
+</tr>
+<tr>
+<td><code>on_reload()</code></td>
+<td>A reload started</td>
+</tr>
+</tbody></table></div>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Method</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>clip()</code>, <code>reserve()</code></td>
+<td>Ammo now</td>
+</tr>
+<tr>
+<td><code>clip_size()</code>, <code>reserve_size()</code></td>
+<td>The most it holds</td>
+</tr>
+<tr>
+<td><code>set_ammo(clip, reserve)</code></td>
+<td>Sets the ammo</td>
+</tr>
+<tr>
+<td><code>fire_rate()</code>, <code>set_fire_rate(rpm)</code></td>
+<td>Rounds per minute</td>
+</tr>
+<tr>
+<td><code>damage()</code>, <code>set_damage(head, torso, limbs)</code></td>
+<td>Damage</td>
+</tr>
+<tr>
+<td><code>in_hand()</code></td>
+<td>True while in the player&#39;s hand</td>
+</tr>
+</tbody></table></div>
+<p>Ammo and damage calls need the player to have the weapon, and otherwise give <code>nil</code>.</p>
+<pre><code class="language-lua">local IdGun = boz.Weapon:extend(&quot;IdGun&quot;)
+
+function IdGun:on_fire(data)
+    if data.clip == 1 then
+        boz.player():message(&quot;Last round!&quot;)
+    end
+end
+
+return IdGun
+</code></pre>
+<p>The hooks only watch, so they can&#39;t stop a shot. For the rest of what a weapon can be (its model,
+animations, sounds, numbers), see <a href="weapons-and-assets.html">Weapons &amp; assets</a>.</p>
+
+            </article>
+            <div class="doc-pagination" role="navigation" aria-label="Previous and next page">
+              <a class="doc-prev" href="prefabs.html"><small>PREVIOUS</small><span>← Prefabs</span></a>
+              <a class="doc-next" href="events.html"><small>NEXT</small><span>Events →</span></a>
+            </div>
+          </div>
+          <aside class="doc-toc" aria-label="On this page">
+            <p>ON THIS PAGE</p>
+            <a href="#how-extending-works">How extending works</a>
+            <a href="#handing-it-back-to-the-game" class="sub">Handing it back to the game</a>
+            <a href="#what-to-hand-back-by-class" class="sub">What to hand back, by class</a>
+            <a href="#when-it-goes-wrong" class="sub">When it goes wrong</a>
+            <a href="#what-you-can-and-cant-change" class="sub">What you can and can't change</a>
+            <a href="#settings" class="sub">Settings</a>
+            <a href="#what-every-class-has" class="sub">What every class has</a>
+            <a href="#door">Door</a>
+            <a href="#debris">Debris</a>
+            <a href="#perk">Perk</a>
+            <a href="#mysterybox">MysteryBox</a>
+            <a href="#packapunch">PackAPunch</a>
+            <a href="#powerswitch">PowerSwitch</a>
+            <a href="#trapswitch-and-trap">TrapSwitch and Trap</a>
+            <a href="#trapswitch" class="sub">TrapSwitch</a>
+            <a href="#trap" class="sub">Trap</a>
+            <a href="#wallbuy">WallBuy</a>
+            <a href="#barricade">Barricade</a>
+            <a href="#zombiespawn">ZombieSpawn</a>
+            <a href="#weapon">Weapon</a>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+<footer>
+      <a class="brand" href="../index.html"
+        ><img src="../assets/client-logo.png" alt="BOZ Redux" width="640" height="260" loading="lazy"
+      /></a>
+      <p>BOZ Redux</p>
+      <span>Not affiliated with Activision. Game files are not included.</span
+      ><a href="https://github.com/ZappaVinny/boz-redux">Source ↗</a>
+    </footer>
+<dialog id="discord-dialog">
+      <button class="dialog-close" aria-label="Close dialog">×</button>
+      <h2>Discord</h2>
+      <p>
+        The Discord invite hasn’t been added yet. Check GitHub for project
+        updates.
+      </p>
+      <a
+        class="button"
+        href="https://github.com/ZappaVinny/boz-redux"
+        target="_blank"
+        rel="noopener"
+        >Visit the project ↗</a
+      >
+    </dialog>
+  </body>
+</html>

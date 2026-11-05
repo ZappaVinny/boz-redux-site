@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>The editor | BOZ Redux Docs</title>
+    <meta name="description" content="A tour of the BOZ Redux editor: what each part is for and where to find it. For the ideas behind it, read How a map works. For scripting, go to Prefabs." />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://boz-redux.com/docs/editor.html" />
+    <meta name="theme-color" content="#0d0e10" />
+    <link rel="icon" href="../assets/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="256x256" href="../assets/favicon.png" />
+    <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png" />
+    <link rel="manifest" href="../site.webmanifest" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="BOZ Redux" />
+    <meta property="og:title" content="The editor | BOZ Redux Docs" />
+    <meta property="og:description" content="A tour of the BOZ Redux editor: what each part is for and where to find it. For the ideas behind it, read How a map works. For scripting, go to Prefabs." />
+    <meta property="og:url" content="https://boz-redux.com/docs/editor.html" />
+    <meta property="og:image" content="https://boz-redux.com/assets/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"The editor","description":"A tour of the BOZ Redux editor: what each part is for and where to find it. For the ideas behind it, read How a map works. For scripting, go to Prefabs.","url":"https://boz-redux.com/docs/editor.html","dateModified":"2026-11-05T03:04:24.923Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"The editor","item":"https://boz-redux.com/docs/editor.html"}]}]}</script>
+    <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="stylesheet" href="../styles.css" />
+    <script defer src="../config.js"></script>
+    <script defer src="../app.js"></script>
+  </head>
+  <body class="is-docs">
+    <a class="skip" href="#main">Skip to content</a>
+<header>
+      <a class="brand" href="../index.html" aria-label="BOZ Redux home"
+        ><img src="../assets/client-logo.png" alt="BOZ Redux" width="640" height="260"
+      /></a>
+      <nav aria-label="Main navigation">
+        <a href="../index.html" data-nav="home">Home</a
+        ><a href="../docs/index.html" data-nav="docs" class="active" aria-current="page">Documentation</a
+        ><a href="#discord" data-discord>Discord</a>
+      </nav>
+      <a
+        class="header-github"
+        href="https://github.com/ZappaVinny/boz-redux"
+        target="_blank"
+        rel="noopener"
+        >GitHub ↗</a
+      >
+    </header>
+
+    <main id="main" tabindex="-1">
+      <div id="docs-view">
+        <button class="docs-mobile" aria-expanded="false">
+          ☰ Browse documentation
+        </button>
+        <div class="docs-shell">
+          <aside class="docs-sidebar" aria-label="Documentation navigation">
+            <div class="search-wrap">
+              <input
+                id="docs-search"
+                aria-label="Search all documentation"
+                placeholder="Search documentation…"
+                type="search"
+                autocomplete="off"
+                data-index="../docs-data.js"
+              />
+            </div>
+            <div class="search-results" aria-live="polite"></div>
+            <!--
+              The docs page list. Order here sets sidebar order and previous/next.
+              Each link's href is docs/<name>.html for docs/<name>.md (README is index.html).
+              Each link belongs to the nearest label above it (used for the breadcrumb).
+              After changing it, run `node rebuild-docs.mjs`.
+            -->
+            <div class="page-links" role="navigation" aria-label="Documentation pages">
+              <p class="docs-label">START HERE</p>
+              <a href="index.html">Introduction</a>
+              <a href="getting-started.html">Getting started</a>
+
+              <a href="how-a-map-works.html">How a map works</a>
+
+              <p class="docs-label">PREFABS</p>
+              <a href="prefabs.html">Prefabs</a>
+              <a href="game-prefabs.html">Game prefabs</a>
+              <a href="events.html">Events</a>
+
+              <p class="docs-label">SCRIPTING</p>
+              <a href="scripting.html">Scripting reference</a>
+              <a href="script-mods.html">Script mods</a>
+
+              <p class="docs-label">THE EDITOR</p>
+              <a href="editor.html" class="current" aria-current="page">The editor</a>
+              <a href="weapons-and-assets.html">Weapons &amp; assets</a>
+
+              <p class="docs-label">REFERENCE</p>
+              <a href="console-reference.html">Console reference</a>
+              <a href="game-events.html">Low-level events</a>
+              <a href="sdk-reference.html">SDK reference</a>
+
+              <p class="docs-label">UNDER THE HOOD</p>
+              <a href="map-internals.html">Map internals</a>
+              <a href="how-the-game-works.html">How the game works</a>
+              <a href="contributing.html">Contributing</a>
+            </div>
+          </aside>
+          <div class="doc-area">
+            <div class="breadcrumb">DOCUMENTATION / <span>THE EDITOR</span></div>
+            <article class="doc-content">
+<h1 id="the-editor">The editor</h1>
+<p>A tour of the BOZ Redux editor: what each part is for and where to find it. For the ideas behind
+it, read <a href="how-a-map-works.html">How a map works</a>. For scripting, go to <a href="prefabs.html">Prefabs</a>.</p>
+<p>The editor is Blender 5.2 LTS set up for making Zombies maps. It opens from the SDK app (<strong>Open in
+Editor</strong> on a map project) and saves straight into the project. Everything is drawn the way the
+game draws it, and <strong>Build &amp; Run</strong> puts your map in the game in one click.</p>
+<p>If you know Blender, it will feel familiar: G moves, R rotates, S scales, Tab enters Edit Mode.
+One Blender unit is one game centimetre.</p>
+<h2 id="the-window">The window</h2>
+<ul>
+<li><strong>Top bar:</strong> the <strong>Project</strong>, <strong>Edit</strong> and <strong>Help</strong> menus, the tabs, and <strong>Build &amp; Run</strong> (with its
+⚙ settings) on the right.</li>
+<li><strong>Viewport:</strong> the map, with the game&#39;s shading.</li>
+<li><strong>Asset browser</strong> (World tab, left): the game&#39;s objects to drag into the map.</li>
+<li><strong>Outliner:</strong> every object. An object&#39;s name is its name in the game and in scripts.</li>
+<li><strong>Properties:</strong> the Object tab&#39;s <strong>Game</strong> panel shows what the selected object is and its boxes.</li>
+<li><strong>Sidebar</strong> (N in the viewport): the <strong>BOZ</strong> tab, <strong>Problems</strong>, and <strong>Shipped files</strong>.</li>
+<li><strong>Log</strong> areas: the build&#39;s output and the game&#39;s <code>boz-log.txt</code>.</li>
+</ul>
+<h3 id="the-tabs">The tabs</h3>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Tab</th>
+<th>What you do there</th>
+<th>Guide</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Game</strong></td>
+<td>The map&#39;s rules: name, loading screen, rounds, special rounds, points, power-ups, the box</td>
+<td><a href="#game-rules">Game rules</a></td>
+</tr>
+<tr>
+<td><strong>World</strong></td>
+<td>Build the level</td>
+<td><a href="#building-the-world">Building the world</a></td>
+</tr>
+<tr>
+<td><strong>Weapons</strong></td>
+<td>Change, copy and import weapons; give them your own models and sounds</td>
+<td><a href="weapons-and-assets.html#weapons">Weapons</a></td>
+</tr>
+<tr>
+<td><strong>Assets</strong></td>
+<td>Import your own models and make game versions of them</td>
+<td><a href="weapons-and-assets.html#your-own-models">Your own models</a></td>
+</tr>
+<tr>
+<td><strong>Effects</strong></td>
+<td>Pick the game&#39;s effects and projectiles for your scripts</td>
+<td><a href="weapons-and-assets.html#effects-and-projectiles">Effects and projectiles</a></td>
+</tr>
+<tr>
+<td><strong>Animation</strong></td>
+<td>Change a weapon&#39;s animations</td>
+<td><a href="weapons-and-assets.html#animations">Animations</a></td>
+</tr>
+<tr>
+<td><strong>Scripts</strong></td>
+<td>Edit the map&#39;s Lua scripts</td>
+<td><a href="prefabs.html">Prefabs</a></td>
+</tr>
+<tr>
+<td><strong>Audio</strong></td>
+<td>Replace the game&#39;s sounds with your own</td>
+<td><a href="weapons-and-assets.html#sounds">Sounds</a></td>
+</tr>
+</tbody></table></div>
+<p><strong>Characters</strong> and <strong>UI / HUD</strong> are planned, and show what&#39;s coming.</p>
+<h3 id="menus">Menus</h3>
+<ul>
+<li><strong>Project:</strong> Save, Build &amp; Run and its settings, <strong>Import model…</strong> (FBX, glTF and OBJ, scaled
+from metres), <strong>Add game shape</strong>, the <strong>Prefab library</strong>, <strong>Check for problems</strong>, <strong>Open project
+folder</strong>, and back to the SDK app.</li>
+<li><strong>Edit:</strong> undo, redo, undo history, Blender&#39;s preferences.</li>
+<li><strong>Help:</strong> these guides.</li>
+</ul>
+<h2 id="build-run">Build &amp; Run</h2>
+<p><strong>Project → Save</strong> (Ctrl+S) saves the scene and the project&#39;s <code>source/</code> folder, which is what the
+build reads.</p>
+<p><strong>Build &amp; Run</strong> saves, builds the map into a mod, installs it into your client (last in the load
+order, so its files win), and starts the game straight into your map. It won&#39;t start while the
+game is already running.</p>
+<p>The ⚙ next to it sets how the test starts: <strong>Unlimited health</strong>, <strong>Unlimited points</strong> and
+<strong>Starting points</strong>. They only apply to the game Build &amp; Run starts. The same dialog sets the map&#39;s
+<strong>base level</strong>: the shipped level its rounds, zombie types, sounds and cameras come from. The
+Developer mod is always on in a test, so its console (<code>`</code> or F1) is at hand.</p>
+<h3 id="playing-your-map-later">Playing your map later</h3>
+<p>After the first Build &amp; Run your map is a mod in the client. Press <strong>PLAY</strong> in the client&#39;s
+launcher and it&#39;s in the list. <strong>PLAY SOLO</strong> starts it, and <strong>CO-OP ROOM</strong> joins or hosts a room for
+that map. Players who install your packaged mod get the same choice.</p>
+<h2 id="problems">Problems</h2>
+<p>The <strong>Problems</strong> panel in the sidebar has two parts:</p>
+<ul>
+<li><strong>Warnings:</strong> what looks wrong in the map right now, each with a button that selects the object.</li>
+<li><strong>Last build:</strong> what the build said.</li>
+</ul>
+<p><strong>Project → Check for problems</strong> runs the checks by hand.</p>
+<h2 id="building-the-world">Building the world</h2>
+<p>The <strong>World</strong> tab is where you build the level.</p>
+<h3 id="the-asset-browser">The asset browser</h3>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Group</th>
+<th>What&#39;s in it</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Game prefabs</strong></td>
+<td>Machines (perks, Pack-a-Punch, mystery box, power switch), Buying (wall buys), Doors (including <strong>Debris</strong>), Barricades (including <strong>Window</strong>), Defence (traps, trap switch)</td>
+</tr>
+<tr>
+<td><strong>Level markers</strong></td>
+<td>Spawns, Jump points, Sound</td>
+</tr>
+<tr>
+<td><strong>Volumes</strong></td>
+<td>Trigger, Hit, Use</td>
+</tr>
+<tr>
+<td><strong>Models</strong>, <strong>Textures</strong></td>
+<td>Everything from every map</td>
+</tr>
+<tr>
+<td><strong>My prefabs</strong>, <strong>My assets</strong></td>
+<td>Your own</td>
+</tr>
+</tbody></table></div>
+<p>The editor builds the library from the SDK&#39;s asset library the first time (about 30 seconds) and
+again after that changes.</p>
+<h3 id="building-with-shapes">Building with shapes</h3>
+<p>Add → <strong>Game shapes</strong> (also the World header&#39;s <strong>Shapes</strong> button) adds blocks, walls, floors, ramps,
+stairs and pillars at game size, with a tiling texture and the right settings. Blender&#39;s own Add →
+Mesh shapes are 2 cm big here, since one unit is a centimetre, and the Problems panel flags
+anything that small.</p>
+<p>For detailed models (a statue, a gun) use the Assets tab, which makes a game version with the right
+number of triangles (<a href="weapons-and-assets.html#your-own-models">Your own models</a>).</p>
+<h3 id="the-in-the-game-box">The In the game box</h3>
+<p>Every model and prefab has this box. The ideas are in
+<a href="how-a-map-works.html#what-an-object-does-in-the-game">What an object does in the game</a>.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Control</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Visible</strong></td>
+<td>The master switch. Off: it starts hidden, and stops and blocks nothing.</td>
+</tr>
+<tr>
+<td><strong>Scripts can switch it</strong></td>
+<td>Lets scripts change it during play. Always on for an object with a script.</td>
+</tr>
+<tr>
+<td><strong>Walking</strong> (models)</td>
+<td><strong>Walk on it</strong>, <strong>Blocks</strong> or <strong>Walk through</strong></td>
+</tr>
+<tr>
+<td><strong>Blocks walking</strong> (game prefabs)</td>
+<td>On: nobody can walk through it</td>
+</tr>
+<tr>
+<td><strong>Stops bullets</strong></td>
+<td>Shots hit it, or pass through</td>
+</tr>
+<tr>
+<td><strong>Shape</strong></td>
+<td><strong>Box</strong> uses the model&#39;s bounds, <strong>Mesh</strong> its triangles</td>
+</tr>
+</tbody></table></div>
+<p>Barricades don&#39;t stop bullets by default, and a trap always does (that&#39;s its kill volume).</p>
+<h3 id="the-settings-box">The Settings box</h3>
+<p>Every setting of the object: the game&#39;s own (cost, Needs power, ...) and your script&#39;s. See each
+class on <a href="game-prefabs.html">Game prefabs</a>.</p>
+<h3 id="the-script-box">The Script box</h3>
+<p><strong>New</strong> asks for a name and a template (<strong>Empty</strong>, <strong>Basic prefab</strong> or <strong>Object</strong>), makes
+<code>scripts/prefabs/&lt;Name&gt;.lua</code> and opens it in the <strong>Scripts</strong> tab. See
+<a href="prefabs.html#choosing-a-template">Choosing a template</a>. <strong>Pick…</strong> uses a script you already have. The other buttons open it, <strong>Reload</strong> its settings and links, and remove
+it. See <a href="prefabs.html">Prefabs</a>.</p>
+<h3 id="the-links-box">The Links box</h3>
+<p>Links point objects at each other. Each link shows who it points to, with:</p>
+<ul>
+<li><strong>+</strong> to search for an object;</li>
+<li>the select arrow, <strong>Link selected</strong>, to link what you have selected;</li>
+<li><strong>×</strong> to remove one;</li>
+<li><strong>↺</strong> to go back to the default.</li>
+</ul>
+<p>Your script&#39;s <code>---@link</code> lines show here too. See <a href="prefabs.html#links">Links</a>.</p>
+<h3 id="prefabs">Prefabs</h3>
+<p><strong>Make prefab</strong> (Ctrl+G) groups the selected models, volumes and prefabs. <strong>Ungroup</strong> (Ctrl+Alt+G)
+takes it apart. <strong>Save as new prefab</strong> stores it under <strong>My prefabs</strong>. Walkthrough:
+<a href="prefabs.html#make-one-in-the-editor">Make one in the editor</a>.</p>
+<h3 id="game-prefabs">Game prefabs</h3>
+<ul>
+<li><strong>Wall buy:</strong> <strong>Choose…</strong> picks one of the project&#39;s weapons. The editor shows the weapon and its
+chalk drawing: the weapon&#39;s own, one drawn from its model, your image, or none.</li>
+<li><strong>Edit its model</strong> gives a game prefab an editable copy of its mesh. It keeps its behaviour and
+the game draws your mesh. <strong>Use the game&#39;s model</strong> goes back.</li>
+<li><strong>Zombie spawn:</strong> <strong>Type</strong> picks how they arrive.</li>
+<li><strong>Window:</strong> a barricade and a spawn, ready for you to link.</li>
+</ul>
+<h3 id="textures">Textures</h3>
+<p>Properties → Material shows every texture slot with a preview:</p>
+<ul>
+<li><strong>Replace…</strong> loads an image file.</li>
+<li><strong>From game…</strong> uses any of the game&#39;s textures, with game shading.</li>
+<li><strong>✕</strong> goes back to the default grid texture.</li>
+</ul>
+<p>Game models need <strong>Make editable</strong> before their textures can change. Dropping a texture from the
+asset browser onto an object gives it the same game-shaded material.</p>
+<h3 id="seeing-what-the-game-sees">Seeing what the game sees</h3>
+<p>The viewport&#39;s switches are in the tool settings bar, next to Orientation and Drag. The <strong>Show</strong>
+menu (also in the sidebar&#39;s BOZ tab) switches overlays:</p>
+<ul>
+<li><strong>Markers</strong> and <strong>Triggers</strong>;</li>
+<li><strong>Links</strong> between objects;</li>
+<li><strong>Walkable</strong> and <strong>Collision</strong>, which build the map and show where people can walk (blue, orange
+where a door blocks it) and what bullets hit. <strong>Refresh</strong> builds them again after edits.</li>
+</ul>
+<h3 id="walkable-areas">Walkable areas</h3>
+<p>Players and zombies walk on the walkable area, so it&#39;s what to check when someone walks through a
+wall or can&#39;t reach a room. Turn on <strong>Show → Walkable</strong>:</p>
+<ul>
+<li><strong>No blue where you want people:</strong> the floor isn&#39;t <strong>Walk on it</strong>.</li>
+<li><strong>Blue through a wall:</strong> the wall isn&#39;t <strong>Blocks</strong>.</li>
+<li><strong>Nothing changed after an edit:</strong> press <strong>Refresh</strong>.</li>
+</ul>
+<p>It needs the navmesh helper (<a href="getting-started.html#the-navmesh-helper">Installation</a>). How it works
+inside is in <a href="map-internals.html#navigation-meshes">Map internals</a>.</p>
+<h3 id="remixing-a-shipped-map">Remixing a shipped map</h3>
+<p>Maps made from <strong>Kino der Toten</strong>, <strong>Call of the Dead</strong>, <strong>Ascension</strong> or the <strong>Tutorial</strong> start as
+the whole original map. Its objects are game prefabs you can move, rotate, scale, delete (X), copy
+(Shift+D), change the settings of, or start hidden. Only what you changed is written into the map,
+and <strong>Put back as the level has it</strong> undoes the changes to an object. The rooms stay as they are.</p>
+<h2 id="game-rules">Game rules</h2>
+<p>The <strong>Game</strong> tab sets a map&#39;s rules: its name and loading screen, its rounds, the special rounds,
+which zombie looks spawn, the points and power-ups. Until
+you change a section, the map uses its base level&#39;s own rules (shown in the tab); the first change
+makes them the map&#39;s own (<code>source/game.json</code>).</p>
+<h3 id="level-info">Level info</h3>
+<ul>
+<li><strong>Name:</strong> the map&#39;s name in the launcher and the mod list.</li>
+<li><strong>Loading screen:</strong> a picture (PNG or JPG) shown while the map loads. It fills the screen at 4:3
+(1024 x 768); the &quot;Loading&quot; text and the tips are drawn over it. Pure magenta (255, 0, 255) shows
+as black.</li>
+<li><strong>Starting weapon:</strong> set in the Weapons tab (shown here).</li>
+<li><strong>Power on at the start:</strong> the power is on as soon as the map starts.</li>
+<li><strong>Behaves like:</strong> some of the game&#39;s code checks the map&#39;s name. Pick Kino, Ascension or Call of
+the Dead and the level manager&#39;s checks answer as that map: Kino&#39;s teleport start, Ascension&#39;s
+round effects, Call of the Dead&#39;s snow camera and start sound (the build brings what they
+play). Other code that compares names itself (Call of the Dead&#39;s zombies and Pack-a-Punch,
+Ascension&#39;s attack distances) stays with those maps.</li>
+</ul>
+<h3 id="rounds">Rounds</h3>
+<p>Each game has its own rounds: single player on easy, normal and hard, and co-op with 2, 3 or 4
+players. Pick one under <strong>Game</strong>, or tick <strong>Same for all</strong> to change every game at once (<strong>Use these
+rounds in every game</strong> copies the shown game&#39;s rounds to the rest).</p>
+<p>The list holds the rounds in order. Each round sets:</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Zombies</td>
+<td>how many zombies the round has</td>
+</tr>
+<tr>
+<td>Health</td>
+<td>each zombie&#39;s health (an easy game halves it)</td>
+</tr>
+<tr>
+<td>At once</td>
+<td>the most zombies alive at the same time</td>
+</tr>
+<tr>
+<td>Spawn at start</td>
+<td>zombies that spawn as soon as the round starts</td>
+</tr>
+<tr>
+<td>Walkers, Fast walkers, Runners, Sprinters</td>
+<td>the share of zombies at each speed (0-1)</td>
+</tr>
+<tr>
+<td>Spawn interval</td>
+<td>milliseconds between spawns</td>
+</tr>
+<tr>
+<td>Break after</td>
+<td>milliseconds from the round&#39;s end to the next round</td>
+</tr>
+<tr>
+<td>Start delay</td>
+<td>milliseconds from the round&#39;s start to its first spawn</td>
+</tr>
+<tr>
+<td>Zombie type</td>
+<td>what spawns (empty: the map&#39;s zombie)</td>
+</tr>
+<tr>
+<td>Powered zombies, type and health</td>
+<td>extra zombies once the power is on (Kino&#39;s crawlers)</td>
+</tr>
+<tr>
+<td>Fog</td>
+<td>the fog the round sets</td>
+</tr>
+</tbody></table></div>
+<p>The last round can <strong>repeat</strong>: it plays again and again, each time growing by its multipliers
+(<strong>Zombies x</strong>, <strong>At once x</strong>, <strong>Spawn interval x</strong>, <strong>Powered zombies x</strong>) once the round number
+is past <strong>Grows after round</strong>. For example 25 zombies with Zombies x 1.1 from round 10 gives
+round 12 30 zombies (25 x 1.1 x 1.1).</p>
+<p><strong>Repeating health:</strong> the game ignores a repeating round&#39;s health and uses 10 x round x round -
+150 (round 20: 3850). <strong>Grows by the multiplier</strong> uses the round&#39;s <strong>Health</strong> and <strong>Health x</strong>
+instead.</p>
+<p>The graph on the right shows zombies (orange) and health (blue) for rounds 1 to 40 of the shown
+game. <strong>Back to the base level&#39;s rounds</strong> forgets the map&#39;s own rounds.</p>
+<h3 id="special-rounds">Special rounds</h3>
+<p>Dog rounds (and Ascension&#39;s space monkeys) come between normal rounds. Each is for one game
+(<strong>For</strong>). The game runs them in order: one plays <strong>Times</strong> times, then the next takes over. A
+special round comes after <strong>At least</strong> and at most <strong>At most</strong> normal rounds, with <strong>Chance</strong>
+percent each round in between. <strong>Count by players</strong> is how many spawn with 1, 2, 3 or 4 players.
+<strong>Add a special round</strong> makes a dog round to start from.</p>
+<h3 id="zombie-types">Zombie types</h3>
+<p>A level has a few zombie looks (a skeleton and body part models). Zombies spawn with one of the
+ticked looks, picked at random.</p>
+<h3 id="pickups-and-economy">Pickups and economy</h3>
+<p>Tick a setting to change it on this map (other maps keep the game&#39;s values):</p>
+<ul>
+<li><strong>Points at start</strong>, <strong>Points lost when down</strong> (share of points), <strong>Self revive</strong> cost.</li>
+<li>Power-up drops: <strong>Points between drops</strong>, <strong>Kills between drops</strong>, <strong>Drop chance</strong> (per kill once
+a drop is due), <strong>Drops per round</strong>.</li>
+<li>Power-up times: <strong>Double points</strong>, <strong>Insta-kill</strong>, <strong>Fire sale</strong>, <strong>Death machine</strong> (ms).</li>
+<li><strong>Change the power-ups:</strong> how likely each power-up is against the others (0: never).</li>
+<li><strong>Change the points:</strong> points for a hit, each kind of kill, a barricade board, Carpenter and the
+Nuke, and the barricade limit (at most this x the round number per round).</li>
+<li><strong>Change the mystery box:</strong> its cost, the fire sale cost and how many weapons it shows when it
+spins. A box given its own cost in the World tab keeps it.</li>
+<li>Zombies alive at most, base zombie health, grenades per round.</li>
+</ul>
+<h3 id="hook-scripts">Hook scripts</h3>
+<p>Every event a script can follow, with <strong>Create</strong> and <strong>Open</strong>. See
+<a href="events.html#how-to-catch-one">How to catch one</a>.</p>
+
+            </article>
+            <div class="doc-pagination" role="navigation" aria-label="Previous and next page">
+              <a class="doc-prev" href="script-mods.html"><small>PREVIOUS</small><span>← Script mods</span></a>
+              <a class="doc-next" href="weapons-and-assets.html"><small>NEXT</small><span>Weapons &amp; assets →</span></a>
+            </div>
+          </div>
+          <aside class="doc-toc" aria-label="On this page">
+            <p>ON THIS PAGE</p>
+            <a href="#the-window">The window</a>
+            <a href="#the-tabs" class="sub">The tabs</a>
+            <a href="#menus" class="sub">Menus</a>
+            <a href="#build-run">Build &amp; Run</a>
+            <a href="#playing-your-map-later" class="sub">Playing your map later</a>
+            <a href="#problems">Problems</a>
+            <a href="#building-the-world">Building the world</a>
+            <a href="#the-asset-browser" class="sub">The asset browser</a>
+            <a href="#building-with-shapes" class="sub">Building with shapes</a>
+            <a href="#the-in-the-game-box" class="sub">The In the game box</a>
+            <a href="#the-settings-box" class="sub">The Settings box</a>
+            <a href="#the-script-box" class="sub">The Script box</a>
+            <a href="#the-links-box" class="sub">The Links box</a>
+            <a href="#prefabs" class="sub">Prefabs</a>
+            <a href="#game-prefabs" class="sub">Game prefabs</a>
+            <a href="#textures" class="sub">Textures</a>
+            <a href="#seeing-what-the-game-sees" class="sub">Seeing what the game sees</a>
+            <a href="#walkable-areas" class="sub">Walkable areas</a>
+            <a href="#remixing-a-shipped-map" class="sub">Remixing a shipped map</a>
+            <a href="#game-rules">Game rules</a>
+            <a href="#level-info" class="sub">Level info</a>
+            <a href="#rounds" class="sub">Rounds</a>
+            <a href="#special-rounds" class="sub">Special rounds</a>
+            <a href="#zombie-types" class="sub">Zombie types</a>
+            <a href="#pickups-and-economy" class="sub">Pickups and economy</a>
+            <a href="#hook-scripts" class="sub">Hook scripts</a>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+<footer>
+      <a class="brand" href="../index.html"
+        ><img src="../assets/client-logo.png" alt="BOZ Redux" width="640" height="260" loading="lazy"
+      /></a>
+      <p>BOZ Redux</p>
+      <span>Not affiliated with Activision. Game files are not included.</span
+      ><a href="https://github.com/ZappaVinny/boz-redux">Source ↗</a>
+    </footer>
+<dialog id="discord-dialog">
+      <button class="dialog-close" aria-label="Close dialog">×</button>
+      <h2>Discord</h2>
+      <p>
+        The Discord invite hasn’t been added yet. Check GitHub for project
+        updates.
+      </p>
+      <a
+        class="button"
+        href="https://github.com/ZappaVinny/boz-redux"
+        target="_blank"
+        rel="noopener"
+        >Visit the project ↗</a
+      >
+    </dialog>
+  </body>
+</html>

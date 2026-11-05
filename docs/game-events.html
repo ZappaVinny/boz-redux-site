@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Game events | BOZ Redux Docs</title>
+    <title>Low-level events | BOZ Redux Docs</title>
     <meta name="description" content="The game's systems talk to each other with events named SUBJECT_* (see How the game works). This page lists every one, with the classes that send and…" />
     <meta name="robots" content="index,follow" />
     <link rel="canonical" href="https://boz-redux.com/docs/game-events.html" />
@@ -15,7 +15,7 @@
     <link rel="manifest" href="../site.webmanifest" />
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="BOZ Redux" />
-    <meta property="og:title" content="Game events | BOZ Redux Docs" />
+    <meta property="og:title" content="Low-level events | BOZ Redux Docs" />
     <meta property="og:description" content="The game's systems talk to each other with events named SUBJECT_* (see How the game works). This page lists every one, with the classes that send and…" />
     <meta property="og:url" content="https://boz-redux.com/docs/game-events.html" />
     <meta property="og:image" content="https://boz-redux.com/assets/og-image.png" />
@@ -23,7 +23,7 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Game events","description":"The game's systems talk to each other with events named SUBJECT_* (see How the game works). This page lists every one, with the classes that send and…","url":"https://boz-redux.com/docs/game-events.html","dateModified":"2026-10-17T17:36:34-05:00","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Game events","item":"https://boz-redux.com/docs/game-events.html"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Low-level events","description":"The game's systems talk to each other with events named SUBJECT_* (see How the game works). This page lists every one, with the classes that send and…","url":"https://boz-redux.com/docs/game-events.html","dateModified":"2026-11-05T01:25:48.986Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Low-level events","item":"https://boz-redux.com/docs/game-events.html"}]}]}</script>
     <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="stylesheet" href="../styles.css" />
@@ -79,18 +79,28 @@
               <a href="index.html">Introduction</a>
               <a href="getting-started.html">Getting started</a>
 
-              <p class="docs-label">CREATE</p>
-              <a href="lua-mods.html">Lua mods</a>
-              <a href="map-editor.html">Map editor</a>
+              <a href="how-a-map-works.html">How a map works</a>
+
+              <p class="docs-label">PREFABS</p>
+              <a href="prefabs.html">Prefabs</a>
+              <a href="game-prefabs.html">Game prefabs</a>
+              <a href="events.html">Events</a>
+
+              <p class="docs-label">SCRIPTING</p>
+              <a href="scripting.html">Scripting reference</a>
+              <a href="script-mods.html">Script mods</a>
+
+              <p class="docs-label">THE EDITOR</p>
+              <a href="editor.html">The editor</a>
               <a href="weapons-and-assets.html">Weapons &amp; assets</a>
 
               <p class="docs-label">REFERENCE</p>
-              <a href="standard-library.html">Standard library</a>
               <a href="console-reference.html">Console reference</a>
-              <a href="game-events.html" class="current" aria-current="page">Game events</a>
+              <a href="game-events.html" class="current" aria-current="page">Low-level events</a>
               <a href="sdk-reference.html">SDK reference</a>
 
               <p class="docs-label">UNDER THE HOOD</p>
+              <a href="map-internals.html">Map internals</a>
               <a href="how-the-game-works.html">How the game works</a>
               <a href="contributing.html">Contributing</a>
             </div>
@@ -98,12 +108,12 @@
           <div class="doc-area">
             <div class="breadcrumb">DOCUMENTATION / <span>REFERENCE</span></div>
             <article class="doc-content">
-<h1 id="game-events">Game events</h1>
+<h1 id="low-level-events">Low-level events</h1>
 <p>The game&#39;s systems talk to each other with events named <code>SUBJECT_*</code> (see
 <a href="how-the-game-works.html#events">How the game works</a>). This page lists every one, with the
 classes that send and handle it and, where known, what its two arguments mean.</p>
 <h2 id="following-an-event">Following an event</h2>
-<pre><code class="language-lua">local game_events = require(&quot;boz.game_events&quot;)
+<pre><code class="language-lua">local game_events = require(&quot;boz.engine.game_events&quot;)
 
 game_events.on(&quot;SUBJECT_ADD_SCORE&quot;, function(event)
     log(&quot;points earned: &quot; .. event.a)
@@ -111,8 +121,7 @@ end)
 </code></pre>
 <p>The handler gets <code>{name, id, subject, sender, a, b}</code>; <code>a</code> and <code>b</code> mean what the notes say
 (pointers to the game&#39;s structs where noted). Returning true from a handler stops the event.
-Most mods never need this: the <a href="standard-library.html">standard library</a> already turns the common
-events into functions such as <code>boz.rounds.on_start</code>.</p>
+Most mods never need this: <a href="events.html">Events</a> lists what the common ones become.</p>
 <h2 id="all-events">All events</h2>
 <p>372 events; 26 with notes on their arguments.
 This list is generated from the game definition by <code>tools/docgen/events_doc.py</code>.</p>
@@ -427,7 +436,7 @@ This list is generated from the game definition by <code>tools/docgen/events_doc
 </tr>
 <tr>
 <td><code>SUBJECT_DIED</code></td>
-<td></td>
+<td>CHealth</td>
 <td>CAIControllerHellhound, CAIControllerMonkey, CAIControllerRomero, CAIControllerZombie, CDamageActionSpawn</td>
 <td>A CHealth fell below 1 (CHealth::CheckDeath, host). b: the last attacker (m_LastDamagerEnt).</td>
 </tr>
@@ -535,7 +544,7 @@ This list is generated from the game definition by <code>tools/docgen/events_doc
 </tr>
 <tr>
 <td><code>SUBJECT_EXIT_COLLISION</code></td>
-<td></td>
+<td>CIsCollisionObject</td>
 <td>CCentrifuge, CDOPlayerController, CLunarLander, CProjectileEntity, CSnowTrigger</td>
 <td></td>
 </tr>
@@ -583,7 +592,7 @@ This list is generated from the game definition by <code>tools/docgen/events_doc
 </tr>
 <tr>
 <td><code>SUBJECT_FREEZE_ME</code></td>
-<td></td>
+<td>CPlayerController</td>
 <td>CRemotePlayer</td>
 <td></td>
 </tr>
@@ -595,7 +604,7 @@ This list is generated from the game definition by <code>tools/docgen/events_doc
 </tr>
 <tr>
 <td><code>SUBJECT_HEALTH_DECREASE</code></td>
-<td></td>
+<td>CHealth</td>
 <td>CHealth</td>
 <td>CHealth::Damage sends it to the damaged health component; its OnEvent applies the damage.</td>
 </tr>
@@ -607,7 +616,7 @@ This list is generated from the game definition by <code>tools/docgen/events_doc
 </tr>
 <tr>
 <td><code>SUBJECT_HEALTH_MODIFY</code></td>
-<td></td>
+<td>CHealth</td>
 <td>CHealth, CPlayerController</td>
 <td>CHealth::SetHealth: a: the new health (whole number), b: the source.</td>
 </tr>
@@ -697,7 +706,7 @@ This list is generated from the game definition by <code>tools/docgen/events_doc
 </tr>
 <tr>
 <td><code>SUBJECT_LOAD</code></td>
-<td></td>
+<td>CSaveManager</td>
 <td>CAnimatedScenery, CBarricade, CCentrifuge, CDOAIController, CDOAIControllerSilverback</td>
 <td>Every system reads its state back from the save.</td>
 </tr>
@@ -775,7 +784,7 @@ This list is generated from the game definition by <code>tools/docgen/events_doc
 </tr>
 <tr>
 <td><code>SUBJECT_MB_CHOOSE_WEAPON</code></td>
-<td></td>
+<td>CMysteryBox</td>
 <td>CMysteryBox</td>
 <td></td>
 </tr>
@@ -1094,7 +1103,7 @@ This list is generated from the game definition by <code>tools/docgen/events_doc
 <tr>
 <td><code>SUBJECT_OPTIONS_AUTO_AIM</code></td>
 <td></td>
-<td></td>
+<td>CFrontendStateOptions</td>
 <td></td>
 </tr>
 <tr>
@@ -1106,61 +1115,61 @@ This list is generated from the game definition by <code>tools/docgen/events_doc
 <tr>
 <td><code>SUBJECT_OPTIONS_CONTROL_METHOD</code></td>
 <td></td>
-<td></td>
+<td>CFrontendStateOptions</td>
 <td></td>
 </tr>
 <tr>
 <td><code>SUBJECT_OPTIONS_DEFAULT_SETTINGS</code></td>
 <td></td>
-<td></td>
+<td>CFrontendStateOptions</td>
 <td></td>
 </tr>
 <tr>
 <td><code>SUBJECT_OPTIONS_DETAIL_LEVEL</code></td>
 <td></td>
-<td></td>
+<td>CFrontendStateOptions</td>
 <td></td>
 </tr>
 <tr>
 <td><code>SUBJECT_OPTIONS_INVERT_Y_AXIS</code></td>
 <td></td>
-<td></td>
+<td>CFrontendStateOptions</td>
 <td></td>
 </tr>
 <tr>
 <td><code>SUBJECT_OPTIONS_LEFTY_CONTROLS</code></td>
 <td></td>
-<td></td>
+<td>CFrontendStateOptions</td>
 <td></td>
 </tr>
 <tr>
 <td><code>SUBJECT_OPTIONS_SENSITIVITY_X_AXIS</code></td>
 <td></td>
-<td></td>
+<td>CFrontendStateOptions</td>
 <td></td>
 </tr>
 <tr>
 <td><code>SUBJECT_OPTIONS_SENSITIVITY_Y_AXIS</code></td>
 <td></td>
-<td></td>
+<td>CFrontendStateOptions</td>
 <td></td>
 </tr>
 <tr>
 <td><code>SUBJECT_OPTIONS_SFX</code></td>
 <td></td>
-<td></td>
+<td>CFrontendStateOptions</td>
 <td></td>
 </tr>
 <tr>
 <td><code>SUBJECT_OPTIONS_USER_RADIO</code></td>
 <td></td>
-<td></td>
+<td>CFrontendStateOptions</td>
 <td></td>
 </tr>
 <tr>
 <td><code>SUBJECT_OPTIONS_VOLUME</code></td>
 <td></td>
-<td></td>
+<td>CFrontendStateOptions</td>
 <td></td>
 </tr>
 <tr>
@@ -1346,7 +1355,7 @@ This list is generated from the game definition by <code>tools/docgen/events_doc
 <tr>
 <td><code>SUBJECT_POPUP_MODAL</code></td>
 <td></td>
-<td></td>
+<td>CFrontendStateOptions</td>
 <td></td>
 </tr>
 <tr>
@@ -1358,7 +1367,7 @@ This list is generated from the game definition by <code>tools/docgen/events_doc
 <tr>
 <td><code>SUBJECT_PRIVACY_POLICY</code></td>
 <td></td>
-<td></td>
+<td>CFrontendStateOptions</td>
 <td></td>
 </tr>
 <tr>
@@ -1471,7 +1480,7 @@ This list is generated from the game definition by <code>tools/docgen/events_doc
 </tr>
 <tr>
 <td><code>SUBJECT_RESPAWN</code></td>
-<td></td>
+<td>CDOPlayerController</td>
 <td>CDOPlayerController</td>
 <td></td>
 </tr>
@@ -1615,7 +1624,7 @@ This list is generated from the game definition by <code>tools/docgen/events_doc
 </tr>
 <tr>
 <td><code>SUBJECT_SAVE</code></td>
-<td></td>
+<td>CSaveManager</td>
 <td>CAnimatedScenery, CBarricade, CCentrifuge, CDOAIController, CDOAIControllerSilverback</td>
 <td>Every system writes its state into the save (CSaveManager).</td>
 </tr>
@@ -2000,7 +2009,7 @@ This list is generated from the game definition by <code>tools/docgen/events_doc
 <tr>
 <td><code>SUBJECT_TERMS_OF_USE</code></td>
 <td></td>
-<td></td>
+<td>CFrontendStateOptions</td>
 <td></td>
 </tr>
 <tr>
@@ -2149,19 +2158,19 @@ This list is generated from the game definition by <code>tools/docgen/events_doc
 </tr>
 <tr>
 <td><code>SUBJECT_WEAPON_RELOAD</code></td>
-<td></td>
+<td>CWeaponManager</td>
 <td>CRemotePlayer, CRemotePlayerWeapon</td>
 <td></td>
 </tr>
 <tr>
 <td><code>SUBJECT_WEAPON_SET</code></td>
-<td></td>
+<td>CWeaponManager</td>
 <td>CRemotePlayer, CRemotePlayerWeapon</td>
 <td></td>
 </tr>
 <tr>
 <td><code>SUBJECT_WEAPON_SHOOT</code></td>
-<td></td>
+<td>CPlayerController</td>
 <td>CAITutor, CRemotePlayer, CRemotePlayerWeapon</td>
 <td></td>
 </tr>
@@ -2209,7 +2218,7 @@ This list is generated from the game definition by <code>tools/docgen/events_doc
 </tr>
 <tr>
 <td><code>SUBJECT_ZOMBIE_DEATH</code></td>
-<td></td>
+<td>CAIControllerZombie</td>
 <td>CAIControllerHellhound, CAIControllerMonkey, CAIControllerZombie, CPickupManager, CPlayerController</td>
 <td>A zombie died (from the level manager). b: the zombie&#39;s name hash (CIsEntityDB::FindEntity finds it while it lingers). Several subjects pass it on: once per subject.</td>
 </tr>

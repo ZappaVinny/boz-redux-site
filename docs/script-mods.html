@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Lua mods | BOZ Redux Docs</title>
-    <meta name="description" content="A Lua mod changes the game with scripts: new rules, cheats, settings in the pause menu, windows over the game, or your own code running inside any game…" />
+    <title>Script mods | BOZ Redux Docs</title>
+    <meta name="description" content="A script mod has no map. It changes the game for every map: new rules, cheats, settings in the pause menu, windows over the game, or your own code inside…" />
     <meta name="robots" content="index,follow" />
-    <link rel="canonical" href="https://boz-redux.com/docs/lua-mods.html" />
+    <link rel="canonical" href="https://boz-redux.com/docs/script-mods.html" />
     <meta name="theme-color" content="#0d0e10" />
     <link rel="icon" href="../assets/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png" />
@@ -15,15 +15,15 @@
     <link rel="manifest" href="../site.webmanifest" />
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="BOZ Redux" />
-    <meta property="og:title" content="Lua mods | BOZ Redux Docs" />
-    <meta property="og:description" content="A Lua mod changes the game with scripts: new rules, cheats, settings in the pause menu, windows over the game, or your own code running inside any game…" />
-    <meta property="og:url" content="https://boz-redux.com/docs/lua-mods.html" />
+    <meta property="og:title" content="Script mods | BOZ Redux Docs" />
+    <meta property="og:description" content="A script mod has no map. It changes the game for every map: new rules, cheats, settings in the pause menu, windows over the game, or your own code inside…" />
+    <meta property="og:url" content="https://boz-redux.com/docs/script-mods.html" />
     <meta property="og:image" content="https://boz-redux.com/assets/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Lua mods","description":"A Lua mod changes the game with scripts: new rules, cheats, settings in the pause menu, windows over the game, or your own code running inside any game…","url":"https://boz-redux.com/docs/lua-mods.html","dateModified":"2026-10-31T01:41:55.353Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Lua mods","item":"https://boz-redux.com/docs/lua-mods.html"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Script mods","description":"A script mod has no map. It changes the game for every map: new rules, cheats, settings in the pause menu, windows over the game, or your own code inside…","url":"https://boz-redux.com/docs/script-mods.html","dateModified":"2026-11-05T01:26:09.818Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Script mods","item":"https://boz-redux.com/docs/script-mods.html"}]}]}</script>
     <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="stylesheet" href="../styles.css" />
@@ -79,37 +79,41 @@
               <a href="index.html">Introduction</a>
               <a href="getting-started.html">Getting started</a>
 
-              <p class="docs-label">CREATE</p>
-              <a href="lua-mods.html" class="current" aria-current="page">Lua mods</a>
-              <a href="map-editor.html">Map editor</a>
+              <a href="how-a-map-works.html">How a map works</a>
+
+              <p class="docs-label">PREFABS</p>
+              <a href="prefabs.html">Prefabs</a>
+              <a href="game-prefabs.html">Game prefabs</a>
+              <a href="events.html">Events</a>
+
+              <p class="docs-label">SCRIPTING</p>
+              <a href="scripting.html">Scripting reference</a>
+              <a href="script-mods.html" class="current" aria-current="page">Script mods</a>
+
+              <p class="docs-label">THE EDITOR</p>
+              <a href="editor.html">The editor</a>
               <a href="weapons-and-assets.html">Weapons &amp; assets</a>
 
               <p class="docs-label">REFERENCE</p>
-              <a href="standard-library.html">Standard library</a>
               <a href="console-reference.html">Console reference</a>
-              <a href="game-events.html">Game events</a>
+              <a href="game-events.html">Low-level events</a>
               <a href="sdk-reference.html">SDK reference</a>
 
               <p class="docs-label">UNDER THE HOOD</p>
+              <a href="map-internals.html">Map internals</a>
               <a href="how-the-game-works.html">How the game works</a>
               <a href="contributing.html">Contributing</a>
             </div>
           </aside>
           <div class="doc-area">
-            <div class="breadcrumb">DOCUMENTATION / <span>CREATE</span></div>
+            <div class="breadcrumb">DOCUMENTATION / <span>SCRIPTING</span></div>
             <article class="doc-content">
-<h1 id="lua-mods">Lua mods</h1>
-<p>A Lua mod changes the game with scripts: new rules, cheats, settings in the pause menu, windows
-over the game, or your own code running inside any game function. This page explains how mod
-scripts run and walks through the things most mods do, then how a project becomes a mod you can
-share, and ends with the reference of everything the client gives Lua. If you have not made a
-mod yet, start with <a href="getting-started.html#your-first-mod">Your first mod</a>.</p>
-<p>Two other pages go with it:</p>
-<ul>
-<li><a href="standard-library.html">Standard library</a>: the <code>boz.*</code> modules most mods are built from. Start
-there when looking for something.</li>
-<li><a href="console-reference.html">Console reference</a>: every console variable and command in the game.</li>
-</ul>
+<h1 id="script-mods">Script mods</h1>
+<p>A script mod has no map. It changes the game for every map: new rules, cheats, settings in the pause
+menu, windows over the game, or your own code inside any game function. If you haven&#39;t made one
+yet, start with <a href="getting-started.html#your-first-mod">Your first mod</a>.</p>
+<p>The same functions work in map scripts. The <a href="scripting.html">Scripting reference</a> lists the common
+ones.</p>
 <h2 id="writing-a-mod">Writing a mod</h2>
 <h3 id="how-it-fits-together">How it fits together</h3>
 <div class="table-scroll" tabindex="0"><table>
@@ -122,28 +126,20 @@ there when looking for something.</li>
 </thead>
 <tbody><tr>
 <td><strong>Client</strong></td>
-<td>The program that runs the game: emulator, window, sound, controls, file loading, and the Lua runtime with its low-level functions (<code>game</code>, <code>hook</code>, <code>events</code>, <code>ui</code>, ...).</td>
+<td>The program that runs the game, and low-level Lua functions (<code>game</code>, <code>hook</code>, <code>events</code>, <code>ui</code>, ...)</td>
 <td>use it</td>
 </tr>
 <tr>
-<td><strong>Standard library</strong> (<code>boz.*</code>)</td>
-<td>Lua modules that turn the game&#39;s internals into plain functions: <code>camera.set_fov(90)</code>, <code>pause_settings.add_slider{...}</code>, <code>console.set(...)</code>.</td>
+<td><strong>Standard library</strong> (<code>boz</code>)</td>
+<td>Plain functions and classes over the game&#39;s internals: <code>boz.player():give_perk(&quot;Juggernog&quot;)</code></td>
 <td>use it</td>
 </tr>
 <tr>
 <td><strong>Your mod</strong></td>
-<td>A folder with a manifest, scripts and optional replacement files.</td>
+<td>A folder with a manifest, scripts and optional replacement files</td>
 <td>write it</td>
 </tr>
 </tbody></table></div>
-<p>Two habits keep mods working:</p>
-<ul>
-<li><strong>Use names, not addresses.</strong> Standard library functions and the game definition&#39;s names
-(<code>&quot;CScoreManager::AddScore&quot;</code>) keep working when the game definition is updated; raw addresses
-do not.</li>
-<li><strong>Prefer the standard library.</strong> If something you need is missing, it probably belongs in the
-standard library rather than in your mod.</li>
-</ul>
 <h3 id="the-mod-folder">The mod folder</h3>
 <p>An SDK project builds into this folder (see <a href="#projects-and-packaging">Projects and packaging</a>); you can also
 write one by hand in the client&#39;s <code>mods/</code> folder:</p>
@@ -182,110 +178,27 @@ for you; for a hand-made mod, copy the SDK&#39;s <code>lib/boz</code> folder the
 the same file, the later one wins.</p>
 <h3 id="how-your-script-runs">How your script runs</h3>
 <ul>
-<li><p><code>main.lua</code> runs <strong>once, before the game starts</strong>. Use it to register things: event handlers,
-key bindings, hooks, settings rows, file patches. The game is not running yet, so do not read
-game state here.</p>
+<li><p><code>main.lua</code> runs <strong>once, before the game starts</strong>. Use it to set things up: event listeners, key
+bindings, hooks, settings rows. The game isn&#39;t running yet, so don&#39;t read game state here.</p>
 </li>
-<li><p>After that your code runs only from <strong>events</strong> and <strong>hooks</strong>:</p>
-<pre><code class="language-lua">events.on(&quot;frame&quot;, function(dt) ... end)          -- every frame, dt in seconds
-events.on(&quot;key&quot;, function(name, down) ... end)    -- every key press and release
-input.bind(&quot;F6&quot;, function() ... end)              -- one key press
+<li><p>After that your code runs only from events:</p>
+<pre><code class="language-lua">local boz = require(&quot;boz&quot;)
+
+boz.on(&quot;round_started&quot;, function(data) log(&quot;round &quot; .. data.round) end)   -- a game event
+input.bind(&quot;F6&quot;, function() boz.player():give_points(500) end)            -- a key
+events.on(&quot;frame&quot;, function(dt) end)                                      -- every frame
 </code></pre>
 </li>
 <li><p>Each mod has its own globals. <code>mod.id</code>, <code>mod.name</code>, <code>mod.dir</code> describe your mod.</p>
 </li>
-<li><p><code>require(&quot;name&quot;)</code> loads <code>scripts/name.lua</code> from your mod (<code>require(&quot;ui.tabs&quot;)</code> loads
-<code>scripts/ui/tabs.lua</code>), once.</p>
+<li><p><code>require(&quot;name&quot;)</code> loads <code>scripts/name.lua</code> from your mod, once.</p>
 </li>
-<li><p><strong>Errors</strong> do not crash the game: they are written to <code>boz-log.txt</code> as <code>[lua] &lt;mod&gt;: ...</code> with a
-traceback, and the handler that failed is switched off. Fix the script and restart.</p>
+<li><p><strong>Errors</strong> don&#39;t crash the game: they go to <code>boz-log.txt</code> as <code>[lua] &lt;mod&gt;: ...</code> with a traceback,
+and the handler that failed is switched off. Fix the script and restart.</p>
 </li>
 </ul>
-<h3 id="using-the-standard-lib">Using the standard lib</h3>
-<p>Require the modules you need:</p>
-<pre><code class="language-lua">local player = require(&quot;boz.player&quot;)
-local console = require(&quot;boz.console&quot;)
-local pause_settings = require(&quot;boz.pause_settings&quot;)
-</code></pre>
-<p>What is in it (everything is in the <a href="standard-library.html">standard library reference</a>):</p>
-<div class="table-scroll" tabindex="0"><table>
-<thead>
-<tr>
-<th>Module</th>
-<th>For</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>boz.player</code></td>
-<td>Health, god mode, position, stance, speeds, perks (give and take), field of view</td>
-</tr>
-<tr>
-<td><code>boz.weapons</code></td>
-<td>The player&#39;s weapons: give, take, Pack-a-Punch, ammo, damage, fire rate, events</td>
-</tr>
-<tr>
-<td><code>boz.zombies</code></td>
-<td>Zombies, dogs, monkeys and George: spawn, kill, teleport, speed, freeze/burn/explode, ...</td>
-</tr>
-<tr>
-<td><code>boz.rounds</code></td>
-<td>The round: next round, go to a round, counts, spawning on or off, time</td>
-</tr>
-<tr>
-<td><code>boz.score</code></td>
-<td>Points: add, spend, set, what actions are worth</td>
-</tr>
-<tr>
-<td><code>boz.pickups</code></td>
-<td>Power-ups: spawn, give, timers</td>
-</tr>
-<tr>
-<td><code>boz.pieces</code></td>
-<td>Mystery boxes, perk machines, doors, traps, Pack-a-Punch, ...: use (or use for free), move the box, costs</td>
-</tr>
-<tr>
-<td><code>boz.effects</code></td>
-<td>The game&#39;s effects and projectiles anywhere (black holes, explosions, ...)</td>
-</tr>
-<tr>
-<td><code>boz.hud</code>, <code>boz.camera</code>, <code>boz.screen</code>, <code>boz.audio</code></td>
-<td>HUD elements and messages; camera shakes; full-screen effects and fog; sounds and music</td>
-</tr>
-<tr>
-<td><code>boz.map</code>, <code>boz.spawns</code>, <code>boz.stats</code></td>
-<td>The level (power, map events), spawn points, achievements and stats</td>
-</tr>
-<tr>
-<td><code>boz.input</code></td>
-<td>Watch, block or send the game&#39;s actions (shoot, aim, reload, ...)</td>
-</tr>
-<tr>
-<td><code>boz.fly</code></td>
-<td>Noclip</td>
-</tr>
-<tr>
-<td><code>boz.console</code>, <code>boz.cvars</code></td>
-<td>Console variables and commands</td>
-</tr>
-<tr>
-<td><code>boz.reflect</code>, <code>boz.entities</code>, <code>boz.game_events</code></td>
-<td>Anything else: every reflected field, every entity and component, every game event</td>
-</tr>
-<tr>
-<td><code>boz.pause_settings</code></td>
-<td>Sliders and checkboxes in the pause menu&#39;s Settings page</td>
-</tr>
-<tr>
-<td><code>boz.text</code></td>
-<td>Your own text for the game&#39;s menus</td>
-</tr>
-<tr>
-<td><code>boz.iwui</code>, <code>boz.frontend</code></td>
-<td>Building blocks for menu changes</td>
-</tr>
-</tbody></table></div>
-<p>Functions that only make sense in a match (perks, zombies, field of view, fly) return <code>nil</code> or
-<code>false</code> outside one, so you can call them any time.</p>
+<p>Functions that only make sense in a match return <code>nil</code> or <code>false</code> outside one, so you can call them
+any time.</p>
 <h3 id="recipes">Recipes</h3>
 <h4 id="save-a-setting">Save a setting</h4>
 <pre><code class="language-lua">local volume = settings.get(&quot;volume&quot;, 0.5)   -- the saved value, or the default
@@ -295,33 +208,32 @@ settings.set(&quot;volume&quot;, 0.8)                   -- saved to saves/mods/&
 <h4 id="add-a-setting-to-the-pause-menu">Add a setting to the pause menu</h4>
 <p>The pause menu&#39;s Settings page gets new rows that look exactly like the game&#39;s own. This is a
 field of view setting, complete:</p>
-<pre><code class="language-lua">local pause_settings = require(&quot;boz.pause_settings&quot;)
-local camera = require(&quot;boz.camera&quot;)
+<pre><code class="language-lua">local boz = require(&quot;boz&quot;)
 
 local function saved_fov()
     local value = settings.get(&quot;fov&quot;)
     return type(value) == &quot;number&quot; and value or 50
 end
 
-pause_settings.add_slider{
+boz.menu.add_slider{
     id = &quot;fov&quot;,
     label = &quot;Field of view&quot;,
     min = 50, max = 120, step = 1,
     get = saved_fov,
     set = function(value)
         settings.set(&quot;fov&quot;, value)
-        camera.set_fov(value)
+        boz.camera.set_fov(value)
     end,
 }
 
-camera.set_fov(saved_fov())   -- apply the saved value from the start
+boz.camera.set_fov(saved_fov())   -- apply the saved value from the start
 </code></pre>
 <p>A checkbox works the same way:</p>
-<pre><code class="language-lua">pause_settings.add_checkbox{
+<pre><code class="language-lua">boz.menu.add_checkbox{
     id = &quot;god_mode&quot;,
     label = &quot;God mode&quot;,
-    get = function() return console.get(&quot;UnlimitedHealth&quot;) == &quot;true&quot; end,
-    set = function(on) console.set(&quot;UnlimitedHealth&quot;, on) end,
+    get = function() return boz.console.get(&quot;UnlimitedHealth&quot;) == &quot;true&quot; end,
+    set = function(on) boz.console.set(&quot;UnlimitedHealth&quot;, on) end,
 }
 </code></pre>
 <p>Call them in <code>main.lua</code>. Rows appear in the order mods register them; rows from several mods
@@ -329,14 +241,15 @@ stack without overlapping.</p>
 <h4 id="use-the-games-console-variables">Use the game&#39;s console variables</h4>
 <p>The game has hundreds of settings and cheats as console variables
 (<a href="console-reference.html">console reference</a>):</p>
-<pre><code class="language-lua">local console = require(&quot;boz.console&quot;)
-console.set(&quot;WeaponsUnlimitedAmmo&quot;, true)
-print(console.get(&quot;WalkSpeed&quot;))
-console.exec(&quot;SwitchPowerOn&quot;)
+<pre><code class="language-lua">local boz = require(&quot;boz&quot;)
+
+boz.console.set(&quot;WeaponsUnlimitedAmmo&quot;, true)
+print(boz.console.get(&quot;WalkSpeed&quot;))
+boz.console.exec(&quot;SwitchPowerOn&quot;)
 </code></pre>
 <p>Many variables exist only during a match (the game creates them when the code using them first
-runs); <code>console.get</code> returns <code>nil</code> until then. Some the game reads but never creates (marked
-<em>lookup only</em>): create them with <code>console.register(&quot;StartingScore&quot;, 5000)</code>.</p>
+runs); <code>boz.console.get</code> returns <code>nil</code> until then. Some the game reads but never creates (marked
+<em>lookup only</em>): create them with <code>boz.console.register(&quot;StartingScore&quot;, 5000)</code>.</p>
 <h4 id="show-a-window-or-overlay">Show a window or overlay</h4>
 <p>The client draws windows over the game with Dear ImGui (<code>ui.*</code>, in the <a href="#client-lua-api">Lua API</a>).
 Draw them from a <code>frame</code> handler, every frame you want them visible:</p>
@@ -349,8 +262,8 @@ end)
 events.on(&quot;frame&quot;, function()
     if not open then return end
     open = ui.window(&quot;My mod&quot;, {x = 100, y = 100, w = 400, h = 200, closable = true}, function()
-        if ui.button(&quot;Give all perks&quot;) then
-            require(&quot;boz.player&quot;).give_all_perks()
+        if ui.button(&quot;Give Juggernog&quot;) then
+            require(&quot;boz&quot;).player():give_perk(&quot;Juggernog&quot;)
         end
     end)
     overlay.capture(open)
@@ -375,8 +288,7 @@ contains them, decide whether you may (see
 end)
 </code></pre>
 <p>The function gets the player&#39;s own copy of the file each time the game opens it. Register the
-patch in <code>main.lua</code>, before the game loads the file. The standard lib uses this for the main
-menu (<code>boz.frontend</code>).</p>
+patch in <code>main.lua</code>, before the game loads the file. </p>
 <h3 id="hooks-when-the-standard-lib-is-not-enough">Hooks: when the standard lib is not enough</h3>
 <p>A hook runs your code when a game function is called. You can read and change its arguments,
 skip it, or change what it returns. Names come from the game definition
@@ -436,7 +348,7 @@ error with a traceback, and what the client loaded (<code>[mods]</code>, <code>[
 run commands, watch variables, try cheats. Turn it on in the launcher.</li>
 <li><strong>Log every file the game opens</strong> (launcher settings) shows file names for <code>assets/</code> and
 <code>assets.patch</code>.</li>
-<li>For menu work: <code>iwui.dump(element)</code> logs a page&#39;s widgets; <code>require(&quot;boz.flash&quot;).capture_log()</code>
+<li>For menu work: <code>iwui.dump(element)</code> logs a page&#39;s widgets; <code>require(&quot;boz.engine.flash&quot;).capture_log()</code>
 logs the main menu&#39;s ActionScript <code>trace()</code> output and warnings.</li>
 </ul>
 <h3 id="mods-working-together">Mods working together</h3>
@@ -464,8 +376,8 @@ This section explains what happens underneath, with the matching <code>bozkit</c
 <li><code>--kind script</code> (the default) makes a Lua mod; <code>--kind map</code> makes a map for the editor.</li>
 <li><code>--template</code> picks what you start from. Script mods: <code>blank</code>, <code>round</code> (code at every round
 start), <code>hotkey</code> (a key runs a console line) and <code>settings</code> (options in the pause menu). Maps:
-<code>empty</code>, <code>debug</code>, <code>kino</code>, <code>callofthedead</code>, <code>ascension</code> and <code>tutorial</code> (see
-<a href="getting-started.html#1-create-a-map-project">Your first map</a>).</li>
+<code>new</code>, <code>kino</code>, <code>callofthedead</code>, <code>ascension</code> and <code>tutorial</code> (see
+<a href="how-a-map-works.html#new-map-or-remix">New map or Remix</a>).</li>
 </ul>
 <p>The mod id must start with a lower-case letter and use only <code>a-z</code>, <code>0-9</code>, <code>_</code> and <code>-</code>.</p>
 <h3 id="the-project-folder">The project folder</h3>
@@ -562,10 +474,8 @@ so the file never has to be shipped (see
 <a href="#change-a-file-as-it-loads">Change a file as it loads</a>).</p>
 <h2 id="client-lua-api">Client Lua API</h2>
 <p>Everything the client itself gives a mod script, in Lua 5.4. The
-<a href="standard-library.html">standard library</a> is built on it and covers most needs in friendlier
-form: it turns the game&#39;s internals into plain functions (<code>camera.set_fov(90)</code>,
-<code>pause_settings.add_slider{...}</code>), so most mods should use it and call these functions directly
-only when it does not cover something. The API grows with each client release;
+<a href="scripting.html">standard library</a> is built on it and covers most needs in friendlier form, so
+most mods should use that and call these functions directly only when it doesn&#39;t cover something. The API grows with each client release;
 anything not listed here is not part of it yet.</p>
 <h3 id="scripts-and-modules">Scripts and modules</h3>
 <p>A mod is a folder in the client&#39;s <code>mods/</code> folder (see <a href="#the-mod-folder">The mod folder</a>), and
@@ -688,7 +598,7 @@ off (other handlers keep running) and is logged the same way. <code>print</code>
 </tbody></table></div>
 <p>The game&#39;s console itself (running lines, reading and setting variables, its output) is not part
 of the client: the standard library&#39;s <code>boz.console</code> provides it (see
-<a href="standard-library.html#bozconsole">boz.console</a>).
+<a href="scripting.html#bozconsole-and-bozcvars">boz.console</a>).
 The <a href="console-reference.html">console reference</a> lists every variable and command.</p>
 <h3 id="game-module">game module</h3>
 <p>Low-level access to the game. Addresses are numbers (the game is 32-bit); names are looked up in
@@ -979,12 +889,12 @@ before patches.</p>
 mods carry, like the standard lib, uses it to coordinate; mods can use it to talk to each other.</p>
 <h3 id="api-example">API example</h3>
 <pre><code class="language-lua">-- Toggle unlimited ammo with F5 and show its state in a corner.
-local console = require(&quot;boz.console&quot;)
+local boz = require(&quot;boz&quot;)
 local on = false
 
 input.bind(&quot;F5&quot;, function()
     on = not on
-    console.set(&quot;WeaponsUnlimitedAmmo&quot;, on)
+    boz.console.set(&quot;WeaponsUnlimitedAmmo&quot;, on)
 end)
 
 events.on(&quot;frame&quot;, function()
@@ -998,8 +908,8 @@ browser, cheats and commands.</p>
 
             </article>
             <div class="doc-pagination" role="navigation" aria-label="Previous and next page">
-              <a class="doc-prev" href="getting-started.html"><small>PREVIOUS</small><span>← Getting started</span></a>
-              <a class="doc-next" href="map-editor.html"><small>NEXT</small><span>Map editor →</span></a>
+              <a class="doc-prev" href="scripting.html"><small>PREVIOUS</small><span>← Scripting reference</span></a>
+              <a class="doc-next" href="editor.html"><small>NEXT</small><span>The editor →</span></a>
             </div>
           </div>
           <aside class="doc-toc" aria-label="On this page">
@@ -1008,7 +918,6 @@ browser, cheats and commands.</p>
             <a href="#how-it-fits-together" class="sub">How it fits together</a>
             <a href="#the-mod-folder" class="sub">The mod folder</a>
             <a href="#how-your-script-runs" class="sub">How your script runs</a>
-            <a href="#using-the-standard-lib" class="sub">Using the standard lib</a>
             <a href="#recipes" class="sub">Recipes</a>
             <a href="#hooks-when-the-standard-lib-is-not-enough" class="sub">Hooks: when the standard lib is not enough</a>
             <a href="#debugging" class="sub">Debugging</a>

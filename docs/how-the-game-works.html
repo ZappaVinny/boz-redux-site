@@ -23,7 +23,7 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"How the game works","description":"A modder's tour of Call of Duty: Black Ops Zombies (1.0.11): first the systems you will meet, what they do and where to change them, then how the game…","url":"https://boz-redux.com/docs/how-the-game-works.html","dateModified":"2026-10-31T01:41:55.354Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"How the game works","item":"https://boz-redux.com/docs/how-the-game-works.html"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"How the game works","description":"A modder's tour of Call of Duty: Black Ops Zombies (1.0.11): first the systems you will meet, what they do and where to change them, then how the game…","url":"https://boz-redux.com/docs/how-the-game-works.html","dateModified":"2026-11-05T01:26:28.752Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"How the game works","item":"https://boz-redux.com/docs/how-the-game-works.html"}]}]}</script>
     <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="stylesheet" href="../styles.css" />
@@ -79,18 +79,28 @@
               <a href="index.html">Introduction</a>
               <a href="getting-started.html">Getting started</a>
 
-              <p class="docs-label">CREATE</p>
-              <a href="lua-mods.html">Lua mods</a>
-              <a href="map-editor.html">Map editor</a>
+              <a href="how-a-map-works.html">How a map works</a>
+
+              <p class="docs-label">PREFABS</p>
+              <a href="prefabs.html">Prefabs</a>
+              <a href="game-prefabs.html">Game prefabs</a>
+              <a href="events.html">Events</a>
+
+              <p class="docs-label">SCRIPTING</p>
+              <a href="scripting.html">Scripting reference</a>
+              <a href="script-mods.html">Script mods</a>
+
+              <p class="docs-label">THE EDITOR</p>
+              <a href="editor.html">The editor</a>
               <a href="weapons-and-assets.html">Weapons &amp; assets</a>
 
               <p class="docs-label">REFERENCE</p>
-              <a href="standard-library.html">Standard library</a>
               <a href="console-reference.html">Console reference</a>
-              <a href="game-events.html">Game events</a>
+              <a href="game-events.html">Low-level events</a>
               <a href="sdk-reference.html">SDK reference</a>
 
               <p class="docs-label">UNDER THE HOOD</p>
+              <a href="map-internals.html">Map internals</a>
               <a href="how-the-game-works.html" class="current" aria-current="page">How the game works</a>
               <a href="contributing.html">Contributing</a>
             </div>
@@ -105,7 +115,7 @@ stores its data in files.</p>
 <h2 id="the-games-systems">The game&#39;s systems</h2>
 <p>Function and event names are the ones in the game definition (<code>gamedef/</code>), so you can hook them
 or look up their notes. When the standard lib already covers
-something, that is the easier way; see the <a href="standard-library.html">standard library</a>.</p>
+something, that is the easier way; see the <a href="scripting.html">Scripting reference</a>.</p>
 <h3 id="the-big-picture">The big picture</h3>
 <p>The game is built in three layers, and the names tell you which one you are looking at:</p>
 <div class="table-scroll" tabindex="0"><table>
@@ -380,9 +390,8 @@ extraction is needed.</p>
 <p>Replacing <code>fixed.group.bin</code> from a mod conflicts with any other mod that also replaces it. A
 client feature for adding groups at startup would remove the conflict.</p>
 <h3 id="a-level-with-its-own-geometry">A level with its own geometry</h3>
-<p>The <strong>Debug arena</strong> template (<code>world.template_world(&quot;debug&quot;)</code>, compiled by
-<code>world_compile.compile_world</code> like every map project) is a walled 24 m square built from scratch.
-It loads and plays: rounds, zombies, power, and a perk to buy.</p>
+<p>A <strong>New map</strong> (compiled by <code>world_compile.compile_world</code> like every map project) is built from
+scratch. It loads and plays: rounds, zombies, power, and whatever machines you place.</p>
 <div class="table-scroll" tabindex="0"><table>
 <thead>
 <tr>
@@ -730,7 +739,7 @@ resources byte-for-byte.</p>
 <li><strong>Layout:</strong> each <code>CIsNavMesh</code> body begins with an 80-byte Recast build configuration and a
 40-byte Detour mesh-set header. Each tile then has an 8-byte reference/size header followed by
 Detour version 7 tile data (<code>DNAV</code>) with BOZ&#39;s widened 40-byte polygons and off-mesh
-connections (see <a href="map-editor.html#navigation-meshes">Navigation meshes</a>). The settings begin with cell size, cell height,
+connections (see <a href="map-internals.html#navigation-meshes">Navigation meshes</a>). The settings begin with cell size, cell height,
 agent height, agent radius, max climb and max slope; Zombies maps commonly use
 0.1 / 0.15 / 1.5 / 0.4 / 0.4 / 50°.</li>
 <li><strong>Where:</strong> Zombies map <code>*_statics</code> groups hold one or more tiles.</li>
@@ -740,7 +749,7 @@ objects (<code>CIsNavMeshConnection</code> resources, <code>CJumpConnection</cod
 <code>m_maxAcceleration</code>, <code>m_separationWeight</code>, <code>m_obstacleAvoidanceQuality</code>, <code>m_canClimbBarricades</code>).</li>
 </ul>
 <p>Existing Recast/Detour tools can read the tile data, which is what lets the SDK rebuild navmesh
-tiles with Recast when a map changes (<a href="map-editor.html#how-the-rebuild-works">How the rebuild works</a>).</p>
+tiles with Recast when a map changes (<a href="map-internals.html#how-the-rebuild-works">How the rebuild works</a>).</p>
 <p><code>CIsNavMeshConnection::Serialise</code> at <code>0x4a0a4e95</code> confirms its packed 55-byte field order:</p>
 <pre><code class="language-text">vec3 start, vec3 end, quat rotation
 u8 field_0x50, unaligned u32 field_0x54
@@ -1014,7 +1023,7 @@ replaces a slot by swapping its CIwSoundData (the spec, its settings and every s
 
             </article>
             <div class="doc-pagination" role="navigation" aria-label="Previous and next page">
-              <a class="doc-prev" href="sdk-reference.html"><small>PREVIOUS</small><span>← SDK reference</span></a>
+              <a class="doc-prev" href="map-internals.html"><small>PREVIOUS</small><span>← Map internals</span></a>
               <a class="doc-next" href="contributing.html"><small>NEXT</small><span>Contributing →</span></a>
             </div>
           </div>

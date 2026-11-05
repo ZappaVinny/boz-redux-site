@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>BOZ Redux Docs: Modding SDK documentation</title>
-    <meta name="description" content="The BOZ Redux SDK is the toolkit for modding Call of Duty: Black Ops Zombies (Android 1.0.11) on PC with the BOZ Redux client." />
+    <meta name="description" content="The BOZ Redux SDK is the toolkit for modding Call of Duty: Black Ops Zombies (Android 1.0.11) on PC with the BOZ Redux client. Build your own Zombies…" />
     <meta name="robots" content="index,follow" />
     <link rel="canonical" href="https://boz-redux.com/docs/" />
     <meta name="theme-color" content="#0d0e10" />
@@ -16,14 +16,14 @@
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="BOZ Redux" />
     <meta property="og:title" content="BOZ Redux Docs: Modding SDK documentation" />
-    <meta property="og:description" content="The BOZ Redux SDK is the toolkit for modding Call of Duty: Black Ops Zombies (Android 1.0.11) on PC with the BOZ Redux client." />
+    <meta property="og:description" content="The BOZ Redux SDK is the toolkit for modding Call of Duty: Black Ops Zombies (Android 1.0.11) on PC with the BOZ Redux client. Build your own Zombies…" />
     <meta property="og:url" content="https://boz-redux.com/docs/" />
     <meta property="og:image" content="https://boz-redux.com/assets/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Introduction","description":"The BOZ Redux SDK is the toolkit for modding Call of Duty: Black Ops Zombies (Android 1.0.11) on PC with the BOZ Redux client.","url":"https://boz-redux.com/docs/","dateModified":"2026-10-17T17:36:34-05:00","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Introduction","description":"The BOZ Redux SDK is the toolkit for modding Call of Duty: Black Ops Zombies (Android 1.0.11) on PC with the BOZ Redux client. Build your own Zombies…","url":"https://boz-redux.com/docs/","dateModified":"2026-11-05T01:24:56.761Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"}]}]}</script>
     <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="stylesheet" href="../styles.css" />
@@ -79,18 +79,28 @@
               <a href="index.html" class="current" aria-current="page">Introduction</a>
               <a href="getting-started.html">Getting started</a>
 
-              <p class="docs-label">CREATE</p>
-              <a href="lua-mods.html">Lua mods</a>
-              <a href="map-editor.html">Map editor</a>
+              <a href="how-a-map-works.html">How a map works</a>
+
+              <p class="docs-label">PREFABS</p>
+              <a href="prefabs.html">Prefabs</a>
+              <a href="game-prefabs.html">Game prefabs</a>
+              <a href="events.html">Events</a>
+
+              <p class="docs-label">SCRIPTING</p>
+              <a href="scripting.html">Scripting reference</a>
+              <a href="script-mods.html">Script mods</a>
+
+              <p class="docs-label">THE EDITOR</p>
+              <a href="editor.html">The editor</a>
               <a href="weapons-and-assets.html">Weapons &amp; assets</a>
 
               <p class="docs-label">REFERENCE</p>
-              <a href="standard-library.html">Standard library</a>
               <a href="console-reference.html">Console reference</a>
-              <a href="game-events.html">Game events</a>
+              <a href="game-events.html">Low-level events</a>
               <a href="sdk-reference.html">SDK reference</a>
 
               <p class="docs-label">UNDER THE HOOD</p>
+              <a href="map-internals.html">Map internals</a>
               <a href="how-the-game-works.html">How the game works</a>
               <a href="contributing.html">Contributing</a>
             </div>
@@ -99,17 +109,43 @@
             <div class="breadcrumb">DOCUMENTATION / <span>START HERE</span></div>
             <article class="doc-content">
 <h1 id="introduction">Introduction</h1>
-<p>The BOZ Redux SDK is the toolkit for modding <em>Call of Duty: Black Ops Zombies</em> (Android 1.0.11)
-on PC with the <a href="https://github.com/ZappaVinny/boz-redux" target="_blank" rel="noopener">BOZ Redux client</a>. With it you can:</p>
-<ul>
-<li>write <strong>Lua mods</strong> that change how the game plays: new rules, cheats, settings, menus, hooks
-into any game function;</li>
-<li>build <strong>maps</strong> in the BOZ Redux editor (built on Blender): change Kino der Toten, Ascension or
-Call of the Dead, or make a level of your own, with your own weapons, models, sounds, effects
-and scripted objects;</li>
-<li>read and edit the game&#39;s <strong>data files</strong> directly from the command line.</li>
-</ul>
+<p>The BOZ Redux SDK is the toolkit for modding <em>Call of Duty: Black Ops Zombies</em> (Android 1.0.11) on
+PC with the <a href="https://github.com/ZappaVinny/boz-redux" target="_blank" rel="noopener">BOZ Redux client</a>. Build your own Zombies
+maps, make your own weapons, and change how the game plays, all with free tools and no reverse
+engineering.</p>
 <p>No game files come with the SDK. You need your own copy of the game, installed with the client.</p>
+<h2 id="what-you-can-do">What you can do</h2>
+<p><strong>Build maps.</strong> Start from an empty floor, or remix Kino der Toten, Ascension or Call of the Dead.
+The editor is Blender set up for Zombies: it draws your map the way the game does, and <strong>Build &amp;
+Run</strong> puts you in it in one click.</p>
+<p><strong>Use everything in the game.</strong> Every model, texture, machine, door and trap from every map is in
+the asset browser, ready to drag in. Perk machines, the mystery box, Pack-a-Punch, wall buys, traps
+and windows work as soon as you place them.</p>
+<p><strong>Bring your own models and textures.</strong> Import FBX, glTF and OBJ. The editor makes a game version
+with the right number of triangles, and shows you how it will look.</p>
+<p><strong>Make weapons.</strong> Copy any gun, change its damage, fire rate and ammo, or give it your own model.
+Edit its animations and its Pack-a-Punch upgrade.</p>
+<p><strong>Change the sound.</strong> Replace any of the game&#39;s sounds with your own, give each weapon its own
+sounds, and play music and voice lines from scripts.</p>
+<p><strong>Add effects.</strong> Use the game&#39;s effects and projectiles anywhere: black holes, explosions, lightning.</p>
+<p><strong>Set the rules.</strong> Shape every round: how many zombies, their health and speed, how the game scales
+as rounds climb, with a graph to see it. Set dog rounds, points, power-ups and the box, and give
+each difficulty and player count its own balance.</p>
+<p><strong>Script anything.</strong> Group objects into prefabs and give them a Lua script: buttons, traps,
+teleporters, easter eggs. Extend the game&#39;s own objects to change what they do, with settings and
+links right in the editor.</p>
+<p><strong>Change the controls and the screen.</strong> Add key binds and pause-menu settings, draw your own
+windows, or change the field of view.</p>
+<p><strong>Play together.</strong> Every map works in LAN co-op, and players start it straight from the client&#39;s
+launcher.</p>
+<p><strong>Share it.</strong> One click packages your work as a mod that players drop into their client.</p>
+<h2 id="where-to-start">Where to start</h2>
+<p>New here? Go through these in order:</p>
+<ol>
+<li><a href="getting-started.html">Getting started</a>: install the tools and make a map with your first script.</li>
+<li><a href="how-a-map-works.html">How a map works</a>: the whole model, on one page.</li>
+<li><a href="prefabs.html">Prefabs</a>: make your own objects, with recipes to copy.</li>
+</ol>
 <h2 id="the-documentation">The documentation</h2>
 <div class="table-scroll" tabindex="0"><table>
 <thead>
@@ -120,46 +156,65 @@ and scripted objects;</li>
 </thead>
 <tbody><tr>
 <td><a href="getting-started.html">Getting started</a></td>
-<td>Installing the client, the SDK and the editor; the SDK app; your first mod and your first map, step by step</td>
+<td>Install, your first map, your first script, the SDK app</td>
 </tr>
 <tr>
-<td><a href="lua-mods.html">Lua mods</a></td>
-<td>How mod scripts run, recipes, hooks, projects and packaging, and the client&#39;s Lua API</td>
+<td><a href="how-a-map-works.html">How a map works</a></td>
+<td>Models, volumes, prefabs, walking, names, links, scripts</td>
 </tr>
 <tr>
-<td><a href="map-editor.html">The map editor</a></td>
-<td>The editor, building the world, map scripting, game rules, the game&#39;s objects, walkable areas, editing the original levels</td>
+<td><a href="prefabs.html">Prefabs</a></td>
+<td>Making your own objects: hooks, volumes, settings, links, recipes</td>
 </tr>
 <tr>
-<td><a href="weapons-and-assets.html">Weapons, models, effects and sounds</a></td>
-<td>Weapons and their animations, your own models, the game&#39;s effects and projectiles, sounds</td>
+<td><a href="game-prefabs.html">Game prefabs</a></td>
+<td>Each of the game&#39;s objects: settings, what you can override, examples</td>
 </tr>
 <tr>
-<td><a href="standard-library.html">Standard library</a></td>
-<td>Every <code>boz.*</code> function</td>
+<td><a href="events.html">Events</a></td>
+<td>Everything your scripts can react to</td>
+</tr>
+<tr>
+<td><a href="scripting.html">Scripting reference</a></td>
+<td>The functions you will use most</td>
+</tr>
+<tr>
+<td><a href="script-mods.html">Script mods</a></td>
+<td>Mods with no map, hooks, packaging, the client&#39;s Lua API</td>
+</tr>
+<tr>
+<td><a href="editor.html">The editor</a></td>
+<td>A tour of the editor, and game rules</td>
+</tr>
+<tr>
+<td><a href="weapons-and-assets.html">Weapons &amp; assets</a></td>
+<td>Weapons, your own models, effects, sounds</td>
 </tr>
 <tr>
 <td><a href="console-reference.html">Console reference</a></td>
-<td>Every console variable and command in the game</td>
+<td>Every console variable and command</td>
 </tr>
 <tr>
-<td><a href="game-events.html">Game events</a></td>
+<td><a href="game-events.html">Low-level events</a></td>
 <td>Every <code>SUBJECT_*</code> event the game sends</td>
 </tr>
 <tr>
 <td><a href="sdk-reference.html">SDK reference</a></td>
-<td>The <code>bozkit</code> command line, map project files, compatibility</td>
+<td>The <code>bozkit</code> command line, project files, compatibility</td>
+</tr>
+<tr>
+<td><a href="map-internals.html">Map internals</a></td>
+<td>Game prefab fields, navmeshes, editing shipped files</td>
 </tr>
 <tr>
 <td><a href="how-the-game-works.html">How the game works</a></td>
-<td>The game&#39;s systems, how levels load, how the game stores its data</td>
+<td>The game&#39;s systems and data formats</td>
 </tr>
 <tr>
 <td><a href="contributing.html">Contributing</a></td>
-<td>Working on the SDK, reverse-engineering the game, the roadmap</td>
+<td>Working on the SDK, reverse engineering, the roadmap</td>
 </tr>
 </tbody></table></div>
-<p>New here? Start with <a href="getting-started.html">Getting started</a>.</p>
 
             </article>
             <div class="doc-pagination" role="navigation" aria-label="Previous and next page">
@@ -169,6 +224,8 @@ and scripted objects;</li>
           </div>
           <aside class="doc-toc" aria-label="On this page">
             <p>ON THIS PAGE</p>
+            <a href="#what-you-can-do">What you can do</a>
+            <a href="#where-to-start">Where to start</a>
             <a href="#the-documentation">The documentation</a>
           </aside>
         </div>

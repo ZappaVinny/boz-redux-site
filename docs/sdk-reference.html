@@ -23,7 +23,7 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"SDK reference","description":"Reference for the SDK's own tools and formats: every bozkit command, the files of a map project, and which versions of the game, client and formats work…","url":"https://boz-redux.com/docs/sdk-reference.html","dateModified":"2026-10-28T19:01:30.404Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"SDK reference","item":"https://boz-redux.com/docs/sdk-reference.html"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"SDK reference","description":"Reference for the SDK's own tools and formats: every bozkit command, the files of a map project, and which versions of the game, client and formats work…","url":"https://boz-redux.com/docs/sdk-reference.html","dateModified":"2026-11-05T02:23:53.717Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"SDK reference","item":"https://boz-redux.com/docs/sdk-reference.html"}]}]}</script>
     <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="stylesheet" href="../styles.css" />
@@ -79,18 +79,28 @@
               <a href="index.html">Introduction</a>
               <a href="getting-started.html">Getting started</a>
 
-              <p class="docs-label">CREATE</p>
-              <a href="lua-mods.html">Lua mods</a>
-              <a href="map-editor.html">Map editor</a>
+              <a href="how-a-map-works.html">How a map works</a>
+
+              <p class="docs-label">PREFABS</p>
+              <a href="prefabs.html">Prefabs</a>
+              <a href="game-prefabs.html">Game prefabs</a>
+              <a href="events.html">Events</a>
+
+              <p class="docs-label">SCRIPTING</p>
+              <a href="scripting.html">Scripting reference</a>
+              <a href="script-mods.html">Script mods</a>
+
+              <p class="docs-label">THE EDITOR</p>
+              <a href="editor.html">The editor</a>
               <a href="weapons-and-assets.html">Weapons &amp; assets</a>
 
               <p class="docs-label">REFERENCE</p>
-              <a href="standard-library.html">Standard library</a>
               <a href="console-reference.html">Console reference</a>
-              <a href="game-events.html">Game events</a>
+              <a href="game-events.html">Low-level events</a>
               <a href="sdk-reference.html" class="current" aria-current="page">SDK reference</a>
 
               <p class="docs-label">UNDER THE HOOD</p>
+              <a href="map-internals.html">Map internals</a>
               <a href="how-the-game-works.html">How the game works</a>
               <a href="contributing.html">Contributing</a>
             </div>
@@ -214,7 +224,7 @@ file bozkit does not understand are kept byte for byte.</p>
 </tr>
 </tbody></table></div>
 <p><code>bozkit &lt;command&gt; --help</code> lists each command&#39;s options. Projects are explained in
-<a href="lua-mods.html#projects-and-packaging">Projects and packaging</a>; the file formats in
+<a href="script-mods.html#projects-and-packaging">Projects and packaging</a>; the file formats in
 <a href="how-the-game-works.html#asset-formats">Asset formats</a>.</p>
 <h3 id="getting-the-games-files">Getting the game&#39;s files</h3>
 <p>The game&#39;s data is in <code>.dz</code> packs in your client&#39;s <code>original/obb/</code> folder. Extract one to a
@@ -222,7 +232,7 @@ folder of its own (keep extracted files out of any repository):</p>
 <pre><code class="language-bash">bozkit extract path/to/boz-redux/original/obb/blackops_etc.dz ~/boz-etc --kind dz
 </code></pre>
 <p>The examples below use <code>~/boz-etc</code> and write their results to <code>~/boz-edits</code>. To change a map in
-the editor instead, see <a href="map-editor.html#editing-shipped-map-files">Editing shipped map files</a>.</p>
+the editor instead, see <a href="map-internals.html#editing-shipped-map-files">Editing shipped map files</a>.</p>
 <h3 id="models-and-gltf">Models and glTF</h3>
 <p>Export the named Colt M1911 model and open the resulting glTF in Blender:</p>
 <pre><code class="language-bash">bozkit model-export \
@@ -293,7 +303,7 @@ preserves a source texture&#39;s unknown header fields and native pixel format. 
 textures, which make up most map textures, decode for previews (Blender) but cannot be written yet.
 Other layouts fail rather than producing a plausible-looking corrupt image.</p>
 <p>Edited groups go in a project&#39;s <code>assets/</code> folder, and the build puts them in the mod (see
-<a href="lua-mods.html#game-files-in-a-mod">Projects and packaging</a>).</p>
+<a href="script-mods.html#game-files-in-a-mod">Projects and packaging</a>).</p>
 <h2 id="project-files">Project files</h2>
 <p>The formats of a map project&#39;s <code>source/</code> folder. The editor writes these files every time you
 save, and the build reads them; you can also read or edit them by hand, or generate them with
@@ -321,7 +331,7 @@ scripts/                     Lua: main.lua, prefab scripts, weapon scripts, hook
 </code></pre>
 <p>The other files are described with their tools: <a href="weapons-and-assets.html#weapon-project-files">Weapons</a>,
 <a href="weapons-and-assets.html#model-project-files">Your own models</a>, <a href="weapons-and-assets.html#sound-project-files">Sounds</a>,
-<a href="weapons-and-assets.html#effects-and-projectiles">Effects and projectiles</a> and <a href="map-editor.html#game-rules">Game rules</a>.</p>
+<a href="weapons-and-assets.html#effects-and-projectiles">Effects and projectiles</a> and <a href="editor.html#game-rules">Game rules</a>.</p>
 <h3 id="worldjson">world.json</h3>
 <pre><code class="language-json">{
   &quot;format&quot;: 3,
@@ -360,9 +370,9 @@ in scripts. A prefab&#39;s parts are named <code>&lt;Prefab&gt;.&lt;Part&gt;</co
 <li><code>position</code> is in centimetres, <code>rotation</code> an <code>x, y, z, w</code> quaternion, <code>scale</code> optional.</li>
 <li><code>start</code> sets how an object starts: <code>visible</code>, <code>collision</code>, and <code>blocks</code> (the navmesh under it
 is shut until a script opens it). An object a script may change gets its own collision entity
-(<code>&lt;name&gt;_collision</code>) so <code>boz.objects</code> can switch it.</li>
+(<code>&lt;name&gt;_collision</code>) so scripts can switch it.</li>
 <li><code>script</code> is a Lua file in the project&#39;s <code>scripts/</code> folder, and <code>properties</code> the values of the
-<code>---@property</code> lines it declares (<a href="map-editor.html#map-scripting">Map scripting</a>).</li>
+<code>---@setting</code> lines it declares (<a href="prefabs.html#settings">Settings</a>).</li>
 </ul>
 <h4 id="meshes-and-models">Meshes and models</h4>
 <ul>
@@ -434,9 +444,9 @@ drawn from the weapon model&#39;s side.</li>
 <li><strong>Doors:</strong> the floor under a door&#39;s collision box is cut out as its own navmesh polygons,
 tagged with the door&#39;s name, so players and zombies pass only once the door is bought. Copies
 get names of their own; doors in generated maps unlock no areas.</li>
-<li><strong>Scripts:</strong> the build adds <code>require(&quot;boz.world&quot;).start()</code> to <code>main.lua</code>, the standard
+<li><strong>Scripts:</strong> the build adds <code>require(&quot;boz.game.world&quot;).start()</code> to <code>main.lua</code>, the standard
 library, and a generated <code>boz/world_data.lua</code> (start state, scripted objects, volumes).
-<code>boz.world</code> applies the start state when the level starts, starts the scripts, powers perk
+The runtime applies the start state when the level starts, starts the scripts, powers perk
 machines whose power switch is <code>boz_no_power</code> (the editor&#39;s <strong>Needs power</strong> off), and starts
 the map when the launcher or Build &amp; Run asks for it.</li>
 <li><strong>The manifest:</strong> the mod&#39;s <code>mod.toml</code> gets <code>maps = [&quot;&lt;level name&gt;&quot;]</code>, which is how the
@@ -482,7 +492,7 @@ formats below changes, its version number goes up and these notes say what to do
 <tr>
 <td>Lua</td>
 <td>5.4</td>
-<td>The client&#39;s <a href="lua-mods.html#client-lua-api">Lua API</a> and the <a href="standard-library.html">standard library</a>.</td>
+<td>The client&#39;s <a href="script-mods.html#client-lua-api">Lua API</a> and the <a href="scripting.html">standard library</a>.</td>
 </tr>
 <tr>
 <td>Editor</td>
@@ -498,8 +508,8 @@ formats below changes, its version number goes up and these notes say what to do
 
             </article>
             <div class="doc-pagination" role="navigation" aria-label="Previous and next page">
-              <a class="doc-prev" href="game-events.html"><small>PREVIOUS</small><span>← Game events</span></a>
-              <a class="doc-next" href="how-the-game-works.html"><small>NEXT</small><span>How the game works →</span></a>
+              <a class="doc-prev" href="game-events.html"><small>PREVIOUS</small><span>← Low-level events</span></a>
+              <a class="doc-next" href="map-internals.html"><small>NEXT</small><span>Map internals →</span></a>
             </div>
           </div>
           <aside class="doc-toc" aria-label="On this page">

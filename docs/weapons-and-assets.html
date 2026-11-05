@@ -23,7 +23,7 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Weapons & assets","description":"The parts of a map that go beyond its level: the weapons players use, your own models, the game's effects and projectiles, and sounds. Each has its own…","url":"https://boz-redux.com/docs/weapons-and-assets.html","dateModified":"2026-11-01T02:58:20.652Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Weapons & assets","item":"https://boz-redux.com/docs/weapons-and-assets.html"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Weapons & assets","description":"The parts of a map that go beyond its level: the weapons players use, your own models, the game's effects and projectiles, and sounds. Each has its own…","url":"https://boz-redux.com/docs/weapons-and-assets.html","dateModified":"2026-11-05T01:25:37.308Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Weapons & assets","item":"https://boz-redux.com/docs/weapons-and-assets.html"}]}]}</script>
     <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="stylesheet" href="../styles.css" />
@@ -79,29 +79,39 @@
               <a href="index.html">Introduction</a>
               <a href="getting-started.html">Getting started</a>
 
-              <p class="docs-label">CREATE</p>
-              <a href="lua-mods.html">Lua mods</a>
-              <a href="map-editor.html">Map editor</a>
+              <a href="how-a-map-works.html">How a map works</a>
+
+              <p class="docs-label">PREFABS</p>
+              <a href="prefabs.html">Prefabs</a>
+              <a href="game-prefabs.html">Game prefabs</a>
+              <a href="events.html">Events</a>
+
+              <p class="docs-label">SCRIPTING</p>
+              <a href="scripting.html">Scripting reference</a>
+              <a href="script-mods.html">Script mods</a>
+
+              <p class="docs-label">THE EDITOR</p>
+              <a href="editor.html">The editor</a>
               <a href="weapons-and-assets.html" class="current" aria-current="page">Weapons &amp; assets</a>
 
               <p class="docs-label">REFERENCE</p>
-              <a href="standard-library.html">Standard library</a>
               <a href="console-reference.html">Console reference</a>
-              <a href="game-events.html">Game events</a>
+              <a href="game-events.html">Low-level events</a>
               <a href="sdk-reference.html">SDK reference</a>
 
               <p class="docs-label">UNDER THE HOOD</p>
+              <a href="map-internals.html">Map internals</a>
               <a href="how-the-game-works.html">How the game works</a>
               <a href="contributing.html">Contributing</a>
             </div>
           </aside>
           <div class="doc-area">
-            <div class="breadcrumb">DOCUMENTATION / <span>CREATE</span></div>
+            <div class="breadcrumb">DOCUMENTATION / <span>THE EDITOR</span></div>
             <article class="doc-content">
 <h1 id="weapons-models-effects-and-sounds">Weapons, models, effects and sounds</h1>
 <p>The parts of a map that go beyond its level: the weapons players use, your own models, the
 game&#39;s effects and projectiles, and sounds. Each has its own tab in
-<a href="map-editor.html">the map editor</a>, and all of them are saved in the map project and built into
+<a href="editor.html">the editor</a>, and all of them are saved in the map project and built into
 the map&#39;s mod. The weapon field reference at the end of the weapons section lists every value
 a weapon has.</p>
 <h2 id="weapons">Weapons</h2>
@@ -217,25 +227,27 @@ into its gun state machine, so only that weapon changes. The state machines keep
 events (when a reload refills the magazine, for example): an animation much longer or shorter
 than the stock one still has its events at the stock times.</p>
 <h3 id="weapon-scripts">Weapon scripts</h3>
-<p>A weapon script runs with <code>self</code> as the weapon: <code>self.name</code>, and the live weapon&#39;s methods.</p>
+<p>A weapon script is a class, like a <a href="prefabs.html#the-shape-of-a-script">prefab&#39;s</a>: it extends
+<code>boz.Weapon</code>, and <code>self</code> is the weapon.</p>
 <pre><code class="language-lua">-- weapons/mp40_heavy.lua
-shots = 0                       -- saved with the game, like any script global
+local Heavy = boz.Weapon:extend(&quot;Heavy&quot;)
 
-function on_fire(data)          -- every shot (data.clip: rounds before it)
-    shots = shots + 1
-    if shots % 10 == 0 then self:set_ammo(nil, self:reserve() + 5) end
+function Heavy:on_fire(data)    -- every shot (data.clip: rounds before it)
+    self.shots = (self.shots or 0) + 1     -- saved with the game, like any field
+    if self.shots % 10 == 0 then
+        self:set_ammo(nil, self:reserve() + 5)
+    end
 end
 
-function on_equip() end         -- taken in hand
-function on_given() end         -- bought, rolled from the box, or given by a script
-function on_reload() end        -- a reload started
+function Heavy:on_equip() end   -- taken in hand
+function Heavy:on_given() end   -- bought, rolled from the box, or given by a script
+function Heavy:on_reload() end  -- a reload started
+
+return Heavy
 </code></pre>
-<p>Any script can use <code>boz.weapons</code> (require(&quot;boz.weapons&quot;)): <code>current()</code>, <code>get(name)</code>,
-<code>give(name)</code>, and on a weapon <code>clip()</code>, <code>reserve()</code>, <code>set_ammo(clip, reserve)</code>, <code>clip_size()</code>,
-<code>damage()</code>, <code>set_damage(head, torso, limbs)</code>, <code>fire_rate()</code>, <code>set_fire_rate(rpm)</code>, <code>in_hand()</code>.
-These change the weapon for the match; the Weapons tab changes it for good. Game events on the
-bus: <code>weapon_given</code>, <code>weapon_equipped</code>, <code>weapon_reloaded</code> (<code>data.weapon</code>); <code>weapon_fired</code> reaches
-<code>boz.on</code> listeners only (every shot).</p>
+<p>Hooks and methods are listed under <a href="game-prefabs.html#weapon">Weapon</a>. Script changes last for the
+match; the Weapons tab changes a weapon for good. Any other script can follow weapons with the
+<code>weapon_*</code> <a href="events.html#weapons">game events</a>, and use <code>boz.weapons</code> to give, take and upgrade them.</p>
 <h3 id="weapon-project-files">Weapon project files</h3>
 <p>The weapon list is <code>source/weapons/index.json</code>; each changed, new or imported weapon has its own
 <code>source/weapons/&lt;name&gt;.json</code>:</p>
@@ -247,7 +259,7 @@ this map&#39;s own), <code>display</code> its <strong>In-game name</strong> (Pro
 prompts from its own text: a wall buy asks for the string id <code>&lt;weapon&gt;_S_WEAPON</code>
 (CIngameStatePlaying::UpdatePoiPrompt hashes the weapon&#39;s name on with <code>_S_WEAPON</code>). A new
 weapon has no entry there, so the prompt shows &quot;&gt;&gt;Unknown Hash&lt;&lt;&quot; until you give it an in-game
-name; boz.prefabs adds that text (boz.text) when the level starts. Empty keeps the game&#39;s own name.
+name; the map adds that text (<code>boz.text</code>) when the level starts. Empty keeps the game&#39;s own name.
 <code>sounds</code> maps sound fields to the weapon&#39;s own sounds (<code>{&quot;reloadSoundSequence&quot;: &quot;my_reload&quot;}</code>,
 the Audio tab&#39;s saved sounds): the build gives the field a sound of the weapon&#39;s own and points
 the field at it (<a href="#a-weapons-own-sounds">Sounds</a>).</p>
@@ -820,7 +832,8 @@ switches, and the build gives the map its own copy of it without what they leave
 spawns it; a black hole then opens right where the shot lands).</li>
 </ul>
 <h3 id="bozeffects">boz.effects</h3>
-<pre><code class="language-lua">local effects = require(&quot;boz.effects&quot;)
+<pre><code class="language-lua">local boz = require(&quot;boz&quot;)
+local effects = boz.effects
 
 -- A one-off effect, removed after two seconds.
 effects.spawn(&quot;impactRayGun&quot;, effects.aim(), {lifetime = 2})
@@ -886,7 +899,7 @@ still die.</p>
 opens it at once and <code>lifetime</code> sets how long it stays open.</p>
 <p>The game kills the zombies a black hole takes without naming who killed them, so they do not
 count as the player&#39;s kills (stats, achievements). A script that wants them counted asks once:
-<code>require(&quot;boz.zombies&quot;).credit_kills(&quot;SUBJECT_ZOMBIE_GERSCH_DEATH&quot;)</code>. The Effects tab&#39;s <strong>Copy
+<code>require(&quot;boz.game.zombies&quot;).credit_kills(&quot;SUBJECT_ZOMBIE_GERSCH_DEATH&quot;)</code>. The Effects tab&#39;s <strong>Copy
 script line</strong> adds that line for a black hole.</p>
 <h3 id="example-a-gun-that-opens-a-black-hole-where-it-fires">Example: a gun that opens a black hole where it fires</h3>
 <p>This example makes <code>idgun</code>, a new weapon copied from the Thundergun (<strong>New weapon</strong> in the
@@ -895,16 +908,19 @@ Weapons tab), whose shots open black holes. In the Effects tab, name Ascension&#
 Weapons tab, set <code>idgun</code>&#39;s <strong>Fire mode</strong> to <strong>Single shot</strong> (a Thundergun-based weapon would otherwise still fire its
 own blast; the Thundergun&#39;s bullets do no damage, so the black hole does the killing), and give it
 a script (<strong>Add script</strong>):</p>
-<pre><code class="language-lua">local effects = require(&quot;boz.effects&quot;)
-require(&quot;boz.zombies&quot;).credit_kills(&quot;SUBJECT_ZOMBIE_GERSCH_DEATH&quot;)   -- its kills are the player&#39;s
+<pre><code class="language-lua">local IdGun = boz.Weapon:extend(&quot;IdGun&quot;)
+
+require(&quot;boz.game.zombies&quot;).credit_kills(&quot;SUBJECT_ZOMBIE_GERSCH_DEATH&quot;)   -- its kills are the player&#39;s
 
 -- Every shot: a black hole where the shot lands, for six seconds.
-function on_fire(data)
-    local where = effects.aim()
+function IdGun:on_fire(data)
+    local where = boz.effects.aim()
     if where then
-        effects.projectile(&quot;gersch&quot;, where, {trigger = &quot;open&quot;, lifetime = 6, raise = 200})
+        boz.effects.projectile(&quot;gersch&quot;, where, {trigger = &quot;open&quot;, lifetime = 6, raise = 200})
     end
 end
+
+return IdGun
 </code></pre>
 <h3 id="how-effects-work">How effects work</h3>
 <p>From the game&#39;s code (Ghidra names in the game definition): <code>Spawn_ByHash(CSpawnManager, spec hash, position, rotation)</code> creates any entity spec a loaded group holds (<code>Entity_CreateFromSpec</code>,
@@ -934,7 +950,7 @@ recording, shape it, Preview it as the game will play it, then Save.</li>
 <p>Only saved sounds go in slots. Changing a saved sound&#39;s settings asks you to Save again; the
 slots using it play the new version from the next build.</p>
 <p>Every saved sound is also built into the map under its own name, so scripts play it with
-<code>audio.play(&quot;my_sound&quot;)</code> (<code>local audio = require(&quot;boz.audio&quot;)</code>). A name the game already uses
+<code>boz.audio.play(&quot;my_sound&quot;)</code>. A name the game already uses
 for one of its sounds stays the game&#39;s: importing a recording called <code>fire</code> names it
 <code>imported_fire</code>, and a saved sound of yours with such a name plays as <code>imported_&lt;name&gt;</code>. Its
 details in <strong>Your sounds</strong> say so.</p>
@@ -1020,12 +1036,12 @@ ordinary weapon switches. <strong>Bought (player)</strong> is the buyer&#39;s so
 shared wall-buy click plays separately and is not replaced by either field. These native fields
 do not cover every way a weapon can be acquired. For a grant-only sound, assign a saved sound to
 <strong>Bought (player)</strong>, then call its generated spec from the weapon script&#39;s <code>on_given()</code> callback:</p>
-<pre><code class="language-lua">function on_given()
-    require(&quot;boz.audio&quot;).play(self.name .. &quot;_playerBuySound&quot;)
+<pre><code class="language-lua">function MyGun:on_given()
+    boz.audio.play(self.name .. &quot;_playerBuySound&quot;)
 end
 </code></pre>
 <p>That callback runs for <code>CWeaponManager::GiveWeapon</code> (wall buy, mystery box, and
-<code>boz.weapons.give</code>). A wall purchase may also play the native <strong>Bought (player)</strong> field, so
+<code>player:give_weapon</code>). A wall purchase may also play the native <strong>Bought (player)</strong> field, so
 this example can play the sound twice on that path; use it only when that trade-off is acceptable.</p>
 <p>Your recording carries its own timing: line it up with the weapon&#39;s reload animation (the wave
 view shows its length). <strong>Use the game&#39;s</strong> (✕) goes back. Below, the panel lists the game sounds
@@ -1082,8 +1098,8 @@ source/sounds/slots.json         {&quot;&lt;group path&gt;#0x&lt;sound hash&gt;&
 
             </article>
             <div class="doc-pagination" role="navigation" aria-label="Previous and next page">
-              <a class="doc-prev" href="map-editor.html"><small>PREVIOUS</small><span>← Map editor</span></a>
-              <a class="doc-next" href="standard-library.html"><small>NEXT</small><span>Standard library →</span></a>
+              <a class="doc-prev" href="editor.html"><small>PREVIOUS</small><span>← The editor</span></a>
+              <a class="doc-next" href="console-reference.html"><small>NEXT</small><span>Console reference →</span></a>
             </div>
           </div>
           <aside class="doc-toc" aria-label="On this page">

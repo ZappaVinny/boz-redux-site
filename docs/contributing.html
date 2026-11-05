@@ -23,7 +23,7 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Contributing","description":"For people who work on the SDK itself: how the repository is laid out and tested, how names from reverse engineering get into the game definition, and…","url":"https://boz-redux.com/docs/contributing.html","dateModified":"2026-10-17T17:36:34-05:00","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Contributing","item":"https://boz-redux.com/docs/contributing.html"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Contributing","description":"For people who work on the SDK itself: how the repository is laid out and tested, how names from reverse engineering get into the game definition, and…","url":"https://boz-redux.com/docs/contributing.html","dateModified":"2026-11-05T04:43:01.366Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Contributing","item":"https://boz-redux.com/docs/contributing.html"}]}]}</script>
     <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="stylesheet" href="../styles.css" />
@@ -79,18 +79,28 @@
               <a href="index.html">Introduction</a>
               <a href="getting-started.html">Getting started</a>
 
-              <p class="docs-label">CREATE</p>
-              <a href="lua-mods.html">Lua mods</a>
-              <a href="map-editor.html">Map editor</a>
+              <a href="how-a-map-works.html">How a map works</a>
+
+              <p class="docs-label">PREFABS</p>
+              <a href="prefabs.html">Prefabs</a>
+              <a href="game-prefabs.html">Game prefabs</a>
+              <a href="events.html">Events</a>
+
+              <p class="docs-label">SCRIPTING</p>
+              <a href="scripting.html">Scripting reference</a>
+              <a href="script-mods.html">Script mods</a>
+
+              <p class="docs-label">THE EDITOR</p>
+              <a href="editor.html">The editor</a>
               <a href="weapons-and-assets.html">Weapons &amp; assets</a>
 
               <p class="docs-label">REFERENCE</p>
-              <a href="standard-library.html">Standard library</a>
               <a href="console-reference.html">Console reference</a>
-              <a href="game-events.html">Game events</a>
+              <a href="game-events.html">Low-level events</a>
               <a href="sdk-reference.html">SDK reference</a>
 
               <p class="docs-label">UNDER THE HOOD</p>
+              <a href="map-internals.html">Map internals</a>
               <a href="how-the-game-works.html">How the game works</a>
               <a href="contributing.html" class="current" aria-current="page">Contributing</a>
             </div>
@@ -184,11 +194,6 @@ CI fails when one is out of date.</p>
 </tr>
 </thead>
 <tbody><tr>
-<td><code>docs/standard-library.md</code></td>
-<td>The <code>---</code> comments in <code>lib/boz/*.lua</code></td>
-<td><code>python3 tools/stdlib/generate_doc.py</code></td>
-</tr>
-<tr>
 <td><code>lib/boz/*_data.lua</code></td>
 <td>The game definition</td>
 <td><code>python3 tools/stdlib/generate_data.py</code></td>
@@ -220,11 +225,11 @@ CI fails when one is out of date.</p>
 <code>boz_suite/tabs.py</code>. The SDK app rebuilds it in a checkout when the sources change.
 <code>blender/README.md</code> describes the editor&#39;s modules.</p>
 <h3 id="documentation">Documentation</h3>
-<p>The documentation is a few large pages, one per big subject; each file&#39;s <code>#</code> title is a main
-section of the documentation site, and <code>##</code> and <code>###</code> headings split it into sections. Add new
-material as a section of the page it belongs to; start a new page only for a subject that is
-really different, and list it in <code>docs/README.md</code>. Link with relative paths and anchors
-(<code>lua-mods.md#client-lua-api</code>). Write for modders first: say what a feature does and how to use
+<p>The documentation is written by hand for a new modder, and the website&#39;s copy is the master: the
+SDK&#39;s <code>docs/</code> mirrors it. Each file&#39;s <code>#</code> title is a page of the site, and <code>##</code> and <code>###</code> headings
+split it. Add new material as a section of the page it belongs to, with a code example, and start
+a new page only for a subject that is really different. Only document what works today. Link with relative paths and anchors
+(<code>script-mods.md#client-lua-api</code>). Write for modders first: say what a feature does and how to use
 it, then how it works inside, at the end of the section.</p>
 <h2 id="contributing-to-the-game-definition">Contributing to the game definition</h2>
 <p>The game definition (<a href="https://github.com/ZappaVinny/boz-redux-gamedef" target="_blank" rel="noopener">boz-redux-gamedef</a>, the
@@ -379,7 +384,38 @@ subsystem&#39;s mapping moves forward.</li>
 <h2 id="roadmap">Roadmap</h2>
 <p>The SDK is becoming a Lua-first development suite for Zombies: a shared compiler, desktop project
 manager and Blender add-on that edit existing maps first, then create complete new maps. Dead Ops
-modding and LAN co-op are not part of this work.</p>
+modding is not part of this work.</p>
+<h3 id="mod-tools-roadmap">Mod tools roadmap</h3>
+<p>What modders can&#39;t do yet and we want them to, most important first. Each item is open to anyone
+who wants to pick it up.</p>
+<ol>
+<li><strong>Zones and teleporters.</strong> Doors that open areas, spawns that wake as players reach them, and the
+game&#39;s teleporters. New maps are one area today, so this is the biggest gap for real maps. It needs
+reverse engineering first.</li>
+<li><strong>Scripts in co-op.</strong> Scripts see only the local player, and each game runs its own, so a hidden
+wall can differ between players. Start with a real co-op test of a scripted map, then give scripts
+every player and a way to keep games in step.</li>
+<li><strong>Moving and turning objects.</strong> <code>set_position</code> and <code>set_rotation</code> on objects, with prefabs moving
+as one. Use points need testing, because the game files fixed ones in a grid.</li>
+<li><strong>Scripts reach every object.</strong> Remove <strong>Scripts can switch it</strong>, without making large maps
+heavier.</li>
+<li><strong>Ending a match and player facing.</strong> A win condition for scripts, and setting which way a player
+looks after a teleport.</li>
+<li><strong>Spawning prefabs during play.</strong> Placing your own prefabs from a script, not only the game&#39;s
+entities.</li>
+<li><strong>More game prefabs.</strong> Turrets first, then rides: landers, the zipline and the flinger.</li>
+<li><strong>George on any map.</strong> Needs the level traits primitive in the client.</li>
+<li><strong>Luring zombies.</strong> Making zombies go to an object, like a monkey bomb does.</li>
+<li><strong>Custom HUD.</strong> The <strong>UI / HUD</strong> tab: HUD elements in the game&#39;s own style, with icons for custom
+perks and power-ups.</li>
+<li><strong>Custom characters.</strong> Player arms, characters and zombie models, with skeleton mapping.</li>
+<li><strong>Animated map objects.</strong> Animating models in the game&#39;s format, as weapons already can.</li>
+<li><strong>Editing effects.</strong> Changing the game&#39;s particle effects, and making new ones.</li>
+<li><strong>Faster iteration.</strong> Reloading scripts in the running game, and <code>boz.*</code> completions in the
+editor&#39;s script window.</li>
+<li><strong>Big maps.</strong> Rooms and portals, so large levels draw only what the player can see.</li>
+<li><strong>Lighting and music.</strong> Baked lightmaps, and replacing the game&#39;s music.</li>
+</ol>
 <h3 id="architecture-boundary">Architecture boundary</h3>
 <div class="table-scroll" tabindex="0"><table>
 <thead>
@@ -403,31 +439,6 @@ modding and LAN co-op are not part of this work.</p>
 </tbody></table></div>
 <p>A missing feature moves downward only when it is reusable: mod behavior becomes a standard-library
 API when many mods need it; client code is added only for universal runtime infrastructure.</p>
-<h3 id="phases">Phases</h3>
-<ol>
-<li><strong>Project foundation:</strong> versioned projects, validation, deterministic builds, installation,
-packaging, compatibility metadata and the desktop shell.</li>
-<li><strong>Writable formats:</strong> native textures, materials, models, entities, collision, sectors, portals
-and navigation, with lossless preservation of unknown data.</li>
-<li><strong>Existing-map Blender tools:</strong> import, edit, validate and export map content through the shared
-compiler.</li>
-<li><strong>Lua platform:</strong> world, entity, weapon, interaction, navigation, audio, asset and debugging APIs,
-plus generated editor annotations.</li>
-<li><strong>Custom-map MVP:</strong> generate and register a complete Zombies map whose gameplay lives in Lua.</li>
-<li><strong>Full suite:</strong> skeletal models, animations, weapons, effects, audio, localization, UI,
-lightmaps, migrations and compatibility guarantees.</li>
-</ol>
-<p>The full 64-bit runtime rewrite waits until the custom-map MVP. A bounded design and benchmark
-prototype may start after the existing-map editor, but project, package, gamedef and Lua interfaces
-must remain independent of host bitness.</p>
-<h3 id="game-files">Game files</h3>
-<p>Projects and packages may contain extracted, complete or modified game files; distribution
-validation warns about them but never blocks a build. The official BOZ Redux repositories never
-contain game data.</p>
-<h3 id="milestones">Milestones</h3>
-<p>Each phase ends in a tested, documented, buildable state. Phases 1 to 4 are development
-milestones, not public releases; a first preview of the SDK comes only after the custom-map MVP
-passes its acceptance tests.</p>
 
             </article>
             <div class="doc-pagination" role="navigation" aria-label="Previous and next page">
@@ -449,10 +460,8 @@ passes its acceptance tests.</p>
             <a href="#save-your-work-to-the-database" class="sub">Save your work to the database</a>
             <a href="#conventions" class="sub">Conventions</a>
             <a href="#roadmap">Roadmap</a>
+            <a href="#mod-tools-roadmap" class="sub">Mod tools roadmap</a>
             <a href="#architecture-boundary" class="sub">Architecture boundary</a>
-            <a href="#phases" class="sub">Phases</a>
-            <a href="#game-files" class="sub">Game files</a>
-            <a href="#milestones" class="sub">Milestones</a>
           </aside>
         </div>
       </div>

@@ -8,7 +8,7 @@ stores its data in files.
 
 Function and event names are the ones in the game definition (`gamedef/`), so you can hook them
 or look up their notes. When the standard lib already covers
-something, that is the easier way; see the [standard library](standard-library.md).
+something, that is the easier way; see the [Scripting reference](scripting.md).
 
 ### The big picture
 
@@ -271,9 +271,8 @@ client feature for adding groups at startup would remove the conflict.
 
 ### A level with its own geometry
 
-The **Debug arena** template (`world.template_world("debug")`, compiled by
-`world_compile.compile_world` like every map project) is a walled 24 m square built from scratch.
-It loads and plays: rounds, zombies, power, and a perk to buy.
+A **New map** (compiled by `world_compile.compile_world` like every map project) is built from
+scratch. It loads and plays: rounds, zombies, power, and whatever machines you place.
 
 | Part | Where it comes from |
 |------|---------------------|
@@ -523,7 +522,7 @@ Zombie pathing uses Recast/Detour.
 - **Layout:** each `CIsNavMesh` body begins with an 80-byte Recast build configuration and a
   40-byte Detour mesh-set header. Each tile then has an 8-byte reference/size header followed by
   Detour version 7 tile data (`DNAV`) with BOZ's widened 40-byte polygons and off-mesh
-  connections (see [Navigation meshes](map-editor.md#navigation-meshes)). The settings begin with cell size, cell height,
+  connections (see [Navigation meshes](map-internals.md#navigation-meshes)). The settings begin with cell size, cell height,
   agent height, agent radius, max climb and max slope; Zombies maps commonly use
   0.1 / 0.15 / 1.5 / 0.4 / 0.4 / 50°.
 - **Where:** Zombies map `*_statics` groups hold one or more tiles.
@@ -533,7 +532,7 @@ Zombie pathing uses Recast/Detour.
   `m_maxAcceleration`, `m_separationWeight`, `m_obstacleAvoidanceQuality`, `m_canClimbBarricades`).
 
 Existing Recast/Detour tools can read the tile data, which is what lets the SDK rebuild navmesh
-tiles with Recast when a map changes ([How the rebuild works](map-editor.md#how-the-rebuild-works)).
+tiles with Recast when a map changes ([How the rebuild works](map-internals.md#how-the-rebuild-works)).
 
 `CIsNavMeshConnection::Serialise` at `0x4a0a4e95` confirms its packed 55-byte field order:
 

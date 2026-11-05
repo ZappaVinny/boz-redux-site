@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Events | BOZ Redux Docs</title>
+    <meta name="description" content="Everything your scripts can react to, on one page." />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://boz-redux.com/docs/events.html" />
+    <meta name="theme-color" content="#0d0e10" />
+    <link rel="icon" href="../assets/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="256x256" href="../assets/favicon.png" />
+    <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png" />
+    <link rel="manifest" href="../site.webmanifest" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="BOZ Redux" />
+    <meta property="og:title" content="Events | BOZ Redux Docs" />
+    <meta property="og:description" content="Everything your scripts can react to, on one page." />
+    <meta property="og:url" content="https://boz-redux.com/docs/events.html" />
+    <meta property="og:image" content="https://boz-redux.com/assets/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Events","description":"Everything your scripts can react to, on one page.","url":"https://boz-redux.com/docs/events.html","dateModified":"2026-11-05T04:34:13.167Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Events","item":"https://boz-redux.com/docs/events.html"}]}]}</script>
+    <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="stylesheet" href="../styles.css" />
+    <script defer src="../config.js"></script>
+    <script defer src="../app.js"></script>
+  </head>
+  <body class="is-docs">
+    <a class="skip" href="#main">Skip to content</a>
+<header>
+      <a class="brand" href="../index.html" aria-label="BOZ Redux home"
+        ><img src="../assets/client-logo.png" alt="BOZ Redux" width="640" height="260"
+      /></a>
+      <nav aria-label="Main navigation">
+        <a href="../index.html" data-nav="home">Home</a
+        ><a href="../docs/index.html" data-nav="docs" class="active" aria-current="page">Documentation</a
+        ><a href="#discord" data-discord>Discord</a>
+      </nav>
+      <a
+        class="header-github"
+        href="https://github.com/ZappaVinny/boz-redux"
+        target="_blank"
+        rel="noopener"
+        >GitHub ↗</a
+      >
+    </header>
+
+    <main id="main" tabindex="-1">
+      <div id="docs-view">
+        <button class="docs-mobile" aria-expanded="false">
+          ☰ Browse documentation
+        </button>
+        <div class="docs-shell">
+          <aside class="docs-sidebar" aria-label="Documentation navigation">
+            <div class="search-wrap">
+              <input
+                id="docs-search"
+                aria-label="Search all documentation"
+                placeholder="Search documentation…"
+                type="search"
+                autocomplete="off"
+                data-index="../docs-data.js"
+              />
+            </div>
+            <div class="search-results" aria-live="polite"></div>
+            <!--
+              The docs page list. Order here sets sidebar order and previous/next.
+              Each link's href is docs/<name>.html for docs/<name>.md (README is index.html).
+              Each link belongs to the nearest label above it (used for the breadcrumb).
+              After changing it, run `node rebuild-docs.mjs`.
+            -->
+            <div class="page-links" role="navigation" aria-label="Documentation pages">
+              <p class="docs-label">START HERE</p>
+              <a href="index.html">Introduction</a>
+              <a href="getting-started.html">Getting started</a>
+
+              <a href="how-a-map-works.html">How a map works</a>
+
+              <p class="docs-label">PREFABS</p>
+              <a href="prefabs.html">Prefabs</a>
+              <a href="game-prefabs.html">Game prefabs</a>
+              <a href="events.html" class="current" aria-current="page">Events</a>
+
+              <p class="docs-label">SCRIPTING</p>
+              <a href="scripting.html">Scripting reference</a>
+              <a href="script-mods.html">Script mods</a>
+
+              <p class="docs-label">THE EDITOR</p>
+              <a href="editor.html">The editor</a>
+              <a href="weapons-and-assets.html">Weapons &amp; assets</a>
+
+              <p class="docs-label">REFERENCE</p>
+              <a href="console-reference.html">Console reference</a>
+              <a href="game-events.html">Low-level events</a>
+              <a href="sdk-reference.html">SDK reference</a>
+
+              <p class="docs-label">UNDER THE HOOD</p>
+              <a href="map-internals.html">Map internals</a>
+              <a href="how-the-game-works.html">How the game works</a>
+              <a href="contributing.html">Contributing</a>
+            </div>
+          </aside>
+          <div class="doc-area">
+            <div class="breadcrumb">DOCUMENTATION / <span>PREFABS</span></div>
+            <article class="doc-content">
+<h1 id="events">Events</h1>
+<p>Everything your scripts can react to, on one page.</p>
+<h2 id="how-to-catch-one">How to catch one</h2>
+<p>There are three ways, depending on where your code lives.</p>
+<p><strong>On the object itself:</strong> write a hook in its script. This is the only way that can change what
+the object does.</p>
+<pre><code class="language-lua">local Vault = boz.Door:extend(&quot;Vault&quot;)
+
+function Vault:on_opened(player)
+    player:give_points(500)
+end
+
+return Vault
+</code></pre>
+<p><strong>On an object, from outside:</strong> use <code>:on()</code> from a map script. Your function gets the object
+first, then the same arguments.</p>
+<pre><code class="language-lua">local boz = require(&quot;boz&quot;)
+
+boz.get(&quot;Vault&quot;):on(&quot;opened&quot;, function(vault, player)
+    player:give_points(500)
+end)
+</code></pre>
+<p><strong>For the whole match:</strong> use <code>boz.on</code> with a game event. Your function gets a <code>data</code> table.</p>
+<pre><code class="language-lua">local boz = require(&quot;boz&quot;)
+
+boz.on(&quot;zombie_killed&quot;, function(data)
+    if data.headshot then
+        boz.player():give_points(10)
+    end
+end)
+</code></pre>
+<p>Inside an object script, <code>on_event(name, data)</code> gets every game event too:</p>
+<pre><code class="language-lua">function Vault:on_event(name, data)
+    if name == &quot;round_started&quot; then
+        log(&quot;round &quot; .. data.round)
+    end
+end
+</code></pre>
+<p>The map&#39;s <strong>Game</strong> tab has one more way in: <strong>Hook scripts</strong>. <strong>Create</strong> next to an event makes
+<code>scripts/hooks/&lt;event&gt;.lua</code>, which returns a function:</p>
+<pre><code class="language-lua">-- scripts/hooks/round_started.lua
+return function(data)
+    log(&quot;round &quot; .. data.round)
+end
+</code></pre>
+<h2 id="object-events">Object events</h2>
+<p>Hook is the name in a script. Event is the name for <code>:on()</code>.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Hook</th>
+<th>Event</th>
+<th>On</th>
+<th>Arguments</th>
+<th>What it means</th>
+<th>Can it stop it?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>start</code></td>
+<td></td>
+<td>Every scripted object</td>
+<td></td>
+<td>The level started, or a save continued</td>
+<td></td>
+</tr>
+<tr>
+<td><code>on_use</code></td>
+<td><code>use</code></td>
+<td>Prefabs with a <strong>Use</strong> volume</td>
+<td><code>player, volume</code></td>
+<td>A player pressed use</td>
+<td></td>
+</tr>
+<tr>
+<td><code>on_use</code></td>
+<td><code>use</code></td>
+<td>Door, Perk, MysteryBox, PackAPunch, PowerSwitch, TrapSwitch, WallBuy, Barricade</td>
+<td><code>player</code></td>
+<td>A player used it</td>
+<td><strong>Yes</strong>: don&#39;t <a href="game-prefabs.html#handing-it-back-to-the-game">hand it back</a></td>
+</tr>
+<tr>
+<td><code>on_hit</code></td>
+<td><code>hit</code></td>
+<td>Prefabs with a <strong>Hit</strong> volume</td>
+<td><code>player, volume</code></td>
+<td>It was shot</td>
+<td></td>
+</tr>
+<tr>
+<td><code>on_enter</code></td>
+<td><code>enter</code></td>
+<td>Prefabs with a <strong>Trigger</strong> volume</td>
+<td><code>who, volume</code></td>
+<td>Someone walked in</td>
+<td></td>
+</tr>
+<tr>
+<td><code>on_exit</code></td>
+<td><code>exit</code></td>
+<td>Prefabs with a <strong>Trigger</strong> volume</td>
+<td><code>who, volume</code></td>
+<td>Someone walked out, or a zombie died inside</td>
+<td></td>
+</tr>
+<tr>
+<td><code>on_event</code></td>
+<td></td>
+<td>Every scripted object</td>
+<td><code>name, data</code></td>
+<td>A game event or a <code>boz.send</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>on_opened</code></td>
+<td><code>opened</code></td>
+<td>Door, Debris</td>
+<td><code>player</code></td>
+<td>It opened</td>
+<td></td>
+</tr>
+<tr>
+<td><code>on_bought</code></td>
+<td><code>bought</code></td>
+<td>Perk</td>
+<td><code>player, perk</code></td>
+<td>A player bought this perk</td>
+<td></td>
+</tr>
+<tr>
+<td><code>on_bought</code></td>
+<td><code>bought</code></td>
+<td>WallBuy</td>
+<td><code>player, weapon</code></td>
+<td>A player paid for the weapon or its ammo</td>
+<td></td>
+</tr>
+<tr>
+<td><code>on_spun</code></td>
+<td><code>spun</code></td>
+<td>MysteryBox</td>
+<td><code>player</code></td>
+<td>A player spun this box</td>
+<td></td>
+</tr>
+<tr>
+<td><code>on_weapon</code></td>
+<td><code>weapon</code></td>
+<td>MysteryBox</td>
+<td><code>player, weapon</code></td>
+<td>This box picked a weapon</td>
+<td></td>
+</tr>
+<tr>
+<td><code>on_upgraded</code></td>
+<td><code>upgraded</code></td>
+<td>PackAPunch</td>
+<td><code>player, weapon</code></td>
+<td>A weapon went into this machine</td>
+<td></td>
+</tr>
+<tr>
+<td><code>on_on</code></td>
+<td><code>on</code></td>
+<td>PowerSwitch</td>
+<td><code>player</code></td>
+<td>The power came on</td>
+<td></td>
+</tr>
+<tr>
+<td><code>on_activated</code></td>
+<td><code>activated</code></td>
+<td>TrapSwitch</td>
+<td><code>player</code></td>
+<td>A player ran this switch</td>
+<td></td>
+</tr>
+<tr>
+<td><code>on_cooled</code></td>
+<td><code>cooled</code></td>
+<td>Trap, TrapSwitch</td>
+<td></td>
+<td>The trap is ready again</td>
+<td></td>
+</tr>
+<tr>
+<td><code>on_repaired</code></td>
+<td><code>repaired</code></td>
+<td>Barricade</td>
+<td><code>player</code></td>
+<td>A player put a board back</td>
+<td></td>
+</tr>
+</tbody></table></div>
+<p>A script on a volume outside any prefab gets the same hooks, without <code>volume</code>.</p>
+<p><code>bought</code>, <code>spun</code>, <code>weapon</code>, <code>upgraded</code>, <code>activated</code> and <code>repaired</code> reach the machine the player just
+used. If
+something happens with no machine (a script gives a perk), only the game event fires.</p>
+<p><strong>Not yet:</strong> a zombie tearing a board off has no event.</p>
+<h2 id="game-events">Game events</h2>
+<p>Catch these with <code>boz.on(name, function(data) ... end)</code>, or in <code>on_event</code>.</p>
+<h3 id="rounds-and-the-power">Rounds and the power</h3>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Data</th>
+<th>When</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>round_started</code></td>
+<td><code>round</code></td>
+<td>A round started</td>
+</tr>
+<tr>
+<td><code>round_ended</code></td>
+<td><code>round</code></td>
+<td>A round ended: its last zombie died</td>
+</tr>
+<tr>
+<td><code>power_on</code></td>
+<td></td>
+<td>The power came on</td>
+</tr>
+</tbody></table></div>
+<h3 id="zombies">Zombies</h3>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Data</th>
+<th>When</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>zombie_killed</code></td>
+<td><code>position</code>, <code>entity</code>, <code>by_player</code>, <code>headshot</code></td>
+<td>A zombie died</td>
+</tr>
+<tr>
+<td><code>nuke</code></td>
+<td></td>
+<td>A Nuke went off</td>
+</tr>
+</tbody></table></div>
+<h3 id="players">Players</h3>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Data</th>
+<th>When</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>player_hit</code></td>
+<td><code>damage</code></td>
+<td>A zombie hit the player</td>
+</tr>
+<tr>
+<td><code>player_downed</code></td>
+<td></td>
+<td>The player went down</td>
+</tr>
+<tr>
+<td><code>player_revived</code></td>
+<td></td>
+<td>The player was revived</td>
+</tr>
+<tr>
+<td><code>points_earned</code></td>
+<td><code>points</code>, <code>player</code></td>
+<td>Points were earned</td>
+</tr>
+<tr>
+<td><code>points_spent</code></td>
+<td><code>points</code>, <code>player</code></td>
+<td>Points were spent</td>
+</tr>
+</tbody></table></div>
+<p><code>player</code> in these tables is <code>true</code> when it was you, the local player.</p>
+<h3 id="weapons">Weapons</h3>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Data</th>
+<th>When</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>weapon_given</code></td>
+<td><code>weapon</code></td>
+<td>The player got a weapon</td>
+</tr>
+<tr>
+<td><code>weapon_equipped</code></td>
+<td><code>weapon</code></td>
+<td>The player switched weapons</td>
+</tr>
+<tr>
+<td><code>weapon_fired</code></td>
+<td><code>weapon</code>, <code>clip</code></td>
+<td>Every shot</td>
+</tr>
+<tr>
+<td><code>weapon_reloaded</code></td>
+<td><code>weapon</code></td>
+<td>A reload started</td>
+</tr>
+</tbody></table></div>
+<h3 id="machines-and-the-map">Machines and the map</h3>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Data</th>
+<th>When</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>perk_bought</code></td>
+<td><code>perk</code>, <code>player</code></td>
+<td>A player got a perk, bought or given</td>
+</tr>
+<tr>
+<td><code>door_opened</code></td>
+<td><code>door</code>, <code>hash</code></td>
+<td>A door opened. <code>door</code> is its name.</td>
+</tr>
+<tr>
+<td><code>box_weapon</code></td>
+<td><code>weapon</code></td>
+<td>The mystery box picked a weapon</td>
+</tr>
+<tr>
+<td><code>pack_a_punch</code></td>
+<td><code>weapon</code></td>
+<td>A weapon went into Pack-a-Punch</td>
+</tr>
+<tr>
+<td><code>powerup_grabbed</code></td>
+<td><code>powerup</code>, <code>player</code></td>
+<td>A power-up was picked up</td>
+</tr>
+<tr>
+<td><code>carpenter</code></td>
+<td></td>
+<td>A Carpenter rebuilt the barricades</td>
+</tr>
+<tr>
+<td><code>trap_activated</code></td>
+<td></td>
+<td>A trap was switched on</td>
+</tr>
+<tr>
+<td><code>trap_cooled</code></td>
+<td><code>trap</code></td>
+<td>A trap is ready again. <code>trap</code> is its name.</td>
+</tr>
+<tr>
+<td><code>barricade_repaired</code></td>
+<td></td>
+<td>A board went back on a barricade</td>
+</tr>
+<tr>
+<td><code>teleporter_activated</code></td>
+<td></td>
+<td>A teleporter was used</td>
+</tr>
+</tbody></table></div>
+<p>Power-up names: <code>double_points</code>, <code>insta_kill</code>, <code>max_ammo</code>, <code>nuke</code>, <code>carpenter</code>, <code>firesale</code>,
+<code>deathmachine</code>, <code>perkbottle</code>, <code>lightningbolt</code>.</p>
+<h2 id="your-own-events">Your own events</h2>
+<p><code>boz.send</code> sends any name you like, to every <code>boz.on</code> listener and every object&#39;s <code>on_event</code>:</p>
+<pre><code class="language-lua">local boz = require(&quot;boz&quot;)
+
+boz.send(&quot;generator_fixed&quot;, {room = &quot;Lab&quot;})
+
+boz.on(&quot;generator_fixed&quot;, function(data)
+    log(data.room .. &quot; has power&quot;)
+end)
+</code></pre>
+<h2 id="going-deeper">Going deeper</h2>
+<p>The game itself sends 372 low-level <code>SUBJECT_*</code> events. Most mods never need them, but they&#39;re
+listed in <a href="game-events.html">Low-level events</a>.</p>
+
+            </article>
+            <div class="doc-pagination" role="navigation" aria-label="Previous and next page">
+              <a class="doc-prev" href="game-prefabs.html"><small>PREVIOUS</small><span>← Game prefabs</span></a>
+              <a class="doc-next" href="scripting.html"><small>NEXT</small><span>Scripting reference →</span></a>
+            </div>
+          </div>
+          <aside class="doc-toc" aria-label="On this page">
+            <p>ON THIS PAGE</p>
+            <a href="#how-to-catch-one">How to catch one</a>
+            <a href="#object-events">Object events</a>
+            <a href="#game-events">Game events</a>
+            <a href="#rounds-and-the-power" class="sub">Rounds and the power</a>
+            <a href="#zombies" class="sub">Zombies</a>
+            <a href="#players" class="sub">Players</a>
+            <a href="#weapons" class="sub">Weapons</a>
+            <a href="#machines-and-the-map" class="sub">Machines and the map</a>
+            <a href="#your-own-events">Your own events</a>
+            <a href="#going-deeper">Going deeper</a>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+<footer>
+      <a class="brand" href="../index.html"
+        ><img src="../assets/client-logo.png" alt="BOZ Redux" width="640" height="260" loading="lazy"
+      /></a>
+      <p>BOZ Redux</p>
+      <span>Not affiliated with Activision. Game files are not included.</span
+      ><a href="https://github.com/ZappaVinny/boz-redux">Source ↗</a>
+    </footer>
+<dialog id="discord-dialog">
+      <button class="dialog-close" aria-label="Close dialog">×</button>
+      <h2>Discord</h2>
+      <p>
+        The Discord invite hasn’t been added yet. Check GitHub for project
+        updates.
+      </p>
+      <a
+        class="button"
+        href="https://github.com/ZappaVinny/boz-redux"
+        target="_blank"
+        rel="noopener"
+        >Visit the project ↗</a
+      >
+    </dialog>
+  </body>
+</html>

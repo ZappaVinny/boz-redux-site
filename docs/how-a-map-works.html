@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>How a map works | BOZ Redux Docs</title>
+    <meta name="description" content="This page is the whole model on one page. Read it once and the rest of the docs will make sense." />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://boz-redux.com/docs/how-a-map-works.html" />
+    <meta name="theme-color" content="#0d0e10" />
+    <link rel="icon" href="../assets/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="256x256" href="../assets/favicon.png" />
+    <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png" />
+    <link rel="manifest" href="../site.webmanifest" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="BOZ Redux" />
+    <meta property="og:title" content="How a map works | BOZ Redux Docs" />
+    <meta property="og:description" content="This page is the whole model on one page. Read it once and the rest of the docs will make sense." />
+    <meta property="og:url" content="https://boz-redux.com/docs/how-a-map-works.html" />
+    <meta property="og:image" content="https://boz-redux.com/assets/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"How a map works","description":"This page is the whole model on one page. Read it once and the rest of the docs will make sense.","url":"https://boz-redux.com/docs/how-a-map-works.html","dateModified":"2026-11-05T01:21:32.219Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"How a map works","item":"https://boz-redux.com/docs/how-a-map-works.html"}]}]}</script>
+    <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="stylesheet" href="../styles.css" />
+    <script defer src="../config.js"></script>
+    <script defer src="../app.js"></script>
+  </head>
+  <body class="is-docs">
+    <a class="skip" href="#main">Skip to content</a>
+<header>
+      <a class="brand" href="../index.html" aria-label="BOZ Redux home"
+        ><img src="../assets/client-logo.png" alt="BOZ Redux" width="640" height="260"
+      /></a>
+      <nav aria-label="Main navigation">
+        <a href="../index.html" data-nav="home">Home</a
+        ><a href="../docs/index.html" data-nav="docs" class="active" aria-current="page">Documentation</a
+        ><a href="#discord" data-discord>Discord</a>
+      </nav>
+      <a
+        class="header-github"
+        href="https://github.com/ZappaVinny/boz-redux"
+        target="_blank"
+        rel="noopener"
+        >GitHub ↗</a
+      >
+    </header>
+
+    <main id="main" tabindex="-1">
+      <div id="docs-view">
+        <button class="docs-mobile" aria-expanded="false">
+          ☰ Browse documentation
+        </button>
+        <div class="docs-shell">
+          <aside class="docs-sidebar" aria-label="Documentation navigation">
+            <div class="search-wrap">
+              <input
+                id="docs-search"
+                aria-label="Search all documentation"
+                placeholder="Search documentation…"
+                type="search"
+                autocomplete="off"
+                data-index="../docs-data.js"
+              />
+            </div>
+            <div class="search-results" aria-live="polite"></div>
+            <!--
+              The docs page list. Order here sets sidebar order and previous/next.
+              Each link's href is docs/<name>.html for docs/<name>.md (README is index.html).
+              Each link belongs to the nearest label above it (used for the breadcrumb).
+              After changing it, run `node rebuild-docs.mjs`.
+            -->
+            <div class="page-links" role="navigation" aria-label="Documentation pages">
+              <p class="docs-label">START HERE</p>
+              <a href="index.html">Introduction</a>
+              <a href="getting-started.html">Getting started</a>
+
+              <a href="how-a-map-works.html" class="current" aria-current="page">How a map works</a>
+
+              <p class="docs-label">PREFABS</p>
+              <a href="prefabs.html">Prefabs</a>
+              <a href="game-prefabs.html">Game prefabs</a>
+              <a href="events.html">Events</a>
+
+              <p class="docs-label">SCRIPTING</p>
+              <a href="scripting.html">Scripting reference</a>
+              <a href="script-mods.html">Script mods</a>
+
+              <p class="docs-label">THE EDITOR</p>
+              <a href="editor.html">The editor</a>
+              <a href="weapons-and-assets.html">Weapons &amp; assets</a>
+
+              <p class="docs-label">REFERENCE</p>
+              <a href="console-reference.html">Console reference</a>
+              <a href="game-events.html">Low-level events</a>
+              <a href="sdk-reference.html">SDK reference</a>
+
+              <p class="docs-label">UNDER THE HOOD</p>
+              <a href="map-internals.html">Map internals</a>
+              <a href="how-the-game-works.html">How the game works</a>
+              <a href="contributing.html">Contributing</a>
+            </div>
+          </aside>
+          <div class="doc-area">
+            <div class="breadcrumb">DOCUMENTATION / <span>START HERE</span></div>
+            <article class="doc-content">
+<h1 id="how-a-map-works">How a map works</h1>
+<p>This page is the whole model on one page. Read it once and the rest of the docs will make sense.</p>
+<h2 id="three-things-you-place">Three things you place</h2>
+<p>Everything in a map is one of three things:</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>You place</th>
+<th>What it is</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Model</strong></td>
+<td>Something you can see</td>
+<td>A wall, a floor, a statue</td>
+</tr>
+<tr>
+<td><strong>Volume</strong></td>
+<td>An invisible box that notices things</td>
+<td>A <strong>Trigger</strong> (walked into), a <strong>Hit</strong> (shot), a <strong>Use</strong> (the player presses use)</td>
+</tr>
+<tr>
+<td><strong>Prefab</strong></td>
+<td>A group of models and volumes that act as one object, with an optional script</td>
+<td>A skull you can shoot, a perk machine, a door</td>
+</tr>
+</tbody></table></div>
+<pre><code class="language-text">Vault  (a prefab, with a script)
+├── Door      a model
+├── Frame     a model
+└── Keypad    a Use volume
+</code></pre>
+<p>The game&#39;s own objects (perk machines, doors, the mystery box) are prefabs too. You drag them in,
+they work straight away, and you can change them from a script. See
+<a href="game-prefabs.html">Game prefabs</a>.</p>
+<h2 id="what-an-object-does-in-the-game">What an object does in the game</h2>
+<p>Every model and prefab has three switches in the editor&#39;s <strong>In the game</strong> box:</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Switch</th>
+<th>What it means</th>
+<th>From a script</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Visible</strong></td>
+<td>The master switch. A hidden object can&#39;t be seen, stops nothing and blocks nothing.</td>
+<td><code>object:hide()</code>, <code>object:show()</code></td>
+</tr>
+<tr>
+<td><strong>Walking</strong></td>
+<td><strong>Walk on it</strong> (it is floor), <strong>Blocks</strong> (nobody can walk through it) or <strong>Walk through</strong> (it doesn&#39;t matter to walking).</td>
+<td><code>object:set_blocks_walking(true)</code></td>
+</tr>
+<tr>
+<td><strong>Stops bullets</strong></td>
+<td>Shots hit it and leave a mark, or pass through.</td>
+<td><code>object:set_stops_bullets(false)</code></td>
+</tr>
+</tbody></table></div>
+<p>The thing to remember: <strong>players and zombies both walk on the walkable area, not on the models.</strong>
+The walkable area (the <em>navmesh</em>) is a map of where anyone can go, built from your floors and
+walls when you build the map. Collision only decides what bullets hit.</p>
+<p>So a wall needs both: <strong>Blocks</strong> to stop people, and <strong>Stops bullets</strong> to stop shots. A pane of
+bulletproof glass you can walk through has only the second. A line nobody can cross but everyone
+can shoot over has only the first.</p>
+<p>The editor&#39;s <strong>Show → Walkable</strong> draws the walkable area, so you can see where people can go.</p>
+<h2 id="new-map-or-remix">New map or Remix</h2>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Kind</th>
+<th>You start with</th>
+<th>Use it for</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>New map</strong></td>
+<td>A floor, four player spawns and the Colt</td>
+<td>Building your own level. This is the normal choice.</td>
+</tr>
+<tr>
+<td><strong>Remix</strong> (Kino der Toten, Ascension, Call of the Dead, Tutorial)</td>
+<td>The whole original map</td>
+<td>Changing a map that already exists</td>
+</tr>
+</tbody></table></div>
+<p>Everything in these docs works in both. In a remix the rooms stay as they are, and the original
+objects can be moved, changed, hidden or removed.</p>
+<h2 id="names">Names</h2>
+<p>An object&#39;s name in the editor is its name in scripts. A part of a prefab is <code>Prefab.Part</code>:</p>
+<pre><code class="language-lua">local boz = require(&quot;boz&quot;)
+
+local vault = boz.get(&quot;Vault&quot;)            -- the prefab
+local door = boz.get(&quot;Vault.Door&quot;)        -- one of its parts
+</code></pre>
+<p><code>boz.get</code> gives you the object as its class, so a door has door methods and a perk machine has
+perk methods. Copies you place get their own names, and a script runs once for each copy.</p>
+<h2 id="links">Links</h2>
+<p>A link is one object pointing at another: this switch runs that trap, this perk needs that power
+switch, this window belongs to that spawn. You make them in the <strong>Links</strong> box of the selected
+object. The viewport draws them as lines (<strong>Show → Links</strong>).</p>
+<p>Your own scripts can ask for links too, and read them with <code>self:links(&quot;name&quot;)</code>. See
+<a href="prefabs.html#links">Links</a>.</p>
+<h2 id="two-kinds-of-script">Two kinds of script</h2>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Object script</strong></th>
+<th><strong>Map script</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Where</td>
+<td><code>scripts/prefabs/&lt;Name&gt;.lua</code>, attached to an object</td>
+<td><code>scripts/main.lua</code></td>
+</tr>
+<tr>
+<td>What it is</td>
+<td>A class: what this object <em>is</em> and <em>does</em></td>
+<td>A list of things to listen for</td>
+</tr>
+<tr>
+<td>Runs</td>
+<td>Once for each object that has it</td>
+<td>Once, when the game starts</td>
+</tr>
+<tr>
+<td>Can it stop the object&#39;s behaviour?</td>
+<td>Yes</td>
+<td>No, it can only watch</td>
+</tr>
+</tbody></table></div>
+<pre><code class="language-lua">-- scripts/prefabs/Skull.lua: an object script, attached to a prefab
+local Skull = boz.Prefab:extend(&quot;Skull&quot;)
+
+function Skull:on_hit(player)
+    self:hide()
+    player:give_points(100)
+end
+
+return Skull
+</code></pre>
+<pre><code class="language-lua">-- scripts/main.lua: the map script
+local boz = require(&quot;boz&quot;)
+
+boz.on(&quot;round_started&quot;, function(data)
+    boz.player():message(&quot;Round &quot; .. data.round)
+end)
+
+boz.get(&quot;Front_Door&quot;):on(&quot;opened&quot;, function(door, player)
+    player:give_points(500)
+end)
+</code></pre>
+<p>Rule of thumb: if it is about <strong>one object</strong>, put it on the object. If it is about <strong>the whole
+match</strong>, put it in <code>main.lua</code>.</p>
+<h2 id="what-build-run-does">What Build &amp; Run does</h2>
+<ol>
+<li>Saves your map and turns it into a mod, working out the walkable area and collision.</li>
+<li>Installs the mod in your client, last in the load order.</li>
+<li>Starts the game and goes straight into your map.</li>
+</ol>
+<p>If something would stop the build, the <strong>Problems</strong> panel tells you and selects the object.</p>
+<p>Next: <a href="prefabs.html">Prefabs</a>, where you make your own.</p>
+
+            </article>
+            <div class="doc-pagination" role="navigation" aria-label="Previous and next page">
+              <a class="doc-prev" href="getting-started.html"><small>PREVIOUS</small><span>← Getting started</span></a>
+              <a class="doc-next" href="prefabs.html"><small>NEXT</small><span>Prefabs →</span></a>
+            </div>
+          </div>
+          <aside class="doc-toc" aria-label="On this page">
+            <p>ON THIS PAGE</p>
+            <a href="#three-things-you-place">Three things you place</a>
+            <a href="#what-an-object-does-in-the-game">What an object does in the game</a>
+            <a href="#new-map-or-remix">New map or Remix</a>
+            <a href="#names">Names</a>
+            <a href="#links">Links</a>
+            <a href="#two-kinds-of-script">Two kinds of script</a>
+            <a href="#what-build-run-does">What Build &amp; Run does</a>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+<footer>
+      <a class="brand" href="../index.html"
+        ><img src="../assets/client-logo.png" alt="BOZ Redux" width="640" height="260" loading="lazy"
+      /></a>
+      <p>BOZ Redux</p>
+      <span>Not affiliated with Activision. Game files are not included.</span
+      ><a href="https://github.com/ZappaVinny/boz-redux">Source ↗</a>
+    </footer>
+<dialog id="discord-dialog">
+      <button class="dialog-close" aria-label="Close dialog">×</button>
+      <h2>Discord</h2>
+      <p>
+        The Discord invite hasn’t been added yet. Check GitHub for project
+        updates.
+      </p>
+      <a
+        class="button"
+        href="https://github.com/ZappaVinny/boz-redux"
+        target="_blank"
+        rel="noopener"
+        >Visit the project ↗</a
+      >
+    </dialog>
+  </body>
+</html>

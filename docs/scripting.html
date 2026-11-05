@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Scripting reference | BOZ Redux Docs</title>
+    <meta name="description" content="The functions you will use most, by topic. Prefabs shows how they fit together. This page is the lookup." />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://boz-redux.com/docs/scripting.html" />
+    <meta name="theme-color" content="#0d0e10" />
+    <link rel="icon" href="../assets/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="256x256" href="../assets/favicon.png" />
+    <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png" />
+    <link rel="manifest" href="../site.webmanifest" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="BOZ Redux" />
+    <meta property="og:title" content="Scripting reference | BOZ Redux Docs" />
+    <meta property="og:description" content="The functions you will use most, by topic. Prefabs shows how they fit together. This page is the lookup." />
+    <meta property="og:url" content="https://boz-redux.com/docs/scripting.html" />
+    <meta property="og:image" content="https://boz-redux.com/assets/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Scripting reference","description":"The functions you will use most, by topic. Prefabs shows how they fit together. This page is the lookup.","url":"https://boz-redux.com/docs/scripting.html","dateModified":"2026-11-05T04:34:13.167Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Scripting reference","item":"https://boz-redux.com/docs/scripting.html"}]}]}</script>
+    <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="stylesheet" href="../styles.css" />
+    <script defer src="../config.js"></script>
+    <script defer src="../app.js"></script>
+  </head>
+  <body class="is-docs">
+    <a class="skip" href="#main">Skip to content</a>
+<header>
+      <a class="brand" href="../index.html" aria-label="BOZ Redux home"
+        ><img src="../assets/client-logo.png" alt="BOZ Redux" width="640" height="260"
+      /></a>
+      <nav aria-label="Main navigation">
+        <a href="../index.html" data-nav="home">Home</a
+        ><a href="../docs/index.html" data-nav="docs" class="active" aria-current="page">Documentation</a
+        ><a href="#discord" data-discord>Discord</a>
+      </nav>
+      <a
+        class="header-github"
+        href="https://github.com/ZappaVinny/boz-redux"
+        target="_blank"
+        rel="noopener"
+        >GitHub ↗</a
+      >
+    </header>
+
+    <main id="main" tabindex="-1">
+      <div id="docs-view">
+        <button class="docs-mobile" aria-expanded="false">
+          ☰ Browse documentation
+        </button>
+        <div class="docs-shell">
+          <aside class="docs-sidebar" aria-label="Documentation navigation">
+            <div class="search-wrap">
+              <input
+                id="docs-search"
+                aria-label="Search all documentation"
+                placeholder="Search documentation…"
+                type="search"
+                autocomplete="off"
+                data-index="../docs-data.js"
+              />
+            </div>
+            <div class="search-results" aria-live="polite"></div>
+            <!--
+              The docs page list. Order here sets sidebar order and previous/next.
+              Each link's href is docs/<name>.html for docs/<name>.md (README is index.html).
+              Each link belongs to the nearest label above it (used for the breadcrumb).
+              After changing it, run `node rebuild-docs.mjs`.
+            -->
+            <div class="page-links" role="navigation" aria-label="Documentation pages">
+              <p class="docs-label">START HERE</p>
+              <a href="index.html">Introduction</a>
+              <a href="getting-started.html">Getting started</a>
+
+              <a href="how-a-map-works.html">How a map works</a>
+
+              <p class="docs-label">PREFABS</p>
+              <a href="prefabs.html">Prefabs</a>
+              <a href="game-prefabs.html">Game prefabs</a>
+              <a href="events.html">Events</a>
+
+              <p class="docs-label">SCRIPTING</p>
+              <a href="scripting.html" class="current" aria-current="page">Scripting reference</a>
+              <a href="script-mods.html">Script mods</a>
+
+              <p class="docs-label">THE EDITOR</p>
+              <a href="editor.html">The editor</a>
+              <a href="weapons-and-assets.html">Weapons &amp; assets</a>
+
+              <p class="docs-label">REFERENCE</p>
+              <a href="console-reference.html">Console reference</a>
+              <a href="game-events.html">Low-level events</a>
+              <a href="sdk-reference.html">SDK reference</a>
+
+              <p class="docs-label">UNDER THE HOOD</p>
+              <a href="map-internals.html">Map internals</a>
+              <a href="how-the-game-works.html">How the game works</a>
+              <a href="contributing.html">Contributing</a>
+            </div>
+          </aside>
+          <div class="doc-area">
+            <div class="breadcrumb">DOCUMENTATION / <span>SCRIPTING</span></div>
+            <article class="doc-content">
+<h1 id="scripting-reference">Scripting reference</h1>
+<p>The functions you will use most, by topic. <a href="prefabs.html">Prefabs</a> shows how they fit together.
+This page is the lookup.</p>
+<p>In an object script <code>boz</code> is already there. In <code>main.lua</code> and other files, start with:</p>
+<pre><code class="language-lua">local boz = require(&quot;boz&quot;)
+</code></pre>
+<h2 id="the-basics">The basics</h2>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Call</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>log(...)</code></td>
+<td>Writes to <code>boz-log.txt</code> and the editor&#39;s Log area</td>
+</tr>
+<tr>
+<td><code>boz.get(name)</code></td>
+<td>The object with that name, as its class. A part is <code>&quot;Prefab.Part&quot;</code>.</td>
+</tr>
+<tr>
+<td><code>boz.all(class)</code></td>
+<td>Every object of a class: <code>boz.all(boz.Perk)</code></td>
+</tr>
+<tr>
+<td><code>boz.player()</code></td>
+<td>You</td>
+</tr>
+<tr>
+<td><code>boz.players()</code></td>
+<td>Every player in the match</td>
+</tr>
+<tr>
+<td><code>boz.on(name, fn)</code></td>
+<td>Calls <code>fn(data, name)</code> on a game event or a <code>boz.send</code></td>
+</tr>
+<tr>
+<td><code>boz.send(name, data)</code></td>
+<td>Sends an event to every <code>boz.on</code> and every <code>on_event</code></td>
+</tr>
+<tr>
+<td><code>boz.after(seconds, fn)</code></td>
+<td>Runs <code>fn</code> once, later</td>
+</tr>
+<tr>
+<td><code>boz.every(seconds, fn)</code></td>
+<td>Runs <code>fn</code> again and again; <code>:cancel()</code> stops it</td>
+</tr>
+<tr>
+<td><code>boz.saved</code></td>
+<td>A table all scripts share, kept in saved games</td>
+</tr>
+</tbody></table></div>
+<pre><code class="language-lua">for _, perk in ipairs(boz.all(boz.Perk)) do
+    perk.settings.cost = 500
+end
+</code></pre>
+<p>Positions are tables <code>{x = 0, y = 100, z = 0}</code> in centimetres, with y up.</p>
+<h2 id="objects">Objects</h2>
+<p>Anything from <code>boz.get</code>, and <code>self</code> in a script. The full list, with examples, is
+<a href="prefabs.html#what-every-object-has">What every object has</a>.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Call</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>.name</code>, <code>.kind</code>, <code>.settings</code></td>
+<td>Its name, <code>&quot;model&quot;</code>/<code>&quot;volume&quot;</code>/<code>&quot;prefab&quot;</code>, and its settings</td>
+</tr>
+<tr>
+<td><code>class_name()</code>, <code>is_a(class)</code></td>
+<td>Its class</td>
+</tr>
+<tr>
+<td><code>part_name()</code>, <code>parent()</code>, <code>part(name)</code>, <code>parts()</code></td>
+<td>Prefabs and their parts</td>
+</tr>
+<tr>
+<td><code>position()</code>, <code>rotation()</code>, <code>near(target, cm)</code>, <code>exists()</code></td>
+<td>Where it is</td>
+</tr>
+<tr>
+<td><code>visible()</code>, <code>show()</code>, <code>hide()</code>, <code>set_visible(on)</code></td>
+<td>Visible</td>
+</tr>
+<tr>
+<td><code>blocks_walking()</code>, <code>set_blocks_walking(on)</code></td>
+<td>Walking</td>
+</tr>
+<tr>
+<td><code>stops_bullets()</code>, <code>set_stops_bullets(on)</code></td>
+<td>Stops bullets</td>
+</tr>
+<tr>
+<td><code>links(name)</code>, <code>linked_from(name)</code></td>
+<td>Links</td>
+</tr>
+<tr>
+<td><code>on(event, fn)</code>, <code>send(name, data)</code></td>
+<td>Events</td>
+</tr>
+</tbody></table></div>
+<p>Volumes add <code>type()</code>, <code>set_off_by()</code>, <code>once()</code>, <code>used()</code>, <code>prompt()</code>, <code>set_prompt(text)</code>, <code>cost()</code> and
+<code>set_cost(points)</code>. Each game prefab&#39;s own methods are on <a href="game-prefabs.html">Game prefabs</a>.</p>
+<h2 id="players">Players</h2>
+<p>Get one with <code>boz.player()</code>, or from a hook&#39;s <code>player</code> argument.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Call</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>points()</code></td>
+<td>Points the player has</td>
+</tr>
+<tr>
+<td><code>give_points(n)</code></td>
+<td>Gives points; a negative number takes them</td>
+</tr>
+<tr>
+<td><code>spend(n)</code></td>
+<td>Takes points if the player has enough; returns true when paid</td>
+</tr>
+<tr>
+<td><code>health()</code>, <code>set_health(n)</code></td>
+<td>Health</td>
+</tr>
+<tr>
+<td><code>set_god(on)</code>, <code>god()</code></td>
+<td>No damage</td>
+</tr>
+<tr>
+<td><code>give_perk(name)</code>, <code>take_perk(name)</code>, <code>has_perk(name)</code>, <code>perks()</code></td>
+<td>Perks</td>
+</tr>
+<tr>
+<td><code>give_weapon(name)</code>, <code>take_weapon(name)</code>, <code>weapon()</code></td>
+<td>Weapons. The new weapon goes in hand.</td>
+</tr>
+<tr>
+<td><code>position()</code>, <code>teleport(place)</code></td>
+<td>Where the player is. <code>place</code> is a position or an object.</td>
+</tr>
+<tr>
+<td><code>downed()</code>, <code>kill()</code></td>
+<td>Down in last stand, or killed</td>
+</tr>
+<tr>
+<td><code>stance()</code>, <code>set_stance(name)</code></td>
+<td><code>&quot;standing&quot;</code>, <code>&quot;crouching&quot;</code>, <code>&quot;prone&quot;</code>, <code>&quot;downed&quot;</code></td>
+</tr>
+<tr>
+<td><code>speed(name)</code>, <code>set_speed(name, value)</code></td>
+<td>A movement speed, like <code>&quot;SprintSpeed&quot;</code></td>
+</tr>
+<tr>
+<td><code>stat(name)</code>, <code>add_stat(name, n)</code></td>
+<td>A stat, like <code>&quot;STAT_ZOMBIESKILLED&quot;</code></td>
+</tr>
+<tr>
+<td><code>message(text, seconds)</code></td>
+<td>A line of text on the screen</td>
+</tr>
+</tbody></table></div>
+<pre><code class="language-lua">local player = boz.player()
+if player:spend(1000) then
+    player:give_perk(&quot;Juggernog&quot;)
+    player:set_speed(&quot;SprintSpeed&quot;, 1.5)
+end
+</code></pre>
+<h2 id="zombies">Zombies</h2>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Call</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>boz.zombies(kind)</code></td>
+<td>The zombies alive. <code>kind</code> is <code>&quot;zombie&quot;</code>, <code>&quot;dog&quot;</code>, <code>&quot;monkey&quot;</code> or <code>&quot;all&quot;</code>.</td>
+</tr>
+<tr>
+<td><code>boz.spawn_zombie(spec, position, options)</code></td>
+<td>Spawns one. <code>spec</code> is <code>&quot;zombie&quot;</code>, <code>&quot;zombie_dog&quot;</code>, ... Options: <code>health</code>, <code>speed</code>.</td>
+</tr>
+</tbody></table></div>
+<p>A zombie that just died stays in the list for a moment, with 0 health.</p>
+<p>Each zombie has <code>.zombie</code> (always true, to tell it from a player in a volume&#39;s hooks), and:</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Call</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>kind()</code>, <code>alive()</code></td>
+<td>What it is, and whether it is still in the match</td>
+</tr>
+<tr>
+<td><code>position()</code>, <code>teleport(position)</code></td>
+<td>Where it is</td>
+</tr>
+<tr>
+<td><code>health()</code>, <code>max_health()</code>, <code>set_health(n)</code></td>
+<td>Health</td>
+</tr>
+<tr>
+<td><code>damage(n)</code>, <code>kill()</code></td>
+<td>Hurts or kills it. The kill counts for the player.</td>
+</tr>
+<tr>
+<td><code>set_speed(tier)</code></td>
+<td><code>&quot;walk&quot;</code>, <code>&quot;walk_fast&quot;</code>, <code>&quot;run&quot;</code> or <code>&quot;sprint&quot;</code></td>
+</tr>
+<tr>
+<td><code>freeze()</code>, <code>burn()</code>, <code>explode()</code>, <code>lightning()</code>, <code>gersch()</code>, <code>shockwave()</code></td>
+<td>The game&#39;s weapon effects</td>
+</tr>
+</tbody></table></div>
+<pre><code class="language-lua">boz.on(&quot;round_started&quot;, function(data)
+    if data.round == 5 then
+        boz.spawn_zombie(&quot;zombie&quot;, boz.get(&quot;Boss_Spot&quot;):position(), {health = 5000, speed = &quot;sprint&quot;})
+    end
+end)
+
+for _, zombie in ipairs(boz.zombies(&quot;dog&quot;)) do
+    zombie:freeze()
+end
+</code></pre>
+<h2 id="rounds">Rounds</h2>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Call</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>boz.round()</code></td>
+<td>The round number</td>
+</tr>
+<tr>
+<td><code>boz.start_round(n)</code></td>
+<td>Goes to a round</td>
+</tr>
+<tr>
+<td><code>boz.rounds.zombies_left()</code></td>
+<td>Zombies still to kill this round</td>
+</tr>
+<tr>
+<td><code>boz.rounds.alive()</code></td>
+<td>Zombies alive now</td>
+</tr>
+<tr>
+<td><code>boz.rounds.powered()</code></td>
+<td>True once the power is on</td>
+</tr>
+<tr>
+<td><code>boz.rounds.special()</code></td>
+<td>True during a dog or monkey round</td>
+</tr>
+<tr>
+<td><code>boz.rounds.set_spawning(on)</code></td>
+<td>Stops or starts spawning</td>
+</tr>
+<tr>
+<td><code>boz.rounds.start_next()</code></td>
+<td>Starts the next round</td>
+</tr>
+<tr>
+<td><code>boz.rounds.set_wave(field, value)</code></td>
+<td>Changes the running round, such as <code>&quot;m_ZombieHealth&quot;</code></td>
+</tr>
+</tbody></table></div>
+<p>To shape a map&#39;s rounds as a whole, use the <a href="editor.html#game-rules">Game tab</a>.</p>
+<h2 id="systems">Systems</h2>
+<p>Each one is ready as <code>boz.&lt;name&gt;</code>.</p>
+<h3 id="bozhud">boz.hud</h3>
+<pre><code class="language-lua">boz.hud.message(&quot;The power is on&quot;, 3)
+boz.hud.hide(&quot;Clip_Label&quot;)
+boz.hud.show(&quot;Clip_Label&quot;)
+</code></pre>
+<p><code>boz.hud.ELEMENTS</code> lists the names.</p>
+<h3 id="bozaudio">boz.audio</h3>
+<pre><code class="language-lua">boz.audio.play(&quot;my_sound&quot;)                        -- everywhere
+boz.audio.play(&quot;gersch_opens&quot;, self:position())   -- at a place
+boz.audio.sequence(&quot;dog_wave_start&quot;)              -- a voice line or sting
+boz.audio.music(&quot;115.mp3&quot;, {loop = true})
+boz.audio.music_volume(0.5)
+</code></pre>
+<p>See <a href="weapons-and-assets.html#sounds">Sounds</a> for finding names and adding your own.</p>
+<h3 id="bozeffects">boz.effects</h3>
+<pre><code class="language-lua">boz.effects.spawn(&quot;impactRayGun&quot;, self:position(), {lifetime = 3})
+boz.effects.explode(self:position())
+boz.effects.projectile(&quot;gersch&quot;, self:position(), {trigger = &quot;open&quot;, lifetime = 6})
+</code></pre>
+<p>See <a href="weapons-and-assets.html#effects-and-projectiles">Effects and projectiles</a>.</p>
+<h3 id="bozpickups">boz.pickups</h3>
+<pre><code class="language-lua">boz.pickups.spawn(&quot;max_ammo&quot;, self:position())    -- drops one
+boz.pickups.give(&quot;insta_kill&quot;)                    -- as if collected
+</code></pre>
+<p>Names are in <a href="events.html#machines-and-the-map">Events</a>.</p>
+<h3 id="bozcamera-and-bozscreen">boz.camera and boz.screen</h3>
+<pre><code class="language-lua">boz.camera.set_fov(90)
+boz.camera.shake(&quot;romero-transform-shake&quot;)
+boz.screen.effect(&quot;nuke&quot;)              -- a full-screen flash
+boz.screen.fog(&quot;Monkeys&quot;)              -- a fog setting
+</code></pre>
+<h3 id="bozinput">boz.input</h3>
+<p>Works with the game&#39;s actions, whatever keys the player bound: <code>shoot</code>, <code>aim</code>, <code>reload</code>, <code>use</code>,
+<code>melee</code>, <code>grenade</code>, <code>tactical</code>, <code>crouch</code>, <code>fire_mode</code>, <code>switch_weapon</code>.</p>
+<pre><code class="language-lua">boz.input.on_action(&quot;melee&quot;, function(down)
+    if down then log(&quot;knife&quot;) end
+end)
+boz.input.send(&quot;reload&quot;)
+</code></pre>
+<p>For keys, use the client&#39;s <code>input.bind(&quot;F5&quot;, fn)</code> (<a href="script-mods.html#input-module">Script mods</a>).</p>
+<h3 id="bozconsole-and-bozcvars">boz.console and boz.cvars</h3>
+<p>The game&#39;s own settings and cheats (<a href="console-reference.html">Console reference</a>):</p>
+<pre><code class="language-lua">boz.console.set(&quot;WeaponsUnlimitedAmmo&quot;, true)
+log(boz.console.get(&quot;WalkSpeed&quot;))
+boz.console.exec(&quot;SwitchPowerOn&quot;)
+</code></pre>
+<h3 id="bozmenu">boz.menu</h3>
+<p>Rows in the pause menu&#39;s Settings page (<a href="script-mods.html#add-a-setting-to-the-pause-menu">example</a>):</p>
+<pre><code class="language-lua">boz.menu.add_checkbox{
+    id = &quot;hard_mode&quot;,
+    label = &quot;Hard mode&quot;,
+    get = function() return settings.get(&quot;hard_mode&quot;, false) end,
+    set = function(on) settings.set(&quot;hard_mode&quot;, on) end,
+}
+</code></pre>
+<h3 id="boztext">boz.text</h3>
+<p>Your own text for the game&#39;s menus and prompts: <code>boz.text.add(id, value)</code>.</p>
+<h3 id="bozstats">boz.stats</h3>
+<pre><code class="language-lua">log(boz.stats.get(&quot;STAT_ZOMBIESKILLED&quot;))
+boz.stats.add(&quot;STAT_HEADSHOTS&quot;, 1)
+boz.stats.unlock(&quot;BOGravity&quot;)
+</code></pre>
+<h3 id="bozweapons">boz.weapons</h3>
+<p>The player&#39;s weapons by name: <code>give</code>, <code>take</code>, <code>upgrade</code>, <code>refill</code>, <code>owned</code>, <code>current</code>.</p>
+<pre><code class="language-lua">boz.weapons.give(&quot;mp40&quot;)
+boz.weapons.upgrade(&quot;mp40&quot;)
+boz.weapons.refill(&quot;mp40&quot;)
+</code></pre>
+<h3 id="bozmap">boz.map</h3>
+<p>The level: <code>boz.map.set_time_scale(0.5)</code>, <code>boz.map.toggle_pause()</code>, <code>boz.map.playing()</code>.</p>
+<h3 id="bozfly-and-bozdeadops">boz.fly and boz.deadops</h3>
+<p><code>boz.fly.set(true)</code> turns noclip on. <code>boz.deadops</code> is for the Dead Ops mini-game.</p>
+<h2 id="classes-of-your-own">Classes of your own</h2>
+<p><code>boz.class</code> is what every class here is built on. You can use it for your own helpers:</p>
+<pre><code class="language-lua">local Counter = boz.class:extend(&quot;Counter&quot;)
+
+function Counter:init(limit)
+    self.count, self.limit = 0, limit
+end
+
+function Counter:add()
+    self.count = self.count + 1
+    return self.count &gt;= self.limit
+end
+
+local kills = Counter:new(10)
+</code></pre>
+<h2 id="advanced">Advanced</h2>
+<p>Below all this is <code>boz.engine.*</code>: <code>require(&quot;boz.engine.reflect&quot;)</code> reaches every field of the
+game&#39;s data, <code>require(&quot;boz.engine.entities&quot;)</code> every entity, and
+<code>require(&quot;boz.engine.game_events&quot;)</code> the <a href="game-events.html">low-level events</a>. Each file in the SDK&#39;s
+<code>lib/boz/engine</code> starts with a short description. Most mods never need them.</p>
+
+            </article>
+            <div class="doc-pagination" role="navigation" aria-label="Previous and next page">
+              <a class="doc-prev" href="events.html"><small>PREVIOUS</small><span>← Events</span></a>
+              <a class="doc-next" href="script-mods.html"><small>NEXT</small><span>Script mods →</span></a>
+            </div>
+          </div>
+          <aside class="doc-toc" aria-label="On this page">
+            <p>ON THIS PAGE</p>
+            <a href="#the-basics">The basics</a>
+            <a href="#objects">Objects</a>
+            <a href="#players">Players</a>
+            <a href="#zombies">Zombies</a>
+            <a href="#rounds">Rounds</a>
+            <a href="#systems">Systems</a>
+            <a href="#bozhud" class="sub">boz.hud</a>
+            <a href="#bozaudio" class="sub">boz.audio</a>
+            <a href="#bozeffects" class="sub">boz.effects</a>
+            <a href="#bozpickups" class="sub">boz.pickups</a>
+            <a href="#bozcamera-and-bozscreen" class="sub">boz.camera and boz.screen</a>
+            <a href="#bozinput" class="sub">boz.input</a>
+            <a href="#bozconsole-and-bozcvars" class="sub">boz.console and boz.cvars</a>
+            <a href="#bozmenu" class="sub">boz.menu</a>
+            <a href="#boztext" class="sub">boz.text</a>
+            <a href="#bozstats" class="sub">boz.stats</a>
+            <a href="#bozweapons" class="sub">boz.weapons</a>
+            <a href="#bozmap" class="sub">boz.map</a>
+            <a href="#bozfly-and-bozdeadops" class="sub">boz.fly and boz.deadops</a>
+            <a href="#classes-of-your-own">Classes of your own</a>
+            <a href="#advanced">Advanced</a>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+<footer>
+      <a class="brand" href="../index.html"
+        ><img src="../assets/client-logo.png" alt="BOZ Redux" width="640" height="260" loading="lazy"
+      /></a>
+      <p>BOZ Redux</p>
+      <span>Not affiliated with Activision. Game files are not included.</span
+      ><a href="https://github.com/ZappaVinny/boz-redux">Source ↗</a>
+    </footer>
+<dialog id="discord-dialog">
+      <button class="dialog-close" aria-label="Close dialog">×</button>
+      <h2>Discord</h2>
+      <p>
+        The Discord invite hasn’t been added yet. Check GitHub for project
+        updates.
+      </p>
+      <a
+        class="button"
+        href="https://github.com/ZappaVinny/boz-redux"
+        target="_blank"
+        rel="noopener"
+        >Visit the project ↗</a
+      >
+    </dialog>
+  </body>
+</html>

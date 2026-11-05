@@ -23,7 +23,7 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Console reference","description":"Every console variable (cvar) and developer command in Call of Duty: Black Ops Zombies 1.0.11. Variables are the game's settings and cheats (WalkSpeed,…","url":"https://boz-redux.com/docs/console-reference.html","dateModified":"2026-10-17T17:36:34-05:00","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Console reference","item":"https://boz-redux.com/docs/console-reference.html"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Console reference","description":"Every console variable (cvar) and developer command in Call of Duty: Black Ops Zombies 1.0.11. Variables are the game's settings and cheats (WalkSpeed,…","url":"https://boz-redux.com/docs/console-reference.html","dateModified":"2026-11-05T01:31:40.619Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Console reference","item":"https://boz-redux.com/docs/console-reference.html"}]}]}</script>
     <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="stylesheet" href="../styles.css" />
@@ -79,18 +79,28 @@
               <a href="index.html">Introduction</a>
               <a href="getting-started.html">Getting started</a>
 
-              <p class="docs-label">CREATE</p>
-              <a href="lua-mods.html">Lua mods</a>
-              <a href="map-editor.html">Map editor</a>
+              <a href="how-a-map-works.html">How a map works</a>
+
+              <p class="docs-label">PREFABS</p>
+              <a href="prefabs.html">Prefabs</a>
+              <a href="game-prefabs.html">Game prefabs</a>
+              <a href="events.html">Events</a>
+
+              <p class="docs-label">SCRIPTING</p>
+              <a href="scripting.html">Scripting reference</a>
+              <a href="script-mods.html">Script mods</a>
+
+              <p class="docs-label">THE EDITOR</p>
+              <a href="editor.html">The editor</a>
               <a href="weapons-and-assets.html">Weapons &amp; assets</a>
 
               <p class="docs-label">REFERENCE</p>
-              <a href="standard-library.html">Standard library</a>
               <a href="console-reference.html" class="current" aria-current="page">Console reference</a>
-              <a href="game-events.html">Game events</a>
+              <a href="game-events.html">Low-level events</a>
               <a href="sdk-reference.html">SDK reference</a>
 
               <p class="docs-label">UNDER THE HOOD</p>
+              <a href="map-internals.html">Map internals</a>
               <a href="how-the-game-works.html">How the game works</a>
               <a href="contributing.html">Contributing</a>
             </div>
@@ -102,7 +112,7 @@
 <p>Every console variable (cvar) and developer command in <em>Call of Duty: Black Ops Zombies</em>
 1.0.11. Variables are the game&#39;s settings and cheats (<code>WalkSpeed</code>, <code>UnlimitedHealth</code>);
 commands do things (<code>SwitchPowerOn</code>, <code>RestartLevel</code>). Mods use them through
-<a href="standard-library.html"><code>boz.console</code></a>, and players through the Developer mod&#39;s console.</p>
+<a href="scripting.html"><code>boz.console</code></a>, and players through the Developer mod&#39;s console.</p>
 <p>This page is generated from the game definition (<code>gamedef/console/boz-1.0.11.toml</code>) and the
 notes in <code>tools/symbols/console_notes.toml</code>; see
 <a href="contributing.html#contributing-to-the-game-definition">Contributing to the game definition</a> to change it.</p>
@@ -1572,7 +1582,7 @@ them fails until something registers them.</p>
 <td><code>doAchievementEasyRhinoKillCount</code></td>
 <td>int</td>
 <td><code>20</code></td>
-<td>CDOPlayerController::vf23</td>
+<td>CDOPlayerController::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -1580,7 +1590,7 @@ them fails until something registers them.</p>
 <td><code>doAchievementWholeNineYardsFireTime</code></td>
 <td>int</td>
 <td><code>2</code></td>
-<td>CDOPersistentStorage::vf6</td>
+<td>CDOPersistentStorage::FixedStep</td>
 <td></td>
 <td></td>
 </tr>
@@ -1588,7 +1598,7 @@ them fails until something registers them.</p>
 <td><code>doAnaloguePadAimingResponse</code></td>
 <td>graph</td>
 <td><code>0,0;4096,4096;</code></td>
-<td></td>
+<td>CDOTouchComponentSticky::CDOTouchComponentSticky</td>
 <td></td>
 <td></td>
 </tr>
@@ -1596,7 +1606,7 @@ them fails until something registers them.</p>
 <td><code>doAnaloguePadMovingResponse</code></td>
 <td>graph</td>
 <td><code>0,0;4096,4096;</code></td>
-<td></td>
+<td>CDOTouchComponentSticky::CDOTouchComponentSticky</td>
 <td></td>
 <td></td>
 </tr>
@@ -1620,7 +1630,7 @@ them fails until something registers them.</p>
 <td><code>doArrowDisplayTime</code></td>
 <td>int</td>
 <td><code>4</code></td>
-<td></td>
+<td>CDORoomOfFateHelper::CDORoomOfFateHelper</td>
 <td></td>
 <td></td>
 </tr>
@@ -1644,7 +1654,7 @@ them fails until something registers them.</p>
 <td><code>doAutoAimHorizAngle</code></td>
 <td>floatangle</td>
 <td><code>15</code></td>
-<td></td>
+<td>CIsComponentRef<CIsTransform>::CIsComponentRef<CIsTransform></td>
 <td></td>
 <td></td>
 </tr>
@@ -1652,7 +1662,7 @@ them fails until something registers them.</p>
 <td><code>doAutoAimVertAngle</code></td>
 <td>floatangle</td>
 <td><code>15</code></td>
-<td></td>
+<td>CIsComponentRef<CIsTransform>::CIsComponentRef<CIsTransform></td>
 <td></td>
 <td></td>
 </tr>
@@ -1676,7 +1686,7 @@ them fails until something registers them.</p>
 <td><code>doBattleChickenFlightHeight</code></td>
 <td>float</td>
 <td><code>120</code></td>
-<td>CDOPlayerController::vf23</td>
+<td>CDOPlayerController::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -1764,7 +1774,7 @@ them fails until something registers them.</p>
 <td><code>doBuffaloMinMaxX</code></td>
 <td>floatarray</td>
 <td><code>{-2000,2000}</code></td>
-<td>CDOBuffalo::vf23</td>
+<td>CDOBuffalo::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -1772,7 +1782,7 @@ them fails until something registers them.</p>
 <td><code>doBuffaloMinMaxZ</code></td>
 <td>floatarray</td>
 <td><code>{-2000,2000}</code></td>
-<td>CDOBuffalo::vf23</td>
+<td>CDOBuffalo::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -1812,7 +1822,7 @@ them fails until something registers them.</p>
 <td><code>doFadeInTime</code></td>
 <td>int</td>
 <td><code>1000</code></td>
-<td></td>
+<td>CDOGameStateIngame::CDOGameStateIngame</td>
 <td></td>
 <td></td>
 </tr>
@@ -1820,7 +1830,7 @@ them fails until something registers them.</p>
 <td><code>doFadeOutTime</code></td>
 <td>int</td>
 <td><code>1000</code></td>
-<td></td>
+<td>CDOGameStateIngame::CDOGameStateIngame</td>
 <td></td>
 <td></td>
 </tr>
@@ -1836,7 +1846,7 @@ them fails until something registers them.</p>
 <td><code>doFateLightningSpawnHeight</code></td>
 <td>float</td>
 <td><code>1000</code></td>
-<td>CDOFateBonusTrigger::vf23</td>
+<td>CDOFateBonusTrigger::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -1844,7 +1854,7 @@ them fails until something registers them.</p>
 <td><code>doFateMaxTriggers</code></td>
 <td>int</td>
 <td><code>4</code></td>
-<td></td>
+<td>CDORoomOfFateHelper::CDORoomOfFateHelper</td>
 <td></td>
 <td></td>
 </tr>
@@ -1852,7 +1862,7 @@ them fails until something registers them.</p>
 <td><code>doFatePickupAcceleration</code></td>
 <td>float</td>
 <td><code>7000</code></td>
-<td>CDOPickupFate::vf22</td>
+<td>CDOPickupFate::Init</td>
 <td></td>
 <td></td>
 </tr>
@@ -1860,7 +1870,7 @@ them fails until something registers them.</p>
 <td><code>doFateSpawnHeight</code></td>
 <td>float</td>
 <td><code>1000</code></td>
-<td>CDOPlayerController::vf23</td>
+<td>CDOPlayerController::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -1868,7 +1878,7 @@ them fails until something registers them.</p>
 <td><code>doFateTimeout</code></td>
 <td>int</td>
 <td><code>5000</code></td>
-<td>CDORoomOfFateHelper::vf8</td>
+<td>CDORoomOfFateHelper::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -1956,7 +1966,7 @@ them fails until something registers them.</p>
 <td><code>doHelicopterFlightHeight</code></td>
 <td>float</td>
 <td><code>100.0</code></td>
-<td>CDOHelicopterBodyHandler::vf22</td>
+<td>CDOHelicopterBodyHandler::Init</td>
 <td></td>
 <td></td>
 </tr>
@@ -2156,7 +2166,7 @@ them fails until something registers them.</p>
 <td><code>doMoarSpawnPoints</code></td>
 <td>intarray</td>
 <td><code>{4,18,34}</code></td>
-<td></td>
+<td>CDOHordeManager::CDOHordeManager</td>
 <td></td>
 <td></td>
 </tr>
@@ -2260,7 +2270,7 @@ them fails until something registers them.</p>
 <td><code>doPickupBonusMaxItemsPerSpawnpoint</code></td>
 <td>int</td>
 <td><code>10</code></td>
-<td>CDOPickupManager::vf2</td>
+<td>CDOPickupManager::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -2268,7 +2278,7 @@ them fails until something registers them.</p>
 <td><code>doPickupBonusMaxSpawn</code></td>
 <td>int</td>
 <td><code>4</code></td>
-<td>CDOPickupManager::vf2</td>
+<td>CDOPickupManager::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -2276,7 +2286,7 @@ them fails until something registers them.</p>
 <td><code>doPickupBonusMinItemsPerSpawnpoint</code></td>
 <td>int</td>
 <td><code>8</code></td>
-<td>CDOPickupManager::vf2</td>
+<td>CDOPickupManager::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -2284,7 +2294,7 @@ them fails until something registers them.</p>
 <td><code>doPickupBonusMinSpawn</code></td>
 <td>int</td>
 <td><code>4</code></td>
-<td>CDOPickupManager::vf2</td>
+<td>CDOPickupManager::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -2300,7 +2310,7 @@ them fails until something registers them.</p>
 <td><code>doPickupRoundBeginMaxItemsPerSpawnpoint</code></td>
 <td>int</td>
 <td><code>10</code></td>
-<td>CDOPickupManager::vf2</td>
+<td>CDOPickupManager::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -2308,7 +2318,7 @@ them fails until something registers them.</p>
 <td><code>doPickupRoundBeginMaxSpawn</code></td>
 <td>int</td>
 <td><code>4</code></td>
-<td>CDOPickupManager::vf2</td>
+<td>CDOPickupManager::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -2316,7 +2326,7 @@ them fails until something registers them.</p>
 <td><code>doPickupRoundBeginMinItemsPerSpawnpoint</code></td>
 <td>int</td>
 <td><code>2</code></td>
-<td>CDOPickupManager::vf2</td>
+<td>CDOPickupManager::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -2324,7 +2334,7 @@ them fails until something registers them.</p>
 <td><code>doPickupRoundBeginMinSpawn</code></td>
 <td>int</td>
 <td><code>1</code></td>
-<td>CDOPickupManager::vf2</td>
+<td>CDOPickupManager::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -2332,7 +2342,7 @@ them fails until something registers them.</p>
 <td><code>doPickupRoundCompleteMaxItemsPerSpawnpoint</code></td>
 <td>int</td>
 <td><code>10</code></td>
-<td>CDOPickupManager::vf2</td>
+<td>CDOPickupManager::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -2340,7 +2350,7 @@ them fails until something registers them.</p>
 <td><code>doPickupRoundCompleteMaxSpawn</code></td>
 <td>int</td>
 <td><code>4</code></td>
-<td>CDOPickupManager::vf2</td>
+<td>CDOPickupManager::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -2348,7 +2358,7 @@ them fails until something registers them.</p>
 <td><code>doPickupRoundCompleteMinItemsPerSpawnpoint</code></td>
 <td>int</td>
 <td><code>2</code></td>
-<td>CDOPickupManager::vf2</td>
+<td>CDOPickupManager::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -2356,7 +2366,7 @@ them fails until something registers them.</p>
 <td><code>doPickupRoundCompleteMinSpawn</code></td>
 <td>int</td>
 <td><code>3</code></td>
-<td>CDOPickupManager::vf2</td>
+<td>CDOPickupManager::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -2364,7 +2374,7 @@ them fails until something registers them.</p>
 <td><code>doPickupWaveCompleteMaxItemsPerSpawnpoint</code></td>
 <td>int</td>
 <td><code>10</code></td>
-<td>CDOPickupManager::vf2</td>
+<td>CDOPickupManager::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -2372,7 +2382,7 @@ them fails until something registers them.</p>
 <td><code>doPickupWaveCompleteMaxSpawn</code></td>
 <td>int</td>
 <td><code>4</code></td>
-<td>CDOPickupManager::vf2</td>
+<td>CDOPickupManager::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -2380,7 +2390,7 @@ them fails until something registers them.</p>
 <td><code>doPickupWaveCompleteMinItemsPerSpawnpoint</code></td>
 <td>int</td>
 <td><code>2</code></td>
-<td>CDOPickupManager::vf2</td>
+<td>CDOPickupManager::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -2388,7 +2398,7 @@ them fails until something registers them.</p>
 <td><code>doPickupWaveCompleteMinSpawn</code></td>
 <td>int</td>
 <td><code>1</code></td>
-<td>CDOPickupManager::vf2</td>
+<td>CDOPickupManager::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -2396,7 +2406,7 @@ them fails until something registers them.</p>
 <td><code>doPlayerJumpDuration</code></td>
 <td>float</td>
 <td><code>2</code></td>
-<td>CDOIngameStateResult::vf11</td>
+<td>CDOIngameStateResult::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -2404,7 +2414,7 @@ them fails until something registers them.</p>
 <td><code>doPlayerRepelFactor</code></td>
 <td>float</td>
 <td><code>0.75</code></td>
-<td>CDOPlayerController::vf23</td>
+<td>CDOPlayerController::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -2420,7 +2430,7 @@ them fails until something registers them.</p>
 <td><code>doPlayerSpecs</code></td>
 <td>string</td>
 <td></td>
-<td></td>
+<td>CDORoundManager::CDORoundManager</td>
 <td></td>
 <td></td>
 </tr>
@@ -2484,7 +2494,7 @@ them fails until something registers them.</p>
 <td><code>doResultsGravity</code></td>
 <td>float</td>
 <td><code>3000</code></td>
-<td></td>
+<td>CDOIngameStateResult::CDOIngameStateResult</td>
 <td></td>
 <td></td>
 </tr>
@@ -2508,7 +2518,7 @@ them fails until something registers them.</p>
 <td><code>doReviveEffectActiveTime</code></td>
 <td>int</td>
 <td><code>9000</code></td>
-<td>CDOPlayerController::vf23</td>
+<td>CDOPlayerController::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -2844,7 +2854,7 @@ them fails until something registers them.</p>
 <td><code>doTeleporterRotationSpeed</code></td>
 <td>float</td>
 <td><code>0.5</code></td>
-<td>CDOTeleporter::vf23</td>
+<td>CDOTeleporter::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -2852,7 +2862,7 @@ them fails until something registers them.</p>
 <td><code>doTeleporterStartHeight</code></td>
 <td>float</td>
 <td><code>100.0</code></td>
-<td>CDOTeleporter::vf22</td>
+<td>CDOTeleporter::Init</td>
 <td></td>
 <td></td>
 </tr>
@@ -3025,7 +3035,7 @@ them fails until something registers them.</p>
 <td><code>TeleportProbabilityToRandomRoom</code></td>
 <td>int</td>
 <td><code>50</code></td>
-<td></td>
+<td>CTeleportManager::CTeleportManager</td>
 <td></td>
 <td></td>
 </tr>
@@ -3033,7 +3043,7 @@ them fails until something registers them.</p>
 <td><code>TeleportProjectorRoomTimeMS</code></td>
 <td>int</td>
 <td><code>30000</code></td>
-<td></td>
+<td>CTeleportManager::CTeleportManager</td>
 <td></td>
 <td></td>
 </tr>
@@ -3041,7 +3051,23 @@ them fails until something registers them.</p>
 <td><code>TeleportRandomRoomTimeMS</code></td>
 <td>int</td>
 <td><code>5000</code></td>
+<td>CTeleportManager::CTeleportManager</td>
 <td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>UDPPacketCorruptionRate</code></td>
+<td>int</td>
+<td><code>0</code></td>
+<td>CIwNetworkSocketStun::CIwNetworkSocketStun</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>UDPPacketLossRate</code></td>
+<td>int</td>
+<td><code>0</code></td>
+<td>CIwNetworkSocketStun::CIwNetworkSocketStun</td>
 <td></td>
 <td></td>
 </tr>
@@ -3078,7 +3104,7 @@ them fails until something registers them.</p>
 <td><code>AIGodmode</code></td>
 <td>bool</td>
 <td><code>false</code></td>
-<td>CAIControllerRomero::vf26</td>
+<td>CAIControllerRomero::OnEvent</td>
 <td>Zombies and other AI cannot be hurt.</td>
 <td></td>
 </tr>
@@ -3126,7 +3152,7 @@ them fails until something registers them.</p>
 <td><code>AIMonkeyGroundPoundBlurFadeInTime</code></td>
 <td>int</td>
 <td><code>500</code></td>
-<td>CAIControllerMonkey::vf26</td>
+<td>CAIControllerMonkey::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -3134,7 +3160,7 @@ them fails until something registers them.</p>
 <td><code>AIMonkeyGroundPoundSlowDownFactor</code></td>
 <td>float</td>
 <td><code>0.5</code></td>
-<td>CAIControllerMonkey::vf26</td>
+<td>CAIControllerMonkey::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -3142,7 +3168,7 @@ them fails until something registers them.</p>
 <td><code>AIMonkeyGroundPoundSlowDownTime</code></td>
 <td>int</td>
 <td><code>3000</code></td>
-<td>CAIControllerMonkey::vf26</td>
+<td>CAIControllerMonkey::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -3230,7 +3256,7 @@ them fails until something registers them.</p>
 <td><code>AIRomeroGroundPoundSlowDownFactor</code></td>
 <td>float</td>
 <td><code>0.5</code></td>
-<td>CAIControllerRomero::vf26</td>
+<td>CAIControllerRomero::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -3238,7 +3264,7 @@ them fails until something registers them.</p>
 <td><code>AIRomeroGroundPoundSlowDownTime</code></td>
 <td>int</td>
 <td><code>3000</code></td>
-<td>CAIControllerRomero::vf26</td>
+<td>CAIControllerRomero::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -3254,7 +3280,7 @@ them fails until something registers them.</p>
 <td><code>AIZombieElectricAttackSlowDownFactor</code></td>
 <td>float</td>
 <td><code>0.5</code></td>
-<td>CAIControllerZombie::vf28</td>
+<td>CAIControllerZombie::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -3262,7 +3288,7 @@ them fails until something registers them.</p>
 <td><code>AIZombieElectricAttackSlowDownTime</code></td>
 <td>int</td>
 <td><code>3000</code></td>
-<td>CAIControllerZombie::vf28</td>
+<td>CAIControllerZombie::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -3286,7 +3312,7 @@ them fails until something registers them.</p>
 <td><code>DisableZombieSpawning</code></td>
 <td>bool</td>
 <td><code>false</code></td>
-<td></td>
+<td>CWaveManager::CreateZombie</td>
 <td></td>
 <td></td>
 </tr>
@@ -3342,7 +3368,7 @@ them fails until something registers them.</p>
 <td><code>NumZombiesToInterval</code></td>
 <td>fixed</td>
 <td><code>0.1</code></td>
-<td></td>
+<td>CAmbienceManager::CAmbienceManager</td>
 <td></td>
 <td></td>
 </tr>
@@ -3366,7 +3392,7 @@ them fails until something registers them.</p>
 <td><code>PlayerVoxRomeroNearlyDead</code></td>
 <td>int</td>
 <td><code>50</code></td>
-<td>CAIControllerRomero::vf26</td>
+<td>CAIControllerRomero::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -3406,7 +3432,7 @@ them fails until something registers them.</p>
 <td><code>RomeroDeathMachineDamageMultiplier</code></td>
 <td>float</td>
 <td><code>0.1</code></td>
-<td>CAIControllerRomero::vf26</td>
+<td>CAIControllerRomero::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -3430,7 +3456,7 @@ them fails until something registers them.</p>
 <td><code>RomeroHeavyDamagePercentage</code></td>
 <td>float</td>
 <td><code>0.25</code></td>
-<td>CAIControllerRomero::vf26</td>
+<td>CAIControllerRomero::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -3446,7 +3472,7 @@ them fails until something registers them.</p>
 <td><code>RomeroLightDamagePercentage</code></td>
 <td>float</td>
 <td><code>0.75</code></td>
-<td>CAIControllerRomero::vf26</td>
+<td>CAIControllerRomero::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -3454,7 +3480,7 @@ them fails until something registers them.</p>
 <td><code>RomeroMediumDamagePercentage</code></td>
 <td>float</td>
 <td><code>0.5</code></td>
-<td>CAIControllerRomero::vf26</td>
+<td>CAIControllerRomero::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -3542,7 +3568,7 @@ them fails until something registers them.</p>
 <td><code>StaggerStartingZombies</code></td>
 <td>int</td>
 <td><code>500</code></td>
-<td>CWaveManager::vf2</td>
+<td>CWaveManager::Update</td>
 <td></td>
 <td></td>
 </tr>
@@ -3606,7 +3632,7 @@ them fails until something registers them.</p>
 <td><code>ZombieAttackingDistanceBarricadeIncrease</code></td>
 <td>float</td>
 <td><code>55</code></td>
-<td>CAIControllerZombie::vf22</td>
+<td>CAIControllerZombie::Init</td>
 <td></td>
 <td></td>
 </tr>
@@ -3622,7 +3648,7 @@ them fails until something registers them.</p>
 <td><code>ZombieAttackingDistanceTolerance</code></td>
 <td>float</td>
 <td><code>0.1</code></td>
-<td>CAIControllerZombie::vf22</td>
+<td>CAIControllerZombie::Init</td>
 <td></td>
 <td></td>
 </tr>
@@ -3678,7 +3704,7 @@ them fails until something registers them.</p>
 <td><code>ZombieEasyHealthMultiplier</code></td>
 <td>float</td>
 <td><code>0.5</code></td>
-<td></td>
+<td>CWaveManager::CreateZombie</td>
 <td></td>
 <td></td>
 </tr>
@@ -3686,7 +3712,7 @@ them fails until something registers them.</p>
 <td><code>ZombieFreezeTimeMS</code></td>
 <td>int</td>
 <td><code>3000</code></td>
-<td>CAIControllerZombie::vf28</td>
+<td>CAIControllerZombie::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -3702,7 +3728,7 @@ them fails until something registers them.</p>
 <td><code>ZombieHardHealthMultiplier</code></td>
 <td>float</td>
 <td><code>1.0</code></td>
-<td></td>
+<td>CWaveManager::CreateZombie</td>
 <td></td>
 <td></td>
 </tr>
@@ -3734,7 +3760,7 @@ them fails until something registers them.</p>
 <td><code>ZombieIceOffset</code></td>
 <td>float</td>
 <td><code>15.0</code></td>
-<td>CAIControllerZombie::vf28</td>
+<td>CAIControllerZombie::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -3758,7 +3784,7 @@ them fails until something registers them.</p>
 <td><code>ZombieMoonWalkWaterSpeedModifier</code></td>
 <td>float</td>
 <td><code>1.0</code></td>
-<td>CAIControllerZombie::vf28</td>
+<td>CAIControllerZombie::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -3766,7 +3792,7 @@ them fails until something registers them.</p>
 <td><code>ZombieNormalHealthMultiplier</code></td>
 <td>float</td>
 <td><code>1.0</code></td>
-<td></td>
+<td>CWaveManager::CreateZombie</td>
 <td></td>
 <td></td>
 </tr>
@@ -3782,7 +3808,7 @@ them fails until something registers them.</p>
 <td><code>ZombieRunWaterSpeedModifier</code></td>
 <td>float</td>
 <td><code>1.0</code></td>
-<td>CAIControllerZombie::vf28</td>
+<td>CAIControllerZombie::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -3798,7 +3824,7 @@ them fails until something registers them.</p>
 <td><code>ZombieScreamAltTimer</code></td>
 <td>int</td>
 <td><code>3000</code></td>
-<td>CAIControllerZombie::vf22</td>
+<td>CAIControllerZombie::Init</td>
 <td></td>
 <td></td>
 </tr>
@@ -3806,7 +3832,7 @@ them fails until something registers them.</p>
 <td><code>ZombieSnapSpeed</code></td>
 <td>float</td>
 <td><code>1.0</code></td>
-<td>CAIControllerZombie::vf22</td>
+<td>CAIControllerZombie::Init</td>
 <td></td>
 <td></td>
 </tr>
@@ -3814,7 +3840,7 @@ them fails until something registers them.</p>
 <td><code>ZombieSprintWaterSpeedModifier</code></td>
 <td>float</td>
 <td><code>1.0</code></td>
-<td>CAIControllerZombie::vf28</td>
+<td>CAIControllerZombie::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -3822,7 +3848,7 @@ them fails until something registers them.</p>
 <td><code>ZombieWalkFastWaterSpeedModifier</code></td>
 <td>float</td>
 <td><code>1.0</code></td>
-<td>CAIControllerZombie::vf28</td>
+<td>CAIControllerZombie::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -3830,7 +3856,7 @@ them fails until something registers them.</p>
 <td><code>ZombieWalkWaterSpeedModifier</code></td>
 <td>float</td>
 <td><code>1.0</code></td>
-<td>CAIControllerZombie::vf28</td>
+<td>CAIControllerZombie::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -3867,7 +3893,7 @@ them fails until something registers them.</p>
 <td><code>ClipPlaneNearZ</code></td>
 <td>int</td>
 <td><code>10</code></td>
-<td></td>
+<td>CIwFogManager::CIwFogManager</td>
 <td></td>
 <td></td>
 </tr>
@@ -3875,7 +3901,7 @@ them fails until something registers them.</p>
 <td><code>DeathMachineWeapon</code></td>
 <td>string</td>
 <td><code>olympia</code></td>
-<td></td>
+<td>CPickupManager::CPickupManager</td>
 <td></td>
 <td></td>
 </tr>
@@ -3907,7 +3933,7 @@ them fails until something registers them.</p>
 <td><code>FastReloadFactor</code></td>
 <td>float</td>
 <td><code>2.0</code></td>
-<td></td>
+<td>CPerkManager::CPerkManager</td>
 <td></td>
 <td></td>
 </tr>
@@ -4043,7 +4069,7 @@ them fails until something registers them.</p>
 <td><code>LightningBoltWeapon</code></td>
 <td>string</td>
 <td><code>dragunov</code></td>
-<td></td>
+<td>CPickupManager::CPickupManager</td>
 <td></td>
 <td></td>
 </tr>
@@ -4075,7 +4101,7 @@ them fails until something registers them.</p>
 <td><code>MysteryBoxMaxGoodSound</code></td>
 <td>int</td>
 <td><code>3</code></td>
-<td>CMysteryBox::vf24</td>
+<td>CMysteryBox::Interact</td>
 <td></td>
 <td></td>
 </tr>
@@ -4083,7 +4109,7 @@ them fails until something registers them.</p>
 <td><code>MysteryBoxOverrideWeaponCount</code></td>
 <td>int</td>
 <td><code>-1</code></td>
-<td>CMysteryBox::vf23</td>
+<td>CMysteryBox::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -4091,7 +4117,7 @@ them fails until something registers them.</p>
 <td><code>MysteryBoxPauseTime</code></td>
 <td>int</td>
 <td><code>1000</code></td>
-<td>CMysteryBox::vf23</td>
+<td>CMysteryBox::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -4107,7 +4133,7 @@ them fails until something registers them.</p>
 <td><code>MysteryBoxTeddyHeight</code></td>
 <td>float</td>
 <td><code>700.0</code></td>
-<td>CMysteryBox::vf23</td>
+<td>CMysteryBox::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -4123,7 +4149,7 @@ them fails until something registers them.</p>
 <td><code>MysteryBoxTeddyTime</code></td>
 <td>int</td>
 <td><code>1000</code></td>
-<td>CMysteryBox::vf23</td>
+<td>CMysteryBox::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -4131,7 +4157,7 @@ them fails until something registers them.</p>
 <td><code>MysteryBoxWeaponHeight</code></td>
 <td>float</td>
 <td><code>100.0</code></td>
-<td>CMysteryBox::vf23</td>
+<td>CMysteryBox::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -4147,7 +4173,7 @@ them fails until something registers them.</p>
 <td><code>MysteryBoxWeaponLowerTime</code></td>
 <td>int</td>
 <td><code>3000</code></td>
-<td>CMysteryBox::vf23</td>
+<td>CMysteryBox::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -4163,7 +4189,7 @@ them fails until something registers them.</p>
 <td><code>MysteryBoxWeaponStartHeight</code></td>
 <td>float</td>
 <td><code>20.0</code></td>
-<td>CMysteryBox::vf24</td>
+<td>CMysteryBox::Interact</td>
 <td></td>
 <td></td>
 </tr>
@@ -4171,7 +4197,7 @@ them fails until something registers them.</p>
 <td><code>MysteryBoxWeaponSwitchTime</code></td>
 <td>int</td>
 <td><code>2000</code></td>
-<td>CMysteryBox::vf23</td>
+<td>CMysteryBox::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -4179,7 +4205,7 @@ them fails until something registers them.</p>
 <td><code>MysteryBoxWeaponSwitchTimeMax</code></td>
 <td>int</td>
 <td><code>1500</code></td>
-<td>CMysteryBox::vf23</td>
+<td>CMysteryBox::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -4187,7 +4213,7 @@ them fails until something registers them.</p>
 <td><code>MysteryBoxWeaponSwitchTimeMin</code></td>
 <td>int</td>
 <td><code>50</code></td>
-<td>CMysteryBox::vf23</td>
+<td>CMysteryBox::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -4195,7 +4221,7 @@ them fails until something registers them.</p>
 <td><code>MysteryBoxWeaponTime</code></td>
 <td>int</td>
 <td><code>1500</code></td>
-<td>CMysteryBox::vf23</td>
+<td>CMysteryBox::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -4203,7 +4229,7 @@ them fails until something registers them.</p>
 <td><code>PackAPunchRespawnTime</code></td>
 <td>int</td>
 <td><code>150000</code></td>
-<td></td>
+<td>CCycleController::CCycleController</td>
 <td></td>
 <td></td>
 </tr>
@@ -4211,7 +4237,7 @@ them fails until something registers them.</p>
 <td><code>PackAPunchSpawnDelay</code></td>
 <td>int</td>
 <td><code>2000</code></td>
-<td>CPackAPunch::vf23</td>
+<td>CPackAPunch::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -4267,7 +4293,7 @@ them fails until something registers them.</p>
 <td><code>PlayerStartAmmo</code></td>
 <td>int</td>
 <td><code>40</code></td>
-<td></td>
+<td>WeaponManager_GiveStartWeapons</td>
 <td></td>
 <td></td>
 </tr>
@@ -4275,7 +4301,7 @@ them fails until something registers them.</p>
 <td><code>PlayerStartWeapon</code></td>
 <td>string</td>
 <td><code>colt45</code></td>
-<td></td>
+<td>WeaponManager_GiveStartWeapons</td>
 <td></td>
 <td></td>
 </tr>
@@ -4403,7 +4429,7 @@ them fails until something registers them.</p>
 <td><code>VFXDecalFadeDuration</code></td>
 <td>int</td>
 <td><code>3000</code></td>
-<td>CImpactEffect::vf22</td>
+<td>CImpactEffect::Init</td>
 <td></td>
 <td></td>
 </tr>
@@ -4432,7 +4458,7 @@ them fails until something registers them.</p>
 <td><code>AccelAimXSensitivity</code></td>
 <td>floatarray</td>
 <td><code>{ 1.0, 1.0 }</code></td>
-<td></td>
+<td>CHUDManager::GetAimXSensitivity</td>
 <td></td>
 <td></td>
 </tr>
@@ -4440,7 +4466,7 @@ them fails until something registers them.</p>
 <td><code>AccelAimYSensitivity</code></td>
 <td>floatarray</td>
 <td><code>{ 1.0, 1.0 }</code></td>
-<td></td>
+<td>CHUDManager::GetAimYSensitivity</td>
 <td></td>
 <td></td>
 </tr>
@@ -4448,7 +4474,7 @@ them fails until something registers them.</p>
 <td><code>accelDampingHorizontal</code></td>
 <td>fixed</td>
 <td><code>0.1</code></td>
-<td></td>
+<td>CPlayerController::GetTiltTurn</td>
 <td></td>
 <td></td>
 </tr>
@@ -4480,7 +4506,7 @@ them fails until something registers them.</p>
 <td><code>AccelHorizontalRampAiming</code></td>
 <td>graph</td>
 <td><code>0,0;216,0;1034,470;3873,1477;</code></td>
-<td></td>
+<td>CPlayerController::GetTiltTurn</td>
 <td></td>
 <td></td>
 </tr>
@@ -4488,7 +4514,7 @@ them fails until something registers them.</p>
 <td><code>AccelHorizontalRampRunning</code></td>
 <td>graph</td>
 <td><code>0,0;216,0;1034,470;3873,1477;</code></td>
-<td></td>
+<td>CPlayerController::GetTiltTurn</td>
 <td></td>
 <td></td>
 </tr>
@@ -4496,7 +4522,7 @@ them fails until something registers them.</p>
 <td><code>AccelHorizontalRampWalking</code></td>
 <td>graph</td>
 <td><code>0,0;216,0;1034,470;3416,3008;</code></td>
-<td></td>
+<td>CPlayerController::GetTiltTurn</td>
 <td></td>
 <td></td>
 </tr>
@@ -4504,7 +4530,7 @@ them fails until something registers them.</p>
 <td><code>accelScreenTiltCorrectionDamping</code></td>
 <td>fixed</td>
 <td><code>0.25</code></td>
-<td></td>
+<td>CAccelerometerInput::CAccelerometerInput</td>
 <td></td>
 <td></td>
 </tr>
@@ -4520,7 +4546,7 @@ them fails until something registers them.</p>
 <td><code>accelScreenTiltCorrectionStrength</code></td>
 <td>fixed</td>
 <td><code>0.5</code></td>
-<td></td>
+<td>CAccelerometerInput::CAccelerometerInput</td>
 <td></td>
 <td></td>
 </tr>
@@ -4664,7 +4690,7 @@ them fails until something registers them.</p>
 <td><code>AimCrouchSpeed</code></td>
 <td>float</td>
 <td><code>0.6</code></td>
-<td>CPlayerController::vf23</td>
+<td>CPlayerController::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -4672,7 +4698,7 @@ them fails until something registers them.</p>
 <td><code>AimPitchSpeed</code></td>
 <td>float</td>
 <td><code>1.0</code></td>
-<td></td>
+<td>CPlayerController::FixedStep</td>
 <td></td>
 <td></td>
 </tr>
@@ -4680,7 +4706,7 @@ them fails until something registers them.</p>
 <td><code>AimProneSpeed</code></td>
 <td>float</td>
 <td><code>0.3</code></td>
-<td>CPlayerController::vf23</td>
+<td>CPlayerController::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -4688,7 +4714,7 @@ them fails until something registers them.</p>
 <td><code>AimTurnSpeed</code></td>
 <td>float</td>
 <td><code>1.0</code></td>
-<td></td>
+<td>CPlayerController::FixedStep</td>
 <td></td>
 <td></td>
 </tr>
@@ -4696,7 +4722,7 @@ them fails until something registers them.</p>
 <td><code>AimWalkSpeed</code></td>
 <td>float</td>
 <td><code>1.0</code></td>
-<td>CPlayerController::vf23</td>
+<td>CPlayerController::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -4704,7 +4730,7 @@ them fails until something registers them.</p>
 <td><code>AnalogueAimXSensitivity</code></td>
 <td>floatarray</td>
 <td><code>{ 1.0, 1.0 }</code></td>
-<td></td>
+<td>CHUDManager::GetAimXSensitivity</td>
 <td></td>
 <td></td>
 </tr>
@@ -4712,7 +4738,7 @@ them fails until something registers them.</p>
 <td><code>AnalogueAimYSensitivity</code></td>
 <td>floatarray</td>
 <td><code>{ 1.0, 1.0 }</code></td>
-<td></td>
+<td>CHUDManager::GetAimYSensitivity</td>
 <td></td>
 <td></td>
 </tr>
@@ -4720,7 +4746,15 @@ them fails until something registers them.</p>
 <td><code>analoguePadAimingResponse</code></td>
 <td>graph</td>
 <td><code>0,0;4096,4096;</code></td>
+<td>CTouchComponentAnaloguePad::CTouchComponentAnaloguePad</td>
 <td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>analoguePadMovingResponse</code></td>
+<td>graph</td>
+<td><code>0,0;4096,4096;</code></td>
+<td>CTouchComponentAnaloguePad::CTouchComponentAnaloguePad</td>
 <td></td>
 <td></td>
 </tr>
@@ -4744,7 +4778,7 @@ them fails until something registers them.</p>
 <td><code>ButtonDoubleTapTimeOut</code></td>
 <td>int</td>
 <td><code>400</code></td>
-<td>CInputManager::vf4</td>
+<td>CInputManager::OnInputAction</td>
 <td></td>
 <td></td>
 </tr>
@@ -4760,7 +4794,7 @@ them fails until something registers them.</p>
 <td><code>EnableSetFov</code></td>
 <td>bool</td>
 <td><code>false</code></td>
-<td></td>
+<td>CWeaponManager::UpdateFov</td>
 <td>Turns on the SetFov override (CWeaponManager::UpdateFov).</td>
 <td>works</td>
 </tr>
@@ -4784,7 +4818,7 @@ them fails until something registers them.</p>
 <td><code>InputWaitingTime</code></td>
 <td>int</td>
 <td><code>1000</code></td>
-<td>CIngameStateResults::vf2</td>
+<td>CIngameStateResults::Enter</td>
 <td></td>
 <td></td>
 </tr>
@@ -4792,7 +4826,7 @@ them fails until something registers them.</p>
 <td><code>MaxPitch</code></td>
 <td>float</td>
 <td><code>0.5</code></td>
-<td></td>
+<td>CPlayerController::FixedStep</td>
 <td></td>
 <td></td>
 </tr>
@@ -4808,7 +4842,7 @@ them fails until something registers them.</p>
 <td><code>PerkedAimCrouchSpeed</code></td>
 <td>float</td>
 <td><code>1.2</code></td>
-<td>CPlayerController::vf23</td>
+<td>CPlayerController::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -4816,7 +4850,7 @@ them fails until something registers them.</p>
 <td><code>PerkedAimPitchSpeed</code></td>
 <td>float</td>
 <td><code>2.0</code></td>
-<td></td>
+<td>CPlayerController::FixedStep</td>
 <td></td>
 <td></td>
 </tr>
@@ -4824,7 +4858,7 @@ them fails until something registers them.</p>
 <td><code>PerkedAimProneSpeed</code></td>
 <td>float</td>
 <td><code>0.6</code></td>
-<td>CPlayerController::vf23</td>
+<td>CPlayerController::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -4832,7 +4866,7 @@ them fails until something registers them.</p>
 <td><code>PerkedAimTurnSpeed</code></td>
 <td>float</td>
 <td><code>2.0</code></td>
-<td></td>
+<td>CPlayerController::FixedStep</td>
 <td></td>
 <td></td>
 </tr>
@@ -4840,7 +4874,7 @@ them fails until something registers them.</p>
 <td><code>PerkedAimWalkSpeed</code></td>
 <td>float</td>
 <td><code>1.0</code></td>
-<td>CPlayerController::vf23</td>
+<td>CPlayerController::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -4848,7 +4882,7 @@ them fails until something registers them.</p>
 <td><code>PerkedPitchSpeed</code></td>
 <td>float</td>
 <td><code>2.0</code></td>
-<td></td>
+<td>CPlayerController::FixedStep</td>
 <td></td>
 <td></td>
 </tr>
@@ -4856,7 +4890,7 @@ them fails until something registers them.</p>
 <td><code>PerkedSprintPitchSpeed</code></td>
 <td>float</td>
 <td><code>2.0</code></td>
-<td></td>
+<td>CPlayerController::FixedStep</td>
 <td></td>
 <td></td>
 </tr>
@@ -4864,7 +4898,7 @@ them fails until something registers them.</p>
 <td><code>PerkedSprintTurnSpeed</code></td>
 <td>float</td>
 <td><code>2.0</code></td>
-<td></td>
+<td>CPlayerController::FixedStep</td>
 <td></td>
 <td></td>
 </tr>
@@ -4872,7 +4906,7 @@ them fails until something registers them.</p>
 <td><code>PerkedTurnSpeed</code></td>
 <td>float</td>
 <td><code>2.0</code></td>
-<td></td>
+<td>CPlayerController::FixedStep</td>
 <td></td>
 <td></td>
 </tr>
@@ -4880,7 +4914,7 @@ them fails until something registers them.</p>
 <td><code>PitchSpeed</code></td>
 <td>float</td>
 <td><code>1.0</code></td>
-<td></td>
+<td>CPlayerController::FixedStep</td>
 <td>Vertical look speed multiplier.</td>
 <td></td>
 </tr>
@@ -4896,7 +4930,7 @@ them fails until something registers them.</p>
 <td><code>SetFov</code></td>
 <td>float</td>
 <td><code>50.0</code></td>
-<td></td>
+<td>CWeaponManager::UpdateFov</td>
 <td>Field of view in degrees while EnableSetFov is on, clamped to at most the base FOV (the map&#39;s MainCamera m_fov, 50 on Kino): it can only narrow the view. Widen it by raising CWeaponManager +0xc4 (the Developer mod&#39;s FOV slider).</td>
 <td>partial</td>
 </tr>
@@ -4912,7 +4946,7 @@ them fails until something registers them.</p>
 <td><code>SprintPitchSpeed</code></td>
 <td>float</td>
 <td><code>1.0</code></td>
-<td></td>
+<td>CPlayerController::FixedStep</td>
 <td></td>
 <td></td>
 </tr>
@@ -4920,7 +4954,7 @@ them fails until something registers them.</p>
 <td><code>SprintTurnSpeed</code></td>
 <td>float</td>
 <td><code>1.0</code></td>
-<td></td>
+<td>CPlayerController::FixedStep</td>
 <td></td>
 <td></td>
 </tr>
@@ -4928,7 +4962,7 @@ them fails until something registers them.</p>
 <td><code>StickyAimXSensitivity</code></td>
 <td>floatarray</td>
 <td><code>{ 1.0, 1.0 }</code></td>
-<td></td>
+<td>CHUDManager::GetAimXSensitivity</td>
 <td></td>
 <td></td>
 </tr>
@@ -4936,7 +4970,7 @@ them fails until something registers them.</p>
 <td><code>StickyAimYSensitivity</code></td>
 <td>floatarray</td>
 <td><code>{ 1.0, 1.0 }</code></td>
-<td></td>
+<td>CHUDManager::GetAimYSensitivity</td>
 <td></td>
 <td></td>
 </tr>
@@ -4952,7 +4986,7 @@ them fails until something registers them.</p>
 <td><code>StickySpeed</code></td>
 <td>float</td>
 <td><code>0.1</code></td>
-<td></td>
+<td>CTouchComponentStickyStick::CTouchComponentStickyStick</td>
 <td></td>
 <td></td>
 </tr>
@@ -4968,7 +5002,7 @@ them fails until something registers them.</p>
 <td><code>TouchAimXSensitivity</code></td>
 <td>floatarray</td>
 <td><code>{ 1.0, 1.0 }</code></td>
-<td></td>
+<td>CHUDManager::GetAimXSensitivity</td>
 <td></td>
 <td></td>
 </tr>
@@ -4976,7 +5010,7 @@ them fails until something registers them.</p>
 <td><code>TouchAimYSensitivity</code></td>
 <td>floatarray</td>
 <td><code>{ 1.0, 1.0 }</code></td>
-<td></td>
+<td>CHUDManager::GetAimYSensitivity</td>
 <td></td>
 <td></td>
 </tr>
@@ -4992,7 +5026,7 @@ them fails until something registers them.</p>
 <td><code>TouchControlBalance</code></td>
 <td>float</td>
 <td><code>12.0</code></td>
-<td></td>
+<td>CTouchComponentControl::CTouchComponentControl</td>
 <td></td>
 <td></td>
 </tr>
@@ -5000,7 +5034,7 @@ them fails until something registers them.</p>
 <td><code>TurnMult</code></td>
 <td>float</td>
 <td><code>0.25</code></td>
-<td>CPlayerController::vf23</td>
+<td>CPlayerController::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -5008,7 +5042,7 @@ them fails until something registers them.</p>
 <td><code>TurnSpeed</code></td>
 <td>float</td>
 <td><code>1.0</code></td>
-<td></td>
+<td>CPlayerController::FixedStep</td>
 <td>Horizontal look speed multiplier.</td>
 <td></td>
 </tr>
@@ -5016,7 +5050,7 @@ them fails until something registers them.</p>
 <td><code>UIDoubleClickReleaseTime</code></td>
 <td>int</td>
 <td><code>150</code></td>
-<td>CInputManager::vf4</td>
+<td>CInputManager::OnInputAction</td>
 <td></td>
 <td></td>
 </tr>
@@ -5045,7 +5079,7 @@ them fails until something registers them.</p>
 <td><code>CrouchSpeed</code></td>
 <td>float</td>
 <td><code>0.6</code></td>
-<td>CPlayerController::vf23</td>
+<td>CPlayerController::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -5053,7 +5087,7 @@ them fails until something registers them.</p>
 <td><code>EnableAutoCrouch</code></td>
 <td>bool</td>
 <td><code>false</code></td>
-<td>CPlayerController::vf23</td>
+<td>CPlayerController::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -5077,7 +5111,7 @@ them fails until something registers them.</p>
 <td><code>KillStreakQuota</code></td>
 <td>int</td>
 <td><code>50</code></td>
-<td>CPlayerController::vf23</td>
+<td>CPlayerController::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -5085,7 +5119,7 @@ them fails until something registers them.</p>
 <td><code>KillStreakVoxDelayTime</code></td>
 <td>int</td>
 <td><code>10000</code></td>
-<td>CPlayerController::vf23</td>
+<td>CPlayerController::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -5093,7 +5127,7 @@ them fails until something registers them.</p>
 <td><code>LastStandDuration</code></td>
 <td>int</td>
 <td><code>30000</code></td>
-<td>CPlayerController::vf24</td>
+<td>CPlayerController::HandleState</td>
 <td></td>
 <td></td>
 </tr>
@@ -5101,7 +5135,7 @@ them fails until something registers them.</p>
 <td><code>LastStandDurationSinglePlayer</code></td>
 <td>int</td>
 <td><code>10000</code></td>
-<td>CPlayerController::vf24</td>
+<td>CPlayerController::HandleState</td>
 <td></td>
 <td></td>
 </tr>
@@ -5109,7 +5143,15 @@ them fails until something registers them.</p>
 <td><code>LastStandSpeed</code></td>
 <td>float</td>
 <td><code>0.2</code></td>
-<td>CPlayerController::vf23</td>
+<td>CPlayerController::OnEvent</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>LazarusTime</code></td>
+<td>int</td>
+<td><code>15000</code></td>
+<td>CPlayerController::CPlayerController</td>
 <td></td>
 <td></td>
 </tr>
@@ -5125,7 +5167,15 @@ them fails until something registers them.</p>
 <td><code>MaxTimeInWater</code></td>
 <td>int</td>
 <td><code>30000</code></td>
-<td>CPlayerController::vf22</td>
+<td>CPlayerController::Init</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>moveVecMinimumSquaredLength</code></td>
+<td>float</td>
+<td><code>0.005</code></td>
+<td>CPlayerController::FixedStep</td>
 <td></td>
 <td></td>
 </tr>
@@ -5133,7 +5183,7 @@ them fails until something registers them.</p>
 <td><code>MTXReviveCost</code></td>
 <td>int</td>
 <td><code>1000</code></td>
-<td>CIngameStateQuickRevive::vf2</td>
+<td>CIngameStateQuickRevive::Enter</td>
 <td></td>
 <td></td>
 </tr>
@@ -5141,7 +5191,7 @@ them fails until something registers them.</p>
 <td><code>PerkedCrouchSpeed</code></td>
 <td>float</td>
 <td><code>1.2</code></td>
-<td>CPlayerController::vf23</td>
+<td>CPlayerController::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -5149,7 +5199,7 @@ them fails until something registers them.</p>
 <td><code>PerkedProneSpeed</code></td>
 <td>float</td>
 <td><code>0.6</code></td>
-<td>CPlayerController::vf23</td>
+<td>CPlayerController::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -5189,7 +5239,7 @@ them fails until something registers them.</p>
 <td><code>PerkedSprintSpeed</code></td>
 <td>float</td>
 <td><code>6.0</code></td>
-<td>CPlayerController::vf23</td>
+<td>CPlayerController::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -5197,7 +5247,7 @@ them fails until something registers them.</p>
 <td><code>PerkedWalkSpeed</code></td>
 <td>float</td>
 <td><code>2.0</code></td>
-<td>CPlayerController::vf23</td>
+<td>CPlayerController::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -5205,7 +5255,7 @@ them fails until something registers them.</p>
 <td><code>PerkUnderAttackFadeTimeMS</code></td>
 <td>int</td>
 <td><code>500</code></td>
-<td>CPerkManager::vf25</td>
+<td>CPerkManager::UpdateHUD</td>
 <td></td>
 <td></td>
 </tr>
@@ -5213,7 +5263,7 @@ them fails until something registers them.</p>
 <td><code>PerkUnderAttackFlashTimeMS</code></td>
 <td>int</td>
 <td><code>6000</code></td>
-<td>CPerkManager::vf23</td>
+<td>CPerkManager::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -5237,7 +5287,7 @@ them fails until something registers them.</p>
 <td><code>playerCrouchFootstepsMultipler</code></td>
 <td>float</td>
 <td><code>2.0</code></td>
-<td></td>
+<td>CPlayerController::FixedStep</td>
 <td></td>
 <td></td>
 </tr>
@@ -5245,7 +5295,7 @@ them fails until something registers them.</p>
 <td><code>PlayerDownScorePenalty</code></td>
 <td>float</td>
 <td><code>0.05</code></td>
-<td>CPlayerController::vf24</td>
+<td>CPlayerController::HandleState</td>
 <td></td>
 <td></td>
 </tr>
@@ -5261,7 +5311,7 @@ them fails until something registers them.</p>
 <td><code>playerLastStandFootstepsMultipler</code></td>
 <td>float</td>
 <td><code>0.0</code></td>
-<td></td>
+<td>CPlayerController::FixedStep</td>
 <td></td>
 <td></td>
 </tr>
@@ -5274,10 +5324,26 @@ them fails until something registers them.</p>
 <td></td>
 </tr>
 <tr>
+<td><code>playerMoveSpeedDamp</code></td>
+<td>float</td>
+<td><code>300.0</code></td>
+<td>CPlayerController::FixedStep</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>playerNormalFootstepsMultipler</code></td>
+<td>float</td>
+<td><code>1.0</code></td>
+<td>CPlayerController::FixedStep</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
 <td><code>playerProneFootstepsMultipler</code></td>
 <td>float</td>
 <td><code>0.0</code></td>
-<td></td>
+<td>CPlayerController::FixedStep</td>
 <td></td>
 <td></td>
 </tr>
@@ -5309,7 +5375,7 @@ them fails until something registers them.</p>
 <td><code>playerSprintFootstepsMultipler</code></td>
 <td>float</td>
 <td><code>0.5</code></td>
-<td></td>
+<td>CPlayerController::FixedStep</td>
 <td></td>
 <td></td>
 </tr>
@@ -5317,7 +5383,7 @@ them fails until something registers them.</p>
 <td><code>PlayerVoxWaterDelay</code></td>
 <td>int</td>
 <td><code>3000</code></td>
-<td></td>
+<td>CPlayerController::FixedStep</td>
 <td></td>
 <td></td>
 </tr>
@@ -5325,7 +5391,7 @@ them fails until something registers them.</p>
 <td><code>ProneSpeed</code></td>
 <td>float</td>
 <td><code>0.3</code></td>
-<td>CPlayerController::vf23</td>
+<td>CPlayerController::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -5349,7 +5415,7 @@ them fails until something registers them.</p>
 <td><code>RenderFromPlayer</code></td>
 <td>bool</td>
 <td><code>false</code></td>
-<td>CGameStateIngame::vf6</td>
+<td>CGameStateIngame::Render</td>
 <td></td>
 <td></td>
 </tr>
@@ -5405,7 +5471,7 @@ them fails until something registers them.</p>
 <td><code>SprintAngle</code></td>
 <td>float</td>
 <td><code>0.5</code></td>
-<td>CPlayerController::vf23</td>
+<td>CPlayerController::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -5445,7 +5511,7 @@ them fails until something registers them.</p>
 <td><code>SprintSpeed</code></td>
 <td>float</td>
 <td><code>3.0</code></td>
-<td>CPlayerController::vf23</td>
+<td>CPlayerController::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -5461,7 +5527,7 @@ them fails until something registers them.</p>
 <td><code>TrapNonDamagePeriodMS</code></td>
 <td>int</td>
 <td><code>1000</code></td>
-<td>CPlayerController::vf23</td>
+<td>CPlayerController::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -5485,7 +5551,7 @@ them fails until something registers them.</p>
 <td><code>UnlimitedStamina</code></td>
 <td>bool</td>
 <td><code>false</code></td>
-<td>CPlayerController::vf23</td>
+<td>CPlayerController::OnEvent</td>
 <td>Sprint never runs out.</td>
 <td>works</td>
 </tr>
@@ -5493,7 +5559,7 @@ them fails until something registers them.</p>
 <td><code>UnlimitedWaterMove</code></td>
 <td>bool</td>
 <td><code>false</code></td>
-<td></td>
+<td>CPlayerController::FixedStep</td>
 <td></td>
 <td></td>
 </tr>
@@ -5501,7 +5567,7 @@ them fails until something registers them.</p>
 <td><code>WalkFraction</code></td>
 <td>float</td>
 <td><code>0.9</code></td>
-<td>CPlayerController::vf23</td>
+<td>CPlayerController::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -5509,7 +5575,7 @@ them fails until something registers them.</p>
 <td><code>WalkSpeed</code></td>
 <td>float</td>
 <td><code>1.0</code></td>
-<td>CPlayerController::vf23</td>
+<td>CPlayerController::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -5538,7 +5604,7 @@ them fails until something registers them.</p>
 <td><code>CarpenterScoreTime</code></td>
 <td>int</td>
 <td><code>1000</code></td>
-<td></td>
+<td>CPickupManager::CPickupManager</td>
 <td></td>
 <td></td>
 </tr>
@@ -5551,10 +5617,18 @@ them fails until something registers them.</p>
 <td></td>
 </tr>
 <tr>
+<td><code>DeathMachineTime</code></td>
+<td>int</td>
+<td><code>30000</code></td>
+<td>CPickupManager::CPickupManager</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
 <td><code>DefaultPowerSwitchName</code></td>
 <td>string</td>
 <td><code>PowerSwitch</code></td>
-<td></td>
+<td>Level_Load</td>
 <td></td>
 <td></td>
 </tr>
@@ -5562,7 +5636,39 @@ them fails until something registers them.</p>
 <td><code>DefaultSpawnedRocketName</code></td>
 <td>string</td>
 <td><code>SpawnedRocket</code></td>
-<td>CRocketLauncher::vf23</td>
+<td>CRocketLauncher::OnEvent</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>DoublePointsTime</code></td>
+<td>int</td>
+<td><code>30000</code></td>
+<td>CPickupManager::CPickupManager</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>FastShootingFactor</code></td>
+<td>float</td>
+<td><code>1.333333333333333</code></td>
+<td>CPerkManager::CPerkManager</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>FireSaleEnableTime</code></td>
+<td>int</td>
+<td><code>3000</code></td>
+<td>CPickupManager::CPickupManager</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>FireSaleTime</code></td>
+<td>int</td>
+<td><code>20000</code></td>
+<td>CPickupManager::CPickupManager</td>
 <td></td>
 <td></td>
 </tr>
@@ -5570,7 +5676,15 @@ them fails until something registers them.</p>
 <td><code>GeorgeRomero</code></td>
 <td>bool</td>
 <td><code>true</code></td>
-<td>CWaveManager::vf2</td>
+<td>CWaveManager::Update</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>InstaKillTime</code></td>
+<td>int</td>
+<td><code>30000</code></td>
+<td>CPickupManager::CPickupManager</td>
 <td></td>
 <td></td>
 </tr>
@@ -5602,7 +5716,7 @@ them fails until something registers them.</p>
 <td><code>MaxPickupsPerWave</code></td>
 <td>int</td>
 <td><code>4</code></td>
-<td></td>
+<td>CPickupManager::CPickupManager</td>
 <td></td>
 <td></td>
 </tr>
@@ -5634,7 +5748,7 @@ them fails until something registers them.</p>
 <td><code>PickupDropOnDeathProbability</code></td>
 <td>int</td>
 <td><code>2</code></td>
-<td></td>
+<td>CPickupManager::CPickupManager</td>
 <td></td>
 <td></td>
 </tr>
@@ -5642,7 +5756,7 @@ them fails until something registers them.</p>
 <td><code>PickupKillThreshold</code></td>
 <td>int</td>
 <td><code>0</code></td>
-<td></td>
+<td>CPickupManager::CPickupManager</td>
 <td></td>
 <td></td>
 </tr>
@@ -5658,7 +5772,7 @@ them fails until something registers them.</p>
 <td><code>PickupPointsThreshold</code></td>
 <td>int</td>
 <td><code>1000</code></td>
-<td></td>
+<td>CPickupManager::CPickupManager</td>
 <td></td>
 <td></td>
 </tr>
@@ -5682,7 +5796,7 @@ them fails until something registers them.</p>
 <td><code>ScoreConfigName</code></td>
 <td>string</td>
 <td><code>score_table</code></td>
-<td></td>
+<td>CScoreManager::GetConfig</td>
 <td></td>
 <td></td>
 </tr>
@@ -5698,7 +5812,7 @@ them fails until something registers them.</p>
 <td><code>SpawnMaxDistance</code></td>
 <td>float</td>
 <td><code>5000.0</code></td>
-<td></td>
+<td>SpawnManager_PickPoint</td>
 <td></td>
 <td></td>
 </tr>
@@ -5714,7 +5828,7 @@ them fails until something registers them.</p>
 <td><code>TeleportDurationMS</code></td>
 <td>int</td>
 <td><code>1000</code></td>
-<td>CTeleportManager::vf2</td>
+<td>CTeleportManager::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -5722,7 +5836,7 @@ them fails until something registers them.</p>
 <td><code>TeleportFadeMS</code></td>
 <td>int</td>
 <td><code>100</code></td>
-<td>CTeleportManager::vf2</td>
+<td>CTeleportManager::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -5730,7 +5844,7 @@ them fails until something registers them.</p>
 <td><code>TeleportWormholeTimeMS</code></td>
 <td>int</td>
 <td><code>2000</code></td>
-<td></td>
+<td>CTeleportManager::CTeleportManager</td>
 <td></td>
 <td></td>
 </tr>
@@ -5759,7 +5873,7 @@ them fails until something registers them.</p>
 <td><code>GameResultsFXVolume</code></td>
 <td>float</td>
 <td><code>0.3</code></td>
-<td>CIngameStateResults::vf2</td>
+<td>CIngameStateResults::Enter</td>
 <td></td>
 <td></td>
 </tr>
@@ -5767,7 +5881,23 @@ them fails until something registers them.</p>
 <td><code>masterVolume</code></td>
 <td>int</td>
 <td><code>5</code></td>
+<td>CIwGame::CIwGame</td>
 <td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>MaxIntervalMul</code></td>
+<td>fixed</td>
+<td><code>1.5</code></td>
+<td>CAmbienceManager::CAmbienceManager</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>MinIntervalMul</code></td>
+<td>fixed</td>
+<td><code>0.0</code></td>
+<td>CAmbienceManager::CAmbienceManager</td>
 <td></td>
 <td></td>
 </tr>
@@ -5775,7 +5905,7 @@ them fails until something registers them.</p>
 <td><code>musicEnabled</code></td>
 <td>int</td>
 <td><code>1</code></td>
-<td></td>
+<td>CIwGame::CIwGame</td>
 <td>1 plays music, 0 mutes it.</td>
 <td></td>
 </tr>
@@ -5783,7 +5913,7 @@ them fails until something registers them.</p>
 <td><code>soundEnabled</code></td>
 <td>int</td>
 <td><code>1</code></td>
-<td></td>
+<td>CIwGame::CIwGame</td>
 <td>1 plays sound effects, 0 mutes them.</td>
 <td></td>
 </tr>
@@ -5860,7 +5990,7 @@ them fails until something registers them.</p>
 <td><code>FogAltTransitionTime</code></td>
 <td>int</td>
 <td><code>5000</code></td>
-<td>CVFXManager::vf2</td>
+<td>CVFXManager::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -5868,7 +5998,7 @@ them fails until something registers them.</p>
 <td><code>FogBaseZRange</code></td>
 <td>int</td>
 <td><code>12256</code></td>
-<td></td>
+<td>CIwFogManager::CIwFogManager</td>
 <td></td>
 <td></td>
 </tr>
@@ -5876,7 +6006,7 @@ them fails until something registers them.</p>
 <td><code>FogLevelsMax</code></td>
 <td>int</td>
 <td><code>3</code></td>
-<td></td>
+<td>Level_Load</td>
 <td></td>
 <td></td>
 </tr>
@@ -6028,7 +6158,7 @@ them fails until something registers them.</p>
 <td><code>LODQuotaLevelsMax</code></td>
 <td>int</td>
 <td><code>3</code></td>
-<td>CIsLODControllerQuotaManager::vf2</td>
+<td>CIsLODControllerQuotaManager::FixedStep</td>
 <td></td>
 <td></td>
 </tr>
@@ -6036,7 +6166,7 @@ them fails until something registers them.</p>
 <td><code>LODQuotaQualityReducer</code></td>
 <td>int</td>
 <td><code>2</code></td>
-<td>CIsLODControllerQuotaManager::vf2</td>
+<td>CIsLODControllerQuotaManager::FixedStep</td>
 <td></td>
 <td></td>
 </tr>
@@ -6044,7 +6174,7 @@ them fails until something registers them.</p>
 <td><code>MaterialFrameTime</code></td>
 <td>int</td>
 <td><code>60</code></td>
-<td>CFullscreenFXManager::vf2</td>
+<td>CFullscreenFXManager::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -6124,7 +6254,7 @@ them fails until something registers them.</p>
 <td><code>StartMaterialFadeTime</code></td>
 <td>int</td>
 <td><code>500</code></td>
-<td>CFullscreenFXManager::vf2</td>
+<td>CFullscreenFXManager::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -6241,7 +6371,7 @@ them fails until something registers them.</p>
 <td><code>GameOverWaitingTime</code></td>
 <td>int</td>
 <td><code>5000</code></td>
-<td>CIngameStateResults::vf2</td>
+<td>CIngameStateResults::Enter</td>
 <td></td>
 <td></td>
 </tr>
@@ -6265,7 +6395,7 @@ them fails until something registers them.</p>
 <td><code>HUDPointsMaxCount</code></td>
 <td>int</td>
 <td><code>5</code></td>
-<td></td>
+<td>CHUDManager::CHUDManager</td>
 <td></td>
 <td></td>
 </tr>
@@ -6273,7 +6403,7 @@ them fails until something registers them.</p>
 <td><code>HUDPointsPosX</code></td>
 <td>int</td>
 <td><code>25</code></td>
-<td></td>
+<td>CHUDManager::SetScore</td>
 <td></td>
 <td></td>
 </tr>
@@ -6281,7 +6411,7 @@ them fails until something registers them.</p>
 <td><code>HUDPointsPosY</code></td>
 <td>int</td>
 <td><code>50</code></td>
-<td></td>
+<td>CHUDManager::SetScore</td>
 <td></td>
 <td></td>
 </tr>
@@ -6289,7 +6419,7 @@ them fails until something registers them.</p>
 <td><code>HUDPointsRandomDisplacementX</code></td>
 <td>int</td>
 <td><code>20</code></td>
-<td></td>
+<td>CHUDManager::SetScore</td>
 <td></td>
 <td></td>
 </tr>
@@ -6297,7 +6427,7 @@ them fails until something registers them.</p>
 <td><code>HUDPointsRandomDisplacementY</code></td>
 <td>int</td>
 <td><code>10</code></td>
-<td></td>
+<td>CHUDManager::SetScore</td>
 <td></td>
 <td></td>
 </tr>
@@ -6337,7 +6467,7 @@ them fails until something registers them.</p>
 <td><code>RateMeDelayTimer</code></td>
 <td>int</td>
 <td><code>2000</code></td>
-<td>CIngameStateResults::vf2</td>
+<td>CIngameStateResults::Enter</td>
 <td></td>
 <td></td>
 </tr>
@@ -6393,7 +6523,7 @@ them fails until something registers them.</p>
 <td><code>XPBarSpeed</code></td>
 <td>float</td>
 <td><code>0.2f</code></td>
-<td>CIngameStateResults::vf2</td>
+<td>CIngameStateResults::Enter</td>
 <td></td>
 <td></td>
 </tr>
@@ -6443,7 +6573,7 @@ them fails until something registers them.</p>
 <td><code>ADSZoomInSpeed</code></td>
 <td>float</td>
 <td><code>80.0</code></td>
-<td></td>
+<td>CWeaponManager::UpdateFov</td>
 <td></td>
 <td></td>
 </tr>
@@ -6451,15 +6581,7 @@ them fails until something registers them.</p>
 <td><code>ADSZoomOutSpeed</code></td>
 <td>float</td>
 <td><code>80.0</code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>analoguePadMovingResponse</code></td>
-<td>graph</td>
-<td><code>0,0;4096,4096;</code></td>
-<td></td>
+<td>CWeaponManager::UpdateFov</td>
 <td></td>
 <td></td>
 </tr>
@@ -6475,7 +6597,7 @@ them fails until something registers them.</p>
 <td><code>BIHMaxDepth</code></td>
 <td>int</td>
 <td><code>20</code></td>
-<td></td>
+<td>Collision_BuildBIH</td>
 <td></td>
 <td></td>
 </tr>
@@ -6483,7 +6605,7 @@ them fails until something registers them.</p>
 <td><code>BIHMaxSingled</code></td>
 <td>int</td>
 <td><code>6</code></td>
-<td></td>
+<td>Collision_BuildBIH</td>
 <td></td>
 <td></td>
 </tr>
@@ -6491,7 +6613,7 @@ them fails until something registers them.</p>
 <td><code>BOGravity</code></td>
 <td>float</td>
 <td><code>-981.0</code></td>
-<td>CBodyHandler::vf22</td>
+<td>CBodyHandler::Init</td>
 <td></td>
 <td></td>
 </tr>
@@ -6560,25 +6682,9 @@ them fails until something registers them.</p>
 <td></td>
 </tr>
 <tr>
-<td><code>DeathMachineTime</code></td>
-<td>int</td>
-<td><code>30000</code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
 <td><code>DetailDistance</code></td>
 <td>int</td>
 <td><code>1300</code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>DoublePointsTime</code></td>
-<td>int</td>
-<td><code>30000</code></td>
 <td></td>
 <td></td>
 <td></td>
@@ -6611,7 +6717,7 @@ them fails until something registers them.</p>
 <td><code>ExplosionRayCast</code></td>
 <td>bool</td>
 <td><code>true</code></td>
-<td></td>
+<td>Explosion_DamageEntity</td>
 <td></td>
 <td></td>
 </tr>
@@ -6619,7 +6725,7 @@ them fails until something registers them.</p>
 <td><code>failsafeMeleeBloodSplatDisplacement</code></td>
 <td>float</td>
 <td><code>20.0</code></td>
-<td></td>
+<td>CWeaponManager::MeleeAttack</td>
 <td></td>
 <td></td>
 </tr>
@@ -6640,34 +6746,10 @@ them fails until something registers them.</p>
 <td></td>
 </tr>
 <tr>
-<td><code>FastShootingFactor</code></td>
-<td>float</td>
-<td><code>1.333333333333333</code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>FireSaleEnableTime</code></td>
-<td>int</td>
-<td><code>3000</code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>FireSaleTime</code></td>
-<td>int</td>
-<td><code>20000</code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
 <td><code>flingerGravity</code></td>
 <td>float</td>
 <td><code>-981.0f</code></td>
-<td>CFlinger::vf23</td>
+<td>CFlinger::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -6675,7 +6757,7 @@ them fails until something registers them.</p>
 <td><code>flingerTime</code></td>
 <td>float</td>
 <td><code>2.4f</code></td>
-<td>CFlinger::vf23</td>
+<td>CFlinger::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -6736,14 +6818,6 @@ them fails until something registers them.</p>
 <td></td>
 </tr>
 <tr>
-<td><code>InstaKillTime</code></td>
-<td>int</td>
-<td><code>30000</code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
 <td><code>IsASMNumReservedTriggers</code></td>
 <td>int</td>
 <td><code>32</code></td>
@@ -6768,26 +6842,10 @@ them fails until something registers them.</p>
 <td></td>
 </tr>
 <tr>
-<td><code>LazarusTime</code></td>
-<td>int</td>
-<td><code>15000</code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
 <td><code>maxDyingEntities</code></td>
 <td>int</td>
 <td><em>lookup only</em></td>
 <td>CIwWorld::CIwWorld</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>MaxIntervalMul</code></td>
-<td>fixed</td>
-<td><code>1.5</code></td>
-<td></td>
 <td></td>
 <td></td>
 </tr>
@@ -6800,26 +6858,10 @@ them fails until something registers them.</p>
 <td></td>
 </tr>
 <tr>
-<td><code>MinIntervalMul</code></td>
-<td>fixed</td>
-<td><code>0.0</code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>moveVecMinimumSquaredLength</code></td>
-<td>float</td>
-<td><code>0.005</code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
 <td><code>NoExplosions</code></td>
 <td>bool</td>
 <td><code>false</code></td>
-<td>CExplosion::vf23</td>
+<td>CExplosion::OnEvent</td>
 <td></td>
 <td></td>
 </tr>
@@ -6875,7 +6917,7 @@ them fails until something registers them.</p>
 <td><code>OwnExplosionDamageModifier</code></td>
 <td>float</td>
 <td><code>50.0f</code></td>
-<td></td>
+<td>Explosion_DamageEntity</td>
 <td></td>
 <td></td>
 </tr>
@@ -6912,22 +6954,6 @@ them fails until something registers them.</p>
 <td></td>
 </tr>
 <tr>
-<td><code>playerMoveSpeedDamp</code></td>
-<td>float</td>
-<td><code>300.0</code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>playerNormalFootstepsMultipler</code></td>
-<td>float</td>
-<td><code>1.0</code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
 <td><code>POIGridSize</code></td>
 <td>int</td>
 <td><code>300</code></td>
@@ -6939,7 +6965,7 @@ them fails until something registers them.</p>
 <td><code>RayCastTestEnabled</code></td>
 <td>bool</td>
 <td><code>true</code></td>
-<td>CGameStateIngame::vf6</td>
+<td>CGameStateIngame::Render</td>
 <td></td>
 <td></td>
 </tr>
@@ -7007,28 +7033,12 @@ them fails until something registers them.</p>
 <td></td>
 <td></td>
 </tr>
-<tr>
-<td><code>UDPPacketCorruptionRate</code></td>
-<td>int</td>
-<td><code>0</code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><code>UDPPacketLossRate</code></td>
-<td>int</td>
-<td><code>0</code></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
 </tbody></table></div>
 
             </article>
             <div class="doc-pagination" role="navigation" aria-label="Previous and next page">
-              <a class="doc-prev" href="standard-library.html"><small>PREVIOUS</small><span>← Standard library</span></a>
-              <a class="doc-next" href="game-events.html"><small>NEXT</small><span>Game events →</span></a>
+              <a class="doc-prev" href="weapons-and-assets.html"><small>PREVIOUS</small><span>← Weapons &amp; assets</span></a>
+              <a class="doc-next" href="game-events.html"><small>NEXT</small><span>Low-level events →</span></a>
             </div>
           </div>
           <aside class="doc-toc" aria-label="On this page">

@@ -1,0 +1,1226 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Prefabs | BOZ Redux Docs</title>
+    <meta name="description" content="A prefab is the thing you will make most: a few parts that act as one object, with a script that says what it does. This page goes from nothing to…" />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://boz-redux.com/docs/prefabs.html" />
+    <meta name="theme-color" content="#0d0e10" />
+    <link rel="icon" href="../assets/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="256x256" href="../assets/favicon.png" />
+    <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png" />
+    <link rel="manifest" href="../site.webmanifest" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="BOZ Redux" />
+    <meta property="og:title" content="Prefabs | BOZ Redux Docs" />
+    <meta property="og:description" content="A prefab is the thing you will make most: a few parts that act as one object, with a script that says what it does. This page goes from nothing to…" />
+    <meta property="og:url" content="https://boz-redux.com/docs/prefabs.html" />
+    <meta property="og:image" content="https://boz-redux.com/assets/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Prefabs","description":"A prefab is the thing you will make most: a few parts that act as one object, with a script that says what it does. This page goes from nothing to…","url":"https://boz-redux.com/docs/prefabs.html","dateModified":"2026-11-05T03:50:05.781Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Prefabs","item":"https://boz-redux.com/docs/prefabs.html"}]}]}</script>
+    <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="stylesheet" href="../styles.css" />
+    <script defer src="../config.js"></script>
+    <script defer src="../app.js"></script>
+  </head>
+  <body class="is-docs">
+    <a class="skip" href="#main">Skip to content</a>
+<header>
+      <a class="brand" href="../index.html" aria-label="BOZ Redux home"
+        ><img src="../assets/client-logo.png" alt="BOZ Redux" width="640" height="260"
+      /></a>
+      <nav aria-label="Main navigation">
+        <a href="../index.html" data-nav="home">Home</a
+        ><a href="../docs/index.html" data-nav="docs" class="active" aria-current="page">Documentation</a
+        ><a href="#discord" data-discord>Discord</a>
+      </nav>
+      <a
+        class="header-github"
+        href="https://github.com/ZappaVinny/boz-redux"
+        target="_blank"
+        rel="noopener"
+        >GitHub ↗</a
+      >
+    </header>
+
+    <main id="main" tabindex="-1">
+      <div id="docs-view">
+        <button class="docs-mobile" aria-expanded="false">
+          ☰ Browse documentation
+        </button>
+        <div class="docs-shell">
+          <aside class="docs-sidebar" aria-label="Documentation navigation">
+            <div class="search-wrap">
+              <input
+                id="docs-search"
+                aria-label="Search all documentation"
+                placeholder="Search documentation…"
+                type="search"
+                autocomplete="off"
+                data-index="../docs-data.js"
+              />
+            </div>
+            <div class="search-results" aria-live="polite"></div>
+            <!--
+              The docs page list. Order here sets sidebar order and previous/next.
+              Each link's href is docs/<name>.html for docs/<name>.md (README is index.html).
+              Each link belongs to the nearest label above it (used for the breadcrumb).
+              After changing it, run `node rebuild-docs.mjs`.
+            -->
+            <div class="page-links" role="navigation" aria-label="Documentation pages">
+              <p class="docs-label">START HERE</p>
+              <a href="index.html">Introduction</a>
+              <a href="getting-started.html">Getting started</a>
+
+              <a href="how-a-map-works.html">How a map works</a>
+
+              <p class="docs-label">PREFABS</p>
+              <a href="prefabs.html" class="current" aria-current="page">Prefabs</a>
+              <a href="game-prefabs.html">Game prefabs</a>
+              <a href="events.html">Events</a>
+
+              <p class="docs-label">SCRIPTING</p>
+              <a href="scripting.html">Scripting reference</a>
+              <a href="script-mods.html">Script mods</a>
+
+              <p class="docs-label">THE EDITOR</p>
+              <a href="editor.html">The editor</a>
+              <a href="weapons-and-assets.html">Weapons &amp; assets</a>
+
+              <p class="docs-label">REFERENCE</p>
+              <a href="console-reference.html">Console reference</a>
+              <a href="game-events.html">Low-level events</a>
+              <a href="sdk-reference.html">SDK reference</a>
+
+              <p class="docs-label">UNDER THE HOOD</p>
+              <a href="map-internals.html">Map internals</a>
+              <a href="how-the-game-works.html">How the game works</a>
+              <a href="contributing.html">Contributing</a>
+            </div>
+          </aside>
+          <div class="doc-area">
+            <div class="breadcrumb">DOCUMENTATION / <span>PREFABS</span></div>
+            <article class="doc-content">
+<h1 id="prefabs">Prefabs</h1>
+<p>A prefab is the thing you will make most: a few parts that act as one object, with a script that
+says what it does. This page goes from nothing to complete working objects.</p>
+<p>The game&#39;s own objects are prefabs too. They have their own page,
+<a href="game-prefabs.html">Game prefabs</a>, but everything here works on them as well.</p>
+<h2 id="what-a-prefab-is">What a prefab is</h2>
+<p>A prefab is <strong>parts plus an optional script</strong>:</p>
+<ul>
+<li><strong>Parts</strong> are models, volumes and other prefabs, grouped under one object.</li>
+<li><strong>The script</strong> is a class. It says what the object does when things happen to it.</li>
+</ul>
+<p>You make a prefab when you want:</p>
+<ul>
+<li>something that does a job (a button, a pad, a secret);</li>
+<li>more than one of the same thing (ten skulls that all behave alike);</li>
+<li>a piece you can reuse in other maps.</li>
+</ul>
+<h2 id="make-one-in-the-editor">Make one in the editor</h2>
+<p>We will make a skull you can shoot for points.</p>
+<ol>
+<li>In the <strong>World</strong> tab, drag a model into the map from the asset browser&#39;s <strong>Models</strong>. Pick any
+small one.</li>
+<li>From <strong>Volumes</strong>, drag a <strong>Hit</strong> volume over it. Scale it so it covers the model. It is a
+see-through red box; size is its scale (100 cm at scale 1).</li>
+<li>Select both and press <strong>Ctrl+G</strong> (<strong>Make prefab</strong>). They are now one object, grouped under an
+Empty. Name it <code>Skull</code>.</li>
+<li>Each part keeps a <strong>part name</strong> inside the prefab. In the outliner they show as
+<code>Skull › Model</code> and <code>Skull › Hit</code>. Rename them if you like; scripts use these names.</li>
+</ol>
+<p><strong>Ctrl+Alt+G</strong> (<strong>Ungroup</strong>) takes a prefab apart again.</p>
+<h3 id="save-it-to-the-library">Save it to the library</h3>
+<p>With the prefab selected, click <strong>Save as new prefab</strong>. It now shows in the asset browser under
+<strong>My prefabs</strong>, and dropping it places an independent copy. <strong>Project → Prefab library</strong> deletes
+prefabs from the library.</p>
+<h2 id="your-first-script">Your first script</h2>
+<p>Select the prefab. In the <strong>Script</strong> box of the <strong>Game</strong> panel, click <strong>New</strong>. Keep the name <code>Skull</code>,
+choose <strong>Basic prefab</strong>, and click OK. The editor makes <code>scripts/prefabs/Skull.lua</code> and opens it in the
+<strong>Scripts</strong> tab. Replace what is there with:</p>
+<pre><code class="language-lua">local Skull = boz.Prefab:extend(&quot;Skull&quot;)
+
+---@setting points int 100 &quot;Points for shooting it&quot;
+
+function Skull:on_hit(player)
+    self:hide()
+    player:give_points(self.settings.points)
+    player:message(&quot;Skull found&quot;)
+end
+
+return Skull
+</code></pre>
+<p>Press <strong>Build &amp; Run</strong>, shoot the skull, and it vanishes and pays you. Line by line:</p>
+<pre><code class="language-lua">local Skull = boz.Prefab:extend(&quot;Skull&quot;)
+</code></pre>
+<p>Makes a new class called <code>Skull</code>, based on <code>boz.Prefab</code>. Your class gets everything a prefab can
+do, and adds to it.</p>
+<pre><code class="language-lua">---@setting points int 100 &quot;Points for shooting it&quot;
+</code></pre>
+<p>A setting. It shows in the editor&#39;s <strong>Settings</strong> box with the label <em>Points for shooting it</em>, as
+a whole number that starts at 100. Each skull you place can have its own value. Press <strong>Reload</strong>
+in the Script box after adding one.</p>
+<pre><code class="language-lua">function Skull:on_hit(player)
+</code></pre>
+<p>A <strong>hook</strong>: a function with a special name that runs when something happens. <code>on_hit</code> runs when
+a <strong>Hit</strong> volume in this prefab is shot. <code>player</code> is who shot it.</p>
+<pre><code class="language-lua">    self:hide()
+</code></pre>
+<p><code>self</code> is this skull, the one that was shot. Hiding it makes it vanish, and its Hit volume stops
+working too.</p>
+<pre><code class="language-lua">    player:give_points(self.settings.points)
+    player:message(&quot;Skull found&quot;)
+</code></pre>
+<p>Pays the player the value from the editor, and shows a line of text on the screen.</p>
+<pre><code class="language-lua">return Skull
+</code></pre>
+<p>Hands your class to the game. <strong>Every object script must end with this.</strong> Without it the script
+does nothing and the log shows an error.</p>
+<h2 id="choosing-a-template">Choosing a template</h2>
+<p><strong>New</strong> asks for a name and a template:</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Template</th>
+<th>What you get</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Empty</strong></td>
+<td>Just the class and <code>return</code>, for you to fill in</td>
+</tr>
+<tr>
+<td><strong>Basic prefab</strong></td>
+<td>A prefab with <code>start</code>, <code>on_use</code> and <code>on_event</code>, and a setting to show how it&#39;s done</td>
+</tr>
+<tr>
+<td><strong>Object</strong></td>
+<td>Extends one of the game&#39;s objects, which you pick from the <strong>Extends</strong> list, with that object&#39;s hooks ready</td>
+</tr>
+</tbody></table></div>
+<p>The popup starts on what fits the selected object: <strong>Object</strong> with the right class for a door or a
+perk machine, and <strong>Basic prefab</strong> for your own prefabs. <strong>Empty</strong> extends the object&#39;s own class too,
+so a door stays a door. If a script with that name exists, the popup says so, and <strong>New</strong> attaches
+that script as it is.</p>
+<h2 id="the-shape-of-a-script">The shape of a script</h2>
+<p>Every object script looks the same:</p>
+<pre><code class="language-lua">local Name = boz.Prefab:extend(&quot;Name&quot;)    -- 1. make the class
+
+---@setting ...                           -- 2. settings and links, if you want them
+---@link ...
+
+function Name:start()                     -- 3. hooks and your own functions
+end
+
+return Name                               -- 4. hand it back
+</code></pre>
+<p><code>boz</code> is ready to use in object scripts. You don&#39;t need to <code>require</code> it.</p>
+<p>Two things trip people up if Lua is new to them:</p>
+<ul>
+<li>Use a <strong>colon</strong> for methods: <code>function Skull:on_hit(player)</code> and <code>self:hide()</code>. The colon is
+what passes <code>self</code>.</li>
+<li><code>self</code> is one object. If you place ten skulls, there are ten <code>self</code>s, and each one has its own
+fields and settings.</li>
+</ul>
+<p>A script&#39;s class <em>extends</em> another: it gets everything that class has, and any function you write
+with the same name replaces the original. Your own prefabs have nothing to lose, but a game prefab
+does, so there you hand the use back to the game. See
+<a href="game-prefabs.html#handing-it-back-to-the-game">Handing it back to the game</a>.</p>
+<p>You can add your own functions and call them from hooks:</p>
+<pre><code class="language-lua">local Skull = boz.Prefab:extend(&quot;Skull&quot;)
+
+function Skull:collect(player)
+    self:hide()
+    player:give_points(100)
+end
+
+function Skull:on_hit(player)
+    self:collect(player)
+end
+
+return Skull
+</code></pre>
+<h2 id="what-every-object-has">What every object has</h2>
+<p>Your class starts with all of this, before you write a line. <code>self</code> in a script, or anything from
+<code>boz.get</code>, has the same things.</p>
+<pre><code class="language-lua">local Vault = boz.Prefab:extend(&quot;Vault&quot;)
+
+function Vault:start()
+    log(self.name)                     -- &quot;Vault_2&quot;: its name in the editor
+    log(self.kind)                     -- &quot;prefab&quot;
+    log(self:class_name())             -- &quot;Vault&quot;
+    log(self.settings.bonus)           -- a value from the Settings box
+    log(self:position().x)             -- where it is
+    local keypad = self:part(&quot;Keypad&quot;) -- one of its parts
+    log(keypad:part_name())            -- &quot;Keypad&quot;
+    log(keypad:parent().name)          -- &quot;Vault_2&quot;
+end
+
+return Vault
+</code></pre>
+<h3 id="who-it-is">Who it is</h3>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>You write</th>
+<th>What you get</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>self.name</code></td>
+<td>Its name in the editor. A part is <code>&quot;Prefab.Part&quot;</code>. Copies each have their own.</td>
+</tr>
+<tr>
+<td><code>self.kind</code></td>
+<td><code>&quot;model&quot;</code>, <code>&quot;volume&quot;</code> or <code>&quot;prefab&quot;</code></td>
+</tr>
+<tr>
+<td><code>self:class_name()</code></td>
+<td>The name of its class, like <code>&quot;Skull&quot;</code> or <code>&quot;Perk&quot;</code></td>
+</tr>
+<tr>
+<td><code>self:is_a(boz.Door)</code></td>
+<td>True when it is that class, or extends it</td>
+</tr>
+<tr>
+<td><code>self:part_name()</code></td>
+<td>Its name inside its prefab, like <code>&quot;Door&quot;</code>, or nil</td>
+</tr>
+<tr>
+<td><code>self:parent()</code></td>
+<td>The prefab it is part of, or nil</td>
+</tr>
+</tbody></table></div>
+<h3 id="where-it-is">Where it is</h3>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>You write</th>
+<th>What you get</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>self:position()</code></td>
+<td><code>{x, y, z}</code> in centimetres, y up. For a prefab, the middle of its parts.</td>
+</tr>
+<tr>
+<td><code>self:rotation()</code></td>
+<td><code>{x, y, z, w}</code>, a quaternion</td>
+</tr>
+<tr>
+<td><code>self:near(target, distance)</code></td>
+<td>True when within <code>distance</code> cm of a position or object</td>
+</tr>
+<tr>
+<td><code>self:exists()</code></td>
+<td>True while it is in the running level</td>
+</tr>
+</tbody></table></div>
+<h3 id="its-in-the-game-box">Its In the game box</h3>
+<p>Each switch in the editor can be read and changed.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Switch</th>
+<th>Read it</th>
+<th>Change it</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Visible</strong></td>
+<td><code>self:visible()</code></td>
+<td><code>self:show()</code>, <code>self:hide()</code>, <code>self:set_visible(on)</code></td>
+</tr>
+<tr>
+<td><strong>Walking</strong></td>
+<td><code>self:blocks_walking()</code></td>
+<td><code>self:set_blocks_walking(on)</code></td>
+</tr>
+<tr>
+<td><strong>Stops bullets</strong></td>
+<td><code>self:stops_bullets()</code></td>
+<td><code>self:set_stops_bullets(on)</code></td>
+</tr>
+</tbody></table></div>
+<p>A hidden object reads false for the last two, because it stops nothing. A prefab reads true if any
+of its parts does. These two are only reliable on objects a script can reach: ones with a script,
+or with <strong>Scripts can switch it</strong> on.</p>
+<h3 id="its-settings-and-links">Its settings and links</h3>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>You write</th>
+<th>What you get</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>self.settings.name</code></td>
+<td>A value from the <strong>Settings</strong> box. Writing it changes it.</td>
+</tr>
+<tr>
+<td><code>pairs(self.settings)</code></td>
+<td>Every setting, to loop over</td>
+</tr>
+<tr>
+<td><code>self:links(&quot;name&quot;)</code></td>
+<td>The objects it links to, as a list</td>
+</tr>
+<tr>
+<td><code>self:linked_from(&quot;name&quot;)</code></td>
+<td>The objects that link to it, as a list</td>
+</tr>
+</tbody></table></div>
+<p><code>&quot;name&quot;</code> is your own <code>---@link</code>, or one of the game&#39;s:</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Link</th>
+<th>In the editor</th>
+<th>On</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&quot;power&quot;</code></td>
+<td><strong>Power switch</strong></td>
+<td>Anything that needs power</td>
+</tr>
+<tr>
+<td><code>&quot;traps&quot;</code></td>
+<td><strong>Traps</strong></td>
+<td>Trap switches</td>
+</tr>
+<tr>
+<td><code>&quot;siblings&quot;</code></td>
+<td><strong>Opens with</strong></td>
+<td>Doors and debris</td>
+</tr>
+<tr>
+<td><code>&quot;spawns&quot;</code></td>
+<td><strong>Window spawns</strong></td>
+<td>Barricades</td>
+</tr>
+</tbody></table></div>
+<pre><code class="language-lua">local trap = boz.get(&quot;Lobby_Trap&quot;)
+for _, switch in ipairs(trap:linked_from(&quot;traps&quot;)) do
+    log(switch.name .. &quot; runs this trap&quot;)
+end
+</code></pre>
+<h3 id="its-parts">Its parts</h3>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>You write</th>
+<th>What you get</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>self:part(&quot;Door&quot;)</code></td>
+<td>One part, as its class</td>
+</tr>
+<tr>
+<td><code>self:parts()</code></td>
+<td>A list of <code>{name =, object =}</code></td>
+</tr>
+</tbody></table></div>
+<h3 id="listening-and-sending">Listening and sending</h3>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>You write</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>self:on(&quot;hit&quot;, fn)</code></td>
+<td>Calls <code>fn(object, ...)</code> when the event happens to it</td>
+</tr>
+<tr>
+<td><code>self:send(&quot;name&quot;, data)</code></td>
+<td>The same as <code>boz.send</code></td>
+</tr>
+</tbody></table></div>
+<p>Volumes have <a href="#reading-and-changing-a-volume">their own values</a>, and each game prefab adds its
+methods on <a href="game-prefabs.html">Game prefabs</a>. There&#39;s no way to move or turn an object from a script
+yet.</p>
+<h2 id="hooks">Hooks</h2>
+<p>These are the hooks a prefab has. You only write the ones you need.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Hook</th>
+<th>When it runs</th>
+<th>Needs</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>start()</code></td>
+<td>The level starts</td>
+<td>Nothing</td>
+</tr>
+<tr>
+<td><code>on_use(player, volume)</code></td>
+<td>A player presses use</td>
+<td>A <strong>Use</strong> volume</td>
+</tr>
+<tr>
+<td><code>on_hit(player, volume)</code></td>
+<td>Something is shot</td>
+<td>A <strong>Hit</strong> volume</td>
+</tr>
+<tr>
+<td><code>on_enter(who, volume)</code></td>
+<td>Someone walks in</td>
+<td>A <strong>Trigger</strong> volume</td>
+</tr>
+<tr>
+<td><code>on_exit(who, volume)</code></td>
+<td>Someone walks out</td>
+<td>A <strong>Trigger</strong> volume</td>
+</tr>
+<tr>
+<td><code>on_event(name, data)</code></td>
+<td>A game event, or a <code>boz.send</code></td>
+<td>Nothing</td>
+</tr>
+</tbody></table></div>
+<p><code>volume</code> is the part name of the volume, so one prefab can tell its volumes apart. A script
+attached to a single volume, outside any prefab, gets no <code>volume</code> argument.</p>
+<h3 id="start">start</h3>
+<p>Runs when the level starts, once for each object. Use it to set the object up.</p>
+<pre><code class="language-lua">local Crate = boz.Prefab:extend(&quot;Crate&quot;)
+
+function Crate:start()
+    self:hide()              -- starts hidden, something shows it later
+end
+
+return Crate
+</code></pre>
+<p><code>start</code> also runs when a saved game continues, after the object&#39;s saved fields are back. So a
+good <code>start</code> looks at what is saved:</p>
+<pre><code class="language-lua">function Crate:start()
+    if self.collected then
+        self:hide()
+    end
+end
+</code></pre>
+<h3 id="on_use">on_use</h3>
+<p>Runs when a player stands at a <strong>Use</strong> volume and presses use. The volume&#39;s <strong>Prompt</strong> is the text
+they see, and its <strong>Cost</strong> is taken <em>before</em> the hook runs. If they can&#39;t pay, the hook doesn&#39;t
+run.</p>
+<pre><code class="language-lua">local Button = boz.Prefab:extend(&quot;Button&quot;)
+
+function Button:on_use(player, volume)
+    player:message(&quot;Click&quot;)
+    boz.get(&quot;Front_Door&quot;):open()
+end
+
+return Button
+</code></pre>
+<h3 id="on_hit">on_hit</h3>
+<p>Runs when a <strong>Hit</strong> volume is shot.</p>
+<pre><code class="language-lua">local Target = boz.Prefab:extend(&quot;Target&quot;)
+
+function Target:on_hit(player, volume)
+    if volume == &quot;Bullseye&quot; then
+        player:give_points(500)
+    else
+        player:give_points(50)
+    end
+end
+
+return Target
+</code></pre>
+<h3 id="on_enter-and-on_exit">on_enter and on_exit</h3>
+<p>Run when someone walks into or out of a <strong>Trigger</strong> volume. <code>who</code> depends on the volume&#39;s <strong>Set
+off by</strong>:</p>
+<ul>
+<li><strong>Players</strong> (the default): <code>who</code> is the player.</li>
+<li><strong>Zombies</strong>: <code>who</code> is a <a href="scripting.html#zombies">zombie</a>, dogs and monkeys included.</li>
+<li><strong>Anyone</strong>: <code>who</code> is either. Check <code>who.zombie</code> before you call player methods on it.</li>
+</ul>
+<pre><code class="language-lua">local Fence = boz.Prefab:extend(&quot;Fence&quot;)
+
+function Fence:on_enter(who, volume)
+    if who.zombie then
+        who:kill()
+        return
+    end
+    who:message(&quot;Mind the fence&quot;)
+end
+
+function Fence:on_exit(who, volume)
+    log(&quot;someone left&quot;)
+end
+
+return Fence
+</code></pre>
+<p>A zombie that dies inside the volume counts as leaving, so <code>on_exit</code> runs for it too.</p>
+<h3 id="on_event">on_event</h3>
+<p>Runs for every game event (<code>round_started</code>, <code>power_on</code>, ...) and for every <code>boz.send</code> from your
+own scripts. <code>name</code> says which it was. The full list is on the <a href="events.html">Events</a> page.</p>
+<pre><code class="language-lua">local Lamp = boz.Prefab:extend(&quot;Lamp&quot;)
+
+function Lamp:start()
+    self:hide()
+end
+
+function Lamp:on_event(name, data)
+    if name == &quot;power_on&quot; then
+        self:show()
+    end
+end
+
+return Lamp
+</code></pre>
+<h2 id="volumes">Volumes</h2>
+<p>Volumes are how a prefab notices the world. They are invisible in the game. Drag one from
+<strong>Volumes</strong> in the asset browser, scale it, and make it a part of your prefab.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Volume</th>
+<th>Colour in the editor</th>
+<th>Its event</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Trigger</strong></td>
+<td>Teal</td>
+<td><code>on_enter</code>, <code>on_exit</code></td>
+</tr>
+<tr>
+<td><strong>Hit</strong></td>
+<td>Red</td>
+<td><code>on_hit</code></td>
+</tr>
+<tr>
+<td><strong>Use</strong></td>
+<td>Green</td>
+<td><code>on_use</code></td>
+</tr>
+</tbody></table></div>
+<p>Volume settings:</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Set off by</strong></td>
+<td>Triggers: <strong>Players</strong>, <strong>Zombies</strong> or <strong>Anyone</strong></td>
+</tr>
+<tr>
+<td><strong>Only once</strong></td>
+<td>It works one time, then never again</td>
+</tr>
+<tr>
+<td><strong>Prompt</strong></td>
+<td>Use volumes: the text the player sees</td>
+</tr>
+<tr>
+<td><strong>Cost</strong></td>
+<td>Use volumes: the points it takes. No points, no hook.</td>
+</tr>
+</tbody></table></div>
+<p>A hidden volume does nothing. So <code>self:hide()</code> on a prefab also switches off its volumes, and
+<code>self:part(&quot;Keypad&quot;):hide()</code> switches off just one.</p>
+<h3 id="reading-and-changing-a-volume">Reading and changing a volume</h3>
+<p>A volume is a <code>boz.Volume</code>. It has everything in <a href="#what-every-object-has">What every object has</a>,
+and every setting from the editor:</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>You write</th>
+<th>What you get</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>volume:type()</code></td>
+<td><code>&quot;trigger&quot;</code>, <code>&quot;hit&quot;</code> or <code>&quot;use&quot;</code></td>
+</tr>
+<tr>
+<td><code>volume:set_off_by()</code></td>
+<td><code>&quot;players&quot;</code>, <code>&quot;zombies&quot;</code> or <code>&quot;anyone&quot;</code></td>
+</tr>
+<tr>
+<td><code>volume:once()</code></td>
+<td>True when <strong>Only once</strong> is on</td>
+</tr>
+<tr>
+<td><code>volume:used()</code></td>
+<td>True once it has fired</td>
+</tr>
+<tr>
+<td><code>volume:prompt()</code>, <code>volume:set_prompt(text)</code></td>
+<td>The <strong>Prompt</strong></td>
+</tr>
+<tr>
+<td><code>volume:cost()</code>, <code>volume:set_cost(points)</code></td>
+<td>The <strong>Cost</strong></td>
+</tr>
+</tbody></table></div>
+<p>A new prompt shows the next time a player reaches the volume.</p>
+<pre><code class="language-lua">local Shrine = boz.Prefab:extend(&quot;Shrine&quot;)
+
+function Shrine:on_use(player, volume)
+    local keypad = self:part(volume)
+    keypad:set_cost(keypad:cost() * 2)      -- dearer each time
+    keypad:set_prompt(&quot;Pray again&quot;)
+end
+
+return Shrine
+</code></pre>
+<p>To put a script on a single volume outside any prefab, click <strong>New</strong> with the volume selected: it
+extends <code>boz.Volume</code>, and <code>self</code> has these too.</p>
+<h2 id="parts">Parts</h2>
+<p>A script can reach each part by its part name:</p>
+<pre><code class="language-lua">local Vault = boz.Prefab:extend(&quot;Vault&quot;)
+
+function Vault:on_use(player)
+    self:part(&quot;Door&quot;):hide()                       -- just the door
+    self:part(&quot;Frame&quot;):set_stops_bullets(false)
+end
+
+return Vault
+</code></pre>
+<p><code>self:parts()</code> lists them, each with its <code>name</code> and <code>object</code>:</p>
+<pre><code class="language-lua">function Vault:start()
+    for _, part in ipairs(self:parts()) do
+        log(part.name)
+    end
+end
+</code></pre>
+<p>Prefabs can have prefabs inside them, and game prefabs can be parts too. <code>self:part(&quot;Machine&quot;)</code>
+on a perk machine part gives you a real <code>boz.Perk</code>, with all its methods. From outside the prefab,
+the same part is <code>boz.get(&quot;Vault.Door&quot;)</code>.</p>
+<p>What you do to the prefab itself goes to all of its parts: <code>self:hide()</code> hides all of them.</p>
+<h2 id="settings">Settings</h2>
+<p>Settings let you change a value in the editor without touching the script, and give each placed
+copy its own value.</p>
+<pre><code class="language-lua">local Pad = boz.Prefab:extend(&quot;Pad&quot;)
+
+---@setting bonus int 500 &quot;Bonus points&quot;
+---@setting delay seconds 2 &quot;Wait before paying&quot;
+---@setting once bool true &quot;Pay only once&quot;
+---@setting greeting text &quot;Welcome&quot; &quot;Message&quot;
+
+function Pad:on_use(player)
+    boz.after(self.settings.delay, function()
+        player:give_points(self.settings.bonus)
+        player:message(self.settings.greeting)
+    end)
+end
+
+return Pad
+</code></pre>
+<p>The shape is <code>---@setting name kind default &quot;Label&quot;</code>. After adding one, press <strong>Reload</strong> in the
+Script box and it appears in the <strong>Settings</strong> box.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Kind</th>
+<th>In the editor</th>
+<th>In the script</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>int</code></td>
+<td>Whole number</td>
+<td>Number</td>
+</tr>
+<tr>
+<td><code>float</code></td>
+<td>Number</td>
+<td>Number</td>
+</tr>
+<tr>
+<td><code>bool</code></td>
+<td>Tick box</td>
+<td><code>true</code> or <code>false</code></td>
+</tr>
+<tr>
+<td><code>seconds</code></td>
+<td>Seconds</td>
+<td>Number of seconds</td>
+</tr>
+<tr>
+<td><code>text</code></td>
+<td>Text</td>
+<td>String</td>
+</tr>
+<tr>
+<td><code>weapon</code></td>
+<td>A weapon of the map</td>
+<td>Weapon name</td>
+</tr>
+<tr>
+<td><code>sound</code></td>
+<td>A sound</td>
+<td>Sound name</td>
+</tr>
+<tr>
+<td><code>object</code></td>
+<td>An object of the map</td>
+<td>Object name, for <code>boz.get</code></td>
+</tr>
+<tr>
+<td><code>event</code></td>
+<td>An event name</td>
+<td>String, for <code>boz.send</code></td>
+</tr>
+</tbody></table></div>
+<p>Read and change them through <code>self.settings</code>:</p>
+<pre><code class="language-lua">local value = self.settings.bonus
+self.settings.bonus = value * 2
+</code></pre>
+<p>On a <a href="game-prefabs.html">game prefab</a>, the Settings box has the machine&#39;s own settings as well as
+yours, and <code>self.settings</code> reaches both. <code>self.settings.cost</code> on a perk machine is its real cost.</p>
+<h2 id="links">Links</h2>
+<p>A setting holds a value. A link holds <strong>other objects</strong>, chosen in the editor with search and
+lines drawn in the viewport. Use a link when your script acts on something else in the map.</p>
+<pre><code class="language-lua">local Lever = boz.Prefab:extend(&quot;Lever&quot;)
+
+---@link doors door many &quot;Doors it opens&quot;
+
+function Lever:on_use(player)
+    for _, door in ipairs(self:links(&quot;doors&quot;)) do
+        door:open()
+    end
+end
+
+return Lever
+</code></pre>
+<p>The shape is <code>---@link name kind one|many &quot;Label&quot;</code>. Press <strong>Reload</strong>, and the <strong>Links</strong> box shows
+your link. Click <strong>+</strong> to search, or select objects and use <strong>Link selected</strong>. <strong>×</strong> removes one.</p>
+<p><code>self:links(&quot;name&quot;)</code> always gives a list, even for <code>one</code>:</p>
+<pre><code class="language-lua">local target = self:links(&quot;target&quot;)[1]
+</code></pre>
+<p>The kind limits what can be linked:</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Kind</th>
+<th>Links to</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>perk</code></td>
+<td>Perk machines</td>
+</tr>
+<tr>
+<td><code>door</code></td>
+<td>Doors and debris</td>
+</tr>
+<tr>
+<td><code>barricade</code></td>
+<td>Window barricades</td>
+</tr>
+<tr>
+<td><code>trap</code></td>
+<td>Traps</td>
+</tr>
+<tr>
+<td><code>trap_switch</code></td>
+<td>Trap switches</td>
+</tr>
+<tr>
+<td><code>power_switch</code></td>
+<td>Power switches</td>
+</tr>
+<tr>
+<td><code>mystery_box</code></td>
+<td>Mystery boxes</td>
+</tr>
+<tr>
+<td><code>pack_a_punch</code></td>
+<td>Pack-a-Punch machines</td>
+</tr>
+<tr>
+<td><code>wall_buy</code></td>
+<td>Wall buys</td>
+</tr>
+<tr>
+<td><code>zombie_spawn</code></td>
+<td>Zombie spawns</td>
+</tr>
+<tr>
+<td><code>player_spawn</code></td>
+<td>Player spawns</td>
+</tr>
+<tr>
+<td><code>volume</code></td>
+<td>Volumes</td>
+</tr>
+<tr>
+<td><code>model</code></td>
+<td>Models</td>
+</tr>
+<tr>
+<td><code>prefab</code></td>
+<td>Your prefabs</td>
+</tr>
+<tr>
+<td><code>any</code></td>
+<td>Anything</td>
+</tr>
+</tbody></table></div>
+<p><strong>Links or a name?</strong> <code>boz.get(&quot;Front_Door&quot;)</code> is fine for one object in one map. A link is better
+for a prefab you will reuse: each copy can point at something different, and renaming an object
+doesn&#39;t break it.</p>
+<h2 id="doing-things">Doing things</h2>
+<p><a href="#what-every-object-has">What every object has</a> lists the calls. A few things to know:</p>
+<p>An object only changes during play if a script can reach it. Objects with a script always can. For
+others, turn on <strong>Scripts can switch it</strong> in the <strong>In the game</strong> box. Without it the build bakes
+the object into the level, and <code>hide()</code> does nothing.</p>
+<p><code>set_blocks_walking</code> needs <strong>Walking: Blocks</strong> in the editor, because that is what reserves the
+gap in the walkable area.</p>
+<h3 id="timers">Timers</h3>
+<pre><code class="language-lua">boz.after(5, function()
+    log(&quot;five seconds later&quot;)
+end)
+
+local beat = boz.every(1, function()
+    log(&quot;every second&quot;)
+end)
+
+beat:cancel()      -- stops it
+</code></pre>
+<p>Times are in seconds of game time, so they stop while the game is paused.</p>
+<h3 id="players">Players</h3>
+<p><code>player</code> in a hook is a <a href="scripting.html#players">boz.Player</a>. Anywhere else, use <code>boz.player()</code>:</p>
+<pre><code class="language-lua">local player = boz.player()
+player:give_points(500)
+player:give_perk(&quot;Juggernog&quot;)
+player:give_weapon(&quot;mp40&quot;)
+player:teleport(boz.get(&quot;Spawn_Room&quot;))
+player:message(&quot;Hello&quot;, 5)
+</code></pre>
+<h2 id="talking-between-objects">Talking between objects</h2>
+<p>Three ways, simplest first.</p>
+<p><strong>Call it.</strong> If you can reach the object, call its methods:</p>
+<pre><code class="language-lua">boz.get(&quot;Vault.Door&quot;):hide()
+</code></pre>
+<p><strong>Send an event.</strong> <code>boz.send</code> reaches every <code>boz.on</code> listener and every object&#39;s <code>on_event</code>. The
+sender doesn&#39;t need to know who listens. Good for &quot;something happened&quot; messages.</p>
+<pre><code class="language-lua">-- in one script
+boz.send(&quot;alarm&quot;, {room = &quot;Lab&quot;})
+</code></pre>
+<pre><code class="language-lua">-- in another object&#39;s script
+function Siren:on_event(name, data)
+    if name == &quot;alarm&quot; then
+        log(&quot;alarm in &quot; .. data.room)
+    end
+end
+</code></pre>
+<p><strong>Listen from a map script.</strong> <code>:on()</code> watches an object from outside:</p>
+<pre><code class="language-lua">-- scripts/main.lua
+local boz = require(&quot;boz&quot;)
+
+boz.get(&quot;Vault&quot;):on(&quot;use&quot;, function(vault, player, volume)
+    log(&quot;someone used the vault&quot;)
+end)
+</code></pre>
+<p>Listeners at the top of <code>main.lua</code> work even though no level is loaded yet, and they keep working
+across levels. They run after the object&#39;s own hook, and they can&#39;t stop it.</p>
+<h2 id="saving-state">Saving state</h2>
+<p>Saved games keep two things for you:</p>
+<ul>
+<li><strong>Fields on <code>self</code></strong>, unless the name starts with <code>_</code>.</li>
+<li><strong><code>boz.saved</code></strong>, one table every script shares.</li>
+</ul>
+<pre><code class="language-lua">local Skull = boz.Prefab:extend(&quot;Skull&quot;)
+
+function Skull:start()
+    if self.found then
+        self:hide()
+    end
+end
+
+function Skull:on_hit(player)
+    self.found = true            -- this skull stays found in a saved game
+    self:hide()
+    boz.saved.skulls = (boz.saved.skulls or 0) + 1
+end
+
+return Skull
+</code></pre>
+<p>Use a <code>_</code> name for anything that shouldn&#39;t survive a reload, like a &quot;running&quot; flag. Saved values
+should be plain: numbers, strings, booleans, tables of those.</p>
+<h2 id="recipes">Recipes</h2>
+<p>Complete prefabs to copy. Each says what to build, then gives the script.</p>
+<h3 id="a-secret-wall">A secret wall</h3>
+<p>Shoot nothing, buy nothing: the player presses use on a wall and it opens.</p>
+<p><strong>Build:</strong> a wall model with <strong>Walking: Blocks</strong> and <strong>Stops bullets</strong> on, and a <strong>Use</strong> volume in
+front of it with the prompt <em>Push the wall</em>. Group them.</p>
+<pre><code class="language-lua">local SecretWall = boz.Prefab:extend(&quot;SecretWall&quot;)
+
+function SecretWall:on_use(player)
+    self:hide()
+    player:message(&quot;The wall gives way&quot;)
+end
+
+return SecretWall
+</code></pre>
+<p>Hiding does all the work: the wall vanishes, people can walk through, bullets pass, and the
+Use volume stops prompting.</p>
+<h3 id="a-pay-to-open-gate">A pay-to-open gate</h3>
+<p>The game has this built in: <a href="game-prefabs.html#debris">Debris</a>. It is any model that disappears
+when bought, and it can be extended.</p>
+<p><strong>Build:</strong> your gate model, and a <strong>Use</strong> volume with a <strong>Cost</strong> and the prompt <em>Open the gate</em>.
+Group them, attach this script.</p>
+<pre><code class="language-lua">local Gate = boz.Debris:extend(&quot;Gate&quot;)
+
+function Gate:open(player)
+    if not boz.Debris.open(self, player) then
+        return false
+    end
+    player:message(&quot;The gate falls&quot;)
+    return true
+end
+
+return Gate
+</code></pre>
+<h3 id="a-three-skull-easter-egg">A three-skull easter egg</h3>
+<p>Shoot three skulls and a reward appears. It needs two scripts: one for the skulls, and one for
+whatever opens.</p>
+<p><strong>Build:</strong> the <code>Skull</code> prefab from earlier, placed three times. A hidden model or prefab called
+<code>Reward</code>, with this second script attached.</p>
+<pre><code class="language-lua">-- scripts/prefabs/Skull.lua
+local Skull = boz.Prefab:extend(&quot;Skull&quot;)
+
+function Skull:start()
+    if self.found then
+        self:hide()
+    end
+end
+
+function Skull:on_hit(player)
+    self.found = true
+    self:hide()
+    boz.saved.skulls = (boz.saved.skulls or 0) + 1
+    if boz.saved.skulls == 3 then
+        boz.send(&quot;egg_done&quot;, {player = player})
+    end
+end
+
+return Skull
+</code></pre>
+<pre><code class="language-lua">-- scripts/prefabs/Reward.lua
+local Reward = boz.Prefab:extend(&quot;Reward&quot;)
+
+function Reward:start()
+    if not boz.saved.egg_done then
+        self:hide()
+    end
+end
+
+function Reward:on_event(name, data)
+    if name == &quot;egg_done&quot; then
+        boz.saved.egg_done = true
+        self:show()
+        data.player:message(&quot;Something opened...&quot;)
+    end
+end
+
+return Reward
+</code></pre>
+<h3 id="a-timed-trap">A timed trap</h3>
+<p>Pay to run it, and for a few seconds it kills every zombie close by.</p>
+<p><strong>Build:</strong> a model and a <strong>Use</strong> volume with a <strong>Cost</strong> and the prompt <em>Run the trap</em>. Group them.</p>
+<pre><code class="language-lua">local ZapPad = boz.Prefab:extend(&quot;ZapPad&quot;)
+
+---@setting radius int 300 &quot;Reach (cm)&quot;
+---@setting runs_for seconds 10 &quot;Runs for&quot;
+
+function ZapPad:on_use(player)
+    if self._running then
+        return
+    end
+    self._running = true
+    local zap = boz.every(0.5, function()
+        for _, zombie in ipairs(boz.zombies()) do
+            if self:near(zombie, self.settings.radius) then
+                zombie:kill()
+            end
+        end
+    end)
+    boz.after(self.settings.runs_for, function()
+        zap:cancel()
+        self._running = false
+    end)
+end
+
+return ZapPad
+</code></pre>
+<p><code>_running</code> starts with <code>_</code> so a save never keeps it. The volume&#39;s cost is taken even while the
+trap runs; a player who pays twice loses the second payment. To avoid that, leave <strong>Cost</strong> at 0
+and use <code>player:spend(1000)</code> after the <code>_running</code> check. <code>spend</code> returns true when it paid.</p>
+<h3 id="a-teleport-pad">A teleport pad</h3>
+<p>Walk on it and arrive somewhere else. Each pad picks its own destination.</p>
+<p><strong>Build:</strong> a floor model and a <strong>Trigger</strong> volume over it, set off by <strong>Players</strong>. Group them.
+After adding the script, press <strong>Reload</strong>, and link <strong>Destination</strong> to any object.</p>
+<pre><code class="language-lua">local Pad = boz.Prefab:extend(&quot;Pad&quot;)
+
+---@link destination any one &quot;Destination&quot;
+---@setting cooldown seconds 3 &quot;Wait between uses&quot;
+
+function Pad:on_enter(player)
+    local target = self:links(&quot;destination&quot;)[1]
+    if not target or self._waiting then
+        return
+    end
+    self._waiting = true
+    player:teleport(target)
+    boz.after(self.settings.cooldown, function()
+        self._waiting = false
+    end)
+end
+
+return Pad
+</code></pre>
+<h2 id="when-something-goes-wrong">When something goes wrong</h2>
+<p><strong>Nothing happens at all.</strong> Open the editor&#39;s <strong>Log</strong> area or <code>boz-log.txt</code> in the client folder.
+A script error shows there with its line, and it never crashes the game. Add <code>log(&quot;here&quot;)</code> to see
+if a hook runs at all.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>What you see</th>
+<th>Why</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Log says the script must return a class</td>
+<td>The last line is missing</td>
+<td>End with <code>return Name</code></td>
+</tr>
+<tr>
+<td><code>attempt to index a nil value (local &#39;self&#39;)</code></td>
+<td>A dot where a colon goes</td>
+<td><code>function Skull:on_hit</code>, <code>self:hide()</code></td>
+</tr>
+<tr>
+<td>A game prefab stopped working, or the log names <code>_handle</code> or <code>_piece</code></td>
+<td>The use wasn&#39;t handed back correctly</td>
+<td>See <a href="game-prefabs.html#handing-it-back-to-the-game">Handing it back to the game</a></td>
+</tr>
+<tr>
+<td><code>on_hit</code> never runs</td>
+<td>The prefab has no <strong>Hit</strong> volume, the volume is too small, or a model in front of it takes the shot</td>
+<td>Add or resize it. <strong>Show → Triggers</strong> helps.</td>
+</tr>
+<tr>
+<td><code>on_use</code> never runs</td>
+<td>No <strong>Use</strong> volume, or the player can&#39;t afford its <strong>Cost</strong></td>
+<td>Check both</td>
+</tr>
+<tr>
+<td><code>hide()</code> does nothing</td>
+<td>The object has no script and <strong>Scripts can switch it</strong> is off</td>
+<td>Turn it on</td>
+</tr>
+<tr>
+<td>A new setting isn&#39;t in the panel</td>
+<td>The panel wasn&#39;t reloaded</td>
+<td>Press <strong>Reload</strong> in the Script box</td>
+</tr>
+<tr>
+<td><code>who:message</code> errors in <code>on_enter</code></td>
+<td>A zombie set it off</td>
+<td>Check <code>who.zombie</code> first, or set <strong>Set off by</strong> to Players</td>
+</tr>
+<tr>
+<td><code>boz.get</code> gives something that does nothing</td>
+<td>The name is wrong</td>
+<td>Names are the ones in the outliner; parts are <code>Prefab.Part</code></td>
+</tr>
+</tbody></table></div>
+<p>The <strong>Problems</strong> panel checks the map before you build: <strong>Project → Check for problems</strong>.</p>
+<p>Next: <a href="game-prefabs.html">Game prefabs</a> to change the game&#39;s own objects, or the
+<a href="events.html">Events</a> table.</p>
+
+            </article>
+            <div class="doc-pagination" role="navigation" aria-label="Previous and next page">
+              <a class="doc-prev" href="how-a-map-works.html"><small>PREVIOUS</small><span>← How a map works</span></a>
+              <a class="doc-next" href="game-prefabs.html"><small>NEXT</small><span>Game prefabs →</span></a>
+            </div>
+          </div>
+          <aside class="doc-toc" aria-label="On this page">
+            <p>ON THIS PAGE</p>
+            <a href="#what-a-prefab-is">What a prefab is</a>
+            <a href="#make-one-in-the-editor">Make one in the editor</a>
+            <a href="#save-it-to-the-library" class="sub">Save it to the library</a>
+            <a href="#your-first-script">Your first script</a>
+            <a href="#choosing-a-template">Choosing a template</a>
+            <a href="#the-shape-of-a-script">The shape of a script</a>
+            <a href="#what-every-object-has">What every object has</a>
+            <a href="#who-it-is" class="sub">Who it is</a>
+            <a href="#where-it-is" class="sub">Where it is</a>
+            <a href="#its-in-the-game-box" class="sub">Its In the game box</a>
+            <a href="#its-settings-and-links" class="sub">Its settings and links</a>
+            <a href="#its-parts" class="sub">Its parts</a>
+            <a href="#listening-and-sending" class="sub">Listening and sending</a>
+            <a href="#hooks">Hooks</a>
+            <a href="#start" class="sub">start</a>
+            <a href="#on_use" class="sub">on_use</a>
+            <a href="#on_hit" class="sub">on_hit</a>
+            <a href="#on_enter-and-on_exit" class="sub">on_enter and on_exit</a>
+            <a href="#on_event" class="sub">on_event</a>
+            <a href="#volumes">Volumes</a>
+            <a href="#reading-and-changing-a-volume" class="sub">Reading and changing a volume</a>
+            <a href="#parts">Parts</a>
+            <a href="#settings">Settings</a>
+            <a href="#links">Links</a>
+            <a href="#doing-things">Doing things</a>
+            <a href="#timers" class="sub">Timers</a>
+            <a href="#players" class="sub">Players</a>
+            <a href="#talking-between-objects">Talking between objects</a>
+            <a href="#saving-state">Saving state</a>
+            <a href="#recipes">Recipes</a>
+            <a href="#a-secret-wall" class="sub">A secret wall</a>
+            <a href="#a-pay-to-open-gate" class="sub">A pay-to-open gate</a>
+            <a href="#a-three-skull-easter-egg" class="sub">A three-skull easter egg</a>
+            <a href="#a-timed-trap" class="sub">A timed trap</a>
+            <a href="#a-teleport-pad" class="sub">A teleport pad</a>
+            <a href="#when-something-goes-wrong">When something goes wrong</a>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+<footer>
+      <a class="brand" href="../index.html"
+        ><img src="../assets/client-logo.png" alt="BOZ Redux" width="640" height="260" loading="lazy"
+      /></a>
+      <p>BOZ Redux</p>
+      <span>Not affiliated with Activision. Game files are not included.</span
+      ><a href="https://github.com/ZappaVinny/boz-redux">Source ↗</a>
+    </footer>
+<dialog id="discord-dialog">
+      <button class="dialog-close" aria-label="Close dialog">×</button>
+      <h2>Discord</h2>
+      <p>
+        The Discord invite hasn’t been added yet. Check GitHub for project
+        updates.
+      </p>
+      <a
+        class="button"
+        href="https://github.com/ZappaVinny/boz-redux"
+        target="_blank"
+        rel="noopener"
+        >Visit the project ↗</a
+      >
+    </dialog>
+  </body>
+</html>
