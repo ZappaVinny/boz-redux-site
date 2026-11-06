@@ -39,6 +39,7 @@ nav a { padding: 6px 0; border-bottom: 2px solid transparent; }
 nav a:hover { color: var(--text); }
 nav .active { color: var(--text); border-bottom-color: var(--red); }
 .header-github { margin-left: auto; font: 700 15px var(--heading); letter-spacing: .8px; text-transform: uppercase; color: var(--muted); }
+header a.button.header-discord { margin-left: -17px; padding: 8px 16px; font-size: 15px; white-space: nowrap; }
 
 body:not(.is-docs) main { max-width: 1020px; margin: auto; padding: 0 35px; }
 .hero { padding: 70px 0 45px; }
@@ -76,7 +77,8 @@ footer { border-top: 1px solid var(--line); padding: 25px 5%; display: flex; ali
 footer .brand img { width: 78px; }
 footer p { display: none; }
 footer span { margin-right: auto; }
-footer > a:last-child { white-space: nowrap; font: 700 14px var(--heading); letter-spacing: .8px; text-transform: uppercase; }
+footer > a:last-child, footer .footer-discord { white-space: nowrap; font: 700 14px var(--heading); letter-spacing: .8px; text-transform: uppercase; }
+footer .footer-discord { color: var(--text); }
 .skip { position: fixed; top: -100px; z-index: 99; background: var(--red); padding: 10px; }
 .skip:focus { top: 0; }
 dialog { background: var(--panel); color: var(--text); border: 1px solid var(--line); border-top: 3px solid var(--red); max-width: 440px; padding: 30px; border-radius: 4px; }
@@ -134,6 +136,9 @@ dialog p { color: var(--soft); }
 .doc-pagination { display: flex; justify-content: space-between; border-top: 1px solid var(--line); margin-top: 45px; padding-top: 24px; gap: 20px; font: 700 19px var(--heading); letter-spacing: .4px; }
 .doc-pagination a:hover { color: var(--red); }
 .doc-pagination small { display: block; color: var(--muted); font-size: 13px; letter-spacing: 1.2px; }
+.doc-discord { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px 24px; margin-top: 32px; padding: 20px 24px; background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--red); border-radius: 3px; }
+.doc-discord p { margin: 0; color: var(--soft); }
+.doc-discord strong { color: var(--text); font-weight: 600; }
 .docs-mobile { display: none; }
 body.is-docs footer { display: none; }
 
@@ -147,6 +152,8 @@ body.is-docs footer { display: none; }
   .brand img { width: 88px; }
   nav { font-size: 15px; gap: 18px; }
   .header-github { display: none; }
+  header a.button.header-discord { margin-left: auto; padding: 7px 12px; font-size: 14px; }
+  .header-discord span { display: none; }
   body:not(.is-docs) main { padding: 0 22px; }
   .hero { padding: 45px 0 32px; }
   .hero h1 { font-size: 27px; }
@@ -172,4 +179,18 @@ body.is-docs footer { display: none; }
 @media (max-width: 640px) {
   header { gap: 18px; }
   header nav { gap: 14px; font-size: 14px; }
+}
+
+@media (max-width: 420px) {
+  header { gap: 10px; padding: 0 3%; }
+  .brand img { width: 60px; }
+  header nav { gap: 9px; font-size: 13px; letter-spacing: .3px; }
+  header a.button.header-discord { padding: 6px 8px; font-size: 13px; letter-spacing: .3px; }
+}
+
+@media (max-width: 340px) {
+  header { gap: 6px; padding: 0 2%; }
+  .brand img { width: 42px; }
+  header nav { gap: 6px; font-size: 12px; }
+  header a.button.header-discord { padding: 5px 6px; font-size: 12px; }
 }

@@ -2,6 +2,7 @@
 // the header/footer in index.html. It writes, from docs/*.md:
 //   docs/<name>.html  one prerendered page per doc (README becomes docs/index.html)
 //   404.html          the page GitHub Pages serves for unknown paths
+//   modding.html      only its header, footer and Discord dialog (the rest is edited by hand)
 //   sitemap.xml       every page, for search engines
 //   docs-data.js      the Markdown of every page, loaded by the docs search
 import { readFile, writeFile } from "node:fs/promises";
@@ -204,6 +205,17 @@ const fill = (html, values) => html.replace(/\{\{(\w+)\}\}/g, (_, key) => values
 // ---------- Write the doc pages ----------
 
 const sitemap = [{ loc: SITE + "/", lastmod: lastModified("index.html") }];
+
+// ---------- modding.html: hand-edited, so only its shared markup is replaced ----------
+
+await write(
+  "modding.html",
+  (await read("modding.html"))
+    .replace(/<header>[\s\S]*?<\/header>/, () => headerFor("", "modding"))
+    .replace(/<footer>[\s\S]*?<\/footer>/, () => footer)
+    .replace(/<dialog[\s\S]*?<\/dialog>/, () => dialog),
+);
+sitemap.push({ loc: SITE + "/modding.html", lastmod: lastModified("modding.html") });
 
 for (const [index, page] of pages.entries()) {
   const root = "../";

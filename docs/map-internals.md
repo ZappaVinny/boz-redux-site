@@ -196,8 +196,8 @@ The game moves the player in `CPlayerController::FixedStep` through `Player_Move
 ### The helper program
 
 The rebuild runs [Recast](https://github.com/recastnavigation/recastnavigation) through a small
-native program, `boz-navmesh`. Build it once as described in
-[Installation](getting-started.md#the-navmesh-helper). Without it, saving still
+native program, `boz-navmesh`, which comes with the SDK releases
+([Installation](getting-started.md#the-navmesh-helper)). Without it, saving still
 works and reports that the navmesh was not rebuilt.
 
 ### How BOZ stores navmeshes
@@ -287,7 +287,6 @@ Hit, Use) change nothing walkable and leave the navmesh alone.
 
 - Tags stay where they were: moving a door does not move the floor it gates.
 - New window crossings and climbs cannot be added yet.
-- Windows builds of the helper are not produced yet.
 
 ## Editing shipped map files
 

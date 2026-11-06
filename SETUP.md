@@ -4,19 +4,30 @@ Open `index.html` directly, or upload this folder to any static host. No backend
 
 ## Discord
 
-Set `discordUrl` in `config.js` to your permanent `https://discord.gg/...` invite. All three Discord buttons use it. Until configured, they show a community dialog linking to GitHub rather than sending visitors to an invented invite.
+`config.js` holds two permanent `https://discord.gg/...` invites:
+
+- `discordUrl` is used by every Discord link.
+- `modsDiscordUrl` is used by the "get mods" links (`data-discord="mods"`). To make it, right-click the mods channel in Discord, choose **Invite People**, set the link to never expire, and paste it in. Until it is set, those links use `discordUrl`.
+
+Without a valid invite, Discord links show a dialog linking to GitHub rather than sending visitors to an invented invite.
+
+## Modding page and verified mods
+
+`modding.html` is edited by hand. To add a verified mod, copy the card template from the comment above `<div class="mod-grid">` into that div and fill it in. Cards are text only. The "No verified mods yet" box hides itself once there is a card.
+
+`node rebuild-docs.mjs` replaces only the header, footer and Discord dialog in `modding.html` (with the ones from `index.html`) and never touches the rest of the page.
 
 ## Documentation
 
 The Markdown sources are in `docs/`. Each one is prerendered into its own static page, `docs/<name>.html` (`README.md` becomes `docs/index.html`), so every page has a real URL, its own title, description and social preview, and its full text in the HTML for search engines.
 
-After changing anything in `docs/*.md`, `templates/doc.html`, or the header, footer or Discord dialog in `index.html`, run:
+After changing anything in `docs/*.md`, `templates/doc.html`, or the header, footer or Discord dialog in `index.html` (they are shared by every page), run:
 
 ```bash
 node rebuild-docs.mjs
 ```
 
-It regenerates the doc pages, `404.html`, `sitemap.xml` and `docs-data.js` (the search index), using the vendored Marked. Commit the generated files with your change.
+It regenerates the doc pages, `404.html`, `sitemap.xml`, `docs-data.js` (the search index) and the shared parts of `modding.html`, using the vendored Marked. Commit the generated files with your change.
 
 To add a page: add `docs/<name>.md`, add a link to it in the `page-links` list in `templates/doc.html` (that list sets the page order, titles and groups), and run the script.
 
@@ -29,7 +40,7 @@ Doc pages support full-text search (the index loads the first time the search bo
 - `assets/og-image.png` (1200×630) is the preview image shown when a link is shared.
 - `404.html` is served by GitHub Pages for unknown paths and is marked `noindex`.
 - `.nojekyll` makes GitHub Pages serve the files as they are, without Jekyll.
-- The home page's title, description and structured data are written directly in `index.html`.
+- The title, description and structured data of the home and Modding pages are written directly in `index.html` and `modding.html`.
 
 ## Assets and third parties
 

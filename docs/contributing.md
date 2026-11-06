@@ -9,6 +9,28 @@ How the SDK repository is laid out, how to run its tests, and which files are ge
 changes to the game definition (names from Ghidra), see
 [Contributing to the game definition](#contributing-to-the-game-definition).
 
+### Working from Git
+
+Players and modders use the [SDK releases](getting-started.md#2-the-sdk). To work on the SDK itself,
+clone it instead. This needs Python 3.11 or newer and Git:
+
+```bash
+git clone --recurse-submodules https://github.com/ZappaVinny/boz-redux-sdk.git
+cd boz-redux-sdk
+python3 -m pip install -e '.[desktop]'
+```
+
+This installs the `boz-sdk` and `bozkit` commands. You can also run the app without installing, from
+the checkout: `./boz-sdk`. Leave out `[desktop]` if you only want the command line.
+
+A checkout has no `boz-navmesh` helper until you build it (needs CMake and a C++ compiler):
+
+```bash
+git submodule update --init tools/navmesh/third_party/recast
+cmake -S tools/navmesh -B tools/navmesh/build -DCMAKE_BUILD_TYPE=Release
+cmake --build tools/navmesh/build -j
+```
+
 ### The repository
 
 | Path | What it is |

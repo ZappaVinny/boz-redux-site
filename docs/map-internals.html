@@ -23,7 +23,7 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Map internals","description":"How the editor's work reaches the game: for when you want to know why something behaves the way it does, or want to edit the game's own files. You don't…","url":"https://boz-redux.com/docs/map-internals.html","dateModified":"2026-11-04T22:50:59-06:00","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Map internals","item":"https://boz-redux.com/docs/map-internals.html"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Map internals","description":"How the editor's work reaches the game: for when you want to know why something behaves the way it does, or want to edit the game's own files. You don't…","url":"https://boz-redux.com/docs/map-internals.html","dateModified":"2026-11-06T18:25:02.812Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Map internals","item":"https://boz-redux.com/docs/map-internals.html"}]}]}</script>
     <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="stylesheet" href="../styles.css" />
@@ -34,12 +34,17 @@
     <a class="skip" href="#main">Skip to content</a>
 <header>
       <a class="brand" href="../index.html" aria-label="BOZ Redux home"
-        ><img src="../assets/client-logo.png" alt="BOZ Redux" width="640" height="260"
+        ><img
+          src="../assets/client-logo.png"
+          alt="BOZ Redux"
+          width="640"
+          height="260"
       /></a>
       <nav aria-label="Main navigation">
-        <a href="../index.html" data-nav="home">Home</a
-        ><a href="../docs/index.html" data-nav="docs" class="active" aria-current="page">Documentation</a
-        ><a href="#discord" data-discord>Discord</a>
+        <a href="../index.html" data-nav="home"
+          >Home</a
+        ><a href="../modding.html" data-nav="modding">Modding</a
+        ><a href="../docs/index.html" data-nav="docs" class="active" aria-current="page">Documentation</a>
       </nav>
       <a
         class="header-github"
@@ -47,6 +52,9 @@
         target="_blank"
         rel="noopener"
         >GitHub ↗</a
+      >
+      <a class="button header-discord" href="#discord" data-discord
+        ><span>Join </span>Discord ↗</a
       >
     </header>
 
@@ -596,8 +604,8 @@ something does not walk the way you expect.</p>
 (<code>Nav_FindNearestPoly</code>, <code>Nav_MoveAlongSurface</code>, <code>Nav_GetPolyHeight</code>); zombies use the same mesh.</p>
 <h3 id="the-helper-program">The helper program</h3>
 <p>The rebuild runs <a href="https://github.com/recastnavigation/recastnavigation" target="_blank" rel="noopener">Recast</a> through a small
-native program, <code>boz-navmesh</code>. Build it once as described in
-<a href="getting-started.html#the-navmesh-helper">Installation</a>. Without it, saving still
+native program, <code>boz-navmesh</code>, which comes with the SDK releases
+(<a href="getting-started.html#the-navmesh-helper">Installation</a>). Without it, saving still
 works and reports that the navmesh was not rebuilt.</p>
 <h3 id="how-boz-stores-navmeshes">How BOZ stores navmeshes</h3>
 <p>A <code>CIsNavMesh</code> resource holds the build settings and a tiled Detour v7 navmesh (see
@@ -702,7 +710,6 @@ Hit, Use) change nothing walkable and leave the navmesh alone.</p>
 <ul>
 <li>Tags stay where they were: moving a door does not move the floor it gates.</li>
 <li>New window crossings and climbs cannot be added yet.</li>
-<li>Windows builds of the helper are not produced yet.</li>
 </ul>
 <h2 id="editing-shipped-map-files">Editing shipped map files</h2>
 <p>The editor&#39;s <strong>Shipped files</strong> tools open the game&#39;s own map files (<code>.group.bin</code>) directly,
@@ -991,6 +998,10 @@ collision, and you can no longer walk through it: saving rebuilt the navmesh aro
               <a class="doc-prev" href="sdk-reference.html"><small>PREVIOUS</small><span>← SDK reference</span></a>
               <a class="doc-next" href="how-the-game-works.html"><small>NEXT</small><span>How the game works →</span></a>
             </div>
+            <div class="doc-discord">
+              <p><strong>Stuck, or want to show your work?</strong> Modders hang out on the Discord.</p>
+              <a class="button" href="#discord" data-discord>Join Discord ↗</a>
+            </div>
           </div>
           <aside class="doc-toc" aria-label="On this page">
             <p>ON THIS PAGE</p>
@@ -1021,10 +1032,16 @@ collision, and you can no longer walk through it: saving rebuilt the navmesh aro
 
 <footer>
       <a class="brand" href="../index.html"
-        ><img src="../assets/client-logo.png" alt="BOZ Redux" width="640" height="260" loading="lazy"
+        ><img
+          src="../assets/client-logo.png"
+          alt="BOZ Redux"
+          width="640"
+          height="260"
+          loading="lazy"
       /></a>
       <p>BOZ Redux</p>
       <span>Not affiliated with Activision. Game files are not included.</span
+      ><a class="footer-discord" href="#discord" data-discord>Join Discord ↗</a
       ><a href="https://github.com/ZappaVinny/boz-redux">Source ↗</a>
     </footer>
 <dialog id="discord-dialog">

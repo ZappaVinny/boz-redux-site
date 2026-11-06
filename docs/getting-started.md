@@ -26,23 +26,31 @@ wrong). The SDK asks for this folder the first time it starts.
 
 ### 2. The SDK
 
-The SDK needs Python 3.11 or newer and Git.
+Download the SDK from the
+[SDK releases](https://github.com/ZappaVinny/boz-redux-sdk/releases/latest). It needs the client
+v0.3.1 or newer.
+
+**Windows:** download `BOZ-Redux-SDK-<version>-windows.zip`, unzip it anywhere and run
+`boz-sdk.exe`. Nothing else is needed.
+
+**Linux:** download `BOZ-Redux-SDK-<version>.zip` and unzip it. On Linux the SDK needs Python 3.11
+or newer. In the unzipped folder, run:
 
 ```bash
-git clone --recurse-submodules https://github.com/ZappaVinny/boz-redux-sdk.git
-cd boz-redux-sdk
 python3 -m pip install -e '.[desktop]'
+boz-sdk
 ```
 
-This installs two commands:
+`boz-sdk` starts [the SDK app](#the-sdk-app): your projects, the asset library and the editor. You
+can also run the app from that folder without installing the command, with `./boz-sdk`.
+`boz-sdk --add-to-menu` adds it, with its icon, to your desktop's application menu.
 
-- `boz-sdk` starts [the SDK app](#the-sdk-app): your projects, the asset library and the editor.
-- `bozkit` is the [command line](sdk-reference.md#bozkit-command-line): build, install and package projects,
-  and read or edit game files.
+`bozkit` is the [command line](sdk-reference.md#bozkit-command-line): build, install and package
+projects, and read or edit game files. The install above adds it on Linux; leave out `[desktop]` if
+you only want the command line. On Windows, `boz-sdk.exe` doesn't need it. To use it there, install
+Python 3.11 or newer and run `python -m pip install -e .` in the unzipped folder.
 
-You can also run the app without installing, from the checkout: `./boz-sdk`. On Linux,
-`boz-sdk --add-to-menu` adds it, with its icon, to your desktop's application menu. Leave out
-`[desktop]` if you only want the command line.
+To work on the SDK itself, see [Working from Git](contributing.md#working-from-git).
 
 ### 3. The map editor (maps only)
 
@@ -54,20 +62,17 @@ Blender. The app prepares the editor itself the first time you open a map.
 #### The navmesh helper
 
 When you change a map's walls or floors, the SDK rebuilds where players and zombies can walk
-with a small native helper. Build it once (needs CMake and a C++ compiler):
-
-```bash
-git submodule update --init tools/navmesh/third_party/recast
-cmake -S tools/navmesh -B tools/navmesh/build -DCMAKE_BUILD_TYPE=Release
-cmake --build tools/navmesh/build -j
-```
+with a small native helper, `boz-navmesh`. The SDK releases include it for Windows and Linux, so
+there is nothing to set up. From a Git checkout you build it yourself
+([Working from Git](contributing.md#working-from-git)).
 
 Without it everything still works, but edits that change collision keep the old walkable area
 (the editor tells you so when you save). See [Navigation meshes](map-internals.md#navigation-meshes).
 
 ### Check that it works
 
-1. Run `boz-sdk`, and choose your client folder when it asks.
+1. Start the SDK (`boz-sdk.exe` on Windows, `boz-sdk` on Linux), and choose your client folder
+   when it asks.
 2. The **Client** page should say the game data is installed.
 3. The **Library** page builds the asset library from your game files the first time (about
    half a minute). When it shows previews of the game's models, you are ready.

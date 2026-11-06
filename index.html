@@ -150,8 +150,8 @@
       <nav aria-label="Main navigation">
         <a href="index.html" data-nav="home" class="active" aria-current="page"
           >Home</a
-        ><a href="docs/index.html" data-nav="docs">Documentation</a
-        ><a href="#discord" data-discord>Discord</a>
+        ><a href="modding.html" data-nav="modding">Modding</a
+        ><a href="docs/index.html" data-nav="docs">Documentation</a>
       </nav>
       <a
         class="header-github"
@@ -159,6 +159,9 @@
         target="_blank"
         rel="noopener"
         >GitHub ↗</a
+      >
+      <a class="button header-discord" href="#discord" data-discord
+        ><span>Join </span>Discord ↗</a
       >
     </header>
 
@@ -180,8 +183,11 @@
                 rel="noopener"
                 >Download client ↗</a
               >
-              <a class="button secondary" href="docs/getting-started.html"
-                >Getting started →</a
+              <a class="button secondary" href="modding.html"
+                >Explore modding →</a
+              >
+              <a class="button secondary" href="#discord" data-discord
+                >Join Discord ↗</a
               >
             </div>
           </div>
@@ -248,6 +254,7 @@
                   rel="noopener"
                   >SDK on GitHub ↗</a
                 >
+                <a href="modding.html">Modding →</a>
                 <a href="docs/index.html">Documentation →</a>
               </div>
             </article>
@@ -264,13 +271,60 @@
           </div>
           <div class="apk-community">
             <p>
-              For APK availability and help getting set up, visit the community
-              Discord.
+              Join the community Discord to learn more and get help setting up.
             </p>
-            <a class="button secondary" href="#discord" data-discord
-              >Join Discord ↗</a
+            <a class="button" href="#discord" data-discord>Join Discord ↗</a>
+          </div>
+        </section>
+
+        <section class="section" id="modding">
+          <div class="section-intro">
+            <h2>Make the game yours</h2>
+            <p>
+              Play mods made by the community, or build your own with free
+              tools. Here's a taste of what you can do.
+            </p>
+          </div>
+          <div class="feature-grid">
+            <article class="feature">
+              <h3>Build maps</h3>
+              <p>
+                Start from an empty floor, or remix Kino der Toten, Ascension or
+                Call of the Dead.
+              </p>
+            </article>
+            <article class="feature">
+              <h3>Make weapons</h3>
+              <p>
+                Copy any gun, change its damage, fire rate and ammo, or give it
+                your own model.
+              </p>
+            </article>
+            <article class="feature">
+              <h3>Set the rules</h3>
+              <p>
+                Shape every round: how many zombies, how tough they are, and how
+                the game scales.
+              </p>
+            </article>
+          </div>
+          <div class="actions">
+            <a class="button" href="modding.html">Explore modding →</a>
+            <a class="button secondary" href="#discord" data-discord="mods"
+              >Get mods on Discord ↗</a
             >
           </div>
+        </section>
+
+        <section class="section discord-band" id="community">
+          <div>
+            <h2>Join the community</h2>
+            <p>
+              The Discord is where it all happens: download mods, get help
+              setting up, and show off what you're building.
+            </p>
+          </div>
+          <a class="button" href="#discord" data-discord>Join Discord ↗</a>
         </section>
 
         <section class="section" id="project">
@@ -341,6 +395,7 @@
       /></a>
       <p>BOZ Redux</p>
       <span>Not affiliated with Activision. Game files are not included.</span
+      ><a class="footer-discord" href="#discord" data-discord>Join Discord ↗</a
       ><a href="https://github.com/ZappaVinny/boz-redux">Source ↗</a>
     </footer>
     <dialog id="discord-dialog">

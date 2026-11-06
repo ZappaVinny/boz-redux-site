@@ -34,6 +34,38 @@ body:not(.is-docs) #project p a { color: var(--text); text-decoration: underline
 body:not(.is-docs) #project p a:hover { color: var(--red); text-decoration-color: var(--red); }
 body:not(.is-docs) #project .text-link { display: inline-block; margin-top: 8px; color: var(--text); font: 700 16px var(--heading); letter-spacing: .8px; text-transform: uppercase; }
 
+/* Feature cards: the same panels as the client and SDK cards, without a logo. */
+body:not(.is-docs) .section-intro { margin-bottom: 28px; }
+body:not(.is-docs) .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+body:not(.is-docs) .feature { padding: 26px; background: var(--panel); border: 1px solid var(--line); border-top: 3px solid var(--red); border-radius: 4px; }
+body:not(.is-docs) .feature h3 { margin: 0 0 10px; font-size: 22px; }
+body:not(.is-docs) .feature p { font-size: 16px; }
+body:not(.is-docs) .feature .text-link { display: inline-block; margin-top: 12px; color: var(--text); font: 700 16px var(--heading); letter-spacing: .8px; text-transform: uppercase; }
+body:not(.is-docs) .section .feature-grid + .feature-grid { margin-top: 28px; }
+body:not(.is-docs) .section-subhead { margin: 40px 0 16px; font-size: 24px; }
+
+/* The Discord band: the hero's red glow behind a call to join. */
+body:not(.is-docs) .discord-band { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 7%; background: radial-gradient(ellipse at 85% 50%, rgba(227, 28, 41, .2), transparent 57%), var(--bg); }
+body:not(.is-docs) .discord-band p { margin-bottom: 0; }
+
+/* Verified mods. To add one, see the comment in modding.html. */
+body:not(.is-docs) .mod-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+body:not(.is-docs) .mod-grid:not(:has(.mod-card)) { display: none; }
+body:not(.is-docs) .mod-grid:has(.mod-card) + .mods-empty { display: none; }
+body:not(.is-docs) .mod-card { display: flex; flex-direction: column; align-items: flex-start; padding: 26px; background: var(--panel); border: 1px solid var(--line); border-top: 3px solid var(--red); border-radius: 4px; }
+body:not(.is-docs) .mod-card h3 { margin: 0 0 2px; font-size: 22px; }
+body:not(.is-docs) .mod-card .mod-type { margin: 0 0 8px; color: var(--red); font: 700 14px var(--heading); letter-spacing: 1.2px; text-transform: uppercase; }
+body:not(.is-docs) .mod-card .mod-author { margin: 0 0 12px; color: var(--muted); font-size: 14px; }
+body:not(.is-docs) .mod-card p { font-size: 16px; }
+body:not(.is-docs) .mod-card .button { margin-top: auto; padding: 10px 18px; font-size: 16px; }
+body:not(.is-docs) .mods-empty { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px 24px; padding: 24px 26px; background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--red); border-radius: 3px; }
+body:not(.is-docs) .mods-empty p { margin: 0; }
+
+/* What you need: lists inside the product cards. */
+body:not(.is-docs) .product h3 { margin: 0 0 14px; font-size: 24px; }
+body:not(.is-docs) .needs { margin: 0 0 24px; padding-left: 20px; color: var(--soft); font-size: 17px; }
+body:not(.is-docs) .needs li { margin-bottom: 8px; }
+
 @media (min-width: 1700px) {
   body:not(.is-docs) .hero { min-height: 650px; }
 }
@@ -43,6 +75,7 @@ body:not(.is-docs) #project .text-link { display: inline-block; margin-top: 8px;
   body:not(.is-docs) .hero p { font-size: 17px; }
   body:not(.is-docs) .product { padding: 26px; }
   body:not(.is-docs) .product p { min-height: 80px; }
+  body:not(.is-docs) .feature-grid, body:not(.is-docs) .mod-grid { grid-template-columns: 1fr 1fr; }
 }
 
 @media (max-width: 640px) {
@@ -51,7 +84,7 @@ body:not(.is-docs) #project .text-link { display: inline-block; margin-top: 8px;
   body:not(.is-docs) .hero-art { justify-content: flex-start; }
   body:not(.is-docs) .hero-art img { width: 80%; max-width: 370px; }
   body:not(.is-docs) .section { padding: 35px 6%; }
-  body:not(.is-docs) .products, body:not(.is-docs) .apk, body:not(.is-docs) .project-columns { grid-template-columns: 1fr; gap: 28px; }
+  body:not(.is-docs) .products, body:not(.is-docs) .apk, body:not(.is-docs) .project-columns, body:not(.is-docs) .feature-grid, body:not(.is-docs) .mod-grid, body:not(.is-docs) .discord-band { grid-template-columns: 1fr; gap: 28px; }
   body:not(.is-docs) .product p { min-height: 0; }
   body:not(.is-docs) .section h2 { font-size: 27px; }
   body:not(.is-docs) .apk-community { padding-left: 20px; }
