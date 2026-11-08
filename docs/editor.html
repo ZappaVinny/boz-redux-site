@@ -23,7 +23,7 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"The editor","description":"A tour of the BOZ Redux editor: what each part is for and where to find it. For the ideas behind it, read How a map works. For scripting, go to Prefabs.","url":"https://boz-redux.com/docs/editor.html","dateModified":"2026-11-04T22:50:59-06:00","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"The editor","item":"https://boz-redux.com/docs/editor.html"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"The editor","description":"A tour of the BOZ Redux editor: what each part is for and where to find it. For the ideas behind it, read How a map works. For scripting, go to Prefabs.","url":"https://boz-redux.com/docs/editor.html","dateModified":"2026-11-08T23:34:00.028Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"The editor","item":"https://boz-redux.com/docs/editor.html"}]}]}</script>
     <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="stylesheet" href="../styles.css" />
@@ -211,7 +211,8 @@ that map. Players who install your packaged mod get the same choice.</p>
 <h2 id="problems">Problems</h2>
 <p>The <strong>Problems</strong> panel in the sidebar has two parts:</p>
 <ul>
-<li><strong>Warnings:</strong> what looks wrong in the map right now, each with a button that selects the object.</li>
+<li><strong>Warnings:</strong> what looks wrong in the map right now, such as a zone no door opens, each with a
+button that selects the object.</li>
 <li><strong>Last build:</strong> what the build said.</li>
 </ul>
 <p><strong>Project → Check for problems</strong> runs the checks by hand.</p>
@@ -227,7 +228,7 @@ that map. Players who install your packaged mod get the same choice.</p>
 </thead>
 <tbody><tr>
 <td><strong>Game prefabs</strong></td>
-<td>Machines (perks, Pack-a-Punch, mystery box, power switch), Buying (wall buys), Doors (including <strong>Debris</strong>), Barricades (including <strong>Window</strong>), Defence (traps, trap switch)</td>
+<td>Machines (perks, Pack-a-Punch, mystery box, power switch), Buying (wall buys), Doors (including <strong>Debris</strong>), Barricades (including <strong>Window</strong>), Defence (traps, trap switch), Teleporting (<strong>Teleporter</strong>, <strong>Wormhole</strong>)</td>
 </tr>
 <tr>
 <td><strong>Level markers</strong></td>
@@ -235,7 +236,7 @@ that map. Players who install your packaged mod get the same choice.</p>
 </tr>
 <tr>
 <td><strong>Volumes</strong></td>
-<td>Trigger, Hit, Use</td>
+<td>Trigger, Hit, Use, and the map&#39;s <a href="how-a-map-works.html#zones">Zone</a>, <a href="how-a-map-works.html#sectors">Sector</a> and Portal</td>
 </tr>
 <tr>
 <td><strong>Models</strong>, <strong>Textures</strong></td>
@@ -307,7 +308,9 @@ it. See <a href="prefabs.html">Prefabs</a>.</p>
 <li><strong>×</strong> to remove one;</li>
 <li><strong>↺</strong> to go back to the default.</li>
 </ul>
-<p>Your script&#39;s <code>---@link</code> lines show here too. See <a href="prefabs.html#links">Links</a>.</p>
+<p>Doors and Debris have <strong>Opens zones</strong> (<a href="how-a-map-works.html#zones">Zones</a>), and a Teleporter has
+<strong>Destination</strong> and <strong>Stop over at</strong>. Your script&#39;s <code>---@link</code> lines show here too. See
+<a href="prefabs.html#links">Links</a>.</p>
 <h3 id="prefabs">Prefabs</h3>
 <p><strong>Make prefab</strong> (Ctrl+G) groups the selected models, volumes and prefabs. <strong>Ungroup</strong> (Ctrl+Alt+G)
 takes it apart. <strong>Save as new prefab</strong> stores it under <strong>My prefabs</strong>. Walkthrough:
@@ -320,6 +323,11 @@ chalk drawing: the weapon&#39;s own, one drawn from its model, your image, or no
 the game draws your mesh. <strong>Use the game&#39;s model</strong> goes back.</li>
 <li><strong>Zombie spawn:</strong> <strong>Type</strong> picks how they arrive.</li>
 <li><strong>Window:</strong> a barricade and a spawn, ready for you to link.</li>
+<li><strong>Teleporter:</strong> a Use volume that sends players to its <strong>Destination</strong>, by way of its <strong>Stop over
+at</strong>. Add any model as its pad. See <a href="game-prefabs.html#teleporter">Teleporter</a>.</li>
+<li><strong>Wormhole:</strong> the game&#39;s wormhole as your own prefab: its tunnel models and effects, and a
+<strong>Spot</strong> for each player. Place it out of sight and use it as a Teleporter&#39;s stop-over. Every
+part can be moved, swapped or deleted. See <a href="game-prefabs.html#wormhole">Wormhole</a>.</li>
 </ul>
 <h3 id="textures">Textures</h3>
 <p>Properties → Material shows every texture slot with a preview:</p>
@@ -331,10 +339,12 @@ the game draws your mesh. <strong>Use the game&#39;s model</strong> goes back.</
 <p>Game models need <strong>Make editable</strong> before their textures can change. Dropping a texture from the
 asset browser onto an object gives it the same game-shaded material.</p>
 <h3 id="seeing-what-the-game-sees">Seeing what the game sees</h3>
-<p>The viewport&#39;s switches are in the tool settings bar, next to Orientation and Drag. The <strong>Show</strong>
-menu (also in the sidebar&#39;s BOZ tab) switches overlays:</p>
+<p>The viewport&#39;s switches are at the left of the tool settings bar (also in the sidebar&#39;s BOZ
+tab). They switch overlays:</p>
 <ul>
-<li><strong>Markers</strong> and <strong>Triggers</strong>;</li>
+<li><strong>Markers</strong>;</li>
+<li><strong>Volumes</strong>: your trigger, use, hit, sector, zone and portal volumes. Its arrow has a tick box
+for each kind, and <strong>Shipped level</strong> adds the shipped level&#39;s own trigger and collision shapes;</li>
 <li><strong>Links</strong> between objects;</li>
 <li><strong>Walkable</strong> and <strong>Collision</strong>, which build the map and show where people can walk (blue, orange
 where a door blocks it) and what bullets hit. <strong>Refresh</strong> builds them again after edits.</li>

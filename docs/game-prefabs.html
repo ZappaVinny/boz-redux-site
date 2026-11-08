@@ -23,7 +23,7 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Game prefabs","description":"Game prefabs are the game's own objects: perk machines, doors, the mystery box and the rest. Drag one in and it works with no script. Each is a class you…","url":"https://boz-redux.com/docs/game-prefabs.html","dateModified":"2026-11-04T22:50:59-06:00","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Game prefabs","item":"https://boz-redux.com/docs/game-prefabs.html"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Game prefabs","description":"Game prefabs are the game's own objects: perk machines, doors, the mystery box and the rest. Drag one in and it works with no script. Each is a class you…","url":"https://boz-redux.com/docs/game-prefabs.html","dateModified":"2026-11-08T23:33:52.517Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Game prefabs","item":"https://boz-redux.com/docs/game-prefabs.html"}]}]}</script>
     <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="stylesheet" href="../styles.css" />
@@ -328,7 +328,9 @@ of that:</p>
 </tr>
 </tbody></table></div>
 <h2 id="door">Door</h2>
-<p>A door the player buys open. Pick one of the game&#39;s designs from <strong>Doors</strong> in the asset browser.</p>
+<p>A door the player buys open. Pick one of the game&#39;s designs from <strong>Doors</strong> in the asset browser.
+Its <strong>Opens zones</strong> link is the zones behind it: their spawns wake once it opens
+(<a href="how-a-map-works.html#zones">Zones</a>).</p>
 <div class="table-scroll" tabindex="0"><table>
 <thead>
 <tr>
@@ -372,6 +374,10 @@ of that:</p>
 <td><code>is_open()</code></td>
 <td>True once open</td>
 </tr>
+<tr>
+<td><code>zones()</code></td>
+<td>The zones it opens, as <a href="scripting.html#zones-and-sectors">boz.Zone</a></td>
+</tr>
 </tbody></table></div>
 <div class="table-scroll" tabindex="0"><table>
 <thead>
@@ -410,8 +416,9 @@ pick. You bring the model, and it does the rest. <code>boz.Debris</code> extends
 to everything else, and <code>is_a(boz.Door)</code> is true.</p>
 <p><strong>Make it:</strong> drag <strong>Debris</strong> from <strong>Doors</strong>, or make a prefab with your model and a <strong>Use</strong>
 volume. The volume holds the <strong>Cost</strong> and <strong>Prompt</strong>, not a Cost setting.</p>
-<p>When bought it hides, which opens walking and bullets, plays the debris sound, sends <code>opened</code> and
-opens anything in its <strong>Opens with</strong> link. It stays open in saved games.</p>
+<p>When bought it hides, which opens walking and bullets, plays the debris sound, sends <code>opened</code>, and
+opens anything in its <strong>Opens with</strong> link and the zones in its <strong>Opens zones</strong> link. It stays open
+in saved games.</p>
 <div class="table-scroll" tabindex="0"><table>
 <thead>
 <tr>
@@ -465,6 +472,143 @@ function Rubble:open(player)
 end
 
 return Rubble
+</code></pre>
+<h2 id="teleporter">Teleporter</h2>
+<p>A Teleporter is a <strong>teleporter of your own</strong>: a <strong>Use</strong> volume that sends the player somewhere
+else, with an optional stop on the way. It has no model; add any model as its pad.</p>
+<p><strong>Make it:</strong> drag <strong>Teleporter</strong> from <strong>Teleporting</strong>. In its <strong>Links</strong> box, set <strong>Destination</strong>
+to any object: the player stands on it, facing the way it faces. To stop on the way, drag a
+<strong>Wormhole</strong> from the same place somewhere out of sight, such as under the map, and set <strong>Stop
+over at</strong> to it: players stand on its first Spot, facing down the tunnels. Link one of its four
+<strong>Spot</strong> volumes instead to pick a lane. The Use volume holds the <strong>Cost</strong> and <strong>Prompt</strong>.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Time at the stop-over</strong></td>
+<td>Seconds the player is held at the stop-over, view and all (2, as in the game)</td>
+</tr>
+<tr>
+<td><strong>Wait between uses</strong></td>
+<td>Seconds it charges after a use (30). While it charges the prompt says <em>Charging</em> and a use costs nothing.</td>
+</tr>
+</tbody></table></div>
+<p>The stop-over can be a <a href="#wormhole">Wormhole</a> or any object of yours.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Method</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>teleport(player)</code></td>
+<td>Sends the player. Returns false without a Destination. <strong>Override this one.</strong></td>
+</tr>
+<tr>
+<td><code>charge()</code></td>
+<td>Starts charging</td>
+</tr>
+<tr>
+<td><code>ready()</code></td>
+<td>True when it can send someone</td>
+</tr>
+<tr>
+<td><code>usable(player)</code></td>
+<td>False, with a reason, while it charges or has no Destination: the use costs nothing</td>
+</tr>
+</tbody></table></div>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Override</th>
+<th>When</th>
+<th>Can stop it?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>on_use(player, volume)</code></td>
+<td>The Use volume was bought, already paid</td>
+<td><strong>Yes</strong>, but the points are gone. To keep it, <a href="#handing-it-back-to-the-game">hand it back</a>.</td>
+</tr>
+<tr>
+<td><code>teleport(player)</code></td>
+<td>It sends someone</td>
+<td><strong>Yes</strong>. To keep it, <a href="#handing-it-back-to-the-game">hand it back</a>.</td>
+</tr>
+<tr>
+<td><code>on_teleported(player)</code></td>
+<td>The player has left</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>on_arrived(player)</code></td>
+<td>The player has arrived</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>on_ready()</code></td>
+<td>It has charged</td>
+<td>No</td>
+</tr>
+</tbody></table></div>
+<pre><code class="language-lua">local Booth = boz.Teleporter:extend(&quot;Booth&quot;)
+
+function Booth:teleport(player)
+    if not boz.rounds.powered() then
+        player:message(&quot;No power&quot;)
+        return false
+    end
+    return boz.Teleporter.teleport(self, player)
+end
+
+function Booth:on_arrived(player)
+    player:give_points(100)
+end
+
+return Booth
+</code></pre>
+<h2 id="wormhole">Wormhole</h2>
+<p>The wormhole from Kino der Toten, as <strong>a prefab of your own</strong>: the game&#39;s tunnel models and swirl
+effects, and a place for each player to stand. Its job is to be a stop-over on the way somewhere,
+for a <a href="#teleporter">Teleporter</a> or for <code>player:teleport</code> in a script.</p>
+<p><strong>Make it:</strong> drag <strong>Wormhole</strong> from <strong>Teleporting</strong> and put it somewhere players can&#39;t see or
+reach, such as well under the map. A map needs only one; every teleporter can stop over at it.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Part</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Spot_1</strong> to <strong>Spot_4</strong></td>
+<td>Where a player stands, one per lane: flat Trigger volumes, facing down the tunnels</td>
+</tr>
+<tr>
+<td><strong>Tunnel_1</strong> to <strong>Tunnel_4</strong></td>
+<td>The tunnel each lane looks into</td>
+</tr>
+<tr>
+<td><strong>Swirl_1</strong> to <strong>Swirl_4</strong></td>
+<td>The swirling effect in each tunnel</td>
+</tr>
+<tr>
+<td><strong>Room</strong>, <strong>Shell</strong></td>
+<td>The dark box around it all</td>
+</tr>
+</tbody></table></div>
+<p>The Wormhole itself stands on <strong>Spot_1</strong>, facing the same way, so linking the whole Wormhole puts
+players there. Link a <strong>Spot</strong> to pick a lane.</p>
+<p>It is yours to change, like any prefab you made: move, swap or delete parts, swap a swirl for
+another effect, or build a stop-over of your own from scratch and use that instead. While players
+are in it they can&#39;t move or look around, as in the game, for the stop-over&#39;s time.</p>
+<p>From a script, any object can be the stop-over:</p>
+<pre><code class="language-lua">boz.player():teleport(boz.get(&quot;Roof&quot;), {via = boz.get(&quot;Wormhole.Spot_2&quot;), seconds = 4})
 </code></pre>
 <h2 id="perk">Perk</h2>
 <p>A perk machine. Pick one from <strong>Machines</strong>.</p>
@@ -1076,7 +1220,8 @@ how they arrive: Window, Ground, From above, Ceiling, Climb, Dogs or Monkeys.</p
 <td>Read only here; use <code>set_active</code></td>
 </tr>
 </tbody></table></div>
-<p><strong>Off</strong> means the spawn starts working once players reach its area.</p>
+<p><strong>Off</strong> means it works once its zone is open: from the start in the starting zone, else once a
+door opens its zone (<a href="how-a-map-works.html#zones">Zones</a>).</p>
 <div class="table-scroll" tabindex="0"><table>
 <thead>
 <tr>
@@ -1086,7 +1231,11 @@ how they arrive: Window, Ground, From above, Ceiling, Climb, Dogs or Monkeys.</p
 </thead>
 <tbody><tr>
 <td><code>set_active(on)</code></td>
-<td>Lets zombies come out of it, or not</td>
+<td>Lets zombies come out of it, or not, whatever its zone</td>
+</tr>
+<tr>
+<td><code>active()</code></td>
+<td>True while zombies can come out of it</td>
 </tr>
 </tbody></table></div>
 <p>There&#39;s nothing to override: a spawn has no player use. Switch them from another object:</p>
@@ -1196,6 +1345,8 @@ animations, sounds, numbers), see <a href="weapons-and-assets.html">Weapons &amp
             <a href="#what-every-class-has" class="sub">What every class has</a>
             <a href="#door">Door</a>
             <a href="#debris">Debris</a>
+            <a href="#teleporter">Teleporter</a>
+            <a href="#wormhole">Wormhole</a>
             <a href="#perk">Perk</a>
             <a href="#mysterybox">MysteryBox</a>
             <a href="#packapunch">PackAPunch</a>

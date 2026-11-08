@@ -23,7 +23,7 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"SDK reference","description":"Reference for the SDK's own tools and formats: every bozkit command, the files of a map project, and which versions of the game, client and formats work…","url":"https://boz-redux.com/docs/sdk-reference.html","dateModified":"2026-11-04T23:09:37-06:00","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"SDK reference","item":"https://boz-redux.com/docs/sdk-reference.html"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"SDK reference","description":"Reference for the SDK's own tools and formats: every bozkit command, the files of a map project, and which versions of the game, client and formats work…","url":"https://boz-redux.com/docs/sdk-reference.html","dateModified":"2026-11-08T23:14:53.315Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"SDK reference","item":"https://boz-redux.com/docs/sdk-reference.html"}]}]}</script>
     <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="stylesheet" href="../styles.css" />
@@ -422,9 +422,39 @@ the navmesh) or <code>none</code>. The editor calls these Walkable, Blocking and
 </tr>
 </tbody></table></div>
 <p><code>who</code> is <code>players</code>, <code>zombies</code> or <code>anyone</code>; <code>once</code> fires the first time only.</p>
+<p>Three more kinds mark out a new map instead of sending events (refused in an inherited map):</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th><code>volume</code></th>
+<th>What it is</th>
+<th>Fields</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>zone</code></td>
+<td>A box of a <a href="how-a-map-works.html#zones">zone</a>: its zombie spawns wake when it opens</td>
+<td><code>zone</code>: the zone it belongs to (empty: its own name); <code>starting</code>: players start in it (exactly one zone)</td>
+</tr>
+<tr>
+<td><code>sector</code></td>
+<td>A <a href="how-a-map-works.html#sectors">sector</a>: a room drawn only while the camera can see it</td>
+<td></td>
+</tr>
+<tr>
+<td><code>portal</code></td>
+<td>A doorway between two sectors: its thinnest side faces them</td>
+<td></td>
+</tr>
+</tbody></table></div>
 <h4 id="prefabs">Prefabs</h4>
 <ul>
-<li><strong>Your prefabs</strong> have <code>parts</code>: models, volumes and prefabs, placed in the prefab&#39;s space.</li>
+<li><strong>Your prefabs</strong> have <code>parts</code>: models, volumes and prefabs, placed in the prefab&#39;s space. A
+<code>piece</code> gives one a class of its own: <code>&quot;debris&quot;</code> (boz.Debris) or <code>&quot;teleporter&quot;</code>
+(boz.Teleporter, with <code>wait</code> and <code>cooldown</code> in <code>properties</code>).</li>
+<li><code>links</code> is the <strong>Links</strong> box: a link&#39;s name, then the names it points at. Built-in ones include
+<code>&quot;zones&quot;</code> (a door&#39;s Opens zones: any box of a zone), <code>&quot;destination&quot;</code> and <code>&quot;stop_over&quot;</code> (a
+Teleporter&#39;s); your script&#39;s <code>---@link</code> names work the same.</li>
 <li><strong>Game prefabs</strong> are one of the game&#39;s entities: <code>source</code> (a name or <code>0x</code> hash, from the base
 level or from any <code>group</code>), the editor <code>piece</code> it came from, its <code>settings</code> as the editor
 shows them, and the <code>fields</code> they write (<code>&quot;CPerk.m_perkSinglePCost&quot;: 2000</code>; names and the power
@@ -450,8 +480,17 @@ already loads it. A wall buy sells a weapon of the level&#39;s own weapons group
 buy gets one at the same offset: the weapon&#39;s own chalk when the game has one, else an outline
 drawn from the weapon model&#39;s side.</li>
 <li><strong>Doors:</strong> the floor under a door&#39;s collision box is cut out as its own navmesh polygons,
-tagged with the door&#39;s name, so players and zombies pass only once the door is bought. Copies
-get names of their own; doors in generated maps unlock no areas.</li>
+tagged with the door&#39;s name, so players and zombies pass only once the door is bought. The cut
+reaches past the door by the player&#39;s width, so nobody walks into it. Copies get names of their
+own.</li>
+<li><strong>Zones:</strong> each zone becomes a game area (<code>CArea</code>, <code>&lt;level&gt;_zone_&lt;zone&gt;</code>) listing the zombie
+spawns inside its boxes (spawns outside every box join the starting zone), and the starting one
+is the level&#39;s starting area. A door&#39;s Opens zones becomes its <code>m_AreasUnlock</code>. Placed doors
+otherwise unlock nothing.</li>
+<li><strong>Sectors:</strong> each sector becomes a group of its own (<code>&lt;level&gt;_sector_&lt;sector&gt;</code>), listed by
+<code>&lt;level&gt;_sectors</code>: a shell model of the box&#39;s corners, which the game turns into the room&#39;s
+volume and doesn&#39;t draw, and the portals that face into it (each portal names the sectors on its
+two sides). The game puts every other model in the room that holds its middle.</li>
 <li><strong>Scripts:</strong> the build adds <code>require(&quot;boz.game.world&quot;).start()</code> to <code>main.lua</code>, the standard
 library, and a generated <code>boz/world_data.lua</code> (start state, scripted objects, volumes).
 The runtime applies the start state when the level starts, starts the scripts, powers perk

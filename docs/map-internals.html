@@ -23,7 +23,7 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Map internals","description":"How the editor's work reaches the game: for when you want to know why something behaves the way it does, or want to edit the game's own files. You don't…","url":"https://boz-redux.com/docs/map-internals.html","dateModified":"2026-11-06T18:25:02.812Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Map internals","item":"https://boz-redux.com/docs/map-internals.html"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Map internals","description":"How the editor's work reaches the game: for when you want to know why something behaves the way it does, or want to edit the game's own files. You don't…","url":"https://boz-redux.com/docs/map-internals.html","dateModified":"2026-11-08T23:15:52.668Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Map internals","item":"https://boz-redux.com/docs/map-internals.html"}]}]}</script>
     <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="stylesheet" href="../styles.css" />
@@ -404,7 +404,7 @@ own entities can start hidden or without collision; their walkable area stays as
 <td><code>m_AreasUnlock</code></td>
 <td>—</td>
 <td>Zones (<code>CArea</code>) it unlocks</td>
-<td>placed doors unlock none (generated maps have one area)</td>
+<td>editor: Opens zones (a remix&#39;s own doors keep theirs; other placed doors unlock none)</td>
 </tr>
 <tr>
 <td><code>CIsCollisionBox</code> 300 × 300 × 10 cm</td>
@@ -510,7 +510,7 @@ own entities can start hidden or without collision; their walkable area stays as
 <tr>
 <td><code>m_StartActive</code></td>
 <td>false</td>
-<td>Used from the first round, not only once players reach its area</td>
+<td>Used from the first round, not only once its zone opens</td>
 <td>editor: Active from the start</td>
 </tr>
 </tbody></table></div>
@@ -587,10 +587,68 @@ use runs <code>Poi_SendUse</code>, which broadcasts the interact event to the en
 <p>These are in the shipped levels; each needs its own game prefab or links before it is useful:</p>
 <ul>
 <li>Turret (<code>CTurret</code>: cost, duration, damage, range, rate of fire, cool-down, power).</li>
-<li>Teleporter, mainframe and Gersch points (<code>CTeleporter</code>, <code>CTeleportMainframe</code>, <code>CTeleportPointGersch</code>).</li>
+<li>Kino&#39;s teleporter and mainframe, and Ascension&#39;s Gersch points (<code>CTeleporter</code>,
+<code>CTeleportMainframe</code>, <code>CTeleportPointGersch</code>). They run one map&#39;s own sequence, so the editor has
+a generic <a href="game-prefabs.html#teleporter">Teleporter</a> and Wormhole instead.</li>
 <li>Rides: lunar landers, zipline, flinger, centrifuge, ice slide (Ascension, Call of the Dead).</li>
 <li>Animated scenery, TV and projector screens, fog effects, lights.</li>
 </ul>
+<h2 id="zones-in-the-game-files">Zones in the game files</h2>
+<p>A zone is a <strong><code>CArea</code></strong> resource in the level&#39;s group: a list of entity names (<code>m_SpawnPoints</code>,
+and on the shipped maps also perk machines, Gersch points, shortcuts and locators). It has no
+shape. The level&#39;s <code>m_StartingArea</code> is open from the start.</p>
+<ul>
+<li><strong>Opening one</strong> is <code>CArea::Activate</code>. It hands each spawn point to the spawn manager
+(<code>SpawnManager_SetPoint</code>), which keeps a set of usable points for each kind of zombie. <code>Level_Load</code>
+opens the starting area, a door opens its <code>m_AreasUnlock</code> areas when it opens (<code>CDoor::OnEvent</code>),
+and a spawn with <code>m_StartActive</code> adds itself. The shipped game never closes one; the remove path
+exists, and <code>boz.Zone:close()</code> uses it.</li>
+<li><strong>Choosing a spawn</strong> (<code>SpawnManager_PickPoint</code>): for a player in turn, the points in that
+zombie kind&#39;s set within <code>SpawnMaxDistance</code> (5000 cm), at random among the <code>NumOfClosestSpawns</code>
+nearest. A spawn&#39;s <code>+0x34</code> flag only means it is free right now (it drops while a zombie climbs
+out); <code>SpawnManager_HasPoint</code> says whether it is in a set at all.</li>
+<li><strong>Zones and sectors aren&#39;t linked.</strong> Kino has 9 areas and about 19 sectors; that their names
+match is a naming habit.</li>
+</ul>
+<h2 id="sectors-in-the-game-files">Sectors in the game files</h2>
+<p>The level loads <code>&lt;level&gt;_sectors</code>, whose child groups are one sector each. A sector&#39;s group holds:</p>
+<ul>
+<li>its <strong>shell</strong>: the entity named <code>…_shell</code>, <code>…_inside_shell</code> or <code>…_mergemodel</code>. The game builds
+the sector&#39;s volume from the convex hull of the shell model&#39;s vertices (<code>Sector_BuildHull</code>), so
+a shell can be vertex-only, as the editor&#39;s are;</li>
+<li>its <strong>details</strong> and <strong>decals</strong> (<code>…_details</code>, <code>…_decals</code>), drawn within <code>DetailDistance</code> and
+<code>DecalDistance</code>, and its occluders;</li>
+<li>its <strong>portals</strong> (<code>CIsPortal</code>), each naming the sectors in front of and behind it
+(<code>SectorManager_LinkPortals</code>).</li>
+</ul>
+<p>Every other model joins the sector that contains it when it loads
+(<code>RenderableModel_AttachToSector</code>). When its transform moves (<code>SUBJECT_TRANSFORM_UPDATED</code>), it
+joins the sectors holding it again two frames later, so zombies follow the rooms they walk through;
+effects do the same (<code>Renderable_AttachToSectors</code>). Each frame (<code>SectorManager_Render</code>, from the playing
+state&#39;s <code>Render</code>):</p>
+<ol>
+<li>The camera&#39;s sectors are those containing it, or the nearest one when it is in none
+(<code>SectorManager_CameraSectors</code>).</li>
+<li>From each, the game follows portals, clipping the view to each one
+(<code>SectorManager_DrawThroughPortals</code>).</li>
+<li>Sectors it reached draw their shell, details, decals and members that pass the view and
+occluder tests. The rest draw nothing.</li>
+</ol>
+<p>Nothing is unloaded: every sector loads with the level, and only drawing is skipped. Models
+outside every sector are only culled by the view. <code>CIsSectorManager +0x53</code> draws every sector in
+view without portals (<code>boz.sectors.set_culling(false)</code>), and a sector&#39;s <code>+0xd4</code> says it was drawn
+this frame.</p>
+<h2 id="teleporting-in-the-game-files">Teleporting in the game files</h2>
+<p>Kino&#39;s teleporter sends <code>SUBJECT_TELEPORT_PLAYER</code> (<code>TeleportPlayerInfo</code>: the player, a spawn
+entity and <code>enableMovement</code>) to <code>CTeleportManager</code>. For the local player it writes
+<code>enableMovement</code> to the player controller&#39;s <code>+0x15a</code> (may move) and <code>+0x15b</code> (may look), then calls
+<code>CPlayerController::PlaceAt</code> with the spawn&#39;s world matrix: the player stands on it and faces its
+way. The wormhole is its own group, <code>teleporterwormhole_shared</code>: four lanes of tunnel models and
+swirl effects, with the four <code>Wormhole_Spawn</code> spots in Kino&#39;s statics. Players stay
+<code>TeleportWormholeTimeMS</code> (2000) there, unable to move or look, with the full-screen effect
+<code>0x43d9cbd8</code> on each jump.</p>
+<p><code>player:teleport</code> does the same with any object: <code>PlaceAt</code> with the object&#39;s matrix (or one built
+from a prefab of yours&#39; place), both flags cleared during a stop-over, and the same effect.</p>
 <h2 id="navigation-meshes">Navigation meshes</h2>
 <p>In BOZ, players and zombies do not walk on the level&#39;s collision. They walk on a separate
 <strong>navigation mesh</strong> (navmesh): a map of the floor where anyone can go. Collision only decides
@@ -1011,6 +1069,9 @@ collision, and you can no longer walk through it: saving rebuilt the navmesh aro
             <a href="#volume-entities" class="sub">Volume entities</a>
             <a href="#points-of-interest-cpoi" class="sub">Points of interest (CPOI)</a>
             <a href="#not-game-prefabs-yet" class="sub">Not game prefabs yet</a>
+            <a href="#zones-in-the-game-files">Zones in the game files</a>
+            <a href="#sectors-in-the-game-files">Sectors in the game files</a>
+            <a href="#teleporting-in-the-game-files">Teleporting in the game files</a>
             <a href="#navigation-meshes">Navigation meshes</a>
             <a href="#the-helper-program" class="sub">The helper program</a>
             <a href="#how-boz-stores-navmeshes" class="sub">How BOZ stores navmeshes</a>

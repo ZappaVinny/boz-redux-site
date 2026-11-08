@@ -23,7 +23,7 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Scripting reference","description":"The functions you will use most, by topic. Prefabs shows how they fit together. This page is the lookup.","url":"https://boz-redux.com/docs/scripting.html","dateModified":"2026-11-04T22:50:59-06:00","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Scripting reference","item":"https://boz-redux.com/docs/scripting.html"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Scripting reference","description":"The functions you will use most, by topic. Prefabs shows how they fit together. This page is the lookup.","url":"https://boz-redux.com/docs/scripting.html","dateModified":"2026-11-08T23:14:25.155Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Scripting reference","item":"https://boz-redux.com/docs/scripting.html"}]}]}</script>
     <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="stylesheet" href="../styles.css" />
@@ -188,7 +188,7 @@ end
 </thead>
 <tbody><tr>
 <td><code>.name</code>, <code>.kind</code>, <code>.settings</code></td>
-<td>Its name, <code>&quot;model&quot;</code>/<code>&quot;volume&quot;</code>/<code>&quot;prefab&quot;</code>, and its settings</td>
+<td>Its name, <code>&quot;model&quot;</code>/<code>&quot;volume&quot;</code>/<code>&quot;prefab&quot;</code>/<code>&quot;zone&quot;</code>/<code>&quot;sector&quot;</code>, and its settings</td>
 </tr>
 <tr>
 <td><code>class_name()</code>, <code>is_a(class)</code></td>
@@ -263,8 +263,20 @@ end
 <td>Weapons. The new weapon goes in hand.</td>
 </tr>
 <tr>
-<td><code>position()</code>, <code>teleport(place)</code></td>
-<td>Where the player is. <code>place</code> is a position or an object.</td>
+<td><code>position()</code></td>
+<td>Where the player is (eye height)</td>
+</tr>
+<tr>
+<td><code>teleport(place, options)</code></td>
+<td>Moves the player. On an object they stand on it, facing its way (a prefab of yours: where it is placed); a position is eye height, like <code>position()</code>. Options: <code>via</code> (an object to stop over at first, held still with their view fixed, as in the game&#39;s wormhole), <code>seconds</code> (the stop-over, 2: the game&#39;s wormhole time), <code>effect</code> (the teleport flash, true), <code>done(player)</code> (runs on arrival).</td>
+</tr>
+<tr>
+<td><code>zone()</code>, <code>sector()</code></td>
+<td>The <a href="#zones-and-sectors">zone and sector</a> the player is in, or nil</td>
+</tr>
+<tr>
+<td><code>movement()</code>, <code>set_movement(on, look)</code></td>
+<td>Off holds the player where they stand. With <code>look</code> false their view is held too.</td>
 </tr>
 <tr>
 <td><code>downed()</code>, <code>kill()</code></td>
@@ -400,6 +412,73 @@ end
 </tr>
 </tbody></table></div>
 <p>To shape a map&#39;s rounds as a whole, use the <a href="editor.html#game-rules">Game tab</a>.</p>
+<h2 id="zones-and-sectors">Zones and sectors</h2>
+<p><code>boz.get</code> gives a <a href="how-a-map-works.html#zones">zone</a> by its zone name, as a <code>boz.Zone</code>:</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Call</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>open()</code></td>
+<td>Opens it, as a door that opens it would. False when it was open already.</td>
+</tr>
+<tr>
+<td><code>close()</code></td>
+<td>Closes it: its spawns aren&#39;t used until it opens again. False when it was closed.</td>
+</tr>
+<tr>
+<td><code>is_open()</code>, <code>starting()</code></td>
+<td>Whether its spawns are used, and whether it&#39;s the starting zone</td>
+</tr>
+<tr>
+<td><code>spawns()</code>, <code>doors()</code></td>
+<td>Its zombie spawns, and the doors and debris that open it</td>
+</tr>
+<tr>
+<td><code>contains(target)</code>, <code>players()</code></td>
+<td>Whether a position or object is inside it, and the players in it</td>
+</tr>
+<tr>
+<td><code>position()</code></td>
+<td>The middle of its first box</td>
+</tr>
+</tbody></table></div>
+<p>Events: <code>opened</code>, <code>closed</code>, <code>enter(player)</code> and <code>exit(player)</code>. Every script also hears the game
+events <code>zone_opened</code> and <code>zone_closed</code>, with <code>zone</code>, its name.</p>
+<pre><code class="language-lua">local cellar = boz.get(&quot;Cellar&quot;)
+cellar:on(&quot;enter&quot;, function(zone, player)
+    player:message(&quot;It&#39;s cold down here&quot;)
+end)
+boz.on(&quot;zone_opened&quot;, function(data)
+    log(data.zone .. &quot; is open&quot;)
+end)
+</code></pre>
+<p>A <a href="how-a-map-works.html#sectors">sector</a> is a <code>boz.Sector</code>, by its name:</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Call</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>contains(target)</code>, <code>players()</code></td>
+<td>Whether a position or object is inside it, and the players in it</td>
+</tr>
+<tr>
+<td><code>drawn()</code></td>
+<td>True when the game drew it this frame</td>
+</tr>
+<tr>
+<td><code>position()</code></td>
+<td>Its middle</td>
+</tr>
+</tbody></table></div>
+<p>Events: <code>enter(player)</code> and <code>exit(player)</code>. <code>boz.sectors.set_culling(false)</code> draws every sector in
+view, ignoring portals, to compare against; <code>boz.sectors.culling()</code> says which is on.</p>
 <h2 id="systems">Systems</h2>
 <p>Each one is ready as <code>boz.&lt;name&gt;</code>.</p>
 <h3 id="bozhud">boz.hud</h3>
@@ -512,6 +591,7 @@ game&#39;s data, <code>require(&quot;boz.engine.entities&quot;)</code> every ent
             <a href="#players">Players</a>
             <a href="#zombies">Zombies</a>
             <a href="#rounds">Rounds</a>
+            <a href="#zones-and-sectors">Zones and sectors</a>
             <a href="#systems">Systems</a>
             <a href="#bozhud" class="sub">boz.hud</a>
             <a href="#bozaudio" class="sub">boz.audio</a>

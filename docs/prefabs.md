@@ -194,7 +194,7 @@ return Vault
 | You write | What you get |
 | --- | --- |
 | `self.name` | Its name in the editor. A part is `"Prefab.Part"`. Copies each have their own. |
-| `self.kind` | `"model"`, `"volume"` or `"prefab"` |
+| `self.kind` | `"model"`, `"volume"` or `"prefab"` (and `"zone"` or `"sector"` for those) |
 | `self:class_name()` | The name of its class, like `"Skull"` or `"Perk"` |
 | `self:is_a(boz.Door)` | True when it is that class, or extends it |
 | `self:part_name()` | Its name inside its prefab, like `"Door"`, or nil |
@@ -274,6 +274,7 @@ These are the hooks a prefab has. You only write the ones you need.
 | --- | --- | --- |
 | `start()` | The level starts | Nothing |
 | `on_use(player, volume)` | A player presses use | A **Use** volume |
+| `usable(player, volume)` | Before a use costs anything: return false to refuse it | A **Use** volume |
 | `on_hit(player, volume)` | Something is shot | A **Hit** volume |
 | `on_enter(who, volume)` | Someone walks in | A **Trigger** volume |
 | `on_exit(who, volume)` | Someone walks out | A **Trigger** volume |
@@ -322,6 +323,25 @@ function Button:on_use(player, volume)
 end
 
 return Button
+```
+
+### usable
+
+Runs before a use takes the volume's **Cost**. Return `false` and a reason to refuse it: nothing
+is paid, `on_use` doesn't run, and the prompt shows the reason instead of the cost. Use it for
+anything that is sometimes not ready, so players never pay for nothing.
+
+```lua
+local Shrine = boz.Prefab:extend("Shrine")
+
+function Shrine:usable(player, volume)
+    if self._used_this_round then
+        return false, "Come back next round"
+    end
+    return true
+end
+
+return Shrine
 ```
 
 ### on_hit
@@ -402,6 +422,9 @@ Volumes are how a prefab notices the world. They are invisible in the game. Drag
 | **Trigger** | Teal | `on_enter`, `on_exit` |
 | **Hit** | Red | `on_hit` |
 | **Use** | Green | `on_use` |
+
+**Zone**, **Sector** and **Portal** are volumes too, but they mark out the map instead of noticing
+things for a prefab: see [Zones](how-a-map-works.md#zones) and [Sectors](how-a-map-works.md#sectors).
 
 Volume settings:
 
@@ -567,6 +590,9 @@ The kind limits what can be linked:
 | `pack_a_punch` | Pack-a-Punch machines |
 | `wall_buy` | Wall buys |
 | `zombie_spawn` | Zombie spawns |
+| `zone` | Zones (any of their boxes) |
+| `sector` | Sectors |
+| `teleporter` | Teleporters |
 | `player_spawn` | Player spawns |
 | `volume` | Volumes |
 | `model` | Models |
@@ -613,7 +639,8 @@ local player = boz.player()
 player:give_points(500)
 player:give_perk("Juggernog")
 player:give_weapon("mp40")
-player:teleport(boz.get("Spawn_Room"))
+player:teleport(boz.get("Spawn_Room"))   -- stands there, facing its way
+if player:zone() == boz.get("Cellar") then player:message("Down here?") end
 player:message("Hello", 5)
 ```
 
@@ -796,10 +823,14 @@ local ZapPad = boz.Prefab:extend("ZapPad")
 ---@setting radius int 300 "Reach (cm)"
 ---@setting runs_for seconds 10 "Runs for"
 
-function ZapPad:on_use(player)
+function ZapPad:usable(player)
     if self._running then
-        return
+        return false, "Running"
     end
+    return true
+end
+
+function ZapPad:on_use(player)
     self._running = true
     local zap = boz.every(0.5, function()
         for _, zombie in ipairs(boz.zombies()) do
@@ -817,37 +848,49 @@ end
 return ZapPad
 ```
 
-`_running` starts with `_` so a save never keeps it. The volume's cost is taken even while the
-trap runs; a player who pays twice loses the second payment. To avoid that, leave **Cost** at 0
-and use `player:spend(1000)` after the `_running` check. `spend` returns true when it paid.
+`_running` starts with `_` so a save never keeps it. While it runs, `usable` refuses uses before
+the volume takes its cost, and the prompt says *Running*.
 
-### A teleport pad
+### A teleporter
 
-Walk on it and arrive somewhere else. Each pad picks its own destination.
+The editor has this built in: [Teleporter](game-prefabs.md#teleporter). Drag it in, link its
+**Destination**, and for a stop in the wormhole drag a **Wormhole** and link **Stop over at** to
+it.
 
-**Build:** a floor model and a **Trigger** volume over it, set off by **Players**. Group them.
-After adding the script, press **Reload**, and link **Destination** to any object.
+The same thing as a script of your own, to change any part of it. Give the Use volume a **Cost**;
+`usable` refuses uses while it cools, so nobody pays for nothing.
 
 ```lua
 local Pad = boz.Prefab:extend("Pad")
 
----@link destination any one "Destination"
----@setting cooldown seconds 3 "Wait between uses"
+---@link target any one "Goes to"
+---@link via any one "Stops at"
+---@setting cooldown seconds 30 "Wait between uses"
 
-function Pad:on_enter(player)
-    local target = self:links("destination")[1]
-    if not target or self._waiting then
+function Pad:usable(player)
+    if self._cooling then
+        return false, "Cooling down"
+    end
+    return true
+end
+
+function Pad:on_use(player)
+    local target = self:links("target")[1]
+    if not target then
         return
     end
-    self._waiting = true
-    player:teleport(target)
+    self._cooling = true
+    player:teleport(target, {via = self:links("via")[1]})
     boz.after(self.settings.cooldown, function()
-        self._waiting = false
+        self._cooling = false
     end)
 end
 
 return Pad
 ```
+
+`player:teleport` stands the player on the target, facing the way it faces, with the game's
+teleport flash. With `via` it stops there first and holds the player and their view still for `seconds` (2).
 
 ## When something goes wrong
 
@@ -860,7 +903,7 @@ if a hook runs at all.
 | Log says the script must return a class | The last line is missing | End with `return Name` |
 | `attempt to index a nil value (local 'self')` | A dot where a colon goes | `function Skull:on_hit`, `self:hide()` |
 | A game prefab stopped working, or the log names `_handle` or `_piece` | The use wasn't handed back correctly | See [Handing it back to the game](game-prefabs.md#handing-it-back-to-the-game) |
-| `on_hit` never runs | The prefab has no **Hit** volume, the volume is too small, or a model in front of it takes the shot | Add or resize it. **Show → Triggers** helps. |
+| `on_hit` never runs | The prefab has no **Hit** volume, the volume is too small, or a model in front of it takes the shot | Add or resize it. **Volumes** in the tool settings bar helps. |
 | `on_use` never runs | No **Use** volume, or the player can't afford its **Cost** | Check both |
 | `hide()` does nothing | The object has no script and **Scripts can switch it** is off | Turn it on |
 | A new setting isn't in the panel | The panel wasn't reloaded | Press **Reload** in the Script box |

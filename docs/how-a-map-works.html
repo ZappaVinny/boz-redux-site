@@ -23,7 +23,7 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"How a map works","description":"This page is the whole model on one page. Read it once and the rest of the docs will make sense.","url":"https://boz-redux.com/docs/how-a-map-works.html","dateModified":"2026-11-04T22:50:59-06:00","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"How a map works","item":"https://boz-redux.com/docs/how-a-map-works.html"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"How a map works","description":"This page is the whole model on one page. Read it once and the rest of the docs will make sense.","url":"https://boz-redux.com/docs/how-a-map-works.html","dateModified":"2026-11-08T23:13:47.393Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"How a map works","item":"https://boz-redux.com/docs/how-a-map-works.html"}]}]}</script>
     <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="stylesheet" href="../styles.css" />
@@ -135,8 +135,8 @@
 </tr>
 <tr>
 <td><strong>Volume</strong></td>
-<td>An invisible box that notices things</td>
-<td>A <strong>Trigger</strong> (walked into), a <strong>Hit</strong> (shot), a <strong>Use</strong> (the player presses use)</td>
+<td>An invisible box that notices things, or marks part of the map</td>
+<td>A <strong>Trigger</strong> (walked into), a <strong>Hit</strong> (shot), a <strong>Use</strong> (the player presses use), a <a href="#zones">Zone</a> or a <a href="#sectors">Sector</a></td>
 </tr>
 <tr>
 <td><strong>Prefab</strong></td>
@@ -205,8 +205,57 @@ can shoot over has only the first.</p>
 <td>Changing a map that already exists</td>
 </tr>
 </tbody></table></div>
-<p>Everything in these docs works in both. In a remix the rooms stay as they are, and the original
-objects can be moved, changed, hidden or removed.</p>
+<p>What each kind gives you:</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th></th>
+<th>New map</th>
+<th>Remix</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Rooms</strong></td>
+<td>Yours, built in the editor</td>
+<td>The original map&#39;s, as they are</td>
+</tr>
+<tr>
+<td><strong>The original objects</strong></td>
+<td></td>
+<td>Moved, changed, hidden or removed</td>
+</tr>
+<tr>
+<td><strong>Walkable area</strong></td>
+<td>Built from your floors and walls</td>
+<td>The original, rebuilt only near what you change</td>
+</tr>
+<tr>
+<td><strong><a href="#zones">Zones</a></strong></td>
+<td>Yours: <strong>Zone</strong> volumes, opened by your doors</td>
+<td>The original map&#39;s, opened by its own doors. Doors you place open none.</td>
+</tr>
+<tr>
+<td><strong><a href="#sectors">Sectors</a></strong></td>
+<td>Yours: <strong>Sector</strong> and <strong>Portal</strong> volumes</td>
+<td>The original map&#39;s rooms</td>
+</tr>
+<tr>
+<td><strong>Rounds and zombie types</strong></td>
+<td>From the map it&#39;s based on, changed in the <a href="editor.html#game-rules">Game tab</a></td>
+<td>The original&#39;s, changed in the Game tab</td>
+</tr>
+<tr>
+<td><strong>Prefabs, volumes and scripts</strong></td>
+<td>Yes</td>
+<td>The same</td>
+</tr>
+<tr>
+<td><strong>Teleporters</strong></td>
+<td>The <strong>Teleporter</strong> and <strong>Wormhole</strong> prefabs</td>
+<td>The same</td>
+</tr>
+</tbody></table></div>
+<p>Zone, Sector and Portal volumes are refused in a remix, because it keeps the original map&#39;s own.</p>
 <h2 id="names">Names</h2>
 <p>An object&#39;s name in the editor is its name in scripts. A part of a prefab is <code>Prefab.Part</code>:</p>
 <pre><code class="language-lua">local boz = require(&quot;boz&quot;)
@@ -222,6 +271,74 @@ switch, this window belongs to that spawn. You make them in the <strong>Links</s
 object. The viewport draws them as lines (<strong>Show → Links</strong>).</p>
 <p>Your own scripts can ask for links too, and read them with <code>self:links(&quot;name&quot;)</code>. See
 <a href="prefabs.html#links">Links</a>.</p>
+<h2 id="zones">Zones</h2>
+<p>Zombies come out of the spawns near the players, but only from spawns in an <strong>open zone</strong>. A zone
+is an area of the map. The players&#39; starting room is open from the start, and buying a door opens
+the rooms behind it, so zombies never come from rooms nobody has reached.</p>
+<ol>
+<li>Drag a <strong>Zone</strong> from <strong>Volumes</strong> and scale it over a room. Its name is the zone&#39;s name.</li>
+<li>Tick <strong>Starting zone</strong> on the zone where players start. A map has exactly one.</li>
+<li>Cover every other room with a zone of its own.</li>
+<li>Select each door, or Debris, and set <strong>Opens zones</strong> in its <strong>Links</strong> box to the zones behind it.</li>
+</ol>
+<p><img src="images/door-opens-zones.png" alt="A door's Links box, with Opens zones set to Zone_001"></p>
+<ul>
+<li>A zombie spawn belongs to the zone it stands in. A spawn outside every zone belongs to the
+starting zone.</li>
+<li>A room that isn&#39;t box-shaped takes several Zone volumes with the same <strong>Zone</strong> name: together
+they are one zone. Left empty, a box is a zone of its own name.</li>
+<li>A door can open several zones, and several doors can open one zone: the first one bought opens
+it.</li>
+<li><strong>Active from the start</strong> on a zombie spawn makes it work from the first round, whatever its
+zone.</li>
+<li>Zones draw nothing and block nobody: they only decide which spawns are used.</li>
+<li>The <strong>Problems</strong> panel warns about a zone no door opens, because its spawns would never wake.</li>
+</ul>
+<p>A script can open and close zones, and hear players walk in. A lever that opens the cellar&#39;s
+spawns early:</p>
+<pre><code class="language-lua">local Lever = boz.Prefab:extend(&quot;Lever&quot;)
+
+---@link zone zone one &quot;Zone it opens&quot;
+
+function Lever:on_use(player)
+    local zone = self:links(&quot;zone&quot;)[1]
+    if zone and zone:open() then
+        player:message(&quot;Something stirs below&quot;)
+    end
+end
+
+return Lever
+</code></pre>
+<p>See <a href="scripting.html#zones-and-sectors">Zones and sectors</a> for everything a zone can do.</p>
+<h2 id="sectors">Sectors</h2>
+<p>The game draws only the rooms the camera can see. Each room is a <strong>sector</strong>, and each doorway
+between two rooms is a <strong>portal</strong>. Every frame the game draws the sector the camera is in, then
+the sectors it can see through portals, and skips the rest. A big map stays fast this way: on Kino,
+drawing every room costs about twice as much as drawing through portals.</p>
+<ol>
+<li>Drag a <strong>Sector</strong> from <strong>Volumes</strong> and scale it over a room, floor to ceiling.</li>
+<li>Do the same for every room. Sectors shouldn&#39;t overlap.</li>
+<li>In each doorway between two sectors, drag a <strong>Portal</strong>, make it thin and scale it to fill the
+doorway. The build finds the sector on each side.</li>
+</ol>
+<p><img src="images/portal-between-sectors.png" alt="A Portal (pink) filling a doorway between two sectors"></p>
+<ul>
+<li>Everything inside a sector is drawn with it: models, game prefabs, effects and zombies. There&#39;s
+nothing to link.</li>
+<li>A model belongs to the sector its middle is in. A floor or wall that runs through two rooms
+disappears whenever the room its middle is in isn&#39;t drawn, so split it per room.</li>
+<li>Anything outside every sector is always drawn when it&#39;s in view.</li>
+<li>A portal needs a sector on each side, reaching to just past its faces. Otherwise the build stops
+and says which side has none.</li>
+<li>An L-shaped room is two sectors, with a portal across the opening between them.</li>
+<li>Keep the camera inside a sector. Outside all of them, the game draws from the nearest one.</li>
+<li>With no sectors at all, everything is drawn, as in a map without them.</li>
+</ul>
+<p>Most rooms get a Sector and a Zone. They can be the same size; the <strong>Volumes</strong> button&#39;s arrow hides
+one kind while you work on the other.</p>
+<p>To see the difference, <code>boz.sectors.set_culling(false)</code> in a script draws every room, and
+<code>boz.get(&quot;Lobby&quot;):drawn()</code> says whether a sector was drawn this frame. See
+<a href="scripting.html#zones-and-sectors">Zones and sectors</a>.</p>
 <h2 id="two-kinds-of-script">Two kinds of script</h2>
 <div class="table-scroll" tabindex="0"><table>
 <thead>
@@ -277,7 +394,8 @@ end)
 match</strong>, put it in <code>main.lua</code>.</p>
 <h2 id="what-build-run-does">What Build &amp; Run does</h2>
 <ol>
-<li>Saves your map and turns it into a mod, working out the walkable area and collision.</li>
+<li>Saves your map and turns it into a mod, working out the walkable area, collision, zones and
+sectors.</li>
 <li>Installs the mod in your client, last in the load order.</li>
 <li>Starts the game and goes straight into your map.</li>
 </ol>
@@ -301,6 +419,8 @@ match</strong>, put it in <code>main.lua</code>.</p>
             <a href="#new-map-or-remix">New map or Remix</a>
             <a href="#names">Names</a>
             <a href="#links">Links</a>
+            <a href="#zones">Zones</a>
+            <a href="#sectors">Sectors</a>
             <a href="#two-kinds-of-script">Two kinds of script</a>
             <a href="#what-build-run-does">What Build &amp; Run does</a>
           </aside>

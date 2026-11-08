@@ -287,32 +287,31 @@ modding is not part of this work.
 What modders can't do yet and we want them to, most important first. Each item is open to anyone
 who wants to pick it up.
 
-1. **Zones and teleporters.** Doors that open areas, spawns that wake as players reach them, and the
-   game's teleporters. New maps are one area today, so this is the biggest gap for real maps. It needs
-   reverse engineering first.
-2. **Scripts in co-op.** Scripts see only the local player, and each game runs its own, so a hidden
-   wall can differ between players. Start with a real co-op test of a scripted map, then give scripts
-   every player and a way to keep games in step.
-3. **Moving and turning objects.** `set_position` and `set_rotation` on objects, with prefabs moving
+1. **Scripts in co-op.** Scripts see only the local player, and each game runs its own, so a hidden
+   wall can differ between players. Teleporting moves only the local player too. Start with a real
+   co-op test of a scripted map, then give scripts every player and a way to keep games in step.
+2. **Moving and turning objects.** `set_position` and `set_rotation` on objects, with prefabs moving
    as one. Use points need testing, because the game files fixed ones in a grid.
-4. **Scripts reach every object.** Remove **Scripts can switch it**, without making large maps
+3. **Scripts reach every object.** Remove **Scripts can switch it**, without making large maps
    heavier.
-5. **Ending a match and player facing.** A win condition for scripts, and setting which way a player
-   looks after a teleport.
-6. **Spawning prefabs during play.** Placing your own prefabs from a script, not only the game's
+4. **Ending a match.** A win condition for scripts.
+5. **Spawning prefabs during play.** Placing your own prefabs from a script, not only the game's
    entities.
-7. **More game prefabs.** Turrets first, then rides: landers, the zipline and the flinger.
-8. **George on any map.** Needs the level traits primitive in the client.
-9. **Luring zombies.** Making zombies go to an object, like a monkey bomb does.
-10. **Custom HUD.** The **UI / HUD** tab: HUD elements in the game's own style, with icons for custom
-    perks and power-ups.
-11. **Custom characters.** Player arms, characters and zombie models, with skeleton mapping.
-12. **Animated map objects.** Animating models in the game's format, as weapons already can.
-13. **Editing effects.** Changing the game's particle effects, and making new ones.
-14. **Faster iteration.** Reloading scripts in the running game, and `boz.*` completions in the
+6. **More game prefabs.** Turrets first, then rides: landers, the zipline and the flinger.
+7. **George on any map.** Needs the level traits primitive in the client.
+8. **Luring zombies.** Making zombies go to an object, like a monkey bomb does.
+9. **Custom HUD.** The **UI / HUD** tab: HUD elements in the game's own style, with icons for custom
+   perks and power-ups.
+10. **Custom characters.** Player arms, characters and zombie models, with skeleton mapping.
+11. **Animated map objects.** Animating models in the game's format, as weapons already can.
+12. **Editing effects.** Changing the game's particle effects, and making new ones.
+13. **Faster iteration.** Reloading scripts in the running game, and `boz.*` completions in the
     editor's script window.
-15. **Big maps.** Rooms and portals, so large levels draw only what the player can see.
-16. **Lighting and music.** Baked lightmaps, and replacing the game's music.
+14. **Lighting and music.** Baked lightmaps, and replacing the game's music.
+
+Done: zones, sectors and teleporting ([Zones](how-a-map-works.md#zones),
+[Sectors](how-a-map-works.md#sectors), [Teleporter](game-prefabs.md#teleporter)), and setting
+which way a player faces after a teleport.
 
 ### Architecture boundary
 
