@@ -52,7 +52,7 @@ function Vault:on_event(name, data)
 end
 ```
 
-The map's **Game** tab has one more way in: **Hook scripts**. **Create** next to an event makes
+The **Scripts** tab's sidebar has one more way in: **BOZ > Hooks**. **Create** next to an event makes
 `scripts/hooks/<event>.lua`, which returns a function:
 
 ```lua
@@ -93,6 +93,10 @@ Hook is the name in a script. Event is the name for `:on()`.
 | `on_activated` | `activated` | TrapSwitch | `player` | A player ran this switch | |
 | `on_cooled` | `cooled` | Trap, TrapSwitch | | The trap is ready again | |
 | `on_repaired` | `repaired` | Barricade | `player` | A player put a board back | |
+| | `started` | Lure point | | It started pulling zombies | |
+| | `arrived` | Lure point | `zombie` | A zombie reached it | |
+| | `hit` | Lure point | `zombie` | A zombie swung at it (**When they get there: Attack it**) | |
+| | `stopped` | Lure point | | It stopped: its time ran out or a script stopped it | |
 
 A script on a volume outside any prefab gets the same hooks, without `volume`.
 
@@ -113,6 +117,7 @@ Catch these with `boz.on(name, function(data) ... end)`, or in `on_event`.
 | `round_started` | `round` | A round started |
 | `round_ended` | `round` | A round ended: its last zombie died |
 | `power_on` | | The power came on |
+| `match_ended` | `win` | A script ended the match with `boz.end_match`; `win` is true for a win |
 
 ### Zombies
 
@@ -161,6 +166,14 @@ Catch these with `boz.on(name, function(data) ... end)`, or in `on_event`.
 
 Power-up names: `double_points`, `insta_kill`, `max_ammo`, `nuke`, `carpenter`, `firesale`,
 `deathmachine`, `perkbottle`, `lightningbolt`.
+
+## When a handler fails
+
+An error in a handler is logged once, with the file and line, and the handler stays on: the next
+event runs it again. The same error isn't logged twice, so the log stays readable.
+
+In co-op, game events and object events run on the host. See
+[Scripts in co-op](coop-scripting.md#the-host-decides).
 
 ## Your own events
 

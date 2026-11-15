@@ -23,7 +23,7 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Prefabs","description":"A prefab is the thing you will make most: a few parts that act as one object, with a script that says what it does. This page goes from nothing to…","url":"https://boz-redux.com/docs/prefabs.html","dateModified":"2026-11-08T23:14:03.658Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Prefabs","item":"https://boz-redux.com/docs/prefabs.html"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Prefabs","description":"A prefab is the thing you will make most: a few parts that act as one object, with a script that says what it does. This page goes from nothing to…","url":"https://boz-redux.com/docs/prefabs.html","dateModified":"2026-11-15T03:43:31.683Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Prefabs","item":"https://boz-redux.com/docs/prefabs.html"}]}]}</script>
     <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="stylesheet" href="../styles.css" />
@@ -86,6 +86,7 @@
               <p class="docs-label">START HERE</p>
               <a href="index.html">Introduction</a>
               <a href="getting-started.html">Getting started</a>
+              <a href="android.html">Playing on Android</a>
 
               <a href="how-a-map-works.html">How a map works</a>
 
@@ -93,6 +94,7 @@
               <a href="prefabs.html" class="current" aria-current="page">Prefabs</a>
               <a href="game-prefabs.html">Game prefabs</a>
               <a href="events.html">Events</a>
+              <a href="coop-scripting.html">Scripts in co-op</a>
 
               <p class="docs-label">SCRIPTING</p>
               <a href="scripting.html">Scripting reference</a>
@@ -106,6 +108,7 @@
               <a href="console-reference.html">Console reference</a>
               <a href="game-events.html">Low-level events</a>
               <a href="sdk-reference.html">SDK reference</a>
+              <a href="testing.html">Testing your mod</a>
 
               <p class="docs-label">UNDER THE HOOD</p>
               <a href="map-internals.html">Map internals</a>
@@ -360,7 +363,7 @@ return Vault
 </tbody></table></div>
 <p>A hidden object reads false for the last two, because it stops nothing. A prefab reads true if any
 of its parts does. These two are only reliable on objects a script can reach: ones with a script,
-or with <strong>Scripts can switch it</strong> on.</p>
+or ones a script names.</p>
 <h3 id="its-settings-and-links">Its settings and links</h3>
 <div class="table-scroll" tabindex="0"><table>
 <thead>
@@ -921,11 +924,63 @@ for a prefab you will reuse: each copy can point at something different, and ren
 doesn&#39;t break it.</p>
 <h2 id="doing-things">Doing things</h2>
 <p><a href="#what-every-object-has">What every object has</a> lists the calls. A few things to know:</p>
-<p>An object only changes during play if a script can reach it. Objects with a script always can. For
-others, turn on <strong>Scripts can switch it</strong> in the <strong>In the game</strong> box. Without it the build bakes
-the object into the level, and <code>hide()</code> does nothing.</p>
+<p>An object only changes during play if a script can reach it. Objects with a script always can, and
+so can any object a script names: <code>boz.get(&quot;Name&quot;)</code>, a prefab&#39;s parts, a setting that holds its
+name, or a link to it. The build bakes everything else into the level, so big maps stay light.
+A name built from pieces (<code>&quot;Light_&quot; .. i</code>) works as long as the first part is written out.</p>
 <p><code>set_blocks_walking</code> needs <strong>Walking: Blocks</strong> in the editor, because that is what reserves the
 gap in the walkable area.</p>
+<h3 id="moving-and-turning">Moving and turning</h3>
+<p>Any object a script can reach can move. A prefab moves as one, with all its parts, and its
+collision and use prompts go with it.</p>
+<pre><code class="language-lua">local lift = boz.get(&quot;Lift&quot;)
+lift:move_by({x = 0, y = 300, z = 0}, {seconds = 4, done = function()
+    log(&quot;at the top&quot;)
+end})
+boz.get(&quot;Statue&quot;):turn_by(90, {seconds = 2})
+</code></pre>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Call</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>move_to(position or object, options)</code></td>
+<td>Moves it there.</td>
+</tr>
+<tr>
+<td><code>move_by({x, y, z}, options)</code></td>
+<td>Moves it by that much (centimetres; <code>y</code> is up).</td>
+</tr>
+<tr>
+<td><code>turn_to(degrees, options)</code></td>
+<td>Turns it to face that way (about the vertical axis).</td>
+</tr>
+<tr>
+<td><code>turn_by(degrees, options)</code></td>
+<td>Turns it by that much (positive turns left, seen from above).</td>
+</tr>
+<tr>
+<td><code>set_position(position)</code>, <code>set_rotation(degrees)</code></td>
+<td>Puts it there at once.</td>
+</tr>
+<tr>
+<td><code>moving()</code></td>
+<td>True while it glides.</td>
+</tr>
+<tr>
+<td><code>stop()</code></td>
+<td>Stops a glide where it is.</td>
+</tr>
+</tbody></table></div>
+<p>Options: <code>seconds</code> (glide over that time; without it, it jumps), <code>rotation</code> (turn while moving),
+<code>ride</code> (players standing on it ride along; on by default), <code>done(object)</code> (called when it
+arrives).</p>
+<p>Players on a gliding object ride with it and can look around, then stand where it stops. The
+walkable area can&#39;t move: an object that blocks walking opens its gap once it leaves its start and
+closes it when it&#39;s back.</p>
 <h3 id="timers">Timers</h3>
 <pre><code class="language-lua">boz.after(5, function()
     log(&quot;five seconds later&quot;)
@@ -1146,9 +1201,62 @@ return Pad
 </code></pre>
 <p><code>player:teleport</code> stands the player on the target, facing the way it faces, with the game&#39;s
 teleport flash. With <code>via</code> it stops there first and holds the player and their view still for <code>seconds</code> (2).</p>
+<h3 id="a-moving-platform">A moving platform</h3>
+<p>A floor that carries players up to a ledge and back, every ten seconds.</p>
+<p><strong>Build:</strong> a floor model with <strong>Walking: Walk on it</strong>, at the bottom. Group it into a prefab named
+<code>Platform</code> with this script.</p>
+<pre><code class="language-lua">local Platform = boz.Prefab:extend(&quot;Platform&quot;)
+
+function Platform:start()
+    local up = true
+    boz.every(10, function()
+        self:move_by({x = 0, y = up and 400 or -400, z = 0}, {seconds = 4})
+        up = not up
+    end)
+end
+
+return Platform
+</code></pre>
+<h3 id="a-lure">A lure</h3>
+<p>A button that pulls every zombie to a generator for 15 seconds, and counts the hits it takes.</p>
+<p><strong>Build:</strong> a <strong>Lure point</strong> volume named <code>Bait</code> next to the generator, with <strong>When they get there:
+Attack it</strong>, and a prefab with a <strong>Use</strong> volume (<em>Cost</em> 1000, prompt <em>Ring the bell</em>).</p>
+<pre><code class="language-lua">local Bell = boz.Prefab:extend(&quot;Bell&quot;)
+
+function Bell:start()
+    self.hits = 0
+    boz.get(&quot;Bait&quot;):on(&quot;hit&quot;, function(lure, zombie)
+        self.hits = self.hits + 1
+    end)
+end
+
+function Bell:on_use(player)
+    boz.get(&quot;Bait&quot;):start({seconds = 15})
+    player:message(&quot;They&#39;re coming for the generator&quot;)
+end
+
+return Bell
+</code></pre>
+<p><code>boz.lure(position or object, options)</code> does the same anywhere without a Lure point. Only walking
+zombies come, and they stop about 4.5 m away. See <a href="editor.html#lure-points">Lure points</a>.</p>
+<h3 id="winning-the-match">Winning the match</h3>
+<p>Ends the match with a win when the player reaches the exit.</p>
+<p><strong>Build:</strong> a <strong>Trigger</strong> volume named <code>Exit</code> (set off by Players), in a prefab with this script.</p>
+<pre><code class="language-lua">local Exit = boz.Prefab:extend(&quot;Exit&quot;)
+
+function Exit:on_enter(who)
+    boz.end_match({win = true})
+end
+
+return Exit
+</code></pre>
+<p>The game shows its own game over and results; scripts hear <code>match_ended</code> with <code>win = true</code>, so
+you can show your own message first.</p>
 <h2 id="when-something-goes-wrong">When something goes wrong</h2>
 <p><strong>Nothing happens at all.</strong> Open the editor&#39;s <strong>Log</strong> area or <code>boz-log.txt</code> in the client folder.
-A script error shows there with its line, and it never crashes the game. Add <code>log(&quot;here&quot;)</code> to see
+A script error shows there with its line, once, and it never crashes the game: the rest of your
+scripts keep running. A call with a wrong argument (<code>give_points(&quot;lots&quot;)</code>) logs where it happened
+and does nothing. Add <code>log(&quot;here&quot;)</code> to see
 if a hook runs at all.</p>
 <div class="table-scroll" tabindex="0"><table>
 <thead>
@@ -1185,8 +1293,8 @@ if a hook runs at all.</p>
 </tr>
 <tr>
 <td><code>hide()</code> does nothing</td>
-<td>The object has no script and <strong>Scripts can switch it</strong> is off</td>
-<td>Turn it on</td>
+<td>No script names the object, so the build baked it</td>
+<td>Name it in a script (<code>boz.get(&quot;Name&quot;)</code>)</td>
 </tr>
 <tr>
 <td>A new setting isn&#39;t in the panel</td>
@@ -1246,6 +1354,7 @@ if a hook runs at all.</p>
             <a href="#settings">Settings</a>
             <a href="#links">Links</a>
             <a href="#doing-things">Doing things</a>
+            <a href="#moving-and-turning" class="sub">Moving and turning</a>
             <a href="#timers" class="sub">Timers</a>
             <a href="#players" class="sub">Players</a>
             <a href="#talking-between-objects">Talking between objects</a>
@@ -1256,6 +1365,9 @@ if a hook runs at all.</p>
             <a href="#a-three-skull-easter-egg" class="sub">A three-skull easter egg</a>
             <a href="#a-timed-trap" class="sub">A timed trap</a>
             <a href="#a-teleporter" class="sub">A teleporter</a>
+            <a href="#a-moving-platform" class="sub">A moving platform</a>
+            <a href="#a-lure" class="sub">A lure</a>
+            <a href="#winning-the-match" class="sub">Winning the match</a>
             <a href="#when-something-goes-wrong">When something goes wrong</a>
           </aside>
         </div>

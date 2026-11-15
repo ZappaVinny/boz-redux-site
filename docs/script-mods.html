@@ -23,7 +23,7 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Script mods","description":"A script mod has no map. It changes the game for every map: new rules, cheats, settings in the pause menu, windows over the game, or your own code inside…","url":"https://boz-redux.com/docs/script-mods.html","dateModified":"2026-11-04T22:50:59-06:00","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Script mods","item":"https://boz-redux.com/docs/script-mods.html"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Script mods","description":"A script mod has no map. It changes the game for every map: new rules, cheats, settings in the pause menu, windows over the game, or your own code inside…","url":"https://boz-redux.com/docs/script-mods.html","dateModified":"2026-11-15T03:45:04.549Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Script mods","item":"https://boz-redux.com/docs/script-mods.html"}]}]}</script>
     <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="stylesheet" href="../styles.css" />
@@ -86,6 +86,7 @@
               <p class="docs-label">START HERE</p>
               <a href="index.html">Introduction</a>
               <a href="getting-started.html">Getting started</a>
+              <a href="android.html">Playing on Android</a>
 
               <a href="how-a-map-works.html">How a map works</a>
 
@@ -93,6 +94,7 @@
               <a href="prefabs.html">Prefabs</a>
               <a href="game-prefabs.html">Game prefabs</a>
               <a href="events.html">Events</a>
+              <a href="coop-scripting.html">Scripts in co-op</a>
 
               <p class="docs-label">SCRIPTING</p>
               <a href="scripting.html">Scripting reference</a>
@@ -106,6 +108,7 @@
               <a href="console-reference.html">Console reference</a>
               <a href="game-events.html">Low-level events</a>
               <a href="sdk-reference.html">SDK reference</a>
+              <a href="testing.html">Testing your mod</a>
 
               <p class="docs-label">UNDER THE HOOD</p>
               <a href="map-internals.html">Map internals</a>
@@ -179,6 +182,22 @@ write one by hand in the client&#39;s <code>mods/</code> folder:</p>
 <td><code>maps</code></td>
 <td>The levels the mod adds (<code>[&quot;my_arena&quot;]</code>). The client&#39;s launcher offers each of them when you press <strong>PLAY</strong>, alone or as a co-op room. The SDK writes it for map projects.</td>
 </tr>
+<tr>
+<td><code>preview</code></td>
+<td>A picture of the mod (PNG or JPEG) for the launcher&#39;s mod list, relative to the mod folder.</td>
+</tr>
+<tr>
+<td><code>[[map]]</code> <code>id</code>, <code>title</code>, <code>description</code>, <code>picture</code></td>
+<td>A map&#39;s card on the launcher&#39;s <strong>PLAY</strong> screen (picture 16:9, relative to the mod folder). The SDK writes it from the map&#39;s <a href="editor.html#level-info">Level info</a>.</td>
+</tr>
+<tr>
+<td><code>[network]</code> <code>connects</code></td>
+<td>The online servers the mod may point the game at (<code>[&quot;*&quot;]</code>: any the player enters). See the <a href="#network-module">network module</a>.</td>
+</tr>
+<tr>
+<td><code>[sdk]</code> <code>boz</code>, <code>client_api</code></td>
+<td>The standard library version and the <a href="#client-module">client API</a> the mod was built for. The SDK writes them; when <code>client_api</code> differs from the client&#39;s, the launcher and <code>boz-log.txt</code> say the mod may not work. Optional for hand-made mods.</td>
+</tr>
 </tbody></table></div>
 <p>A mod that uses the standard library carries its own copy in <code>scripts/boz</code>. SDK projects add it
 for you; for a hand-made mod, copy the SDK&#39;s <code>lib/boz</code> folder there.</p>
@@ -202,7 +221,9 @@ events.on(&quot;frame&quot;, function(dt) end)                                  
 <li><p><code>require(&quot;name&quot;)</code> loads <code>scripts/name.lua</code> from your mod, once.</p>
 </li>
 <li><p><strong>Errors</strong> don&#39;t crash the game: they go to <code>boz-log.txt</code> as <code>[lua] &lt;mod&gt;: ...</code> with a traceback,
-and the handler that failed is switched off. Fix the script and restart.</p>
+once each, and the handler that failed stays on. Fix the script and restart.</p>
+</li>
+<li><p><code>events.on</code>, <code>events.off</code> and <code>input.bind</code> work inside coroutines too.</p>
 </li>
 </ul>
 <p>Functions that only make sense in a match return <code>nil</code> or <code>false</code> outside one, so you can call them
@@ -340,8 +361,8 @@ end})
 <td>The return value</td>
 </tr>
 </tbody></table></div>
-<p>Several mods can hook the same function. A handler that raises an error is switched off and
-logged. Hooks only see the game&#39;s main thread (game logic, menus, drawing). See the
+<p>Several mods can hook the same function. A handler that raises an error is logged and stays on,
+until it has failed 50 times. Hooks only see the game&#39;s main thread (game logic, menus, drawing). See the
 <a href="#client-lua-api">Lua API</a> for all of it, and keep hook handlers short: some functions run many
 times per frame.</p>
 <p>Reading and writing game memory (<code>game.read</code>, <code>game.write</code>) and calling functions
@@ -369,8 +390,8 @@ order hooks and settings rows are added.</li>
 </ul>
 <h3 id="sharing-your-mod">Sharing your mod</h3>
 <p><code>bozkit package</code> (or the SDK app) makes a ZIP of the mod with its copy of the standard library.
-Players unzip it into their client&#39;s <code>mods/</code> folder and tick it in the launcher. See
-<a href="#share-a-mod">Projects and packaging</a>.</p>
+Players install it from the launcher&#39;s <strong>MODS</strong> tab with <strong>Install a mod (.zip)...</strong>, or drag it
+onto the launcher, on PC and Android. See <a href="#share-a-mod">Projects and packaging</a>.</p>
 <h2 id="projects-and-packaging">Projects and packaging</h2>
 <p>A <strong>project</strong> is the editable source of one mod. It holds your Lua scripts, any replacement game
 files, and for a map everything the editor makes. <strong>Building</strong> a project makes the mod folder
@@ -449,14 +470,21 @@ game; a map starts straight into its level.</li>
 <pre><code class="language-bash">bozkit package my-mod
 </code></pre>
 <p>This writes <code>build/&lt;mod id&gt;-&lt;version&gt;.zip</code>. Identical projects always give identical ZIPs: file
-order, times and paths are normalised. Players unzip it into their client&#39;s <code>mods/</code> folder and
-tick it in the launcher&#39;s <strong>Mods</strong> tab. A map mod then appears in the list <strong>PLAY</strong> opens.</p>
+order, times and paths are normalised. Players install it from the launcher&#39;s <strong>MODS</strong> tab
+(<strong>Install a mod (.zip)...</strong>, or drag the file onto the launcher; a <code>.zip</code> dropped into <code>mods/</code> is
+offered too). Installing a newer version of a mod they have asks first and shows both versions. A
+map mod then has a card on the <strong>PLAY</strong> screen.</p>
 <p>Before you share:</p>
 <ul>
 <li>bump <code>version</code> when you change the mod;</li>
 <li>keep <code>game</code> set to the game version you tested with;</li>
 <li>run <code>bozkit validate my-mod --profile distribution</code> and read its warnings (see below).</li>
 </ul>
+<h3 id="completions-in-your-editor">Completions in your editor</h3>
+<p>Every project has a <code>.luarc.json</code> and the standard library&#39;s type descriptions, so editors with the
+Lua language server (VS Code with the Lua extension, for example) complete <code>boz.*</code> and the
+client&#39;s functions, and show their arguments. <strong>Open folder</strong> in the SDK app opens the project in
+VS Code when you have it.</p>
 <h3 id="dependencies">Dependencies</h3>
 <p>A mod can record the mods it needs:</p>
 <pre><code class="language-toml">[[dependencies]]
@@ -504,9 +532,43 @@ library&#39;s <code>boz.prefabs</code> uses it to run a prefab&#39;s script once
 <code>os.time</code>, <code>os.clock</code>, <code>os.date</code> and <code>os.difftime</code>. There is no <code>io</code>, <code>dofile</code> or <code>loadfile</code>.</p>
 <h3 id="script-errors">Script errors</h3>
 <p>An error in <code>main.lua</code> stops that mod&#39;s setup and is written to <code>boz-log.txt</code> as
-<code>[lua] &lt;mod&gt;: &lt;message&gt;</code> with a traceback. An error inside an event handler switches that handler
-off (other handlers keep running) and is logged the same way. <code>print</code> and <code>log</code> also write to
+<code>[lua] &lt;mod&gt;: &lt;message&gt;</code> with a traceback. An error inside an event handler is logged the same way,
+once, and the handler stays on. <code>print</code> and <code>log</code> also write to
 <code>boz-log.txt</code> as <code>[lua] &lt;mod&gt;: ...</code>.</p>
+<h3 id="client-module">client module</h3>
+<p>What runs the mod, read-only:</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>client.version</code></td>
+<td>The client&#39;s version, such as <code>&quot;0.4.0&quot;</code>.</td>
+</tr>
+<tr>
+<td><code>client.api</code></td>
+<td>The Lua API&#39;s number. It goes up by one whenever the client adds a module or a function; nothing is taken away. <code>1</code> is client 0.4.0.</td>
+</tr>
+<tr>
+<td><code>client.arch</code></td>
+<td><code>&quot;x86&quot;</code>, <code>&quot;x64&quot;</code> or <code>&quot;arm64&quot;</code> (a phone).</td>
+</tr>
+<tr>
+<td><code>client.platform</code></td>
+<td><code>&quot;windows&quot;</code>, <code>&quot;linux&quot;</code> or <code>&quot;android&quot;</code>.</td>
+</tr>
+<tr>
+<td><code>client.touch</code></td>
+<td><code>true</code> on a touch screen (phones): use it to give a window bigger buttons.</td>
+</tr>
+</tbody></table></div>
+<pre><code class="language-lua">local button_height = client.touch and 60 or 30
+if (client.api or 0) &lt; 2 then log(&quot;this client has no ... yet&quot;) end
+</code></pre>
+<p>Clients before 0.4.0 have no <code>client</code> table.</p>
 <h3 id="events-module">events module</h3>
 <div class="table-scroll" tabindex="0"><table>
 <thead>
@@ -769,7 +831,7 @@ after <code>##</code> is not shown, so <code>&quot;Run##SetRound&quot;</code> sh
 <tbody><tr>
 <td><code>ui.window(title, [opts], fn)</code></td>
 <td>open</td>
-<td>A window. <code>opts</code>: <code>x</code>, <code>y</code>, <code>w</code>, <code>h</code> (first use), <code>closable</code> (adds a close button; returns false once it was pressed), <code>focus</code>, <code>no_title</code>, <code>no_resize</code>, <code>no_move</code>, <code>no_collapse</code>, <code>auto_size</code>, <code>no_background</code>, <code>no_inputs</code>, <code>no_scrollbar</code>.</td>
+<td>A window. <code>opts</code>: <code>x</code>, <code>y</code>, <code>w</code>, <code>h</code> (first use), <code>closable</code> (adds a close button; returns false once it was pressed), <code>focus</code>, <code>no_title</code>, <code>no_resize</code>, <code>no_move</code>, <code>no_collapse</code>, <code>auto_size</code>, <code>no_background</code>, <code>no_inputs</code>, <code>no_scrollbar</code>, <code>clickable</code> (takes clicks and taps while nothing captures input: a button on the game&#39;s screen), <code>pivot_x</code>, <code>pivot_y</code> (0 to 1: that point of the window stays at <code>x</code>, <code>y</code> of a 1280 x 720 screen, so <code>1, 0</code> pins its top right corner there; works on phones).</td>
 </tr>
 <tr>
 <td><code>ui.child(id, w, h, fn)</code></td>
@@ -877,6 +939,34 @@ after <code>##</code> is not shown, so <code>&quot;Run##SetRound&quot;</code> sh
 <td>True while a text box has focus.</td>
 </tr>
 </tbody></table></div>
+<h3 id="network-module">network module</h3>
+<p>Where the game&#39;s <strong>Play Online</strong> connects. By default it&#39;s off. A mod can point it at a server
+running <a href="https://github.com/Producdevity/cod-boz-online" target="_blank" rel="noopener">cod-boz-online</a>, the self-hosted Play
+Online backend. The mod must list the servers it may use in <code>mod.toml</code>:</p>
+<pre><code class="language-toml">[network]
+connects = [&quot;*&quot;]          # any server the player enters; or name them
+</code></pre>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>network.server()</code></td>
+<td>The server Play Online uses now (<code>&quot;&quot;</code>: off).</td>
+</tr>
+<tr>
+<td><code>network.set_server(host)</code></td>
+<td>Points Play Online at <code>host</code> (a name or an address; <code>&quot;&quot;</code> turns it off). Call it while your mod starts: the game signs in once per run.</td>
+</tr>
+<tr>
+<td><code>network.check(host, [port], fn)</code></td>
+<td>Checks that a server answers, in the background: <code>fn(ok, message)</code> runs on a later frame.</td>
+</tr>
+</tbody></table></div>
+<p>Connecting to a server means trusting it: it sees the player&#39;s device ID and address.</p>
 <h3 id="assets-module">assets module</h3>
 <div class="table-scroll" tabindex="0"><table>
 <thead>
@@ -941,11 +1031,13 @@ browser, cheats and commands.</p>
             <a href="#the-manifest" class="sub">The manifest</a>
             <a href="#build-install-run" class="sub">Build, install, run</a>
             <a href="#share-a-mod" class="sub">Share a mod</a>
+            <a href="#completions-in-your-editor" class="sub">Completions in your editor</a>
             <a href="#dependencies" class="sub">Dependencies</a>
             <a href="#game-files-in-a-mod" class="sub">Game files in a mod</a>
             <a href="#client-lua-api">Client Lua API</a>
             <a href="#scripts-and-modules" class="sub">Scripts and modules</a>
             <a href="#script-errors" class="sub">Script errors</a>
+            <a href="#client-module" class="sub">client module</a>
             <a href="#events-module" class="sub">events module</a>
             <a href="#input-module" class="sub">input module</a>
             <a href="#gamedef-module" class="sub">gamedef module</a>
@@ -954,6 +1046,7 @@ browser, cheats and commands.</p>
             <a href="#settings-module" class="sub">settings module</a>
             <a href="#overlay-module" class="sub">overlay module</a>
             <a href="#ui-module" class="sub">ui module</a>
+            <a href="#network-module" class="sub">network module</a>
             <a href="#assets-module" class="sub">assets module</a>
             <a href="#shared-module" class="sub">shared module</a>
             <a href="#api-example" class="sub">API example</a>

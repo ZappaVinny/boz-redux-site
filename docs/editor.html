@@ -23,7 +23,7 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"The editor","description":"A tour of the BOZ Redux editor: what each part is for and where to find it. For the ideas behind it, read How a map works. For scripting, go to Prefabs.","url":"https://boz-redux.com/docs/editor.html","dateModified":"2026-11-08T23:34:00.028Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"The editor","item":"https://boz-redux.com/docs/editor.html"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"The editor","description":"A tour of the BOZ Redux editor: what each part is for and where to find it. For the ideas behind it, read How a map works. For scripting, go to Prefabs.","url":"https://boz-redux.com/docs/editor.html","dateModified":"2026-11-15T03:42:55.992Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"The editor","item":"https://boz-redux.com/docs/editor.html"}]}]}</script>
     <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="stylesheet" href="../styles.css" />
@@ -86,6 +86,7 @@
               <p class="docs-label">START HERE</p>
               <a href="index.html">Introduction</a>
               <a href="getting-started.html">Getting started</a>
+              <a href="android.html">Playing on Android</a>
 
               <a href="how-a-map-works.html">How a map works</a>
 
@@ -93,6 +94,7 @@
               <a href="prefabs.html">Prefabs</a>
               <a href="game-prefabs.html">Game prefabs</a>
               <a href="events.html">Events</a>
+              <a href="coop-scripting.html">Scripts in co-op</a>
 
               <p class="docs-label">SCRIPTING</p>
               <a href="scripting.html">Scripting reference</a>
@@ -106,6 +108,7 @@
               <a href="console-reference.html">Console reference</a>
               <a href="game-events.html">Low-level events</a>
               <a href="sdk-reference.html">SDK reference</a>
+              <a href="testing.html">Testing your mod</a>
 
               <p class="docs-label">UNDER THE HOOD</p>
               <a href="map-internals.html">Map internals</a>
@@ -236,7 +239,7 @@ button that selects the object.</li>
 </tr>
 <tr>
 <td><strong>Volumes</strong></td>
-<td>Trigger, Hit, Use, and the map&#39;s <a href="how-a-map-works.html#zones">Zone</a>, <a href="how-a-map-works.html#sectors">Sector</a> and Portal</td>
+<td>Trigger, Hit, Use, <a href="#lure-points">Lure point</a>, and the map&#39;s <a href="how-a-map-works.html#zones">Zone</a>, <a href="how-a-map-works.html#sectors">Sector</a> and Portal</td>
 </tr>
 <tr>
 <td><strong>Models</strong>, <strong>Textures</strong></td>
@@ -271,10 +274,6 @@ number of triangles (<a href="weapons-and-assets.html#your-own-models">Your own 
 <td>The master switch. Off: it starts hidden, and stops and blocks nothing.</td>
 </tr>
 <tr>
-<td><strong>Scripts can switch it</strong></td>
-<td>Lets scripts change it during play. Always on for an object with a script.</td>
-</tr>
-<tr>
 <td><strong>Walking</strong> (models)</td>
 <td><strong>Walk on it</strong>, <strong>Blocks</strong> or <strong>Walk through</strong></td>
 </tr>
@@ -292,6 +291,8 @@ number of triangles (<a href="weapons-and-assets.html#your-own-models">Your own 
 </tr>
 </tbody></table></div>
 <p>Barricades don&#39;t stop bullets by default, and a trap always does (that&#39;s its kill volume).</p>
+<p>A line under the switches says whether scripts can change the object during play: always when it
+has a script, and whenever a script names it (<a href="how-a-map-works.html#what-an-object-does-in-the-game">How a map works</a>).</p>
 <h3 id="the-settings-box">The Settings box</h3>
 <p>Every setting of the object: the game&#39;s own (cost, Needs power, ...) and your script&#39;s. See each
 class on <a href="game-prefabs.html">Game prefabs</a>.</p>
@@ -359,39 +360,103 @@ wall or can&#39;t reach a room. Turn on <strong>Show → Walkable</strong>:</p>
 </ul>
 <p>It needs the navmesh helper (<a href="getting-started.html#the-navmesh-helper">Installation</a>). How it works
 inside is in <a href="map-internals.html#navigation-meshes">Map internals</a>.</p>
+<h3 id="lure-points">Lure points</h3>
+<p>A <strong>Lure point</strong> is a volume zombies walk to while a script runs it, the way a monkey bomb pulls
+them. Its settings are what <code>start()</code> does when the script gives no options:</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Zombies</strong></td>
+<td>How many it pulls, the nearest first (0: all).</td>
+</tr>
+<tr>
+<td><strong>Reach (cm)</strong></td>
+<td>Only zombies this close come (0: any distance).</td>
+</tr>
+<tr>
+<td><strong>When they get there</strong></td>
+<td><strong>Gather and wait</strong>, or <strong>Attack it</strong> (scripts hear <code>hit</code> each time).</td>
+</tr>
+<tr>
+<td><strong>Seconds</strong></td>
+<td>How long it pulls once started (0: until a script stops it).</td>
+</tr>
+<tr>
+<td><strong>Switched on</strong></td>
+<td>Off: <code>start()</code> does nothing until a script switches it on.</td>
+</tr>
+</tbody></table></div>
+<pre><code class="language-lua">boz.get(&quot;Bait&quot;):start()
+</code></pre>
+<p>Only walking zombies come (not hellhounds, monkeys or George), and they stop about 4.5 m away.
+See the <a href="prefabs.html#a-lure">lure recipe</a> and <a href="events.html#object-events">Lure events</a>.</p>
 <h3 id="remixing-a-shipped-map">Remixing a shipped map</h3>
 <p>Maps made from <strong>Kino der Toten</strong>, <strong>Call of the Dead</strong>, <strong>Ascension</strong> or the <strong>Tutorial</strong> start as
 the whole original map. Its objects are game prefabs you can move, rotate, scale, delete (X), copy
 (Shift+D), change the settings of, or start hidden. Only what you changed is written into the map,
 and <strong>Put back as the level has it</strong> undoes the changes to an object. The rooms stay as they are.</p>
 <h2 id="game-rules">Game rules</h2>
-<p>The <strong>Game</strong> tab sets a map&#39;s rules: its name and loading screen, its rounds, the special rounds,
-which zombie looks spawn, the points and power-ups. Until
-you change a section, the map uses its base level&#39;s own rules (shown in the tab); the first change
-makes them the map&#39;s own (<code>source/game.json</code>).</p>
+<p>The <strong>Game</strong> tab sets a map&#39;s rules, in the order a player meets them: <strong>Level</strong>, <strong>Rounds</strong>,
+<strong>Special rounds</strong>, <strong>Zombies</strong>, <strong>Points</strong>, <strong>Power-ups</strong> and <strong>Mystery box</strong>.</p>
+<p>Every value starts as the base map&#39;s own, shown greyed. Change one and it&#39;s highlighted, with its
+own reset button next to it to go back to the base map&#39;s. Only what you change is saved
+(<code>source/game.json</code>). Problems, such as a speed mix that doesn&#39;t add up, show under the section
+and in the Problems panel as you type.</p>
 <h3 id="level-info">Level info</h3>
 <ul>
 <li><strong>Name:</strong> the map&#39;s name in the launcher and the mod list.</li>
 <li><strong>Loading screen:</strong> a picture (PNG or JPG) shown while the map loads. It fills the screen at 4:3
 (1024 x 768); the &quot;Loading&quot; text and the tips are drawn over it. Pure magenta (255, 0, 255) shows
 as black.</li>
+<li><strong>Map picture:</strong> the picture on your map&#39;s card on the launcher&#39;s <strong>PLAY</strong> screen. Choose a
+file, or <strong>Capture the 3D view</strong> to take one from the editor. Without one, the card shows the
+map&#39;s name.</li>
 <li><strong>Starting weapon:</strong> set in the Weapons tab (shown here).</li>
 <li><strong>Power on at the start:</strong> the power is on as soon as the map starts.</li>
-<li><strong>Behaves like:</strong> some of the game&#39;s code checks the map&#39;s name. Pick Kino, Ascension or Call of
+<li><strong>Special behaviour:</strong> some of the game&#39;s code checks the map&#39;s name. Pick Kino, Ascension or Call of
 the Dead and the level manager&#39;s checks answer as that map: Kino&#39;s teleport start, Ascension&#39;s
 round effects, Call of the Dead&#39;s snow camera and start sound (the build brings what they
 play). Other code that compares names itself (Call of the Dead&#39;s zombies and Pack-a-Punch,
 Ascension&#39;s attack distances) stays with those maps.</li>
 </ul>
 <h3 id="rounds">Rounds</h3>
-<p>Each game has its own rounds: single player on easy, normal and hard, and co-op with 2, 3 or 4
-players. Pick one under <strong>Game</strong>, or tick <strong>Same for all</strong> to change every game at once (<strong>Use these
-rounds in every game</strong> copies the shown game&#39;s rounds to the rest).</p>
-<p>The list holds the rounds in order. Each round sets:</p>
+<p>The game has six <strong>modes</strong>: single player on easy, normal and hard, and co-op with 2, 3 or 4
+players. The <strong>Modes</strong> table says which rounds each one plays:</p>
 <div class="table-scroll" tabindex="0"><table>
 <thead>
 <tr>
-<th>Setting</th>
+<th>Column</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Rounds</strong></td>
+<td>The base map&#39;s own rounds, or one of your round sets.</td>
+</tr>
+<tr>
+<td><strong>Zombies x</strong></td>
+<td>How many zombies, times this.</td>
+</tr>
+<tr>
+<td><strong>Health x</strong></td>
+<td>Their health, times this.</td>
+</tr>
+</tbody></table></div>
+<p>So to make co-op harder, make a round set and pick it for the co-op rows, or just raise their
+<strong>Zombies x</strong>.</p>
+<p>A <strong>round set</strong> is a list of rounds. <strong>New</strong> makes one, as a copy of a mode&#39;s rounds (that mode then
+plays it) or of another set. The base map&#39;s own rounds can be looked at but not changed: make a
+round set to change them. <strong>Played in</strong> shows which modes use the set you&#39;re looking at.</p>
+<p>Each row of the table is a round:</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Column</th>
 <th>What it does</th>
 </tr>
 </thead>
@@ -408,73 +473,54 @@ rounds in every game</strong> copies the shown game&#39;s rounds to the rest).</
 <td>the most zombies alive at the same time</td>
 </tr>
 <tr>
-<td>Spawn at start</td>
-<td>zombies that spawn as soon as the round starts</td>
+<td>Spawn every s</td>
+<td>seconds between spawns</td>
 </tr>
 <tr>
-<td>Walkers, Fast walkers, Runners, Sprinters</td>
-<td>the share of zombies at each speed (0-1)</td>
+<td>Break after s</td>
+<td>seconds from the round&#39;s end to the next round</td>
 </tr>
 <tr>
-<td>Spawn interval</td>
-<td>milliseconds between spawns</td>
-</tr>
-<tr>
-<td>Break after</td>
-<td>milliseconds from the round&#39;s end to the next round</td>
-</tr>
-<tr>
-<td>Start delay</td>
-<td>milliseconds from the round&#39;s start to its first spawn</td>
-</tr>
-<tr>
-<td>Zombie type</td>
-<td>what spawns (empty: the map&#39;s zombie)</td>
-</tr>
-<tr>
-<td>Powered zombies, type and health</td>
-<td>extra zombies once the power is on (Kino&#39;s crawlers)</td>
-</tr>
-<tr>
-<td>Fog</td>
-<td>the fog the round sets</td>
+<td>Start delay s</td>
+<td>seconds from the round&#39;s start to its first spawn</td>
 </tr>
 </tbody></table></div>
-<p>The last round can <strong>repeat</strong>: it plays again and again, each time growing by its multipliers
-(<strong>Zombies x</strong>, <strong>At once x</strong>, <strong>Spawn interval x</strong>, <strong>Powered zombies x</strong>) once the round number
-is past <strong>Grows after round</strong>. For example 25 zombies with Zombies x 1.1 from round 10 gives
-round 12 30 zombies (25 x 1.1 x 1.1).</p>
-<p><strong>Repeating health:</strong> the game ignores a repeating round&#39;s health and uses 10 x round x round -
-150 (round 20: 3850). <strong>Grows by the multiplier</strong> uses the round&#39;s <strong>Health</strong> and <strong>Health x</strong>
-instead.</p>
-<p>The graph on the right shows zombies (orange) and health (blue) for rounds 1 to 40 of the shown
-game. <strong>Back to the base level&#39;s rounds</strong> forgets the map&#39;s own rounds.</p>
+<p>Under the table, the selected round&#39;s <strong>Speed mix</strong> (walkers, fast walkers, runners, sprinters)
+always adds up to 100%. <strong>Advanced</strong> holds powered zombies (extra zombies once the power is on,
+like Kino&#39;s crawlers), the zombie type and the fog.</p>
+<p>The last row is always <strong>After that</strong>: it plays again and again for every round past the list,
+growing each time by <strong>Growth each round</strong> (zombies, at once, spawn time). Its <strong>Health</strong> follows
+<strong>The game&#39;s formula</strong> (10 x round x round - 150; round 20 has 3850), times the mode&#39;s Health x, or
+<strong>Grows x per round</strong> from the row&#39;s own health. <strong>Add a round</strong> and <strong>Remove the round</strong> change the
+list; <strong>After that</strong> always stays last.</p>
 <h3 id="special-rounds">Special rounds</h3>
-<p>Dog rounds (and Ascension&#39;s space monkeys) come between normal rounds. Each is for one game
-(<strong>For</strong>). The game runs them in order: one plays <strong>Times</strong> times, then the next takes over. A
-special round comes after <strong>At least</strong> and at most <strong>At most</strong> normal rounds, with <strong>Chance</strong>
-percent each round in between. <strong>Count by players</strong> is how many spawn with 1, 2, 3 or 4 players.
-<strong>Add a special round</strong> makes a dog round to start from.</p>
-<h3 id="zombie-types">Zombie types</h3>
-<p>A level has a few zombie looks (a skeleton and body part models). Zombies spawn with one of the
-ticked looks, picked at random.</p>
-<h3 id="pickups-and-economy">Pickups and economy</h3>
-<p>Tick a setting to change it on this map (other maps keep the game&#39;s values):</p>
-<ul>
-<li><strong>Points at start</strong>, <strong>Points lost when down</strong> (share of points), <strong>Self revive</strong> cost.</li>
-<li>Power-up drops: <strong>Points between drops</strong>, <strong>Kills between drops</strong>, <strong>Drop chance</strong> (per kill once
-a drop is due), <strong>Drops per round</strong>.</li>
-<li>Power-up times: <strong>Double points</strong>, <strong>Insta-kill</strong>, <strong>Fire sale</strong>, <strong>Death machine</strong> (ms).</li>
-<li><strong>Change the power-ups:</strong> how likely each power-up is against the others (0: never).</li>
-<li><strong>Change the points:</strong> points for a hit, each kind of kill, a barricade board, Carpenter and the
-Nuke, and the barricade limit (at most this x the round number per round).</li>
-<li><strong>Change the mystery box:</strong> its cost, the fire sale cost and how many weapons it shows when it
-spins. A box given its own cost in the World tab keeps it.</li>
-<li>Zombies alive at most, base zombie health, grenades per round.</li>
-</ul>
+<p>Dog rounds (and Ascension&#39;s space monkeys) come between normal rounds. They belong to a round set,
+and every mode that plays the set gets them. The game runs them in order: one plays its number of
+times, then the next takes over. A special round comes after at least and at most a number of
+normal rounds, with a chance each round in between, and its zombie count depends on the number of
+players. <strong>Add a special round</strong> makes a dog round to start from; <strong>Monkey round</strong> is Ascension&#39;s
+(it needs that map&#39;s perk machines and lander).</p>
+<h3 id="zombies">Zombies</h3>
+<p><strong>Base zombie health</strong>, <strong>Zombies alive at most</strong> (the limit for every round), and the zombie
+<strong>Looks</strong>: a level has a few looks (a skeleton and body models), and zombies spawn with one of the
+ticked ones, picked at random.</p>
+<h3 id="points">Points</h3>
+<p><strong>Points at start</strong>, <strong>Points lost when down</strong> (share of points), <strong>Self revive</strong> cost and
+<strong>Grenades per round</strong>. <strong>Points per action</strong> sets the points for a hit, each kind of kill
+(headshot, body, limb, knife, grenade), a barricade board, Carpenter and the Nuke, and the
+barricade limit (at most this times the round number per round).</p>
+<h3 id="power-ups">Power-ups</h3>
+<p><strong>Which one drops:</strong> a slider for each power-up, with the share of all drops it gets next to it
+(0: never). <strong>When they drop:</strong> points and kills between drops, the drop chance per kill once a
+drop is due, and drops per round. <strong>For how long:</strong> double points, insta-kill, fire sale and the
+death machine.</p>
+<h3 id="mystery-box">Mystery box</h3>
+<p>Its cost, the fire sale cost, and how many weapons it shows at least and at most when it spins. A
+box given its own cost in the World tab keeps it. The weapons it gives are the Weapons tab&#39;s box
+pool.</p>
 <h3 id="hook-scripts">Hook scripts</h3>
-<p>Every event a script can follow, with <strong>Create</strong> and <strong>Open</strong>. See
-<a href="events.html#how-to-catch-one">How to catch one</a>.</p>
+<p>Hooks are in the <strong>Scripts</strong> tab&#39;s sidebar (<strong>BOZ &gt; Hooks</strong>): every event a script can follow,
+with <strong>Create</strong> and <strong>Open</strong>. See <a href="events.html#how-to-catch-one">How to catch one</a>.</p>
 
             </article>
             <div class="doc-pagination" role="navigation" aria-label="Previous and next page">
@@ -506,13 +552,16 @@ spins. A box given its own cost in the World tab keeps it.</li>
             <a href="#textures" class="sub">Textures</a>
             <a href="#seeing-what-the-game-sees" class="sub">Seeing what the game sees</a>
             <a href="#walkable-areas" class="sub">Walkable areas</a>
+            <a href="#lure-points" class="sub">Lure points</a>
             <a href="#remixing-a-shipped-map" class="sub">Remixing a shipped map</a>
             <a href="#game-rules">Game rules</a>
             <a href="#level-info" class="sub">Level info</a>
             <a href="#rounds" class="sub">Rounds</a>
             <a href="#special-rounds" class="sub">Special rounds</a>
-            <a href="#zombie-types" class="sub">Zombie types</a>
-            <a href="#pickups-and-economy" class="sub">Pickups and economy</a>
+            <a href="#zombies" class="sub">Zombies</a>
+            <a href="#points" class="sub">Points</a>
+            <a href="#power-ups" class="sub">Power-ups</a>
+            <a href="#mystery-box" class="sub">Mystery box</a>
             <a href="#hook-scripts" class="sub">Hook scripts</a>
           </aside>
         </div>

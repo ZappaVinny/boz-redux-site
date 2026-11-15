@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Playing on Android | BOZ Redux Docs</title>
+    <meta name="description" content="BOZ Redux runs on Android phones and tablets too, with the same mods and maps as on PC. This page takes you from download to your first match. No game…" />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://boz-redux.com/docs/android.html" />
+    <meta name="theme-color" content="#0d0e10" />
+    <link rel="icon" href="../assets/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="256x256" href="../assets/favicon.png" />
+    <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png" />
+    <link rel="manifest" href="../site.webmanifest" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="BOZ Redux" />
+    <meta property="og:title" content="Playing on Android | BOZ Redux Docs" />
+    <meta property="og:description" content="BOZ Redux runs on Android phones and tablets too, with the same mods and maps as on PC. This page takes you from download to your first match. No game…" />
+    <meta property="og:url" content="https://boz-redux.com/docs/android.html" />
+    <meta property="og:image" content="https://boz-redux.com/assets/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Playing on Android","description":"BOZ Redux runs on Android phones and tablets too, with the same mods and maps as on PC. This page takes you from download to your first match. No game…","url":"https://boz-redux.com/docs/android.html","dateModified":"2026-11-15T03:39:31.977Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Playing on Android","item":"https://boz-redux.com/docs/android.html"}]}]}</script>
+    <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="stylesheet" href="../styles.css" />
+    <script defer src="../config.js"></script>
+    <script defer src="../app.js"></script>
+  </head>
+  <body class="is-docs">
+    <a class="skip" href="#main">Skip to content</a>
+<header>
+      <a class="brand" href="../index.html" aria-label="BOZ Redux home"
+        ><img
+          src="../assets/client-logo.png"
+          alt="BOZ Redux"
+          width="640"
+          height="260"
+      /></a>
+      <nav aria-label="Main navigation">
+        <a href="../index.html" data-nav="home"
+          >Home</a
+        ><a href="../modding.html" data-nav="modding">Modding</a
+        ><a href="../docs/index.html" data-nav="docs" class="active" aria-current="page">Documentation</a>
+      </nav>
+      <a
+        class="header-github"
+        href="https://github.com/ZappaVinny/boz-redux"
+        target="_blank"
+        rel="noopener"
+        >GitHub ↗</a
+      >
+      <a class="button header-discord" href="#discord" data-discord
+        ><span>Join </span>Discord ↗</a
+      >
+    </header>
+
+    <main id="main" tabindex="-1">
+      <div id="docs-view">
+        <button class="docs-mobile" aria-expanded="false">
+          ☰ Browse documentation
+        </button>
+        <div class="docs-shell">
+          <aside class="docs-sidebar" aria-label="Documentation navigation">
+            <div class="search-wrap">
+              <input
+                id="docs-search"
+                aria-label="Search all documentation"
+                placeholder="Search documentation…"
+                type="search"
+                autocomplete="off"
+                data-index="../docs-data.js"
+              />
+            </div>
+            <div class="search-results" aria-live="polite"></div>
+            <!--
+              The docs page list. Order here sets sidebar order and previous/next.
+              Each link's href is docs/<name>.html for docs/<name>.md (README is index.html).
+              Each link belongs to the nearest label above it (used for the breadcrumb).
+              After changing it, run `node rebuild-docs.mjs`.
+            -->
+            <div class="page-links" role="navigation" aria-label="Documentation pages">
+              <p class="docs-label">START HERE</p>
+              <a href="index.html">Introduction</a>
+              <a href="getting-started.html">Getting started</a>
+              <a href="android.html" class="current" aria-current="page">Playing on Android</a>
+
+              <a href="how-a-map-works.html">How a map works</a>
+
+              <p class="docs-label">PREFABS</p>
+              <a href="prefabs.html">Prefabs</a>
+              <a href="game-prefabs.html">Game prefabs</a>
+              <a href="events.html">Events</a>
+              <a href="coop-scripting.html">Scripts in co-op</a>
+
+              <p class="docs-label">SCRIPTING</p>
+              <a href="scripting.html">Scripting reference</a>
+              <a href="script-mods.html">Script mods</a>
+
+              <p class="docs-label">THE EDITOR</p>
+              <a href="editor.html">The editor</a>
+              <a href="weapons-and-assets.html">Weapons &amp; assets</a>
+
+              <p class="docs-label">REFERENCE</p>
+              <a href="console-reference.html">Console reference</a>
+              <a href="game-events.html">Low-level events</a>
+              <a href="sdk-reference.html">SDK reference</a>
+              <a href="testing.html">Testing your mod</a>
+
+              <p class="docs-label">UNDER THE HOOD</p>
+              <a href="map-internals.html">Map internals</a>
+              <a href="how-the-game-works.html">How the game works</a>
+              <a href="contributing.html">Contributing</a>
+            </div>
+          </aside>
+          <div class="doc-area">
+            <div class="breadcrumb">DOCUMENTATION / <span>START HERE</span></div>
+            <article class="doc-content">
+<h1 id="playing-on-android">Playing on Android</h1>
+<p>BOZ Redux runs on Android phones and tablets too, with the same mods and maps as on PC. This page
+takes you from download to your first match. No game files come with BOZ Redux: you need your own
+copy of the original game.</p>
+<h2 id="what-you-need">What you need</h2>
+<ul>
+<li>An Android phone or tablet with Android 8 or newer and a 64-bit processor (almost every phone
+from the last few years).</li>
+<li>Your own copy of the original <em>Call of Duty: Black Ops Zombies</em> APK, version 1.0.11.</li>
+<li>Wi-Fi for the game&#39;s data packs (825 MB), or the packs already copied to your phone.</li>
+</ul>
+<h2 id="1-download-the-client">1. Download the client</h2>
+<p>On your phone, open the <a href="https://github.com/ZappaVinny/boz-redux/releases" target="_blank" rel="noopener">BOZ Redux releases</a>
+and download <code>BOZ-Redux-android-arm64.apk</code> from the newest release.</p>
+<h2 id="2-install-it">2. Install it</h2>
+<ol>
+<li>Open the downloaded file (from the browser&#39;s downloads, or your Files app).</li>
+<li>Android asks whether the app you opened it from may install apps (<strong>Install unknown apps</strong>).
+Allow it for that app, then go back.</li>
+<li>Tap <strong>Install</strong>, then <strong>Open</strong>.</li>
+</ol>
+<p>Android asks because BOZ Redux comes from GitHub instead of the Play Store. You can switch the
+permission off again afterwards in Settings.</p>
+<h2 id="3-install-the-game-files">3. Install the game files</h2>
+<p>BOZ Redux opens on the <strong>GAME FILES</strong> tab. A box at the top lists what&#39;s left to do.</p>
+<ol>
+<li><p>Under <strong>1. Game APK</strong>, tap <strong>Choose the APK file...</strong> and pick your own Black Ops Zombies APK.
+The status line says <strong>Installed: version 1.0.11</strong> when it&#39;s done.</p>
+</li>
+<li><p>Under <strong>2. Data packs</strong>, tap <strong>Download from Activision (825 MB)</strong>, and wait for both packs.</p>
+<p>Already have the packs? Tap <strong>Import files...</strong> instead and choose <code>blackops_etc.dz</code> and
+<code>blackops_gles1.dz</code>, or the game&#39;s <code>.obb</code> file.</p>
+</li>
+</ol>
+<p>When both lines in the box at the top turn green, you&#39;re ready.</p>
+<h2 id="4-play">4. Play</h2>
+<p>Tap <strong>PLAY</strong>. Choose <strong>MAIN MENU</strong> for the game as it shipped, or a map from one of your mods,
+and <strong>SOLO</strong> or <strong>CO-OP</strong>. The game uses its own touch controls. The launcher works upright or
+sideways; the game always plays sideways.</p>
+<h2 id="mods-on-your-phone">Mods on your phone</h2>
+<p>Mods come as <code>.zip</code> files, the same ones PC players use.</p>
+<ol>
+<li>Download the mod&#39;s <code>.zip</code> to your phone.</li>
+<li>In the launcher, open <strong>MODS</strong> and tap <strong>Install a mod (.zip)...</strong>, then pick the file.</li>
+<li>Its maps appear on the <strong>PLAY</strong> screen.</li>
+</ol>
+<p>To update a mod, install the newer <code>.zip</code> the same way: the launcher shows both versions and asks
+first. Each mod in the list has <strong>Remove...</strong> to take it off again. Some mods change their
+windows to suit a touch screen on their own.</p>
+<h2 id="co-op">Co-op</h2>
+<p>Phones and PCs play together. Everyone joins the same Wi-Fi, picks the same map and taps
+<strong>CO-OP</strong>. Every player needs the mod that adds the map.</p>
+<h2 id="updates">Updates</h2>
+<p>When a new version of BOZ Redux is out, a line at the top of the launcher says so. Tap <strong>Update now</strong>:
+it downloads the new APK and Android asks you to tap <strong>Install</strong>. Your game files, saves and mods
+stay where they are. <strong>What&#39;s new</strong> shows what changed, and <strong>Later</strong> hides the notice until the
+next start.</p>
+<h2 id="if-something-goes-wrong">If something goes wrong</h2>
+<ul>
+<li><strong>&quot;App not installed&quot; when updating.</strong> The copy on your phone came from a different build
+(a test build, for example). Uninstall it, then install the new one. Uninstalling also removes
+its game files, so you&#39;ll do step 3 again.</li>
+<li><strong>A data pack won&#39;t download.</strong> Check your connection and tap <strong>Download</strong> again, or copy the
+packs from a PC and use <strong>Import files...</strong>.</li>
+<li><strong>The game closes or misbehaves.</strong> The log is <code>boz-log.txt</code> in
+<code>Android/data/org.bozredux.client/files/game/</code>. Share it when you ask for help on the Discord.</li>
+</ul>
+
+            </article>
+            <div class="doc-pagination" role="navigation" aria-label="Previous and next page">
+              <a class="doc-prev" href="getting-started.html"><small>PREVIOUS</small><span>← Getting started</span></a>
+              <a class="doc-next" href="how-a-map-works.html"><small>NEXT</small><span>How a map works →</span></a>
+            </div>
+            <div class="doc-discord">
+              <p><strong>Stuck, or want to show your work?</strong> Modders hang out on the Discord.</p>
+              <a class="button" href="#discord" data-discord>Join Discord ↗</a>
+            </div>
+          </div>
+          <aside class="doc-toc" aria-label="On this page">
+            <p>ON THIS PAGE</p>
+            <a href="#what-you-need">What you need</a>
+            <a href="#1-download-the-client">1. Download the client</a>
+            <a href="#2-install-it">2. Install it</a>
+            <a href="#3-install-the-game-files">3. Install the game files</a>
+            <a href="#4-play">4. Play</a>
+            <a href="#mods-on-your-phone">Mods on your phone</a>
+            <a href="#co-op">Co-op</a>
+            <a href="#updates">Updates</a>
+            <a href="#if-something-goes-wrong">If something goes wrong</a>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+<footer>
+      <a class="brand" href="../index.html"
+        ><img
+          src="../assets/client-logo.png"
+          alt="BOZ Redux"
+          width="640"
+          height="260"
+          loading="lazy"
+      /></a>
+      <p>BOZ Redux</p>
+      <span>Not affiliated with Activision. Game files are not included.</span
+      ><a class="footer-discord" href="#discord" data-discord>Join Discord ↗</a
+      ><a href="https://github.com/ZappaVinny/boz-redux">Source ↗</a>
+    </footer>
+<dialog id="discord-dialog">
+      <button class="dialog-close" aria-label="Close dialog">×</button>
+      <h2>Discord</h2>
+      <p>
+        The Discord invite hasn’t been added yet. Check GitHub for project
+        updates.
+      </p>
+      <a
+        class="button"
+        href="https://github.com/ZappaVinny/boz-redux"
+        target="_blank"
+        rel="noopener"
+        >Visit the project ↗</a
+      >
+    </dialog>
+  </body>
+</html>

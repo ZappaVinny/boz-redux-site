@@ -23,7 +23,7 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Events","description":"Everything your scripts can react to, on one page.","url":"https://boz-redux.com/docs/events.html","dateModified":"2026-11-08T23:14:33.340Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Events","item":"https://boz-redux.com/docs/events.html"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Events","description":"Everything your scripts can react to, on one page.","url":"https://boz-redux.com/docs/events.html","dateModified":"2026-11-15T03:43:41.490Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Events","item":"https://boz-redux.com/docs/events.html"}]}]}</script>
     <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="stylesheet" href="../styles.css" />
@@ -86,6 +86,7 @@
               <p class="docs-label">START HERE</p>
               <a href="index.html">Introduction</a>
               <a href="getting-started.html">Getting started</a>
+              <a href="android.html">Playing on Android</a>
 
               <a href="how-a-map-works.html">How a map works</a>
 
@@ -93,6 +94,7 @@
               <a href="prefabs.html">Prefabs</a>
               <a href="game-prefabs.html">Game prefabs</a>
               <a href="events.html" class="current" aria-current="page">Events</a>
+              <a href="coop-scripting.html">Scripts in co-op</a>
 
               <p class="docs-label">SCRIPTING</p>
               <a href="scripting.html">Scripting reference</a>
@@ -106,6 +108,7 @@
               <a href="console-reference.html">Console reference</a>
               <a href="game-events.html">Low-level events</a>
               <a href="sdk-reference.html">SDK reference</a>
+              <a href="testing.html">Testing your mod</a>
 
               <p class="docs-label">UNDER THE HOOD</p>
               <a href="map-internals.html">Map internals</a>
@@ -154,7 +157,7 @@ end)
     end
 end
 </code></pre>
-<p>The map&#39;s <strong>Game</strong> tab has one more way in: <strong>Hook scripts</strong>. <strong>Create</strong> next to an event makes
+<p>The <strong>Scripts</strong> tab&#39;s sidebar has one more way in: <strong>BOZ &gt; Hooks</strong>. <strong>Create</strong> next to an event makes
 <code>scripts/hooks/&lt;event&gt;.lua</code>, which returns a function:</p>
 <pre><code class="language-lua">-- scripts/hooks/round_started.lua
 return function(data)
@@ -374,6 +377,38 @@ end
 <td>A player put a board back</td>
 <td></td>
 </tr>
+<tr>
+<td></td>
+<td><code>started</code></td>
+<td>Lure point</td>
+<td></td>
+<td>It started pulling zombies</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>arrived</code></td>
+<td>Lure point</td>
+<td><code>zombie</code></td>
+<td>A zombie reached it</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>hit</code></td>
+<td>Lure point</td>
+<td><code>zombie</code></td>
+<td>A zombie swung at it (<strong>When they get there: Attack it</strong>)</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>stopped</code></td>
+<td>Lure point</td>
+<td></td>
+<td>It stopped: its time ran out or a script stopped it</td>
+<td></td>
+</tr>
 </tbody></table></div>
 <p>A script on a volume outside any prefab gets the same hooks, without <code>volume</code>.</p>
 <p><code>bought</code>, <code>spun</code>, <code>weapon</code>, <code>upgraded</code>, <code>activated</code> and <code>repaired</code> reach the machine the player just
@@ -405,6 +440,11 @@ something happens with no machine (a script gives a perk), only the game event f
 <td><code>power_on</code></td>
 <td></td>
 <td>The power came on</td>
+</tr>
+<tr>
+<td><code>match_ended</code></td>
+<td><code>win</code></td>
+<td>A script ended the match with <code>boz.end_match</code>; <code>win</code> is true for a win</td>
 </tr>
 </tbody></table></div>
 <h3 id="zombies">Zombies</h3>
@@ -565,6 +605,11 @@ something happens with no machine (a script gives a perk), only the game event f
 </tbody></table></div>
 <p>Power-up names: <code>double_points</code>, <code>insta_kill</code>, <code>max_ammo</code>, <code>nuke</code>, <code>carpenter</code>, <code>firesale</code>,
 <code>deathmachine</code>, <code>perkbottle</code>, <code>lightningbolt</code>.</p>
+<h2 id="when-a-handler-fails">When a handler fails</h2>
+<p>An error in a handler is logged once, with the file and line, and the handler stays on: the next
+event runs it again. The same error isn&#39;t logged twice, so the log stays readable.</p>
+<p>In co-op, game events and object events run on the host. See
+<a href="coop-scripting.html#the-host-decides">Scripts in co-op</a>.</p>
 <h2 id="your-own-events">Your own events</h2>
 <p><code>boz.send</code> sends any name you like, to every <code>boz.on</code> listener and every object&#39;s <code>on_event</code>:</p>
 <pre><code class="language-lua">local boz = require(&quot;boz&quot;)
@@ -582,7 +627,7 @@ listed in <a href="game-events.html">Low-level events</a>.</p>
             </article>
             <div class="doc-pagination" role="navigation" aria-label="Previous and next page">
               <a class="doc-prev" href="game-prefabs.html"><small>PREVIOUS</small><span>← Game prefabs</span></a>
-              <a class="doc-next" href="scripting.html"><small>NEXT</small><span>Scripting reference →</span></a>
+              <a class="doc-next" href="coop-scripting.html"><small>NEXT</small><span>Scripts in co-op →</span></a>
             </div>
             <div class="doc-discord">
               <p><strong>Stuck, or want to show your work?</strong> Modders hang out on the Discord.</p>
@@ -599,6 +644,7 @@ listed in <a href="game-events.html">Low-level events</a>.</p>
             <a href="#players" class="sub">Players</a>
             <a href="#weapons" class="sub">Weapons</a>
             <a href="#machines-and-the-map" class="sub">Machines and the map</a>
+            <a href="#when-a-handler-fails">When a handler fails</a>
             <a href="#your-own-events">Your own events</a>
             <a href="#going-deeper">Going deeper</a>
           </aside>

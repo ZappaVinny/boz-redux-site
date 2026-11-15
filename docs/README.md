@@ -24,16 +24,19 @@ player can see, and teleporters carry players through the wormhole.
 with the right number of triangles, and shows you how it will look.
 
 **Make weapons.** Copy any gun, change its damage, fire rate and ammo, or give it your own model.
-Edit its animations and its Pack-a-Punch upgrade.
+Edit its animations on top of the original, add new ones, and play them from scripts. Any gun can
+fire a projectile, and a charged shot is a few lines of Lua.
 
 **Change the sound.** Replace any of the game's sounds with your own, give each weapon its own
 sounds, and play music and voice lines from scripts.
 
-**Add effects.** Use the game's effects and projectiles anywhere: black holes, explosions, lightning.
+**Add effects.** Make your own particle effects and watch them play in the editor, or use the
+game's: black holes, explosions, lightning. Make your own projectiles too: they can explode, lure
+zombies, open a black hole, or do whatever their script says.
 
-**Set the rules.** Shape every round: how many zombies, their health and speed, how the game scales
-as rounds climb, with a graph to see it. Set dog rounds, points, power-ups and the box, and give
-each difficulty and player count its own balance.
+**Set the rules.** Shape every round: how many zombies, their health and speed, and how the game
+scales as rounds climb. Set dog rounds, points, power-ups and the box, and give each difficulty and
+player count its own round set.
 
 **Script anything.** Group objects into prefabs and give them a Lua script: buttons, traps,
 teleporters, easter eggs. Extend the game's own objects to change what they do, with settings and
@@ -42,10 +45,11 @@ links right in the editor.
 **Change the controls and the screen.** Add key binds and pause-menu settings, draw your own
 windows, or change the field of view.
 
-**Play together.** Every map works in LAN co-op, and players start it straight from the client's
-launcher.
+**Play together.** Every map works in co-op, on PC and Android together, and your scripts work
+in co-op too: what one player opens, everyone sees open.
 
-**Share it.** One click packages your work as a mod that players drop into their client.
+**Share it.** One click packages your work as a `.zip` that players install from the client's
+launcher, on PC and Android.
 
 ## Where to start
 
@@ -60,10 +64,12 @@ New here? Go through these in order:
 | Page | What it covers |
 | --- | --- |
 | [Getting started](getting-started.md) | Install, your first map, your first script, the SDK app |
+| [Playing on Android](android.md) | Installing the client's APK, game files, mods and updates on a phone |
 | [How a map works](how-a-map-works.md) | Models, volumes, prefabs, walking, names, links, scripts |
 | [Prefabs](prefabs.md) | Making your own objects: hooks, volumes, settings, links, recipes |
 | [Game prefabs](game-prefabs.md) | Each of the game's objects: settings, what you can override, examples |
 | [Events](events.md) | Everything your scripts can react to |
+| [Scripts in co-op](coop-scripting.md) | How scripts run in co-op, what every player sees, your own messages |
 | [Scripting reference](scripting.md) | The functions you will use most |
 | [Script mods](script-mods.md) | Mods with no map, hooks, packaging, the client's Lua API |
 | [The editor](editor.md) | A tour of the editor, and game rules |
@@ -71,6 +77,7 @@ New here? Go through these in order:
 | [Console reference](console-reference.md) | Every console variable and command |
 | [Low-level events](game-events.md) | Every `SUBJECT_*` event the game sends |
 | [SDK reference](sdk-reference.md) | The `bozkit` command line, project files, compatibility |
+| [Testing your mod](testing.md) | Tests that play your map by themselves, on every build |
 | [Map internals](map-internals.md) | Game prefab fields, navmeshes, editing shipped files |
 | [How the game works](how-the-game-works.md) | The game's systems and data formats |
 | [Contributing](contributing.md) | Working on the SDK, reverse engineering, the roadmap |

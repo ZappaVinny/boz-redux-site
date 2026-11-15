@@ -23,7 +23,7 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Weapons & assets","description":"The parts of a map that go beyond its level: the weapons players use, your own models, the game's effects and projectiles, and sounds. Each has its own…","url":"https://boz-redux.com/docs/weapons-and-assets.html","dateModified":"2026-11-04T22:50:59-06:00","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Weapons & assets","item":"https://boz-redux.com/docs/weapons-and-assets.html"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Weapons & assets","description":"The parts of a map that go beyond its level: the weapons players use, your own models, the game's effects and projectiles, and sounds. Each has its own…","url":"https://boz-redux.com/docs/weapons-and-assets.html","dateModified":"2026-11-15T03:46:28.056Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Weapons & assets","item":"https://boz-redux.com/docs/weapons-and-assets.html"}]}]}</script>
     <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="stylesheet" href="../styles.css" />
@@ -86,6 +86,7 @@
               <p class="docs-label">START HERE</p>
               <a href="index.html">Introduction</a>
               <a href="getting-started.html">Getting started</a>
+              <a href="android.html">Playing on Android</a>
 
               <a href="how-a-map-works.html">How a map works</a>
 
@@ -93,6 +94,7 @@
               <a href="prefabs.html">Prefabs</a>
               <a href="game-prefabs.html">Game prefabs</a>
               <a href="events.html">Events</a>
+              <a href="coop-scripting.html">Scripts in co-op</a>
 
               <p class="docs-label">SCRIPTING</p>
               <a href="scripting.html">Scripting reference</a>
@@ -106,6 +108,7 @@
               <a href="console-reference.html">Console reference</a>
               <a href="game-events.html">Low-level events</a>
               <a href="sdk-reference.html">SDK reference</a>
+              <a href="testing.html">Testing your mod</a>
 
               <p class="docs-label">UNDER THE HOOD</p>
               <a href="map-internals.html">Map internals</a>
@@ -181,6 +184,10 @@ it to go back to the Colt. It applies to this map only: other maps keep the Colt
 </ul>
 <p>Wall buys pick from the project&#39;s list (World tab → the wall buy&#39;s <strong>Choose…</strong>); a mystery box&#39;s
 <strong>Weapon pool</strong> (its settings → <strong>Edit…</strong>) picks which listed weapons it rolls.</p>
+<p>Any weapon can fire a projectile instead of bullets, whatever its fire mode (automatic, shotgun,
+single shot): in <strong>Properties</strong>, pick its <strong>Projectile</strong> (one of yours from the Effects tab, or one
+of the game&#39;s) and tick <strong>Fires its projectile</strong>. The projectile flies at the weapon&#39;s <strong>Launch
+force</strong>, or at its own speed when that is 0.</p>
 <h3 id="a-weapon-with-your-own-model">A weapon with your own model</h3>
 <p>A weapon can show one of your <strong>Weapon</strong> assets (made in the Assets tab, see
 <a href="#your-own-models">Your own models</a>) instead of its stock gun. It keeps the rest of the gun it is made from:
@@ -194,11 +201,15 @@ onto them: each of your bones moves the way a stock bone does (the list under <s
 of your bones comes from</strong>:
 <code>tag_clip</code> follows the gun&#39;s magazine bone, <code>J_Clip</code> or <code>tag_clip</code>, else the bone its reload
 moves most; <code>tag_flash</code> its muzzle; everything else the root). Change any of them in the list.</li>
-<li><strong>Fit model in hand</strong> (or click your model) shows a copy of it on the gun position to move
-(G), turn (R) and scale (S), with the stock gun see-through to line it up against; turn it off
-to keep the fit. <strong>Auto fit</strong> lines it up with the stock gun again: its barrel (<code>tag_weapon</code> to
-<code>tag_flash</code>) along the stock gun&#39;s, upright, as long as it and centred on it. <strong>Position</strong>,
-<strong>Rotation</strong> and <strong>Scale</strong> change the fit by number (in the stock gun&#39;s model units).</li>
+<li><strong>Your model comes in as you made it:</strong> its own size and origin, nothing resized. Place it with
+<strong>Fit model in hand</strong> (or click your model): it shows a copy on the gun position to move (G),
+turn (R) and scale (S); turn it off to keep the fit. <strong>Show stock gun</strong> draws the stock gun as a
+wireframe to line yours up against. <strong>Auto fit</strong> sizes and lines your model up with the stock
+gun only when you click it: its barrel (<code>tag_weapon</code> to <code>tag_flash</code>) along the stock gun&#39;s,
+upright, as long as it and centred on it. <strong>Position</strong>, <strong>Rotation</strong> and <strong>Scale</strong> change the
+fit by number (in the stock gun&#39;s model units).</li>
+<li><strong>Known issue:</strong> in the game, your model is drawn bigger than the editor shows it. Check it in
+the game after placing it.</li>
 </ul>
 <p>The build writes your model and its skin on its own skeleton, its textures and materials, the
 lighter models the game shows while aiming down the sights (on guns that have one) and at a
@@ -210,30 +221,46 @@ machine (a copy of the stock one: same timing, transitions and events) pointing 
 the game&#39;s eye, its big view is free to work in, and the rig is ready to pose: click a bone, R
 turns it, G moves it. Grab <strong>gun position</strong> to move the gun (the hands come with it: each arm
 reaches its grip with IK) and <strong>hand L</strong> / <strong>hand R</strong> to change a grip.</p>
-<p>Arms and gun each have their own timeline. Before a part&#39;s first change it plays the original.
-<strong>When you change a pose and then go to another frame, the change is kept and holds from that
-frame on</strong>, until your next change; earlier frames never move. So you can keep the original up
-to a point and go on frame by frame from there: change, step, adjust, step. The panel shows each
-part&#39;s timeline (for example &quot;original 0-29, yours 30-59, original 60+&quot;).</p>
+<p><strong>Your changes sit on top of the original.</strong> The game&#39;s animation plays underneath, locked, and
+what you key is added to it. So you never redo an animation frame by frame: move a hand on one
+frame and key it, and the whole animation follows, blending from the original into your change
+and back between your keys. Where you have no keys, the original plays.</p>
 <ul>
-<li>The <strong>arrow</strong> next to Arms or Gun sends that part back to the original from the frame shown
-(until your next change).</li>
-<li><strong>Copy pose</strong> / <strong>Paste pose</strong>: copy the arms, the gun or both at this frame, from the
-<strong>Original</strong> or from <strong>Yours</strong>, and paste them at another frame or into another animation;
-the pasted pose holds from there.</li>
-<li><strong>Copy original frames here</strong>: the original&#39;s frames From..To play from the frame shown, then
-its last pose holds.</li>
-<li>The arrows step a frame back or forward, or to the previous or next change; <strong>Length</strong> sets the
-last frame (30 frames a second).</li>
+<li><strong>Auto-key is on:</strong> moving a bone keys it on the frame shown.</li>
+<li><strong>Key pose</strong> keys every bone you moved on this frame, whatever is selected, so a change is
+never lost because the wrong bone was selected.</li>
+<li><strong>Clear keys here</strong> takes your keys off the frame shown; <strong>Reset this animation</strong> throws every
+change to it away.</li>
+<li><strong>Play</strong>, the step arrows and the Frame slider move through it; <strong>Length</strong> sets the last frame
+(30 frames a second).</li>
 <li><strong>Save animation</strong> stores it (it is also stored when you save, switch animations or leave the
-tab); <strong>Reset this animation</strong> throws every change away.</li>
+tab).</li>
 </ul>
-<p>Animations are stored in the project (<code>source/weapons/anims/&lt;weapon&gt;/&lt;state&gt;.json</code>: your changes
-to edit again, and the result at every frame with the IK worked out, which the build uses). The
-build writes your arms animations into a copy of the weapon&#39;s arms state machine and the gun&#39;s
-into its gun state machine, so only that weapon changes. The state machines keep their timing and
-events (when a reload refills the magazine, for example): an animation much longer or shorter
-than the stock one still has its events at the stock times.</p>
+<p><strong>New clip</strong> (+) adds an animation the game doesn&#39;t have, such as a charge or an inspect. It
+starts as the idle pose; key it the same way. <strong>Remove clip</strong> (-) deletes one of yours. Scripts
+play a clip with <code>weapon:play(name)</code>, or play it instead of one of the game&#39;s with
+<code>boz.weapons.replace_animation</code> (<a href="scripting.html#bozweapons">boz.weapons</a>). A clip ends back at idle
+after its length.</p>
+<p>Animations are stored in the project (<code>source/weapons/anims/&lt;weapon&gt;/</code>: your keys to edit again,
+and the result at every frame with the IK worked out, which the build uses; extra clips are
+listed in <code>extra.clips</code>). The build writes your arms animations into a copy of the weapon&#39;s arms
+state machine and the gun&#39;s into its gun state machine, so only that weapon changes. The state
+machines keep their timing and events (when a reload refills the magazine, for example): an
+animation much longer or shorter than the stock one still has its events at the stock times. A
+new clip becomes a new state of the weapon&#39;s state machines.</p>
+<h4 id="charged-shots">Charged shots</h4>
+<p><code>boz.charge</code> turns a weapon into one you hold to charge and release to fire, with a stronger
+projectile the longer you hold. The game still fires each shot, so ammo, recoil and co-op work as
+usual.</p>
+<pre><code class="language-lua">boz.charge(&quot;ice_rifle&quot;, {
+    levels = {{projectile = &quot;ice_bolt&quot;}, {after = 1.2, projectile = &quot;ice_blast&quot;, ammo = 3}},
+    effect = &quot;frost&quot;, bone = &quot;tag_flash&quot;,      -- glows on the muzzle while charging
+    clip = &quot;charge&quot;,                           -- a clip you added in the Animation tab
+    max = 3,                                   -- fires by itself after 3 seconds
+})
+</code></pre>
+<p>A tap fires the first level. With a <code>clip</code>, the shot waits 0.4 seconds after the clip stops,
+which the weapon needs before it can fire.</p>
 <h3 id="weapon-scripts">Weapon scripts</h3>
 <p>A weapon script is a class, like a <a href="prefabs.html#the-shape-of-a-script">prefab&#39;s</a>: it extends
 <code>boz.Weapon</code>, and <code>self</code> is the weapon.</p>
@@ -570,7 +597,14 @@ the <code>likely</code> confidence level of the <a href="contributing.html#conve
 <td><code>m_projectileName</code></td>
 <td></td>
 <td>0</td>
-<td>What a launcher or grenade throws (an entity of weapon_projectiles).</td>
+<td>What a launcher or grenade throws: one of yours from the Effects tab, or the game&#39;s.</td>
+</tr>
+<tr>
+<td>Fires its projectile</td>
+<td><code>boz_fires_projectile</code></td>
+<td></td>
+<td>off</td>
+<td>Every shot launches the projectile instead of bullets, whatever the fire mode. Set by BOZ Redux, not the game.</td>
 </tr>
 <tr>
 <td>Launch force</td>
@@ -708,7 +742,10 @@ import a high-quality model, and the editor makes a game version of it: a few th
 at most and small textures, the way the game&#39;s own models are made. You then place the game
 version in a map, or give a weapon your model (<a href="#a-weapon-with-your-own-model">Weapons</a>).</p>
 <h3 id="importing">Importing</h3>
-<p><strong>Import…</strong> takes a <code>.blend</code>, <code>.fbx</code>, <code>.glb</code>/<code>.gltf</code> or <code>.obj</code> file. Choose:</p>
+<p><strong>Import…</strong> takes a <code>.blend</code>, <code>.fbx</code>, <code>.glb</code>/<code>.gltf</code> or <code>.obj</code> file, or several at once;
+<strong>Import a folder…</strong> takes every model in a folder and its subfolders. Each becomes an asset named
+after its file, and they&#39;re made one after another (&quot;N more waiting&quot;); a file that fails is listed
+under the asset list without stopping the rest. Choose:</p>
 <ul>
 <li><strong>Kind:</strong> <strong>Prop</strong> (a model to place in maps) or <strong>Weapon</strong> (a gun: its armature, bones and
 bone weights are kept, and its parts are found from the bones).</li>
@@ -736,7 +773,10 @@ bone weights are kept, and its parts are found from the bones).</li>
 <p>For comparison, the game&#39;s guns have about 1,000 to 1,300 triangles and 256 to 512 textures. A
 busy model (lots of thin spikes, tentacles, teeth) keeps its shape much better on PC; import a
 gun as a Weapon, since a Prop&#39;s budget is about half.</p>
-<p>The file is copied into the project (<code>assets/&lt;name&gt;/</code>), and its original location is remembered,
+<p>The file is copied into the project (<code>assets/&lt;name&gt;/</code>), with the files it links to (textures next
+to it, an <code>.obj</code>&#39;s <code>.mtl</code>, a <code>.gltf</code>&#39;s <code>.bin</code>), keeping their folders, so a <code>.blend</code> that points to
+<code>_images/</code> still finds its textures. A texture missing later is looked for by name in the asset&#39;s
+folder and next to the original file. The original&#39;s location is remembered,
 so <strong>Refresh from source</strong> picks up later changes to it (for example a magazine added to the
 gun). The game version is made straight away.</p>
 <h3 id="making-the-game-version">Making the game version</h3>
@@ -761,7 +801,11 @@ texture across a seam. Bone weights are kept.</p>
 surfaces getting the preset&#39;s size and smaller ones less (about the same detail per
 centimetre everywhere). The game has no normal maps, so with <strong>Bake normal map</strong> on the normal
 map&#39;s detail is shaded into the colour (lit from above and in front). Two-channel normal maps
-(Call of Duty&#39;s, with an empty blue channel) work too. A material without an image gets a
+(Call of Duty&#39;s, with an empty blue channel) work too. The game has no glow and no shine
+either: a glowing material&#39;s emission texture is added onto its colour, and a material whose
+metal lives in a specular colour map (Call of Duty&#39;s <code>_s</code> maps on <strong>Specular Tint</strong>) gets that
+colour blended in, so it isn&#39;t left dark. With no image on <strong>Base Color</strong>, the colour map is
+picked by name (not a <code>_n</code>, <code>_g</code>, <code>_s</code>, <code>_o</code> or <code>_e</code> map). A material without an image gets a
 small texture of its colour.</p>
 </li>
 <li><p>Closes what reducing opened, so nothing is see-through: reducing rounds corners off and lets
@@ -774,7 +818,8 @@ checks says when it needed more triangles than your budget; a model this busy at
 preset may need two or three times as many.</p>
 </li>
 </ol>
-<p><strong>Own budget</strong> sets the triangle count yourself; <strong>Textures</strong> caps the texture size.</p>
+<p><strong>Own budget</strong> sets the triangle count yourself; <strong>Textures</strong> caps the texture size. A game model
+holds at most 10,917 vertices: a model that would need more is made with fewer triangles.</p>
 <h3 id="the-view">The view</h3>
 <p>The tab has its own scene: the map is never touched. The viewport header switches between
 <strong>High quality</strong>, <strong>Game</strong> and <strong>Side by side</strong>. The game version is drawn the way the game draws
@@ -815,36 +860,157 @@ source/assets/&lt;name&gt;/stats.json   the figures and checks shown in the tab
 Third-party models (ripped game models and the like) belong in your project only: do not
 publish them.</p>
 <h2 id="effects-and-projectiles">Effects and projectiles</h2>
-<p>Scripts can spawn the game&#39;s effects and projectiles anywhere, for as long as they want, with
-<code>boz.effects</code>. A projectile brings the game&#39;s own behaviour with it: a Gersch device opens a black
-hole that pulls zombies in and kills them, a monkey bomb lures them, a bolt explodes where it
-hits.</p>
+<p>Make your own particle effects and projectiles, or use the game&#39;s: black holes, explosions,
+lightning, monkey bombs. Scripts spawn them anywhere, attach them to objects and guns, and change
+them while they play.</p>
 <h3 id="the-effects-tab">The Effects tab</h3>
-<p><strong>Game effects</strong> lists everything the game can spawn. <strong>Show</strong> filters it:</p>
+<p>The tab has two lists, <strong>Effects</strong> and <strong>Projectiles</strong>. Both hold your own and the game&#39;s:</p>
 <ul>
-<li><strong>Effects:</strong> particles and visual effects (the shared ones, and each map&#39;s own).</li>
-<li><strong>Projectiles:</strong> each map&#39;s grenades, bolts, lures and devices, with what they do and which
-weapons fire them (Ascension&#39;s <code>bh_bomb projectile</code> is the Gersch device: &quot;Black hole&quot;).</li>
+<li><strong>+</strong> makes a new one of your own.</li>
+<li><strong>Add from the game…</strong> searches everything the game can spawn (by name, map or behaviour) and
+adds it to the list as it is. It works on any map: the build brings it with everything it needs
+(models, materials, textures, and the sounds its code plays), from whichever map it comes from.
+A game projectile has two switches: <strong>Hide its model</strong> (a black hole without the Gersch device
+lying on the floor) and <strong>Stays where spawned</strong> (no physics: it stays exactly where a script
+spawns it).</li>
+<li><strong>Make editable</strong> turns a game effect into one of yours: a copy of all its values, with its
+textures saved as PNG files you can change.</li>
+<li><strong>Name</strong> is what scripts call it. <strong>Copy script line</strong> copies a line of Lua that spawns the
+selected one where the player aims.</li>
 </ul>
-<p>Every one works on any map: the build brings whatever a map uses with everything it needs (its
-models, materials, textures, and the sounds its code plays by name), from whichever map it comes
-from. Search by name, map or behaviour. Pick one, give it a <strong>Name</strong> (what scripts call it) and
-<strong>Name it</strong>. Scripts can also spawn any of them by the game&#39;s name or <code>&quot;0x...&quot;</code> hash without a
-name: the build finds those in the scripts.</p>
-<p><strong>Named effects</strong> lists the names: rename or forget them, and <strong>Copy script line</strong>
-copies a line of Lua that spawns the selected one where the player aims. A projectile has two
-switches, and the build gives the map its own copy of it without what they leave out:</p>
-<ul>
-<li><strong>Hide its model:</strong> no model (a black hole without the Gersch device lying on the floor).</li>
-<li><strong>Stays where spawned:</strong> no physics (no gravity or rolling: it stays exactly where a script
-spawns it; a black hole then opens right where the shot lands).</li>
-</ul>
+<p>Scripts can also spawn any of the game&#39;s effects by its own name or <code>&quot;0x...&quot;</code> hash without adding
+it: the build finds those in the scripts.</p>
+<h3 id="making-an-effect">Making an effect</h3>
+<p>An effect is one or more <strong>emitters</strong>, and each emitter makes particles. <strong>Kind</strong>: <strong>Lasting</strong>
+keeps going until it&#39;s removed, <strong>Burst</strong> plays once (an impact). <strong>Scale</strong> makes the whole effect
+bigger or smaller. <strong>Make a script</strong> gives it a <a href="#scripts-for-effects-and-projectiles">script</a>.</p>
+<p>Each emitter has these groups:</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Group</th>
+<th>What&#39;s in it</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Look</strong></td>
+<td><strong>Picture</strong> (a PNG), <strong>Pictures</strong> and <strong>Across</strong> for a flipbook (a grid of frames, played in order), <strong>Blend</strong>: <strong>Glow (add)</strong> for fire, sparks and magic, or <strong>Solid (blend)</strong> for smoke and dust, and a <strong>Tint</strong>.</td>
+</tr>
+<tr>
+<td><strong>Making particles</strong></td>
+<td><strong>Time between particles</strong>, and whether it <strong>Keeps making particles</strong> or stops after a time.</td>
+</tr>
+<tr>
+<td><strong>Size and turning</strong></td>
+<td><strong>Size when made</strong>, <strong>Size x</strong>, <strong>Grows</strong>, <strong>Spin</strong>, <strong>Start angle</strong>.</td>
+</tr>
+<tr>
+<td><strong>Where they start and how they move</strong></td>
+<td><strong>Start at</strong> and a <strong>Random extra</strong> around it, <strong>Speed</strong> and its random extra, <strong>Pulled</strong> (gravity: negative y falls, positive y rises).</td>
+</tr>
+<tr>
+<td><strong>More</strong></td>
+<td><strong>Fade out as they age</strong>, <strong>Trail</strong> (spawn along the path the effect moves), <strong>Face the camera</strong>, <strong>Stand upright</strong>, <strong>Start a little along their path</strong>, and what space the particles live in.</td>
+</tr>
+</tbody></table></div>
+<p>Values that vary come in pairs, such as <strong>Shortest</strong> and <strong>Longest</strong> for <strong>How long each one
+lives</strong>: each particle gets a random value between the two. Positions are in centimetres with y
+up, speeds in centimetres a second, times in seconds or milliseconds as the field says. Hover over
+any field for what it does.</p>
+<h3 id="the-preview">The preview</h3>
+<p>The tab&#39;s right side is a 3D view that plays the selected effect, yours or the game&#39;s, at one
+spot on a floor with two walls marked every 50 cm, so you can judge its size. The view&#39;s header
+has its controls: play and pause, restart, <strong>Speed</strong>, loop, <strong>moving</strong> (the effect circles, to see
+trails) and <strong>in the map</strong> (play it at the 3D cursor in your map instead of the room). The preview
+updates as you change values.</p>
+<h3 id="projectiles">Projectiles</h3>
+<p>A projectile of your own starts <strong>blank</strong>: it flies and does nothing else until you give it
+pieces or a script.</p>
+<p><strong>How it flies:</strong> <strong>Speed</strong>, <strong>Falls</strong> (gravity: it arcs like a grenade), <strong>Lasts</strong> (seconds, then
+it&#39;s gone), and an <strong>Enter/leave radius</strong> for its script&#39;s <code>on_enter</code> and <code>on_leave</code>.</p>
+<p><strong>Pieces</strong> are ready-made behaviour you tick on:</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Piece</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Blast where it hits</strong></td>
+<td>Damage around the hit: <strong>Damage</strong> at the centre and at the edge, full damage within a radius, nothing beyond <strong>Reaches</strong>. The kills are the player&#39;s.</td>
+</tr>
+<tr>
+<td><strong>Lure zombies where it lands</strong></td>
+<td>Zombies go there for a number of seconds, like a monkey bomb.</td>
+</tr>
+<tr>
+<td><strong>Black hole where it lands</strong></td>
+<td>The Gersch device&#39;s black hole opens there.</td>
+</tr>
+<tr>
+<td><strong>Effect where it hits</strong></td>
+<td>One of your effects, or a game one, at the hit.</td>
+</tr>
+<tr>
+<td><strong>Effect riding along</strong></td>
+<td>One of your effects follows it in flight.</td>
+</tr>
+<tr>
+<td><strong>Ribbon behind it</strong></td>
+<td>A streak behind it: a picture, width, colour and how fast it fades.</td>
+</tr>
+</tbody></table></div>
+<p><strong>+</strong> offers presets to start from: <strong>Blank</strong>, <strong>Ray Gun bolt</strong> (blast and ribbon), <strong>Lure</strong> and
+<strong>Black hole</strong>.</p>
+<p>Any weapon can fire your projectile: see <a href="#the-weapons-tab">The Weapons tab</a>. Scripts launch it
+with <code>boz.effects.projectile</code>.</p>
+<h3 id="effect-pieces">Effect pieces</h3>
+<p>Your effects have pieces too, under <strong>Where it appears</strong>: <strong>Blast</strong>, <strong>Lure zombies to it</strong> and
+<strong>Black hole</strong> happen where the effect spawns. That includes an effect used as a projectile&#39;s
+impact or one riding along with it, so an impact effect can lure.</p>
+<h3 id="scripts-for-effects-and-projectiles">Scripts for effects and projectiles</h3>
+<p><strong>Make a script</strong> on a projectile or an effect writes its script
+(<code>scripts/projectiles/&lt;name&gt;.lua</code> or <code>scripts/effects/&lt;name&gt;.lua</code>). Each copy in flight runs its
+own.</p>
+<pre><code class="language-lua">local IceBolt = boz.Projectile:extend(&quot;IceBolt&quot;)
+
+function IceBolt:on_launch(shooter)
+    self:attach(&quot;frost&quot;)                       -- an effect rides along
+end
+
+function IceBolt:on_hit(hit)                   -- hit.kind: &quot;zombie&quot;, &quot;player&quot; or &quot;world&quot;
+    if hit.kind == &quot;zombie&quot; then
+        hit.zombie:freeze()
+        return false                           -- no pieces: it flies on through
+    end
+end
+
+function IceBolt:on_enter(what)                -- what.kind: &quot;zombie&quot; or &quot;player&quot;
+    if what.kind == &quot;zombie&quot; then what.zombie:damage(50) end
+end
+
+return IceBolt
+</code></pre>
+<p>A projectile&#39;s hooks: <code>on_launch(shooter)</code>, <code>on_update(dt)</code> (every frame it flies),
+<code>on_hit(hit)</code> (<code>kind</code>, <code>zombie</code>, <code>position</code>), <code>on_enter(what)</code> and <code>on_leave(what)</code> (something
+comes within or leaves its <strong>Enter/leave radius</strong>), <code>on_end()</code> (it hit, timed out or was
+removed). Returning <code>false</code> from <code>on_hit</code> skips its pieces and lets it fly on; from <code>on_launch</code>
+it skips its trail. Its methods: <code>position()</code>, <code>velocity()</code>, <code>set_velocity({x, y, z})</code> (steering,
+homing), <code>attach(effect)</code>, <code>explode(options)</code>, <code>lure(options)</code>, <code>remove()</code>.</p>
+<p>An effect&#39;s script extends <code>boz.Effect</code>: <code>on_spawn()</code> (returning <code>false</code> skips its pieces),
+<code>on_update(dt)</code>, <code>on_end()</code>, with <code>self.effect</code> (the effect: <code>set</code>, <code>emitters</code>, <code>position</code>,
+<code>remove</code>), <code>lure(options)</code> and <code>explode(options)</code>.</p>
 <h3 id="bozeffects">boz.effects</h3>
 <pre><code class="language-lua">local boz = require(&quot;boz&quot;)
 local effects = boz.effects
 
 -- A one-off effect, removed after two seconds.
 effects.spawn(&quot;impactRayGun&quot;, effects.aim(), {lifetime = 2})
+
+-- One of yours on the gun&#39;s muzzle while it charges.
+local glow = effects.attach(&quot;frost&quot;, &quot;weapon&quot;, {bone = &quot;tag_flash&quot;})
+glow:set({scale = 2, rate = {5, 5}})
 
 -- A black hole where the player aims, for six seconds, its swirl at chest height.
 local hole = effects.projectile(&quot;gersch&quot;, effects.aim(), {trigger = &quot;open&quot;, lifetime = 6, raise = 200})
@@ -853,6 +1019,13 @@ hole:remove()               -- or close it early (with its own sound)
 <ul>
 <li><code>effects.spawn(name, position, options)</code>: an effect at <code>{x, y, z}</code> (game centimetres, y up).
 Options: <code>rotation</code> <code>{x, y, z, w}</code>, <code>lifetime</code> (seconds, then it is removed).</li>
+<li><code>effects.attach(name or effect, target, options)</code>: an effect that follows a target: an object
+(<code>boz.get(...)</code>), an entity, or <code>&quot;weapon&quot;</code> (the gun in hand). Options: <code>bone</code> (a bone of an
+animated target, such as <code>&quot;tag_flash&quot;</code>), <code>offset</code>, <code>lifetime</code>. <code>effects.detach(effect)</code> leaves
+it where it is.</li>
+<li><code>effect:set(settings)</code>: changes an effect while it plays: <code>scale</code>, <code>rate = {min, max}</code>
+(particles a second), <code>velocity</code>, <code>spread</code>, <code>position</code>, <code>position_spread</code>, <code>duration</code>,
+<code>spawning</code> (false stops new particles). <code>effect:emitters()</code> lists its emitters.</li>
 <li><code>effects.projectile(name, position, options)</code>: a projectile the game runs. Options: <code>trigger</code>
 (<code>&quot;open&quot;</code>), <code>lifetime</code> (seconds), <code>raise</code> (centimetres: it floats that far above the position;
 for one that <strong>Stays where spawned</strong>), <code>hidden</code> (its own model is not drawn: a black hole
@@ -861,6 +1034,7 @@ floor), <code>lift</code> (centimetres up, default 10, so it does not start in t
 it), <code>rotation</code>. It is the
 player&#39;s (zombies turning to a device ask for its owner, so it always has one). The game sets a new projectile up a frame after it spawns; the trigger, lifetime and
 hiding are applied then (<code>:ready()</code> says when), so scripts need not wait.</li>
+<li><code>effects.explode(position, options)</code>: an explosion: <code>radius</code>, <code>inner</code>, <code>damage</code>, <code>min_damage</code>.</li>
 <li><code>effects.aim()</code>: the point the player&#39;s crosshair is on (where a shot lands, up to 100 m) and
 whether it is a live zombie.</li>
 <li>What they return: <code>:alive()</code>, <code>:ready()</code>, <code>:position()</code>, <code>:move(position)</code>,
@@ -945,6 +1119,12 @@ projectile&#39;s +0x90, metres, measured in 3D from its centre: <code>raise</cod
 sqrt(r² + raise²)). The swirl (<code>gersch_Effect</code>, a billboard model) spawns at the device&#39;s
 position and rotation and draws from 22 to 205 units below it.
 <code>WeaponManager_UpdateAim</code> ray-casts the crosshair every frame into the weapon manager&#39;s +0xcc.</p>
+<p>Your own effects and projectiles are written into the map&#39;s projectiles group by
+<code>bozkit/fx.py</code>: each effect is an entity spec with your emitters (<code>CIwGFXEmitterSpec</code>, decoded in
+<code>bozkit/gfx.py</code>) and their materials and textures; each projectile is the Ray Gun bolt&#39;s spec
+without its explosion and smoke trail, with your speed and lifetime (and a physics body when it
+falls). The standard library takes over its impact (<code>Projectile_Impact</code>) and runs its pieces and
+script. The project file is <code>source/fx.json</code>.</p>
 <p>The catalog is <code>bozkit/effects.py</code>, the bundling <code>bozkit/bundle.py</code>
 (<a href="how-the-game-works.html#map-agnostic-assets-bozkitbundle">Asset formats</a>); the names are
 <code>source/effects.json</code>.</p>
@@ -1133,6 +1313,11 @@ source/sounds/slots.json         {&quot;&lt;group path&gt;#0x&lt;sound hash&gt;&
             <a href="#model-project-files" class="sub">Model project files</a>
             <a href="#effects-and-projectiles">Effects and projectiles</a>
             <a href="#the-effects-tab" class="sub">The Effects tab</a>
+            <a href="#making-an-effect" class="sub">Making an effect</a>
+            <a href="#the-preview" class="sub">The preview</a>
+            <a href="#projectiles" class="sub">Projectiles</a>
+            <a href="#effect-pieces" class="sub">Effect pieces</a>
+            <a href="#scripts-for-effects-and-projectiles" class="sub">Scripts for effects and projectiles</a>
             <a href="#bozeffects" class="sub">boz.effects</a>
             <a href="#example-a-gun-that-opens-a-black-hole-where-it-fires" class="sub">Example: a gun that opens a black hole where it fires</a>
             <a href="#how-effects-work" class="sub">How effects work</a>

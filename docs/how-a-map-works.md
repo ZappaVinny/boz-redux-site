@@ -9,7 +9,7 @@ Everything in a map is one of three things:
 | You place | What it is | Example |
 | --- | --- | --- |
 | **Model** | Something you can see | A wall, a floor, a statue |
-| **Volume** | An invisible box that notices things, or marks part of the map | A **Trigger** (walked into), a **Hit** (shot), a **Use** (the player presses use), a [Zone](#zones) or a [Sector](#sectors) |
+| **Volume** | An invisible box that notices things, or marks part of the map | A **Trigger** (walked into), a **Hit** (shot), a **Use** (the player presses use), a [Zone](#zones), a [Sector](#sectors) or a **Lure point** (zombies go to it while a script runs it) |
 | **Prefab** | A group of models and volumes that act as one object, with an optional script | A skull you can shoot, a perk machine, a door |
 
 ```text
@@ -42,6 +42,11 @@ bulletproof glass you can walk through has only the second. A line nobody can cr
 can shoot over has only the first.
 
 The editor's **Show → Walkable** draws the walkable area, so you can see where people can go.
+
+A script can change any object it names: by its name (`boz.get("Vault")`), as part of a prefab it
+names, through a setting that holds its name, or through a link. The build keeps those objects
+changeable and bakes everything else into the map, so big maps stay light. There is nothing to
+tick in the editor; the **In the game** box tells you whether scripts can switch an object.
 
 ## New map or Remix
 

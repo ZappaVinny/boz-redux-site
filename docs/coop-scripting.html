@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Scripts in co-op | BOZ Redux Docs</title>
+    <meta name="description" content="Your map's scripts work in co-op without any extra code. A wall a script hides is hidden for everyone, a door a script opens is open for everyone, and a…" />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://boz-redux.com/docs/coop-scripting.html" />
+    <meta name="theme-color" content="#0d0e10" />
+    <link rel="icon" href="../assets/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="256x256" href="../assets/favicon.png" />
+    <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png" />
+    <link rel="manifest" href="../site.webmanifest" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="BOZ Redux" />
+    <meta property="og:title" content="Scripts in co-op | BOZ Redux Docs" />
+    <meta property="og:description" content="Your map's scripts work in co-op without any extra code. A wall a script hides is hidden for everyone, a door a script opens is open for everyone, and a…" />
+    <meta property="og:url" content="https://boz-redux.com/docs/coop-scripting.html" />
+    <meta property="og:image" content="https://boz-redux.com/assets/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Scripts in co-op","description":"Your map's scripts work in co-op without any extra code. A wall a script hides is hidden for everyone, a door a script opens is open for everyone, and a…","url":"https://boz-redux.com/docs/coop-scripting.html","dateModified":"2026-11-15T03:40:49.152Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Scripts in co-op","item":"https://boz-redux.com/docs/coop-scripting.html"}]}]}</script>
+    <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="stylesheet" href="../styles.css" />
+    <script defer src="../config.js"></script>
+    <script defer src="../app.js"></script>
+  </head>
+  <body class="is-docs">
+    <a class="skip" href="#main">Skip to content</a>
+<header>
+      <a class="brand" href="../index.html" aria-label="BOZ Redux home"
+        ><img
+          src="../assets/client-logo.png"
+          alt="BOZ Redux"
+          width="640"
+          height="260"
+      /></a>
+      <nav aria-label="Main navigation">
+        <a href="../index.html" data-nav="home"
+          >Home</a
+        ><a href="../modding.html" data-nav="modding">Modding</a
+        ><a href="../docs/index.html" data-nav="docs" class="active" aria-current="page">Documentation</a>
+      </nav>
+      <a
+        class="header-github"
+        href="https://github.com/ZappaVinny/boz-redux"
+        target="_blank"
+        rel="noopener"
+        >GitHub ↗</a
+      >
+      <a class="button header-discord" href="#discord" data-discord
+        ><span>Join </span>Discord ↗</a
+      >
+    </header>
+
+    <main id="main" tabindex="-1">
+      <div id="docs-view">
+        <button class="docs-mobile" aria-expanded="false">
+          ☰ Browse documentation
+        </button>
+        <div class="docs-shell">
+          <aside class="docs-sidebar" aria-label="Documentation navigation">
+            <div class="search-wrap">
+              <input
+                id="docs-search"
+                aria-label="Search all documentation"
+                placeholder="Search documentation…"
+                type="search"
+                autocomplete="off"
+                data-index="../docs-data.js"
+              />
+            </div>
+            <div class="search-results" aria-live="polite"></div>
+            <!--
+              The docs page list. Order here sets sidebar order and previous/next.
+              Each link's href is docs/<name>.html for docs/<name>.md (README is index.html).
+              Each link belongs to the nearest label above it (used for the breadcrumb).
+              After changing it, run `node rebuild-docs.mjs`.
+            -->
+            <div class="page-links" role="navigation" aria-label="Documentation pages">
+              <p class="docs-label">START HERE</p>
+              <a href="index.html">Introduction</a>
+              <a href="getting-started.html">Getting started</a>
+              <a href="android.html">Playing on Android</a>
+
+              <a href="how-a-map-works.html">How a map works</a>
+
+              <p class="docs-label">PREFABS</p>
+              <a href="prefabs.html">Prefabs</a>
+              <a href="game-prefabs.html">Game prefabs</a>
+              <a href="events.html">Events</a>
+              <a href="coop-scripting.html" class="current" aria-current="page">Scripts in co-op</a>
+
+              <p class="docs-label">SCRIPTING</p>
+              <a href="scripting.html">Scripting reference</a>
+              <a href="script-mods.html">Script mods</a>
+
+              <p class="docs-label">THE EDITOR</p>
+              <a href="editor.html">The editor</a>
+              <a href="weapons-and-assets.html">Weapons &amp; assets</a>
+
+              <p class="docs-label">REFERENCE</p>
+              <a href="console-reference.html">Console reference</a>
+              <a href="game-events.html">Low-level events</a>
+              <a href="sdk-reference.html">SDK reference</a>
+              <a href="testing.html">Testing your mod</a>
+
+              <p class="docs-label">UNDER THE HOOD</p>
+              <a href="map-internals.html">Map internals</a>
+              <a href="how-the-game-works.html">How the game works</a>
+              <a href="contributing.html">Contributing</a>
+            </div>
+          </aside>
+          <div class="doc-area">
+            <div class="breadcrumb">DOCUMENTATION / <span>PREFABS</span></div>
+            <article class="doc-content">
+<h1 id="scripts-in-co-op">Scripts in co-op</h1>
+<p>Your map&#39;s scripts work in co-op without any extra code. A wall a script hides is hidden for
+everyone, a door a script opens is open for everyone, and a button any player presses runs once.
+This page explains how that works, and what to do when you want something on one screen only.</p>
+<h2 id="how-it-works">How it works</h2>
+<p>In a co-op match every player&#39;s game runs your scripts. The games talk to each other through the
+game&#39;s own connection, so it works on LAN and online alike, with no server change. Games without
+BOZ Redux simply ignore these messages.</p>
+<p>When the match starts, every BOZ Redux game says which scripted mods it has. If every player has
+BOZ Redux and the same scripted mods (same versions), <strong>shared scripts</strong> are on. If not, each game
+runs its scripts on its own, as in single player, and the host sees a message saying what&#39;s
+missing, for example &quot;Shared scripts are off: a player lacks <a href="mailto:my_map@1.0">my_map@1.0</a>&quot; or &quot;1 player(s) without
+BOZ Redux&quot;.</p>
+<p>A mod that only helps its own player, like a console or a settings window, can leave itself out
+of that check, so players don&#39;t all need it:</p>
+<pre><code class="language-lua">boz.net.private()
+</code></pre>
+<h2 id="the-host-decides">The host decides</h2>
+<p>While shared scripts are on, the <strong>host</strong> (the game that runs the match) runs the game logic for
+everyone:</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>What happens</th>
+<th>Where it runs</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A player uses, shoots or walks into one of your objects</td>
+<td>On the host, with that player as <code>player</code>.</td>
+</tr>
+<tr>
+<td>Game events (<code>boz.on(&quot;round_started&quot;, ...)</code>)</td>
+<td>On the host. Pass <code>{everyone = true}</code> to run the handler on every game.</td>
+</tr>
+<tr>
+<td><code>show</code>, <code>hide</code>, moving objects, <code>boz.end_match</code>, HUD messages from scripts</td>
+<td>The host does it, and every game shows it.</td>
+</tr>
+<tr>
+<td>Lures</td>
+<td>On the host only (it runs the zombies).</td>
+</tr>
+<tr>
+<td>A key binding (<code>input.bind</code>) on a guest</td>
+<td>Sent to the host, which runs it as that player&#39;s.</td>
+</tr>
+<tr>
+<td><code>boz.local(fn)</code></td>
+<td>Only on this game: what <code>fn</code> changes or shows is not shared.</td>
+</tr>
+</tbody></table></div>
+<p>So you write your scripts as if for one player, and they come out right for everyone. Use
+<code>boz.local</code> for things that belong to one screen:</p>
+<pre><code class="language-lua">boz[&quot;local&quot;](function()
+    boz.player():message(&quot;Only you see this&quot;)
+end)
+</code></pre>
+<p><code>local</code> is a Lua keyword, so it&#39;s written <code>boz[&quot;local&quot;]</code>.</p>
+<h2 id="players">Players</h2>
+<p><code>boz.players()</code> returns every player in the match, yours and the others. <code>player:is_local()</code> says
+which one is you.</p>
+<p>Calling a function on another player runs it on that player&#39;s game: <code>give_points</code>, <code>give_perk</code>,
+<code>teleport</code> and the rest work as usual. What they return isn&#39;t known on your game, so they return
+<code>nil</code>. A remote player&#39;s <code>position()</code> is the one its game last reported (every half second).</p>
+<h2 id="your-own-messages">Your own messages</h2>
+<p>Games can send each other data of their own: numbers, strings, booleans and tables of them.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>boz.net.send(name, data)</code></td>
+<td>Sends <code>data</code> to every other game.</td>
+</tr>
+<tr>
+<td><code>boz.net.on(name, fn)</code></td>
+<td>Calls <code>fn(data, from)</code> when another game sends <code>name</code>.</td>
+</tr>
+<tr>
+<td><code>boz.is_host()</code></td>
+<td>True on the host (and in single player).</td>
+</tr>
+<tr>
+<td><code>boz.net.shared()</code></td>
+<td>True while shared scripts are on.</td>
+</tr>
+<tr>
+<td><code>boz.net.players()</code></td>
+<td>Every player, as <code>boz.players()</code>.</td>
+</tr>
+</tbody></table></div>
+<p>A score that every game shows:</p>
+<pre><code class="language-lua">local boz = require(&quot;boz&quot;)
+local kills = 0
+
+boz.net.on(&quot;kills&quot;, function(data) kills = data.total end)
+
+boz.on(&quot;zombie_killed&quot;, function()
+    if boz.is_host() then
+        kills = kills + 1
+        boz.net.send(&quot;kills&quot;, {total = kills})
+    end
+end)
+</code></pre>
+<h2 id="limits">Limits</h2>
+<ul>
+<li>Everyone starts together: a player can&#39;t join a match that&#39;s already running.</li>
+<li>On a guest, a purchase is paid on the guest&#39;s game before the host runs it.</li>
+<li>One shot may be reported by both games, so count hits on the host.</li>
+</ul>
+<h2 id="testing-it">Testing it</h2>
+<p>A co-op test runs two games, a host and a guest, on one machine. See
+<a href="testing.html#co-op-tests">Co-op tests</a>.</p>
+
+            </article>
+            <div class="doc-pagination" role="navigation" aria-label="Previous and next page">
+              <a class="doc-prev" href="events.html"><small>PREVIOUS</small><span>← Events</span></a>
+              <a class="doc-next" href="scripting.html"><small>NEXT</small><span>Scripting reference →</span></a>
+            </div>
+            <div class="doc-discord">
+              <p><strong>Stuck, or want to show your work?</strong> Modders hang out on the Discord.</p>
+              <a class="button" href="#discord" data-discord>Join Discord ↗</a>
+            </div>
+          </div>
+          <aside class="doc-toc" aria-label="On this page">
+            <p>ON THIS PAGE</p>
+            <a href="#how-it-works">How it works</a>
+            <a href="#the-host-decides">The host decides</a>
+            <a href="#players">Players</a>
+            <a href="#your-own-messages">Your own messages</a>
+            <a href="#limits">Limits</a>
+            <a href="#testing-it">Testing it</a>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+<footer>
+      <a class="brand" href="../index.html"
+        ><img
+          src="../assets/client-logo.png"
+          alt="BOZ Redux"
+          width="640"
+          height="260"
+          loading="lazy"
+      /></a>
+      <p>BOZ Redux</p>
+      <span>Not affiliated with Activision. Game files are not included.</span
+      ><a class="footer-discord" href="#discord" data-discord>Join Discord ↗</a
+      ><a href="https://github.com/ZappaVinny/boz-redux">Source ↗</a>
+    </footer>
+<dialog id="discord-dialog">
+      <button class="dialog-close" aria-label="Close dialog">×</button>
+      <h2>Discord</h2>
+      <p>
+        The Discord invite hasn’t been added yet. Check GitHub for project
+        updates.
+      </p>
+      <a
+        class="button"
+        href="https://github.com/ZappaVinny/boz-redux"
+        target="_blank"
+        rel="noopener"
+        >Visit the project ↗</a
+      >
+    </dialog>
+  </body>
+</html>

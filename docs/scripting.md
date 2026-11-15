@@ -17,7 +17,7 @@ local boz = require("boz")
 | `boz.get(name)` | The object with that name, as its class. A part is `"Prefab.Part"`. |
 | `boz.all(class)` | Every object of a class: `boz.all(boz.Perk)` |
 | `boz.player()` | You |
-| `boz.players()` | Every player in the match |
+| `boz.players()` | Every player in the match, including the other players in co-op |
 | `boz.on(name, fn)` | Calls `fn(data, name)` on a game event or a `boz.send` |
 | `boz.send(name, data)` | Sends an event to every `boz.on` and every `on_event` |
 | `boz.after(seconds, fn)` | Runs `fn` once, later |
@@ -48,6 +48,10 @@ Anything from `boz.get`, and `self` in a script. The full list, with examples, i
 | `stops_bullets()`, `set_stops_bullets(on)` | Stops bullets |
 | `links(name)`, `linked_from(name)` | Links |
 | `on(event, fn)`, `send(name, data)` | Events |
+| `move_to(place, options)`, `move_by(offset, options)` | Moves it, at once or over `seconds` ([Moving and turning](prefabs.md#moving-and-turning)) |
+| `turn_to(degrees, options)`, `turn_by(degrees, options)` | Turns it about the vertical axis |
+| `set_position(position)`, `set_rotation(degrees)`, `moving()`, `stop()` | Puts it somewhere at once; whether it glides; stops a glide |
+| `play_animation(state)`, `bone_position(bone)` | An animated object: plays one of its animation states; where a bone is |
 
 Volumes add `type()`, `set_off_by()`, `once()`, `used()`, `prompt()`, `set_prompt(text)`, `cost()` and
 `set_cost(points)`. Each game prefab's own methods are on [Game prefabs](game-prefabs.md).
@@ -74,6 +78,7 @@ Get one with `boz.player()`, or from a hook's `player` argument.
 | `speed(name)`, `set_speed(name, value)` | A movement speed, like `"SprintSpeed"` |
 | `stat(name)`, `add_stat(name, n)` | A stat, like `"STAT_ZOMBIESKILLED"` |
 | `message(text, seconds)` | A line of text on the screen |
+| `is_local()` | True for you, false for another player in co-op |
 
 ```lua
 local player = boz.player()
@@ -89,6 +94,7 @@ end
 | --- | --- |
 | `boz.zombies(kind)` | The zombies alive. `kind` is `"zombie"`, `"dog"`, `"monkey"` or `"all"`. |
 | `boz.spawn_zombie(spec, position, options)` | Spawns one. `spec` is `"zombie"`, `"zombie_dog"`, ... Options: `health`, `speed`. |
+| `boz.lure(place, options)` | Pulls zombies to a position or an object, like a monkey bomb. Options: `seconds` (0: until `stop()`), `zombies` (0: all, else the nearest that many), `radius` (cm), `arrive` (`"wait"` or `"attack"`). Returns the lure: `stop()`, `running()`, `zombies()`. |
 
 A zombie that just died stays in the list for a moment, with 0 health.
 
@@ -129,7 +135,18 @@ end
 | `boz.rounds.start_next()` | Starts the next round |
 | `boz.rounds.set_wave(field, value)` | Changes the running round, such as `"m_ZombieHealth"` |
 
-To shape a map's rounds as a whole, use the [Game tab](editor.md#game-rules).
+| `boz.end_match(options)` | Ends the match with the game's game over and results. `{win = true}`: scripts hear `match_ended` with `win = true`. |
+
+To shape a map's rounds as a whole, use the [Game tab](editor.md#game-rules). `boz.rules` reads
+what it set:
+
+| Call | What it does |
+| --- | --- |
+| `boz.rules.mode()` | The mode being played: `"easy"`, `"normal"`, `"hard"`, `"coop2"`, `"coop3"` or `"coop4"` |
+| `boz.rules.mode_names()` | Every mode, in that order |
+| `boz.rules.round_set(mode)` | The round set a mode plays (default: this one; `""`: the base map's own) |
+| `boz.rules.sets()` | The map's round set names |
+| `boz.rules.modes()` | Each mode's `{set, zombies, health}` from the Modes table |
 
 ## Zones and sectors
 
@@ -196,13 +213,26 @@ See [Sounds](weapons-and-assets.md#sounds) for finding names and adding your own
 
 ### boz.effects
 
+Effects and projectiles, yours from the Effects tab or the game's.
+
+| Call | What it does |
+| --- | --- |
+| `spawn(name, position, options)` | An effect. Options: `lifetime` (seconds), `rotation`. Returns it. |
+| `projectile(name, position, options)` | A projectile, flying on its own (`trigger`, `lifetime`, `hidden`, `freeze`). |
+| `explode(position, options)` | An explosion: `radius`, `inner`, `damage`, `min_damage`. |
+| `attach(name, target, options)` | An effect that follows an object, an entity, or `"weapon"` (the gun in hand). Options: `bone` (e.g. `"tag_flash"`), `offset`, `lifetime`. |
+| `detach(effect)` | Stops it following (it stays where it is). |
+| `effect:set(settings)` | Changes it while it plays: `scale`, `rate = {min, max}`, `velocity`, `spread`, `position`, `duration`, `spawning`. |
+| `effect:remove()`, `effect:alive()`, `effect:position()` | The effect itself |
+
 ```lua
-boz.effects.spawn("impactRayGun", self:position(), {lifetime = 3})
+boz.effects.spawn("frost", self:position(), {lifetime = 3})
+boz.effects.attach("frost", "weapon", {bone = "tag_flash"})
 boz.effects.explode(self:position())
-boz.effects.projectile("gersch", self:position(), {trigger = "open", lifetime = 6})
 ```
 
-See [Effects and projectiles](weapons-and-assets.md#effects-and-projectiles).
+Your projectiles and effects can have scripts of their own (`boz.Projectile`, `boz.Effect`). See
+[Effects and projectiles](weapons-and-assets.md#effects-and-projectiles).
 
 ### boz.pickups
 
@@ -281,6 +311,46 @@ boz.weapons.upgrade("mp40")
 boz.weapons.refill("mp40")
 ```
 
+`boz.weapons.current()` is the weapon in hand, with:
+
+| Call | What it does |
+| --- | --- |
+| `play(clip, blend)`, `stop_animation()` | Plays one of its animations, such as a clip you added in the Weapons tab |
+| `projectile()`, `set_projectile(name)` | The projectile it fires |
+| `entity()` | The gun model in hand (for `boz.effects.attach` and bones like `tag_flash`) |
+| `set_ammo(clip, reserve)`, `set_fire_rate(rpm)`, `set_damage(head, torso, limbs)` | Its values while it's in hand |
+
+| Call | What it does |
+| --- | --- |
+| `boz.weapons.replace_animation(weapon, state, clip or fn)` | Plays another clip instead of one of the game's (a reload, for example). |
+| `boz.weapons.set_fires_projectile(weapon, on)` | Every shot launches its projectile instead of bullets. |
+| `boz.charge(weapon, options)` | A charged shot: hold fire to charge, release to fire. Options: `levels` (`{projectile, after, ammo}` each), `effect`, `bone`, `clip`, `sound`, `max`, and `on_start`, `on_level`, `on_fire`. |
+
+```lua
+boz.charge("ice_rifle", {
+    levels = {{projectile = "ice_bolt"}, {after = 1.2, projectile = "ice_blast", ammo = 3}},
+    effect = "frost", bone = "tag_flash", clip = "charge", max = 3,
+})
+```
+
+### boz.animation
+
+Animated objects and characters: `play(entity, state, blend)`, `stop(entity)`, `state(entity)`,
+`view_model()` (the gun model in hand), `bone_position(entity, bone)`, and `on_play(fn)`, which
+can swap the state the game is about to play for another. Objects have `play_animation(state)` and
+`bone_position(bone)` too.
+
+### boz.net
+
+Your own messages between the games in a co-op match: `boz.net.send`, `boz.net.on`,
+`boz.is_host()` and `boz["local"](fn)`. See [Scripts in co-op](coop-scripting.md).
+
+### boz.online
+
+Where the game's **Play Online** goes: `set_server(host)` (call it while your mod starts; `""` turns
+it off), `server()`, `check(host, fn)` and `connected()`. See the
+[network module](script-mods.md#network-module).
+
 ### boz.map
 
 The level: `boz.map.set_time_scale(0.5)`, `boz.map.toggle_pause()`, `boz.map.playing()`.
@@ -307,6 +377,10 @@ end
 
 local kills = Counter:new(10)
 ```
+
+Your own effects and projectiles are classes too: a projectile's script extends
+`boz.Projectile`, an effect's extends `boz.Effect` ([Scripts for effects and
+projectiles](weapons-and-assets.md#scripts-for-effects-and-projectiles)).
 
 ## Advanced
 

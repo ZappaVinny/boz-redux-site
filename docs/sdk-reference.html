@@ -23,7 +23,7 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"SDK reference","description":"Reference for the SDK's own tools and formats: every bozkit command, the files of a map project, and which versions of the game, client and formats work…","url":"https://boz-redux.com/docs/sdk-reference.html","dateModified":"2026-11-08T23:14:53.315Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"SDK reference","item":"https://boz-redux.com/docs/sdk-reference.html"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"SDK reference","description":"Reference for the SDK's own tools and formats: every bozkit command, the files of a map project, and which versions of the game, client and formats work…","url":"https://boz-redux.com/docs/sdk-reference.html","dateModified":"2026-11-15T04:47:08.002Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"SDK reference","item":"https://boz-redux.com/docs/sdk-reference.html"}]}]}</script>
     <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="stylesheet" href="../styles.css" />
@@ -86,6 +86,7 @@
               <p class="docs-label">START HERE</p>
               <a href="index.html">Introduction</a>
               <a href="getting-started.html">Getting started</a>
+              <a href="android.html">Playing on Android</a>
 
               <a href="how-a-map-works.html">How a map works</a>
 
@@ -93,6 +94,7 @@
               <a href="prefabs.html">Prefabs</a>
               <a href="game-prefabs.html">Game prefabs</a>
               <a href="events.html">Events</a>
+              <a href="coop-scripting.html">Scripts in co-op</a>
 
               <p class="docs-label">SCRIPTING</p>
               <a href="scripting.html">Scripting reference</a>
@@ -106,6 +108,7 @@
               <a href="console-reference.html">Console reference</a>
               <a href="game-events.html">Low-level events</a>
               <a href="sdk-reference.html" class="current" aria-current="page">SDK reference</a>
+              <a href="testing.html">Testing your mod</a>
 
               <p class="docs-label">UNDER THE HOOD</p>
               <a href="map-internals.html">Map internals</a>
@@ -161,6 +164,10 @@ file bozkit does not understand are kept byte for byte.</p>
 <tr>
 <td><code>package</code></td>
 <td>Build a project into a reproducible ZIP</td>
+</tr>
+<tr>
+<td><code>test</code></td>
+<td>Run mods&#39; and projects&#39; tests in the game: <code>bozkit test my-mod --client path/to/boz-redux</code> (<a href="testing.html">Testing your mod</a>)</td>
 </tr>
 <tr>
 <td><strong>Game data</strong></td>
@@ -332,10 +339,17 @@ quaternions in the game&#39;s axes.</p>
   sounds/&lt;name&gt;.json         one of your sounds: its settings
   sounds/&lt;name&gt;/             source.wav (as imported) and game.wav (saved)
   sounds/slots.json          which game sounds you replaced
-  effects.json               the effects and projectiles the map names
-  game.json                  the map&#39;s rules
-assets/&lt;name&gt;/&lt;file&gt;         the original file a model was imported from (never shipped)
+  weapons/anims/&lt;weapon&gt;/extra.clips   the clips you added to a weapon
+  effects.json               the game&#39;s effects and projectiles the map names
+  fx.json                    your own effects and projectiles
+  fx/&lt;file&gt;.png              their pictures
+  game.json                  the map&#39;s rules: round sets, modes, and what you changed
+assets/&lt;name&gt;/&lt;file&gt;         the original file a model was imported from, with the files it
+                             links to (never shipped)
 scripts/                     Lua: main.lua, prefab scripts, weapon scripts, hooks
+scripts/effects/&lt;name&gt;.lua   an effect&#39;s script
+scripts/projectiles/&lt;name&gt;.lua   a projectile&#39;s script
+tests/&lt;name&gt;.lua             tests (Testing your mod)
 </code></pre>
 <p>The other files are described with their tools: <a href="weapons-and-assets.html#weapon-project-files">Weapons</a>,
 <a href="weapons-and-assets.html#model-project-files">Your own models</a>, <a href="weapons-and-assets.html#sound-project-files">Sounds</a>,
@@ -518,8 +532,13 @@ formats below changes, its version number goes up and these notes say what to do
 </tr>
 <tr>
 <td>Client</td>
-<td>v0.3.1 or newer</td>
-<td>SDK 0.2.0 needs it to load the standard library. Reads game definition schema 1, mod folders with <code>mod.toml</code>, and the <code>maps</code> list.</td>
+<td>v0.4.0 or newer</td>
+<td>Client Lua API 1 (<code>client.api</code>). Reads game definition schema 1, mod folders with <code>mod.toml</code>, the <code>maps</code> list and <code>[sdk]</code>.</td>
+</tr>
+<tr>
+<td>Standard library</td>
+<td>0.4.0 (<code>boz.VERSION</code>)</td>
+<td>Written for client Lua API 1 (<code>boz.CLIENT_API</code>). Each mod carries its own copy; the SDK records both numbers in <code>mod.toml</code>.</td>
 </tr>
 <tr>
 <td>Game definition</td>
@@ -528,8 +547,8 @@ formats below changes, its version number goes up and these notes say what to do
 </tr>
 <tr>
 <td>Projects</td>
-<td>Schema 2 (<code>boz-project.toml</code>)</td>
-<td>Schema 1 projects still load and are saved as schema 2.</td>
+<td>Schema 3 (<code>boz-project.toml</code>)</td>
+<td>Older projects still load; their rounds convert to round sets the first time the Game tab saves.</td>
 </tr>
 <tr>
 <td>Map worlds</td>
@@ -552,11 +571,20 @@ formats below changes, its version number goes up and these notes say what to do
 <td>For <code>bozkit</code>, the SDK app and the symbol tools.</td>
 </tr>
 </tbody></table></div>
+<h3 id="keeping-mods-working">Keeping mods working</h3>
+<p>A mod built today keeps working on later clients and with later SDKs. The client&#39;s Lua API and
+the standard library only grow: nothing public is renamed or removed without warning. When
+something has to change, the old name keeps working for at least one more minor version and
+writes one line to <code>boz-log.txt</code> saying what replaces it. The game itself never changes (1.0.11
+is the only version), so this is the only way a mod can break.</p>
+<p>When a mod was built for another client API than the one running it, the launcher&#39;s <strong>Mods</strong> tab
+and <code>boz-log.txt</code> say it may not work. It still loads; rebuilding it with the current SDK clears
+the warning.</p>
 
             </article>
             <div class="doc-pagination" role="navigation" aria-label="Previous and next page">
               <a class="doc-prev" href="game-events.html"><small>PREVIOUS</small><span>← Low-level events</span></a>
-              <a class="doc-next" href="map-internals.html"><small>NEXT</small><span>Map internals →</span></a>
+              <a class="doc-next" href="testing.html"><small>NEXT</small><span>Testing your mod →</span></a>
             </div>
             <div class="doc-discord">
               <p><strong>Stuck, or want to show your work?</strong> Modders hang out on the Discord.</p>
@@ -579,6 +607,7 @@ formats below changes, its version number goes up and these notes say what to do
             <a href="#worldjson" class="sub">world.json</a>
             <a href="#what-the-build-does-with-it" class="sub">What the build does with it</a>
             <a href="#compatibility">Compatibility</a>
+            <a href="#keeping-mods-working" class="sub">Keeping mods working</a>
           </aside>
         </div>
       </div>

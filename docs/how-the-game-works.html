@@ -23,7 +23,7 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"How the game works","description":"A modder's tour of Call of Duty: Black Ops Zombies (1.0.11): first the systems you will meet, what they do and where to change them, then how the game…","url":"https://boz-redux.com/docs/how-the-game-works.html","dateModified":"2026-11-04T22:50:59-06:00","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"How the game works","item":"https://boz-redux.com/docs/how-the-game-works.html"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"How the game works","description":"A modder's tour of Call of Duty: Black Ops Zombies (1.0.11): first the systems you will meet, what they do and where to change them, then how the game…","url":"https://boz-redux.com/docs/how-the-game-works.html","dateModified":"2026-11-15T03:47:41.318Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"How the game works","item":"https://boz-redux.com/docs/how-the-game-works.html"}]}]}</script>
     <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="stylesheet" href="../styles.css" />
@@ -86,6 +86,7 @@
               <p class="docs-label">START HERE</p>
               <a href="index.html">Introduction</a>
               <a href="getting-started.html">Getting started</a>
+              <a href="android.html">Playing on Android</a>
 
               <a href="how-a-map-works.html">How a map works</a>
 
@@ -93,6 +94,7 @@
               <a href="prefabs.html">Prefabs</a>
               <a href="game-prefabs.html">Game prefabs</a>
               <a href="events.html">Events</a>
+              <a href="coop-scripting.html">Scripts in co-op</a>
 
               <p class="docs-label">SCRIPTING</p>
               <a href="scripting.html">Scripting reference</a>
@@ -106,6 +108,7 @@
               <a href="console-reference.html">Console reference</a>
               <a href="game-events.html">Low-level events</a>
               <a href="sdk-reference.html">SDK reference</a>
+              <a href="testing.html">Testing your mod</a>
 
               <p class="docs-label">UNDER THE HOOD</p>
               <a href="map-internals.html">Map internals</a>
@@ -219,6 +222,25 @@ them. <code>zombieHeadshotBonus</code> is extra for headshots.</li>
 rate) and live ammo. Each weapon type (automatic, shotgun, launcher, Wonder Weapons) is a small
 state machine: idle, firing, reloading. Weapon stats are data (<code>weapons_&lt;map&gt;.group.bin</code>),
 readable and editable with bozkit. <code>WeaponsUnlimitedAmmo</code> stops ammo use.</p>
+<p>A shot goes through <code>PlayerWeapon_Shoot</code>, which picks by the weapon&#39;s fire type: bullets
+(<code>PlayerWeapon_ShootBullets</code>) or a projectile (<code>PlayerWeapon_ShootProjectile</code>: it launches the
+weapon&#39;s <code>m_projectileName</code> at <code>m_projectileLaunchForce</code>, through
+<code>SUBJECT_WEAPON_SPAWN_PROJECTILE</code>). The Thundergun&#39;s type sends a shockwave too. BOZ Redux makes
+any weapon fire a projectile by hooking the bullets path and launching instead.</p>
+<h3 id="effects-and-projectiles">Effects and projectiles</h3>
+<p>An effect is an entity whose <code>CIsRenderableGFXEmitter</code> names an emitter spec
+(<code>CIwGFXEmitterSpec</code>) and scales it. The emitter (<code>CIwGFXEmitter</code>) spawns particles on a timer, or
+along the path it moves (a trail), moves them, and draws each as a camera-facing sprite, a cross or
+a streak with its material&#39;s texture. A running emitter has per-instance overrides (scale,
+spawning, spawn rate), which is how scripts change an effect while it plays. Particle materials
+are ordinary <code>CIwMaterial</code>s: their alpha mode says glow (add) or solid (blend), and a flipbook
+material carries its frame grid in its trailer.</p>
+<p>A projectile is an entity with a <code>CProjectileEntity</code>: its spec, owner, launch and flight
+velocities, a physics body when it falls, and a lifetime. Its components say what happens on
+impact: <code>CExplosion</code> (impact effect, radius, inner radius, damage), <code>CRenderableTrail</code> (the
+ribbon: material, width, colour, fade) and <code>CSmokeTrail</code> (emitters along its path).
+<code>Projectile_Impact</code> sends <code>SUBJECT_EXPLODE</code>, plays the explosion sound and ends it. The emitter
+spec&#39;s layout is under <a href="#effect-emitters-ciwgfxemitterspec">Asset formats</a>.</p>
 <h3 id="perks-power-ups-and-the-box">Perks, power-ups and the box</h3>
 <ul>
 <li><strong>Usable objects</strong> (perk machines, the mystery box, Pack-a-Punch, doors, barricades, traps,
@@ -273,8 +295,13 @@ unlock when.</p>
 zombies are crowd agents (speed, avoidance, climbing are data), and window and barricade climbs
 are separate connection objects. Per-round speeds come from the round definitions.</p>
 <h3 id="co-op">Co-op</h3>
+<p>BOZ Redux&#39;s shared scripts use the game&#39;s own networking: each Redux game registers a network
+subject of its own (<code>CIsNetworkSubject</code>, one fixed id) and sends its messages through
+<code>CIsNetworkSubject::Notify</code> to every peer in the match. A game without Redux has no subject with
+that id and drops them, so mixed matches stay safe.</p>
 <p>The game has local Wi-Fi co-op (discovery plus TCP), with the host running the match and the
-other players following it. Online play used Activision&#39;s servers, which BOZ Redux does not use.</p>
+other players following it. Online play used Activision&#39;s servers; BOZ Redux keeps it off unless
+a mod points it at a server (<a href="script-mods.html#network-module">network module</a>).</p>
 <p>The Wi-Fi lobby has a level (<code>g_lobbyLevel</code>, set by <code>FrontEnd_SetLobbyLevel</code>). It first searches
 for <code>MultiplayerLobbyTimeWifiMs</code> (20 s) and joins a room whose name starts with that level
 (<code>CFrontendStateConnectWifi::MatchesRoom</code>); if none answers it publishes its own room as
@@ -1004,6 +1031,115 @@ bind pose; <code>bozkit/weapon_model.py</code> puts your own model on a weapon t
 flags are 0x30000 (rigid: 0x20000); a weapon&#39;s spec points at its model and skin (same hash) in
 renderableAsset, renderableAssetADS (aiming down the sights, on some guns) and LODS (three
 distance models).</p>
+<h4 id="animation-state-machines">Animation state machines</h4>
+<p>A <code>CIsASMAnimator</code> runs up to two state machine instances (<code>CIsAnimStateMachine</code>); the arms and
+the gun each have one. A state has a name hash, its animation, speed, length, whether it loops,
+and lists of events: transitions to other states on triggers, and timed callbacks the game&#39;s code
+listens for (a reload&#39;s &quot;refill the magazine&quot; moment, for example). <code>ASM_SetState</code> switches an
+instance to a state with a blend time, which is how <code>weapon:play</code> and <code>replace_animation</code> work;
+<code>ASM_FindState</code> finds one by name. An extra clip of yours is a new state appended to the machine,
+with the events of a one-shot state that returns to idle but none of its callbacks.</p>
+<h3 id="effect-emitters-ciwgfxemitterspec">Effect emitters (CIwGFXEmitterSpec)</h3>
+<p>An emitter spec&#39;s body is 35 little-endian words (<code>CIwGFXSpec::Serialise</code>, then
+<code>CIwGFXEmitterSpec::Serialise</code>). Times are 20.12 fixed-point milliseconds (4096 = 1 ms), velocities
+units per millisecond in 20.12, angles the engine&#39;s (4096 = a full turn); positions are plain
+units. A pair holds a minimum and a maximum, and each particle picks between them (a minimum
+above the maximum means &quot;always the minimum&quot;).</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Words</th>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>space</td>
+<td>World (turns with the effect), camera, or untransformed</td>
+</tr>
+<tr>
+<td>1</td>
+<td>order</td>
+<td>Draw order</td>
+</tr>
+<tr>
+<td>2</td>
+<td>material</td>
+<td>The particle material&#39;s name hash</td>
+</tr>
+<tr>
+<td>3</td>
+<td>flags</td>
+<td>Fade out, trail, face the camera, upright, prewarm</td>
+</tr>
+<tr>
+<td>4</td>
+<td>shape</td>
+<td>Sprite, cross or streak</td>
+</tr>
+<tr>
+<td>5</td>
+<td>duration</td>
+<td>How long it spawns (-1: as long as the effect lives)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>size x</td>
+<td>Size multiplier</td>
+</tr>
+<tr>
+<td>7-9, 10-12</td>
+<td>position, spread</td>
+<td>Where particles start, and a random offset on each axis</td>
+</tr>
+<tr>
+<td>13-15, 16-18</td>
+<td>velocity, spread</td>
+<td>How they start moving</td>
+</tr>
+<tr>
+<td>19-21</td>
+<td>gravity</td>
+<td>Change of velocity over time</td>
+</tr>
+<tr>
+<td>22-23</td>
+<td>life</td>
+<td>How long each lives</td>
+</tr>
+<tr>
+<td>24-25</td>
+<td>size</td>
+<td>Size when made</td>
+</tr>
+<tr>
+<td>26-27</td>
+<td>spin</td>
+<td>Turning speed</td>
+</tr>
+<tr>
+<td>28-29</td>
+<td>start angle</td>
+<td>Starting rotation</td>
+</tr>
+<tr>
+<td>30-31</td>
+<td>spawn every</td>
+<td>Time between particles (with the trail flag: distance)</td>
+</tr>
+<tr>
+<td>32</td>
+<td>growth</td>
+<td>Size change over time</td>
+</tr>
+<tr>
+<td>33-34</td>
+<td>frames</td>
+<td>How the texture&#39;s frames step (emitter age, particle age, fixed time) and the frame time</td>
+</tr>
+</tbody></table></div>
+<p><code>bozkit/gfx.py</code> decodes and encodes it; every shipped emitter spec round-trips byte for byte.</p>
 <h3 id="sounds-ciwsounddata-ciwsoundspec-csoundsequence">Sounds (CIwSoundData, CIwSoundSpec, CSoundSequence)</h3>
 <p>About 730 sounds, in <code>ingame/ingame.group.bin</code> (the shared ones: weapons, zombies, power-ups,
 rounds, buying), each map&#39;s statics group, <code>ingame/sound/snd_player_&lt;character&gt;.group.bin</code>
@@ -1049,6 +1185,7 @@ replaces a slot by swapping its CIwSoundData (the spec, its settings and every s
             <a href="#points-and-purchases" class="sub">Points and purchases</a>
             <a href="#combat-and-health" class="sub">Combat and health</a>
             <a href="#weapons" class="sub">Weapons</a>
+            <a href="#effects-and-projectiles" class="sub">Effects and projectiles</a>
             <a href="#perks-power-ups-and-the-box" class="sub">Perks, power-ups and the box</a>
             <a href="#the-player-and-the-camera" class="sub">The player and the camera</a>
             <a href="#menus" class="sub">Menus</a>
@@ -1078,6 +1215,7 @@ replaces a slot by swapping its CIwSoundData (the spec, its settings and every s
             <a href="#saves-i3d" class="sub">Saves (.i3d)</a>
             <a href="#reading-these-files" class="sub">Reading these files</a>
             <a href="#skeletal-animation-ciwanimskel-ciwanimskin-ciwanim-cisanimstatemachine" class="sub">Skeletal animation (CIwAnimSkel, CIwAnimSkin, CIwAnim, CIsAnimStateMachine)</a>
+            <a href="#effect-emitters-ciwgfxemitterspec" class="sub">Effect emitters (CIwGFXEmitterSpec)</a>
             <a href="#sounds-ciwsounddata-ciwsoundspec-csoundsequence" class="sub">Sounds (CIwSoundData, CIwSoundSpec, CSoundSequence)</a>
           </aside>
         </div>

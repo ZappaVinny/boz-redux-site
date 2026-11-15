@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Testing your mod | BOZ Redux Docs</title>
+    <meta name="description" content="A test plays your map or mod by itself: it starts the game, runs the steps you wrote, checks what happened and writes a report with screenshots. Run your…" />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://boz-redux.com/docs/testing.html" />
+    <meta name="theme-color" content="#0d0e10" />
+    <link rel="icon" href="../assets/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="256x256" href="../assets/favicon.png" />
+    <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png" />
+    <link rel="manifest" href="../site.webmanifest" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="BOZ Redux" />
+    <meta property="og:title" content="Testing your mod | BOZ Redux Docs" />
+    <meta property="og:description" content="A test plays your map or mod by itself: it starts the game, runs the steps you wrote, checks what happened and writes a report with screenshots. Run your…" />
+    <meta property="og:url" content="https://boz-redux.com/docs/testing.html" />
+    <meta property="og:image" content="https://boz-redux.com/assets/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Testing your mod","description":"A test plays your map or mod by itself: it starts the game, runs the steps you wrote, checks what happened and writes a report with screenshots. Run your…","url":"https://boz-redux.com/docs/testing.html","dateModified":"2026-11-15T03:40:16.570Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Testing your mod","item":"https://boz-redux.com/docs/testing.html"}]}]}</script>
+    <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="stylesheet" href="../styles.css" />
+    <script defer src="../config.js"></script>
+    <script defer src="../app.js"></script>
+  </head>
+  <body class="is-docs">
+    <a class="skip" href="#main">Skip to content</a>
+<header>
+      <a class="brand" href="../index.html" aria-label="BOZ Redux home"
+        ><img
+          src="../assets/client-logo.png"
+          alt="BOZ Redux"
+          width="640"
+          height="260"
+      /></a>
+      <nav aria-label="Main navigation">
+        <a href="../index.html" data-nav="home"
+          >Home</a
+        ><a href="../modding.html" data-nav="modding">Modding</a
+        ><a href="../docs/index.html" data-nav="docs" class="active" aria-current="page">Documentation</a>
+      </nav>
+      <a
+        class="header-github"
+        href="https://github.com/ZappaVinny/boz-redux"
+        target="_blank"
+        rel="noopener"
+        >GitHub ↗</a
+      >
+      <a class="button header-discord" href="#discord" data-discord
+        ><span>Join </span>Discord ↗</a
+      >
+    </header>
+
+    <main id="main" tabindex="-1">
+      <div id="docs-view">
+        <button class="docs-mobile" aria-expanded="false">
+          ☰ Browse documentation
+        </button>
+        <div class="docs-shell">
+          <aside class="docs-sidebar" aria-label="Documentation navigation">
+            <div class="search-wrap">
+              <input
+                id="docs-search"
+                aria-label="Search all documentation"
+                placeholder="Search documentation…"
+                type="search"
+                autocomplete="off"
+                data-index="../docs-data.js"
+              />
+            </div>
+            <div class="search-results" aria-live="polite"></div>
+            <!--
+              The docs page list. Order here sets sidebar order and previous/next.
+              Each link's href is docs/<name>.html for docs/<name>.md (README is index.html).
+              Each link belongs to the nearest label above it (used for the breadcrumb).
+              After changing it, run `node rebuild-docs.mjs`.
+            -->
+            <div class="page-links" role="navigation" aria-label="Documentation pages">
+              <p class="docs-label">START HERE</p>
+              <a href="index.html">Introduction</a>
+              <a href="getting-started.html">Getting started</a>
+              <a href="android.html">Playing on Android</a>
+
+              <a href="how-a-map-works.html">How a map works</a>
+
+              <p class="docs-label">PREFABS</p>
+              <a href="prefabs.html">Prefabs</a>
+              <a href="game-prefabs.html">Game prefabs</a>
+              <a href="events.html">Events</a>
+              <a href="coop-scripting.html">Scripts in co-op</a>
+
+              <p class="docs-label">SCRIPTING</p>
+              <a href="scripting.html">Scripting reference</a>
+              <a href="script-mods.html">Script mods</a>
+
+              <p class="docs-label">THE EDITOR</p>
+              <a href="editor.html">The editor</a>
+              <a href="weapons-and-assets.html">Weapons &amp; assets</a>
+
+              <p class="docs-label">REFERENCE</p>
+              <a href="console-reference.html">Console reference</a>
+              <a href="game-events.html">Low-level events</a>
+              <a href="sdk-reference.html">SDK reference</a>
+              <a href="testing.html" class="current" aria-current="page">Testing your mod</a>
+
+              <p class="docs-label">UNDER THE HOOD</p>
+              <a href="map-internals.html">Map internals</a>
+              <a href="how-the-game-works.html">How the game works</a>
+              <a href="contributing.html">Contributing</a>
+            </div>
+          </aside>
+          <div class="doc-area">
+            <div class="breadcrumb">DOCUMENTATION / <span>REFERENCE</span></div>
+            <article class="doc-content">
+<h1 id="testing-your-mod">Testing your mod</h1>
+<p>A test plays your map or mod by itself: it starts the game, runs the steps you wrote, checks what
+happened and writes a report with screenshots. Run your tests before you share a new version, and
+you&#39;ll know the doors still open and the scripts still run, on 32-bit and 64-bit builds alike.</p>
+<h2 id="what-a-test-is">What a test is</h2>
+<p>A test is a Lua file in your project&#39;s or mod&#39;s <code>tests/</code> folder, for example <code>tests/doors.lua</code>.
+When you run it, the client starts without a window, opens your map, runs the test&#39;s steps in
+order and closes. Each step can check things and take screenshots. The result is a report page.</p>
+<p>A mod without tests still gets a quick check: it starts the mod&#39;s map (or the main menu), plays a
+few seconds and makes sure no Lua errors happen.</p>
+<h2 id="your-first-test">Your first test</h2>
+<pre><code class="language-lua">--! timeout: 240
+local boz = require(&quot;boz&quot;)
+
+test.start_map(&quot;my_map&quot;, {UnlimitedHealth = true})
+
+test.step(&quot;the match starts&quot;, function()
+    test.wait_until(test.in_match, 120, &quot;the match&quot;)
+    test.wait(2)
+    test.screenshot(&quot;start&quot;)
+end)
+
+test.step(&quot;the vault door opens&quot;, function()
+    local door = boz.get(&quot;VaultDoor&quot;)
+    test.expect(door ~= nil, &quot;the map has VaultDoor&quot;)
+    door:open()
+    test.wait_until(function() return door:is_open() end, 5, &quot;the door to open&quot;)
+    test.screenshot(&quot;door_open&quot;)
+end)
+
+test.step(&quot;no Lua errors&quot;, function()
+    test.expect(test.errors() == 0, test.errors() .. &quot; Lua errors&quot;)
+end)
+</code></pre>
+<p><code>test.start_map</code> goes at the top: it starts a match on the map once the main menu is up, with
+console variables set first. Then each <code>test.step</code> runs when the one before it is done. The test
+script runs like any script of your mod, so <code>require(&quot;boz&quot;)</code> and everything in the
+<a href="scripting.html">Scripting reference</a> works.</p>
+<h2 id="steps-and-checks">Steps and checks</h2>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>test.start_map(name, vars)</code></td>
+<td>Starts a single-player match on the map. <code>vars</code>: console variables, e.g. <code>{UnlimitedHealth = true}</code>.</td>
+</tr>
+<tr>
+<td><code>test.coop_map(name, vars)</code></td>
+<td>Opens a Wi-Fi co-op room for the map (see <a href="#co-op-tests">Co-op tests</a>).</td>
+</tr>
+<tr>
+<td><code>test.step(name, fn)</code></td>
+<td>Adds a step. Steps run one after another.</td>
+</tr>
+<tr>
+<td><code>test.expect(ok, message)</code></td>
+<td>Records a failure when <code>ok</code> is false. The step goes on.</td>
+</tr>
+<tr>
+<td><code>test.fail(message)</code></td>
+<td>Ends the step with a failure.</td>
+</tr>
+<tr>
+<td><code>test.wait(seconds)</code></td>
+<td>Lets the game run for that long.</td>
+</tr>
+<tr>
+<td><code>test.frames(count)</code></td>
+<td>Lets the game run for that many frames (default 1).</td>
+</tr>
+<tr>
+<td><code>test.wait_until(fn, seconds, what)</code></td>
+<td>Waits until <code>fn()</code> returns a true value and returns it. After <code>seconds</code> (default 60) the step fails with &quot;timed out waiting for <code>what</code>&quot;.</td>
+</tr>
+<tr>
+<td><code>test.in_match()</code></td>
+<td>True once a Zombies match is running with your player in it.</td>
+</tr>
+<tr>
+<td><code>test.screenshot(name)</code></td>
+<td>Saves the next frame as <code>name.png</code> in the report.</td>
+</tr>
+<tr>
+<td><code>test.errors()</code></td>
+<td>How many Lua errors any mod has raised so far.</td>
+</tr>
+<tr>
+<td><code>test.time()</code></td>
+<td>Seconds since the test started (game time).</td>
+</tr>
+</tbody></table></div>
+<p>A failed wait, <code>test.fail</code> or an error ends that step, and the test stops there. Set
+<code>test.keep_going = true</code> to run the remaining steps anyway. (<code>test.expect</code> only records a failure:
+the step goes on.) A test fails when any step fails, and also when a mod
+raised a Lua error, unless you set <code>test.allow_errors = true</code>.</p>
+<h2 id="touch-screens">Touch screens</h2>
+<p>To test a phone layout, add <code>--! touch: true</code> at the top. The game then runs in touch-screen
+mode, and fingers reach it:</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Function</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>test.tap(x, y)</code></td>
+<td>A tap. <code>x</code> and <code>y</code> go from 0 to 1 across the window.</td>
+</tr>
+<tr>
+<td><code>test.drag(x1, y1, x2, y2, seconds, hold)</code></td>
+<td>Drags a finger over <code>seconds</code> (default 0.5), then lifts it unless <code>hold</code> is true.</td>
+</tr>
+<tr>
+<td><code>test.touch(id, action, x, y)</code></td>
+<td>One finger (<code>id</code> 0-9): <code>&quot;down&quot;</code>, <code>&quot;move&quot;</code> or <code>&quot;up&quot;</code>.</td>
+</tr>
+</tbody></table></div>
+<h2 id="options">Options</h2>
+<p>Lines starting with <code>--!</code> at the top of the test set how it runs:</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Example</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>timeout</code></td>
+<td><code>--! timeout: 240</code></td>
+<td>Seconds before the test counts as stuck (default 300).</td>
+</tr>
+<tr>
+<td><code>touch</code></td>
+<td><code>--! touch: true</code></td>
+<td>Touch-screen mode.</td>
+</tr>
+<tr>
+<td><code>players</code></td>
+<td><code>--! players: 2</code></td>
+<td>A co-op test with a host and a guest.</td>
+</tr>
+<tr>
+<td><code>mods</code></td>
+<td><code>--! mods: developer</code></td>
+<td>Other installed mods to switch on for the test (comma-separated).</td>
+</tr>
+<tr>
+<td><code>arch</code></td>
+<td><code>--! arch: x64</code></td>
+<td>Only on these builds.</td>
+</tr>
+</tbody></table></div>
+<p>Each run gets its own settings file and a copy of the saves, so your own settings and saves are
+never touched.</p>
+<h2 id="co-op-tests">Co-op tests</h2>
+<p>With <code>--! players: 2</code>, two games run the same test, one as the host and one as the guest, and
+<code>test.role</code> says which (<code>&quot;host&quot;</code> or <code>&quot;guest&quot;</code>). Both call <code>test.coop_map</code>: the host&#39;s room opens
+and the guest joins it.</p>
+<pre><code class="language-lua">--! players: 2
+--! timeout: 240
+test.coop_map(&quot;my_map&quot;, {UnlimitedHealth = true, MultiplayerLobbyTimeWifiMs = 5000})
+
+test.step(&quot;both players are in&quot;, function()
+    test.wait_until(test.in_match, 180, &quot;the co-op match&quot;)
+    test.wait_until(function() return #require(&quot;boz&quot;).players() == 2 end, 60, &quot;the other player&quot;)
+    test.screenshot(&quot;coop&quot;)
+end)
+</code></pre>
+<p><code>MultiplayerLobbyTimeWifiMs</code> shortens the lobby&#39;s countdown. See
+<a href="coop-scripting.html">Scripts in co-op</a> for what each game runs.</p>
+<h2 id="running-tests">Running tests</h2>
+<p>In the SDK app, open your project and click <strong>Run tests</strong>. It builds the project, runs every test
+and opens the report.</p>
+<p>From the command line:</p>
+<pre><code class="language-bash">bozkit test my_project --client /path/to/client
+</code></pre>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>--client</code></td>
+<td>The client folder (with the game installed).</td>
+</tr>
+<tr>
+<td><code>--arch x86,x64</code></td>
+<td>Which client builds to use (default: every build found).</td>
+</tr>
+<tr>
+<td><code>--only doors</code></td>
+<td>Only these tests (file names without <code>.lua</code>).</td>
+</tr>
+<tr>
+<td><code>--report folder</code></td>
+<td>Where the report goes (default <code>&lt;client&gt;/test-report</code>).</td>
+</tr>
+<tr>
+<td><code>--smoke</code></td>
+<td>Run the quick start-up check instead of the mod&#39;s own tests.</td>
+</tr>
+<tr>
+<td><code>--coop-mix</code></td>
+<td>Co-op tests with the guest on another build than the host (32-bit with 64-bit).</td>
+</tr>
+</tbody></table></div>
+<p><code>bozkit test</code> takes projects, mod folders or installed mod ids, and runs every installed mod&#39;s
+tests when you give none. The report, <code>test-report/index.html</code>, shows each test on each build with
+its steps, the log and the screenshots.</p>
+<p>On Windows the game shows its window while a test runs; on Linux it runs without one.</p>
+
+            </article>
+            <div class="doc-pagination" role="navigation" aria-label="Previous and next page">
+              <a class="doc-prev" href="sdk-reference.html"><small>PREVIOUS</small><span>← SDK reference</span></a>
+              <a class="doc-next" href="map-internals.html"><small>NEXT</small><span>Map internals →</span></a>
+            </div>
+            <div class="doc-discord">
+              <p><strong>Stuck, or want to show your work?</strong> Modders hang out on the Discord.</p>
+              <a class="button" href="#discord" data-discord>Join Discord ↗</a>
+            </div>
+          </div>
+          <aside class="doc-toc" aria-label="On this page">
+            <p>ON THIS PAGE</p>
+            <a href="#what-a-test-is">What a test is</a>
+            <a href="#your-first-test">Your first test</a>
+            <a href="#steps-and-checks">Steps and checks</a>
+            <a href="#touch-screens">Touch screens</a>
+            <a href="#options">Options</a>
+            <a href="#co-op-tests">Co-op tests</a>
+            <a href="#running-tests">Running tests</a>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+<footer>
+      <a class="brand" href="../index.html"
+        ><img
+          src="../assets/client-logo.png"
+          alt="BOZ Redux"
+          width="640"
+          height="260"
+          loading="lazy"
+      /></a>
+      <p>BOZ Redux</p>
+      <span>Not affiliated with Activision. Game files are not included.</span
+      ><a class="footer-discord" href="#discord" data-discord>Join Discord ↗</a
+      ><a href="https://github.com/ZappaVinny/boz-redux">Source ↗</a>
+    </footer>
+<dialog id="discord-dialog">
+      <button class="dialog-close" aria-label="Close dialog">×</button>
+      <h2>Discord</h2>
+      <p>
+        The Discord invite hasn’t been added yet. Check GitHub for project
+        updates.
+      </p>
+      <a
+        class="button"
+        href="https://github.com/ZappaVinny/boz-redux"
+        target="_blank"
+        rel="noopener"
+        >Visit the project ↗</a
+      >
+    </dialog>
+  </body>
+</html>

@@ -73,6 +73,10 @@ done
 Each prints `BOZ_..._OK`. CI (`.github/workflows/test.yml`) runs the Python and Lua tests, a lint
 pass and the generated-file check below.
 
+CI has no game files, so changes to the Lua API or game behaviour also need the in-game tests,
+run locally before you commit: `bozkit test mods/developer --client <your client>` and the tests of
+any map you changed ([Testing your mod](testing.md)).
+
 ### Generated files
 
 These files are generated; change their sources and run the generator, never edit them by hand.
@@ -276,6 +280,15 @@ Pull before you start and apply the database first, so you export on top of ever
 - Coverage per subsystem is the `[coverage]` table in the database; update it by hand when a
   subsystem's mapping moves forward.
 
+#### Game memory offsets in the standard library
+
+The standard library never writes a raw offset like `+ 0xa8`. It asks for a field by name:
+`core.offset("CLevelManager", "player")`, and `core.size("Struct")` for a struct's size. The name
+comes from the game definition: a struct in `gamedef/symbols` (`[[struct]]` entries, made in
+Ghidra's `/BOZ` category) or a reflected field. To add one, name the field in Ghidra, export it,
+then use the name. `tools/bozkit/tests/test_stdlib_offsets.py` fails when a raw offset appears, and
+an unknown name is an error the moment the module loads, so a typo can't slip through.
+
 ## Roadmap
 
 The SDK is becoming a Lua-first development suite for Zombies: a shared compiler, desktop project
@@ -287,31 +300,29 @@ modding is not part of this work.
 What modders can't do yet and we want them to, most important first. Each item is open to anyone
 who wants to pick it up.
 
-1. **Scripts in co-op.** Scripts see only the local player, and each game runs its own, so a hidden
-   wall can differ between players. Teleporting moves only the local player too. Start with a real
-   co-op test of a scripted map, then give scripts every player and a way to keep games in step.
-2. **Moving and turning objects.** `set_position` and `set_rotation` on objects, with prefabs moving
-   as one. Use points need testing, because the game files fixed ones in a grid.
-3. **Scripts reach every object.** Remove **Scripts can switch it**, without making large maps
-   heavier.
-4. **Ending a match.** A win condition for scripts.
-5. **Spawning prefabs during play.** Placing your own prefabs from a script, not only the game's
+1. **Spawning prefabs during play.** Placing your own prefabs from a script, not only the game's
    entities.
-6. **More game prefabs.** Turrets first, then rides: landers, the zipline and the flinger.
-7. **George on any map.** Needs the level traits primitive in the client.
-8. **Luring zombies.** Making zombies go to an object, like a monkey bomb does.
-9. **Custom HUD.** The **UI / HUD** tab: HUD elements in the game's own style, with icons for custom
+2. **More game prefabs.** Turrets first, then rides: landers, the zipline and the flinger.
+3. **George on any map.** Needs the level traits primitive in the client.
+4. **Custom HUD.** The **UI / HUD** tab: HUD elements in the game's own style, with icons for custom
    perks and power-ups.
-10. **Custom characters.** Player arms, characters and zombie models, with skeleton mapping.
-11. **Animated map objects.** Animating models in the game's format, as weapons already can.
-12. **Editing effects.** Changing the game's particle effects, and making new ones.
-13. **Faster iteration.** Reloading scripts in the running game, and `boz.*` completions in the
-    editor's script window.
-14. **Lighting and music.** Baked lightmaps, and replacing the game's music.
+5. **Custom characters.** Player arms, characters and zombie models, with skeleton mapping.
+6. **Animated map objects.** Scripts can already play an animated object's states
+   (`play_animation`); next is making new animations for them in the editor, as weapons can.
+7. **Own weapon models at the right size.** The game draws a weapon's own model bigger than the
+   editor shows it; the editor and the build need to agree on the model's units.
+8. **Faster iteration.** Reloading scripts in the running game, and `boz.*` completions in the
+   editor's script window (other editors have them through `.luarc.json`).
+9. **Lighting and music.** Baked lightmaps, and replacing the game's music.
 
 Done: zones, sectors and teleporting ([Zones](how-a-map-works.md#zones),
 [Sectors](how-a-map-works.md#sectors), [Teleporter](game-prefabs.md#teleporter)), and setting
-which way a player faces after a teleport.
+which way a player faces after a teleport. Then, for client 0.4.0:
+[scripts in co-op](coop-scripting.md), [moving and turning objects](prefabs.md#moving-and-turning),
+scripts reaching every object they name, [ending a match](prefabs.md#winning-the-match),
+[luring zombies](editor.md#lure-points), [your own effects and
+projectiles](weapons-and-assets.md#effects-and-projectiles), weapon animation layers and extra
+clips, [tests](testing.md), and `boz.*` completions in VS Code.
 
 ### Architecture boundary
 
@@ -323,3 +334,15 @@ which way a player faces after a teleport.
 
 A missing feature moves downward only when it is reusable: mod behavior becomes a standard-library
 API when many mods need it; client code is added only for universal runtime infrastructure.
+
+### Changing the API
+
+Mods depend on the client's Lua API and the standard library, so neither breaks them (see
+[Keeping mods working](sdk-reference.md#keeping-mods-working)):
+
+- **Adding** a function or module to the client: bump `BOZ_LUA_API` (`include/boz_api.h`) and
+  document it under [Client Lua API](script-mods.md#client-lua-api).
+- **Changing** something public in `boz.*`: keep the old name working, make it log one line
+  saying what replaces it, and remove it no sooner than the next minor version.
+- **Releasing** the standard library: set `VERSION` (and `CLIENT_API` when it needs a newer client)
+  in `lib/boz/version.lua`. The SDK writes both into every mod it builds.

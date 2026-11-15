@@ -84,7 +84,7 @@ The **World** tab is where you build the level.
 | --- | --- |
 | **Game prefabs** | Machines (perks, Pack-a-Punch, mystery box, power switch), Buying (wall buys), Doors (including **Debris**), Barricades (including **Window**), Defence (traps, trap switch), Teleporting (**Teleporter**, **Wormhole**) |
 | **Level markers** | Spawns, Jump points, Sound |
-| **Volumes** | Trigger, Hit, Use, and the map's [Zone](how-a-map-works.md#zones), [Sector](how-a-map-works.md#sectors) and Portal |
+| **Volumes** | Trigger, Hit, Use, [Lure point](#lure-points), and the map's [Zone](how-a-map-works.md#zones), [Sector](how-a-map-works.md#sectors) and Portal |
 | **Models**, **Textures** | Everything from every map |
 | **My prefabs**, **My assets** | Your own |
 
@@ -109,13 +109,15 @@ Every model and prefab has this box. The ideas are in
 | Control | What it does |
 | --- | --- |
 | **Visible** | The master switch. Off: it starts hidden, and stops and blocks nothing. |
-| **Scripts can switch it** | Lets scripts change it during play. Always on for an object with a script. |
 | **Walking** (models) | **Walk on it**, **Blocks** or **Walk through** |
 | **Blocks walking** (game prefabs) | On: nobody can walk through it |
 | **Stops bullets** | Shots hit it, or pass through |
 | **Shape** | **Box** uses the model's bounds, **Mesh** its triangles |
 
 Barricades don't stop bullets by default, and a trap always does (that's its kill volume).
+
+A line under the switches says whether scripts can change the object during play: always when it
+has a script, and whenever a script names it ([How a map works](how-a-map-works.md#what-an-object-does-in-the-game)).
 
 ### The Settings box
 
@@ -197,6 +199,26 @@ wall or can't reach a room. Turn on **Show → Walkable**:
 It needs the navmesh helper ([Installation](getting-started.md#the-navmesh-helper)). How it works
 inside is in [Map internals](map-internals.md#navigation-meshes).
 
+### Lure points
+
+A **Lure point** is a volume zombies walk to while a script runs it, the way a monkey bomb pulls
+them. Its settings are what `start()` does when the script gives no options:
+
+| Setting | What it does |
+| --- | --- |
+| **Zombies** | How many it pulls, the nearest first (0: all). |
+| **Reach (cm)** | Only zombies this close come (0: any distance). |
+| **When they get there** | **Gather and wait**, or **Attack it** (scripts hear `hit` each time). |
+| **Seconds** | How long it pulls once started (0: until a script stops it). |
+| **Switched on** | Off: `start()` does nothing until a script switches it on. |
+
+```lua
+boz.get("Bait"):start()
+```
+
+Only walking zombies come (not hellhounds, monkeys or George), and they stop about 4.5 m away.
+See the [lure recipe](prefabs.md#a-lure) and [Lure events](events.md#object-events).
+
 ### Remixing a shipped map
 
 Maps made from **Kino der Toten**, **Call of the Dead**, **Ascension** or the **Tutorial** start as
@@ -206,10 +228,13 @@ and **Put back as the level has it** undoes the changes to an object. The rooms 
 
 ## Game rules
 
-The **Game** tab sets a map's rules: its name and loading screen, its rounds, the special rounds,
-which zombie looks spawn, the points and power-ups. Until
-you change a section, the map uses its base level's own rules (shown in the tab); the first change
-makes them the map's own (`source/game.json`).
+The **Game** tab sets a map's rules, in the order a player meets them: **Level**, **Rounds**,
+**Special rounds**, **Zombies**, **Points**, **Power-ups** and **Mystery box**.
+
+Every value starts as the base map's own, shown greyed. Change one and it's highlighted, with its
+own reset button next to it to go back to the base map's. Only what you change is saved
+(`source/game.json`). Problems, such as a speed mix that doesn't add up, show under the section
+and in the Problems panel as you type.
 
 ### Level info
 
@@ -217,9 +242,12 @@ makes them the map's own (`source/game.json`).
 - **Loading screen:** a picture (PNG or JPG) shown while the map loads. It fills the screen at 4:3
   (1024 x 768); the "Loading" text and the tips are drawn over it. Pure magenta (255, 0, 255) shows
   as black.
+- **Map picture:** the picture on your map's card on the launcher's **PLAY** screen. Choose a
+  file, or **Capture the 3D view** to take one from the editor. Without one, the card shows the
+  map's name.
 - **Starting weapon:** set in the Weapons tab (shown here).
 - **Power on at the start:** the power is on as soon as the map starts.
-- **Behaves like:** some of the game's code checks the map's name. Pick Kino, Ascension or Call of
+- **Special behaviour:** some of the game's code checks the map's name. Pick Kino, Ascension or Call of
   the Dead and the level manager's checks answer as that map: Kino's teleport start, Ascension's
   round effects, Call of the Dead's snow camera and start sound (the build brings what they
   play). Other code that compares names itself (Call of the Dead's zombies and Pack-a-Punch,
@@ -227,67 +255,79 @@ makes them the map's own (`source/game.json`).
 
 ### Rounds
 
-Each game has its own rounds: single player on easy, normal and hard, and co-op with 2, 3 or 4
-players. Pick one under **Game**, or tick **Same for all** to change every game at once (**Use these
-rounds in every game** copies the shown game's rounds to the rest).
+The game has six **modes**: single player on easy, normal and hard, and co-op with 2, 3 or 4
+players. The **Modes** table says which rounds each one plays:
 
-The list holds the rounds in order. Each round sets:
+| Column | What it does |
+| --- | --- |
+| **Rounds** | The base map's own rounds, or one of your round sets. |
+| **Zombies x** | How many zombies, times this. |
+| **Health x** | Their health, times this. |
 
-| Setting | What it does |
+So to make co-op harder, make a round set and pick it for the co-op rows, or just raise their
+**Zombies x**.
+
+A **round set** is a list of rounds. **New** makes one, as a copy of a mode's rounds (that mode then
+plays it) or of another set. The base map's own rounds can be looked at but not changed: make a
+round set to change them. **Played in** shows which modes use the set you're looking at.
+
+Each row of the table is a round:
+
+| Column | What it does |
 | --- | --- |
 | Zombies | how many zombies the round has |
 | Health | each zombie's health (an easy game halves it) |
 | At once | the most zombies alive at the same time |
-| Spawn at start | zombies that spawn as soon as the round starts |
-| Walkers, Fast walkers, Runners, Sprinters | the share of zombies at each speed (0-1) |
-| Spawn interval | milliseconds between spawns |
-| Break after | milliseconds from the round's end to the next round |
-| Start delay | milliseconds from the round's start to its first spawn |
-| Zombie type | what spawns (empty: the map's zombie) |
-| Powered zombies, type and health | extra zombies once the power is on (Kino's crawlers) |
-| Fog | the fog the round sets |
+| Spawn every s | seconds between spawns |
+| Break after s | seconds from the round's end to the next round |
+| Start delay s | seconds from the round's start to its first spawn |
 
-The last round can **repeat**: it plays again and again, each time growing by its multipliers
-(**Zombies x**, **At once x**, **Spawn interval x**, **Powered zombies x**) once the round number
-is past **Grows after round**. For example 25 zombies with Zombies x 1.1 from round 10 gives
-round 12 30 zombies (25 x 1.1 x 1.1).
+Under the table, the selected round's **Speed mix** (walkers, fast walkers, runners, sprinters)
+always adds up to 100%. **Advanced** holds powered zombies (extra zombies once the power is on,
+like Kino's crawlers), the zombie type and the fog.
 
-**Repeating health:** the game ignores a repeating round's health and uses 10 x round x round -
-150 (round 20: 3850). **Grows by the multiplier** uses the round's **Health** and **Health x**
-instead.
-
-The graph on the right shows zombies (orange) and health (blue) for rounds 1 to 40 of the shown
-game. **Back to the base level's rounds** forgets the map's own rounds.
+The last row is always **After that**: it plays again and again for every round past the list,
+growing each time by **Growth each round** (zombies, at once, spawn time). Its **Health** follows
+**The game's formula** (10 x round x round - 150; round 20 has 3850), times the mode's Health x, or
+**Grows x per round** from the row's own health. **Add a round** and **Remove the round** change the
+list; **After that** always stays last.
 
 ### Special rounds
 
-Dog rounds (and Ascension's space monkeys) come between normal rounds. Each is for one game
-(**For**). The game runs them in order: one plays **Times** times, then the next takes over. A
-special round comes after **At least** and at most **At most** normal rounds, with **Chance**
-percent each round in between. **Count by players** is how many spawn with 1, 2, 3 or 4 players.
-**Add a special round** makes a dog round to start from.
+Dog rounds (and Ascension's space monkeys) come between normal rounds. They belong to a round set,
+and every mode that plays the set gets them. The game runs them in order: one plays its number of
+times, then the next takes over. A special round comes after at least and at most a number of
+normal rounds, with a chance each round in between, and its zombie count depends on the number of
+players. **Add a special round** makes a dog round to start from; **Monkey round** is Ascension's
+(it needs that map's perk machines and lander).
 
-### Zombie types
+### Zombies
 
-A level has a few zombie looks (a skeleton and body part models). Zombies spawn with one of the
-ticked looks, picked at random.
+**Base zombie health**, **Zombies alive at most** (the limit for every round), and the zombie
+**Looks**: a level has a few looks (a skeleton and body models), and zombies spawn with one of the
+ticked ones, picked at random.
 
-### Pickups and economy
+### Points
 
-Tick a setting to change it on this map (other maps keep the game's values):
+**Points at start**, **Points lost when down** (share of points), **Self revive** cost and
+**Grenades per round**. **Points per action** sets the points for a hit, each kind of kill
+(headshot, body, limb, knife, grenade), a barricade board, Carpenter and the Nuke, and the
+barricade limit (at most this times the round number per round).
 
-- **Points at start**, **Points lost when down** (share of points), **Self revive** cost.
-- Power-up drops: **Points between drops**, **Kills between drops**, **Drop chance** (per kill once
-  a drop is due), **Drops per round**.
-- Power-up times: **Double points**, **Insta-kill**, **Fire sale**, **Death machine** (ms).
-- **Change the power-ups:** how likely each power-up is against the others (0: never).
-- **Change the points:** points for a hit, each kind of kill, a barricade board, Carpenter and the
-  Nuke, and the barricade limit (at most this x the round number per round).
-- **Change the mystery box:** its cost, the fire sale cost and how many weapons it shows when it
-  spins. A box given its own cost in the World tab keeps it.
-- Zombies alive at most, base zombie health, grenades per round.
+### Power-ups
+
+**Which one drops:** a slider for each power-up, with the share of all drops it gets next to it
+(0: never). **When they drop:** points and kills between drops, the drop chance per kill once a
+drop is due, and drops per round. **For how long:** double points, insta-kill, fire sale and the
+death machine.
+
+### Mystery box
+
+Its cost, the fire sale cost, and how many weapons it shows at least and at most when it spins. A
+box given its own cost in the World tab keeps it. The weapons it gives are the Weapons tab's box
+pool.
 
 ### Hook scripts
 
-Every event a script can follow, with **Create** and **Open**. See
-[How to catch one](events.md#how-to-catch-one).
+Hooks are in the **Scripts** tab's sidebar (**BOZ > Hooks**): every event a script can follow,
+with **Create** and **Open**. See [How to catch one](events.md#how-to-catch-one).

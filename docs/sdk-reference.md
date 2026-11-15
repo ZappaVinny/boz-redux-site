@@ -24,6 +24,7 @@ file bozkit does not understand are kept byte for byte.
 | `build` | Build a project into `build/<mod id>/` |
 | `install` | Build and install a project into a client: `--client path/to/boz-redux [--force]` |
 | `package` | Build a project into a reproducible ZIP |
+| `test` | Run mods' and projects' tests in the game: `bozkit test my-mod --client path/to/boz-redux` ([Testing your mod](testing.md)) |
 | **Game data** | |
 | `extract` | Extract a `.dz` pack or a `.group.bin` (with `dade`; the source is never deleted) |
 | `dump` | A group file as JSON (`--class CIsEntitySpec` limits it to one class) |
@@ -188,10 +189,17 @@ source/
   sounds/<name>.json         one of your sounds: its settings
   sounds/<name>/             source.wav (as imported) and game.wav (saved)
   sounds/slots.json          which game sounds you replaced
-  effects.json               the effects and projectiles the map names
-  game.json                  the map's rules
-assets/<name>/<file>         the original file a model was imported from (never shipped)
+  weapons/anims/<weapon>/extra.clips   the clips you added to a weapon
+  effects.json               the game's effects and projectiles the map names
+  fx.json                    your own effects and projectiles
+  fx/<file>.png              their pictures
+  game.json                  the map's rules: round sets, modes, and what you changed
+assets/<name>/<file>         the original file a model was imported from, with the files it
+                             links to (never shipped)
 scripts/                     Lua: main.lua, prefab scripts, weapon scripts, hooks
+scripts/effects/<name>.lua   an effect's script
+scripts/projectiles/<name>.lua   a projectile's script
+tests/<name>.lua             tests (Testing your mod)
 ```
 
 The other files are described with their tools: [Weapons](weapons-and-assets.md#weapon-project-files),
@@ -337,10 +345,23 @@ formats below changes, its version number goes up and these notes say what to do
 | Component | Current version | Notes |
 | --- | --- | --- |
 | Game | Android 1.0.11 (versionCode 1045111) | The only supported version. A mod's `game` must be `1.0.11`. |
-| Client | v0.3.1 or newer | SDK 0.2.0 needs it to load the standard library. Reads game definition schema 1, mod folders with `mod.toml`, and the `maps` list. |
+| Client | v0.4.0 or newer | Client Lua API 1 (`client.api`). Reads game definition schema 1, mod folders with `mod.toml`, the `maps` list and `[sdk]`. |
+| Standard library | 0.4.0 (`boz.VERSION`) | Written for client Lua API 1 (`boz.CLIENT_API`). Each mod carries its own copy; the SDK records both numbers in `mod.toml`. |
 | Game definition | Schema 1, target `boz-1.0.11` | `gamedef/gamedef.toml`; the client and the SDK check it before loading. |
-| Projects | Schema 2 (`boz-project.toml`) | Schema 1 projects still load and are saved as schema 2. |
+| Projects | Schema 3 (`boz-project.toml`) | Older projects still load; their rounds convert to round sets the first time the Game tab saves. |
 | Map worlds | Format 3 (`source/world.json`) | Older formats are refused. |
 | Lua | 5.4 | The client's [Lua API](script-mods.md#client-lua-api) and the [standard library](scripting.md). |
 | Editor | Blender 5.2 LTS | |
 | Python | 3.11 or newer | For `bozkit`, the SDK app and the symbol tools. |
+
+### Keeping mods working
+
+A mod built today keeps working on later clients and with later SDKs. The client's Lua API and
+the standard library only grow: nothing public is renamed or removed without warning. When
+something has to change, the old name keeps working for at least one more minor version and
+writes one line to `boz-log.txt` saying what replaces it. The game itself never changes (1.0.11
+is the only version), so this is the only way a mod can break.
+
+When a mod was built for another client API than the one running it, the launcher's **Mods** tab
+and `boz-log.txt` say it may not work. It still loads; rebuilding it with the current SDK clears
+the warning.

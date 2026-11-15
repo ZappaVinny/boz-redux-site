@@ -103,6 +103,29 @@ rate) and live ammo. Each weapon type (automatic, shotgun, launcher, Wonder Weap
 state machine: idle, firing, reloading. Weapon stats are data (`weapons_<map>.group.bin`),
 readable and editable with bozkit. `WeaponsUnlimitedAmmo` stops ammo use.
 
+A shot goes through `PlayerWeapon_Shoot`, which picks by the weapon's fire type: bullets
+(`PlayerWeapon_ShootBullets`) or a projectile (`PlayerWeapon_ShootProjectile`: it launches the
+weapon's `m_projectileName` at `m_projectileLaunchForce`, through
+`SUBJECT_WEAPON_SPAWN_PROJECTILE`). The Thundergun's type sends a shockwave too. BOZ Redux makes
+any weapon fire a projectile by hooking the bullets path and launching instead.
+
+### Effects and projectiles
+
+An effect is an entity whose `CIsRenderableGFXEmitter` names an emitter spec
+(`CIwGFXEmitterSpec`) and scales it. The emitter (`CIwGFXEmitter`) spawns particles on a timer, or
+along the path it moves (a trail), moves them, and draws each as a camera-facing sprite, a cross or
+a streak with its material's texture. A running emitter has per-instance overrides (scale,
+spawning, spawn rate), which is how scripts change an effect while it plays. Particle materials
+are ordinary `CIwMaterial`s: their alpha mode says glow (add) or solid (blend), and a flipbook
+material carries its frame grid in its trailer.
+
+A projectile is an entity with a `CProjectileEntity`: its spec, owner, launch and flight
+velocities, a physics body when it falls, and a lifetime. Its components say what happens on
+impact: `CExplosion` (impact effect, radius, inner radius, damage), `CRenderableTrail` (the
+ribbon: material, width, colour, fade) and `CSmokeTrail` (emitters along its path).
+`Projectile_Impact` sends `SUBJECT_EXPLODE`, plays the explosion sound and ends it. The emitter
+spec's layout is under [Asset formats](#effect-emitters-ciwgfxemitterspec).
+
 ### Perks, power-ups and the box
 
 - **Usable objects** (perk machines, the mystery box, Pack-a-Punch, doors, barricades, traps,
@@ -171,8 +194,14 @@ are separate connection objects. Per-round speeds come from the round definition
 
 ### Co-op
 
+BOZ Redux's shared scripts use the game's own networking: each Redux game registers a network
+subject of its own (`CIsNetworkSubject`, one fixed id) and sends its messages through
+`CIsNetworkSubject::Notify` to every peer in the match. A game without Redux has no subject with
+that id and drops them, so mixed matches stay safe.
+
 The game has local Wi-Fi co-op (discovery plus TCP), with the host running the match and the
-other players following it. Online play used Activision's servers, which BOZ Redux does not use.
+other players following it. Online play used Activision's servers; BOZ Redux keeps it off unless
+a mod points it at a server ([network module](script-mods.md#network-module)).
 
 The Wi-Fi lobby has a level (`g_lobbyLevel`, set by `FrontEnd_SetLobbyLevel`). It first searches
 for `MultiplayerLobbyTimeWifiMs` (20 s) and joins a room whose name starts with that level
@@ -761,6 +790,46 @@ bind pose; `bozkit/weapon_model.py` puts your own model on a weapon that way. A 
 flags are 0x30000 (rigid: 0x20000); a weapon's spec points at its model and skin (same hash) in
 renderableAsset, renderableAssetADS (aiming down the sights, on some guns) and LODS (three
 distance models).
+
+#### Animation state machines
+
+A `CIsASMAnimator` runs up to two state machine instances (`CIsAnimStateMachine`); the arms and
+the gun each have one. A state has a name hash, its animation, speed, length, whether it loops,
+and lists of events: transitions to other states on triggers, and timed callbacks the game's code
+listens for (a reload's "refill the magazine" moment, for example). `ASM_SetState` switches an
+instance to a state with a blend time, which is how `weapon:play` and `replace_animation` work;
+`ASM_FindState` finds one by name. An extra clip of yours is a new state appended to the machine,
+with the events of a one-shot state that returns to idle but none of its callbacks.
+
+### Effect emitters (CIwGFXEmitterSpec)
+
+An emitter spec's body is 35 little-endian words (`CIwGFXSpec::Serialise`, then
+`CIwGFXEmitterSpec::Serialise`). Times are 20.12 fixed-point milliseconds (4096 = 1 ms), velocities
+units per millisecond in 20.12, angles the engine's (4096 = a full turn); positions are plain
+units. A pair holds a minimum and a maximum, and each particle picks between them (a minimum
+above the maximum means "always the minimum").
+
+| Words | Field | Meaning |
+| --- | --- | --- |
+| 0 | space | World (turns with the effect), camera, or untransformed |
+| 1 | order | Draw order |
+| 2 | material | The particle material's name hash |
+| 3 | flags | Fade out, trail, face the camera, upright, prewarm |
+| 4 | shape | Sprite, cross or streak |
+| 5 | duration | How long it spawns (-1: as long as the effect lives) |
+| 6 | size x | Size multiplier |
+| 7-9, 10-12 | position, spread | Where particles start, and a random offset on each axis |
+| 13-15, 16-18 | velocity, spread | How they start moving |
+| 19-21 | gravity | Change of velocity over time |
+| 22-23 | life | How long each lives |
+| 24-25 | size | Size when made |
+| 26-27 | spin | Turning speed |
+| 28-29 | start angle | Starting rotation |
+| 30-31 | spawn every | Time between particles (with the trail flag: distance) |
+| 32 | growth | Size change over time |
+| 33-34 | frames | How the texture's frames step (emitter age, particle age, fixed time) and the frame time |
+
+`bozkit/gfx.py` decodes and encodes it; every shipped emitter spec round-trips byte for byte.
 
 ### Sounds (CIwSoundData, CIwSoundSpec, CSoundSequence)
 

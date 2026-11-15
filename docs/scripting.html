@@ -23,7 +23,7 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Scripting reference","description":"The functions you will use most, by topic. Prefabs shows how they fit together. This page is the lookup.","url":"https://boz-redux.com/docs/scripting.html","dateModified":"2026-11-08T23:14:25.155Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Scripting reference","item":"https://boz-redux.com/docs/scripting.html"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Scripting reference","description":"The functions you will use most, by topic. Prefabs shows how they fit together. This page is the lookup.","url":"https://boz-redux.com/docs/scripting.html","dateModified":"2026-11-15T03:44:28.285Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Scripting reference","item":"https://boz-redux.com/docs/scripting.html"}]}]}</script>
     <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="stylesheet" href="../styles.css" />
@@ -86,6 +86,7 @@
               <p class="docs-label">START HERE</p>
               <a href="index.html">Introduction</a>
               <a href="getting-started.html">Getting started</a>
+              <a href="android.html">Playing on Android</a>
 
               <a href="how-a-map-works.html">How a map works</a>
 
@@ -93,6 +94,7 @@
               <a href="prefabs.html">Prefabs</a>
               <a href="game-prefabs.html">Game prefabs</a>
               <a href="events.html">Events</a>
+              <a href="coop-scripting.html">Scripts in co-op</a>
 
               <p class="docs-label">SCRIPTING</p>
               <a href="scripting.html" class="current" aria-current="page">Scripting reference</a>
@@ -106,6 +108,7 @@
               <a href="console-reference.html">Console reference</a>
               <a href="game-events.html">Low-level events</a>
               <a href="sdk-reference.html">SDK reference</a>
+              <a href="testing.html">Testing your mod</a>
 
               <p class="docs-label">UNDER THE HOOD</p>
               <a href="map-internals.html">Map internals</a>
@@ -148,7 +151,7 @@ This page is the lookup.</p>
 </tr>
 <tr>
 <td><code>boz.players()</code></td>
-<td>Every player in the match</td>
+<td>Every player in the match, including the other players in co-op</td>
 </tr>
 <tr>
 <td><code>boz.on(name, fn)</code></td>
@@ -221,6 +224,22 @@ end
 <tr>
 <td><code>on(event, fn)</code>, <code>send(name, data)</code></td>
 <td>Events</td>
+</tr>
+<tr>
+<td><code>move_to(place, options)</code>, <code>move_by(offset, options)</code></td>
+<td>Moves it, at once or over <code>seconds</code> (<a href="prefabs.html#moving-and-turning">Moving and turning</a>)</td>
+</tr>
+<tr>
+<td><code>turn_to(degrees, options)</code>, <code>turn_by(degrees, options)</code></td>
+<td>Turns it about the vertical axis</td>
+</tr>
+<tr>
+<td><code>set_position(position)</code>, <code>set_rotation(degrees)</code>, <code>moving()</code>, <code>stop()</code></td>
+<td>Puts it somewhere at once; whether it glides; stops a glide</td>
+</tr>
+<tr>
+<td><code>play_animation(state)</code>, <code>bone_position(bone)</code></td>
+<td>An animated object: plays one of its animation states; where a bone is</td>
 </tr>
 </tbody></table></div>
 <p>Volumes add <code>type()</code>, <code>set_off_by()</code>, <code>once()</code>, <code>used()</code>, <code>prompt()</code>, <code>set_prompt(text)</code>, <code>cost()</code> and
@@ -298,6 +317,10 @@ end
 <td><code>message(text, seconds)</code></td>
 <td>A line of text on the screen</td>
 </tr>
+<tr>
+<td><code>is_local()</code></td>
+<td>True for you, false for another player in co-op</td>
+</tr>
 </tbody></table></div>
 <pre><code class="language-lua">local player = boz.player()
 if player:spend(1000) then
@@ -320,6 +343,10 @@ end
 <tr>
 <td><code>boz.spawn_zombie(spec, position, options)</code></td>
 <td>Spawns one. <code>spec</code> is <code>&quot;zombie&quot;</code>, <code>&quot;zombie_dog&quot;</code>, ... Options: <code>health</code>, <code>speed</code>.</td>
+</tr>
+<tr>
+<td><code>boz.lure(place, options)</code></td>
+<td>Pulls zombies to a position or an object, like a monkey bomb. Options: <code>seconds</code> (0: until <code>stop()</code>), <code>zombies</code> (0: all, else the nearest that many), <code>radius</code> (cm), <code>arrive</code> (<code>&quot;wait&quot;</code> or <code>&quot;attack&quot;</code>). Returns the lure: <code>stop()</code>, <code>running()</code>, <code>zombies()</code>.</td>
 </tr>
 </tbody></table></div>
 <p>A zombie that just died stays in the list for a moment, with 0 health.</p>
@@ -411,7 +438,37 @@ end
 <td>Changes the running round, such as <code>&quot;m_ZombieHealth&quot;</code></td>
 </tr>
 </tbody></table></div>
-<p>To shape a map&#39;s rounds as a whole, use the <a href="editor.html#game-rules">Game tab</a>.</p>
+<p>| <code>boz.end_match(options)</code> | Ends the match with the game&#39;s game over and results. <code>{win = true}</code>: scripts hear <code>match_ended</code> with <code>win = true</code>. |</p>
+<p>To shape a map&#39;s rounds as a whole, use the <a href="editor.html#game-rules">Game tab</a>. <code>boz.rules</code> reads
+what it set:</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Call</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>boz.rules.mode()</code></td>
+<td>The mode being played: <code>&quot;easy&quot;</code>, <code>&quot;normal&quot;</code>, <code>&quot;hard&quot;</code>, <code>&quot;coop2&quot;</code>, <code>&quot;coop3&quot;</code> or <code>&quot;coop4&quot;</code></td>
+</tr>
+<tr>
+<td><code>boz.rules.mode_names()</code></td>
+<td>Every mode, in that order</td>
+</tr>
+<tr>
+<td><code>boz.rules.round_set(mode)</code></td>
+<td>The round set a mode plays (default: this one; <code>&quot;&quot;</code>: the base map&#39;s own)</td>
+</tr>
+<tr>
+<td><code>boz.rules.sets()</code></td>
+<td>The map&#39;s round set names</td>
+</tr>
+<tr>
+<td><code>boz.rules.modes()</code></td>
+<td>Each mode&#39;s <code>{set, zombies, health}</code> from the Modes table</td>
+</tr>
+</tbody></table></div>
 <h2 id="zones-and-sectors">Zones and sectors</h2>
 <p><code>boz.get</code> gives a <a href="how-a-map-works.html#zones">zone</a> by its zone name, as a <code>boz.Zone</code>:</p>
 <div class="table-scroll" tabindex="0"><table>
@@ -496,11 +553,49 @@ boz.audio.music_volume(0.5)
 </code></pre>
 <p>See <a href="weapons-and-assets.html#sounds">Sounds</a> for finding names and adding your own.</p>
 <h3 id="bozeffects">boz.effects</h3>
-<pre><code class="language-lua">boz.effects.spawn(&quot;impactRayGun&quot;, self:position(), {lifetime = 3})
+<p>Effects and projectiles, yours from the Effects tab or the game&#39;s.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Call</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>spawn(name, position, options)</code></td>
+<td>An effect. Options: <code>lifetime</code> (seconds), <code>rotation</code>. Returns it.</td>
+</tr>
+<tr>
+<td><code>projectile(name, position, options)</code></td>
+<td>A projectile, flying on its own (<code>trigger</code>, <code>lifetime</code>, <code>hidden</code>, <code>freeze</code>).</td>
+</tr>
+<tr>
+<td><code>explode(position, options)</code></td>
+<td>An explosion: <code>radius</code>, <code>inner</code>, <code>damage</code>, <code>min_damage</code>.</td>
+</tr>
+<tr>
+<td><code>attach(name, target, options)</code></td>
+<td>An effect that follows an object, an entity, or <code>&quot;weapon&quot;</code> (the gun in hand). Options: <code>bone</code> (e.g. <code>&quot;tag_flash&quot;</code>), <code>offset</code>, <code>lifetime</code>.</td>
+</tr>
+<tr>
+<td><code>detach(effect)</code></td>
+<td>Stops it following (it stays where it is).</td>
+</tr>
+<tr>
+<td><code>effect:set(settings)</code></td>
+<td>Changes it while it plays: <code>scale</code>, <code>rate = {min, max}</code>, <code>velocity</code>, <code>spread</code>, <code>position</code>, <code>duration</code>, <code>spawning</code>.</td>
+</tr>
+<tr>
+<td><code>effect:remove()</code>, <code>effect:alive()</code>, <code>effect:position()</code></td>
+<td>The effect itself</td>
+</tr>
+</tbody></table></div>
+<pre><code class="language-lua">boz.effects.spawn(&quot;frost&quot;, self:position(), {lifetime = 3})
+boz.effects.attach(&quot;frost&quot;, &quot;weapon&quot;, {bone = &quot;tag_flash&quot;})
 boz.effects.explode(self:position())
-boz.effects.projectile(&quot;gersch&quot;, self:position(), {trigger = &quot;open&quot;, lifetime = 6})
 </code></pre>
-<p>See <a href="weapons-and-assets.html#effects-and-projectiles">Effects and projectiles</a>.</p>
+<p>Your projectiles and effects can have scripts of their own (<code>boz.Projectile</code>, <code>boz.Effect</code>). See
+<a href="weapons-and-assets.html#effects-and-projectiles">Effects and projectiles</a>.</p>
 <h3 id="bozpickups">boz.pickups</h3>
 <pre><code class="language-lua">boz.pickups.spawn(&quot;max_ammo&quot;, self:position())    -- drops one
 boz.pickups.give(&quot;insta_kill&quot;)                    -- as if collected
@@ -549,6 +644,68 @@ boz.stats.unlock(&quot;BOGravity&quot;)
 boz.weapons.upgrade(&quot;mp40&quot;)
 boz.weapons.refill(&quot;mp40&quot;)
 </code></pre>
+<p><code>boz.weapons.current()</code> is the weapon in hand, with:</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Call</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>play(clip, blend)</code>, <code>stop_animation()</code></td>
+<td>Plays one of its animations, such as a clip you added in the Weapons tab</td>
+</tr>
+<tr>
+<td><code>projectile()</code>, <code>set_projectile(name)</code></td>
+<td>The projectile it fires</td>
+</tr>
+<tr>
+<td><code>entity()</code></td>
+<td>The gun model in hand (for <code>boz.effects.attach</code> and bones like <code>tag_flash</code>)</td>
+</tr>
+<tr>
+<td><code>set_ammo(clip, reserve)</code>, <code>set_fire_rate(rpm)</code>, <code>set_damage(head, torso, limbs)</code></td>
+<td>Its values while it&#39;s in hand</td>
+</tr>
+</tbody></table></div>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Call</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>boz.weapons.replace_animation(weapon, state, clip or fn)</code></td>
+<td>Plays another clip instead of one of the game&#39;s (a reload, for example).</td>
+</tr>
+<tr>
+<td><code>boz.weapons.set_fires_projectile(weapon, on)</code></td>
+<td>Every shot launches its projectile instead of bullets.</td>
+</tr>
+<tr>
+<td><code>boz.charge(weapon, options)</code></td>
+<td>A charged shot: hold fire to charge, release to fire. Options: <code>levels</code> (<code>{projectile, after, ammo}</code> each), <code>effect</code>, <code>bone</code>, <code>clip</code>, <code>sound</code>, <code>max</code>, and <code>on_start</code>, <code>on_level</code>, <code>on_fire</code>.</td>
+</tr>
+</tbody></table></div>
+<pre><code class="language-lua">boz.charge(&quot;ice_rifle&quot;, {
+    levels = {{projectile = &quot;ice_bolt&quot;}, {after = 1.2, projectile = &quot;ice_blast&quot;, ammo = 3}},
+    effect = &quot;frost&quot;, bone = &quot;tag_flash&quot;, clip = &quot;charge&quot;, max = 3,
+})
+</code></pre>
+<h3 id="bozanimation">boz.animation</h3>
+<p>Animated objects and characters: <code>play(entity, state, blend)</code>, <code>stop(entity)</code>, <code>state(entity)</code>,
+<code>view_model()</code> (the gun model in hand), <code>bone_position(entity, bone)</code>, and <code>on_play(fn)</code>, which
+can swap the state the game is about to play for another. Objects have <code>play_animation(state)</code> and
+<code>bone_position(bone)</code> too.</p>
+<h3 id="boznet">boz.net</h3>
+<p>Your own messages between the games in a co-op match: <code>boz.net.send</code>, <code>boz.net.on</code>,
+<code>boz.is_host()</code> and <code>boz[&quot;local&quot;](fn)</code>. See <a href="coop-scripting.html">Scripts in co-op</a>.</p>
+<h3 id="bozonline">boz.online</h3>
+<p>Where the game&#39;s <strong>Play Online</strong> goes: <code>set_server(host)</code> (call it while your mod starts; <code>&quot;&quot;</code> turns
+it off), <code>server()</code>, <code>check(host, fn)</code> and <code>connected()</code>. See the
+<a href="script-mods.html#network-module">network module</a>.</p>
 <h3 id="bozmap">boz.map</h3>
 <p>The level: <code>boz.map.set_time_scale(0.5)</code>, <code>boz.map.toggle_pause()</code>, <code>boz.map.playing()</code>.</p>
 <h3 id="bozfly-and-bozdeadops">boz.fly and boz.deadops</h3>
@@ -568,6 +725,9 @@ end
 
 local kills = Counter:new(10)
 </code></pre>
+<p>Your own effects and projectiles are classes too: a projectile&#39;s script extends
+<code>boz.Projectile</code>, an effect&#39;s extends <code>boz.Effect</code> (<a href="weapons-and-assets.html#scripts-for-effects-and-projectiles">Scripts for effects and
+projectiles</a>).</p>
 <h2 id="advanced">Advanced</h2>
 <p>Below all this is <code>boz.engine.*</code>: <code>require(&quot;boz.engine.reflect&quot;)</code> reaches every field of the
 game&#39;s data, <code>require(&quot;boz.engine.entities&quot;)</code> every entity, and
@@ -576,7 +736,7 @@ game&#39;s data, <code>require(&quot;boz.engine.entities&quot;)</code> every ent
 
             </article>
             <div class="doc-pagination" role="navigation" aria-label="Previous and next page">
-              <a class="doc-prev" href="events.html"><small>PREVIOUS</small><span>← Events</span></a>
+              <a class="doc-prev" href="coop-scripting.html"><small>PREVIOUS</small><span>← Scripts in co-op</span></a>
               <a class="doc-next" href="script-mods.html"><small>NEXT</small><span>Script mods →</span></a>
             </div>
             <div class="doc-discord">
@@ -604,6 +764,9 @@ game&#39;s data, <code>require(&quot;boz.engine.entities&quot;)</code> every ent
             <a href="#boztext" class="sub">boz.text</a>
             <a href="#bozstats" class="sub">boz.stats</a>
             <a href="#bozweapons" class="sub">boz.weapons</a>
+            <a href="#bozanimation" class="sub">boz.animation</a>
+            <a href="#boznet" class="sub">boz.net</a>
+            <a href="#bozonline" class="sub">boz.online</a>
             <a href="#bozmap" class="sub">boz.map</a>
             <a href="#bozfly-and-bozdeadops" class="sub">boz.fly and boz.deadops</a>
             <a href="#classes-of-your-own">Classes of your own</a>

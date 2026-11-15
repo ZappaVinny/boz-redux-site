@@ -20,6 +20,8 @@ The client is the program that runs the game on PC. It also loads mods.
    import them from a folder.
 4. Click **PLAY** once to check that the game runs.
 
+Playing on a phone? See [Playing on Android](android.md).
+
 The folder you unpacked is your **client folder**. It holds `mods/` (installed mods),
 `saves/`, `client.ini` (settings) and `boz-log.txt` (the log you will read when something goes
 wrong). The SDK asks for this folder the first time it starts.
@@ -28,7 +30,7 @@ wrong). The SDK asks for this folder the first time it starts.
 
 Download the SDK from the
 [SDK releases](https://github.com/ZappaVinny/boz-redux-sdk/releases/latest). It needs the client
-v0.3.1 or newer.
+v0.4.0 or newer.
 
 **Windows:** download `BOZ-Redux-SDK-<version>-windows.zip`, unzip it anywhere and run
 `boz-sdk.exe`. Nothing else is needed.
@@ -142,9 +144,10 @@ when things happen.** Everything else builds on this.
 
 ### 5. Play it from the client
 
-Your map is now a mod in the client. In the client's launcher, press **PLAY** and it's in the list.
-**PLAY SOLO** starts it. **CO-OP ROOM** joins a friend's room on the same map, or hosts one
-(everyone needs the map's mod).
+Your map is now a mod in the client. In the client's launcher, press **PLAY**: your map has a card
+there. **SOLO** starts it. **CO-OP** joins a friend's room on the same map, or hosts one
+(everyone needs the map's mod). Give it a picture for the card in the editor's
+[Level info](editor.md#level-info).
 
 ### Where next
 
@@ -182,7 +185,8 @@ with the line they happened on:
 [lua] hello: Hello from my first mod
 ```
 
-An error never crashes the game: the part that failed is switched off until you restart.
+An error never crashes the game: it's logged once, with the line it happened on, and the rest of
+your mod keeps running.
 
 More in [Script mods](script-mods.md).
 
@@ -215,6 +219,8 @@ The project list, with search and sorting. A **project** is the source of one mo
   starts the game straight into the map once the main menu is up.
 - **Open in Editor** (maps) opens the map in [the editor](editor.md), which has its
   own Build & Run with start options (unlimited health or points, starting points).
+- **Run tests** builds the project and runs its tests in the game, then opens the report. See
+  [Testing your mod](testing.md).
 - The game's log, filtered to your mod and to errors.
 
 ### Client

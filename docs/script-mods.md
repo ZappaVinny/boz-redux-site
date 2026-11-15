@@ -35,6 +35,10 @@ mods/<folder>/
 | `name`, `version`, `author`, `description` | Shown in the launcher. |
 | `game` | The game version the mod is made for (`1.0.11`). The launcher warns about others. |
 | `maps` | The levels the mod adds (`["my_arena"]`). The client's launcher offers each of them when you press **PLAY**, alone or as a co-op room. The SDK writes it for map projects. |
+| `preview` | A picture of the mod (PNG or JPEG) for the launcher's mod list, relative to the mod folder. |
+| `[[map]]` `id`, `title`, `description`, `picture` | A map's card on the launcher's **PLAY** screen (picture 16:9, relative to the mod folder). The SDK writes it from the map's [Level info](editor.md#level-info). |
+| `[network]` `connects` | The online servers the mod may point the game at (`["*"]`: any the player enters). See the [network module](#network-module). |
+| `[sdk]` `boz`, `client_api` | The standard library version and the [client API](#client-module) the mod was built for. The SDK writes them; when `client_api` differs from the client's, the launcher and `boz-log.txt` say the mod may not work. Optional for hand-made mods. |
 
 A mod that uses the standard library carries its own copy in `scripts/boz`. SDK projects add it
 for you; for a hand-made mod, copy the SDK's `lib/boz` folder there.
@@ -59,7 +63,8 @@ the same file, the later one wins.
 - Each mod has its own globals. `mod.id`, `mod.name`, `mod.dir` describe your mod.
 - `require("name")` loads `scripts/name.lua` from your mod, once.
 - **Errors** don't crash the game: they go to `boz-log.txt` as `[lua] <mod>: ...` with a traceback,
-  and the handler that failed is switched off. Fix the script and restart.
+  once each, and the handler that failed stays on. Fix the script and restart.
+- `events.on`, `events.off` and `input.bind` work inside coroutines too.
 
 Functions that only make sense in a match return `nil` or `false` outside one, so you can call them
 any time.
@@ -218,8 +223,8 @@ end})
 | `call:skip(value)` (before) | Return `value` at once; the function does not run |
 | `call:result()`, `call:set_result(v)` (after) | The return value |
 
-Several mods can hook the same function. A handler that raises an error is switched off and
-logged. Hooks only see the game's main thread (game logic, menus, drawing). See the
+Several mods can hook the same function. A handler that raises an error is logged and stays on,
+until it has failed 50 times. Hooks only see the game's main thread (game logic, menus, drawing). See the
 [Lua API](#client-lua-api) for all of it, and keep hook handlers short: some functions run many
 times per frame.
 
@@ -250,8 +255,8 @@ the standard lib.
 ### Sharing your mod
 
 `bozkit package` (or the SDK app) makes a ZIP of the mod with its copy of the standard library.
-Players unzip it into their client's `mods/` folder and tick it in the launcher. See
-[Projects and packaging](#share-a-mod).
+Players install it from the launcher's **MODS** tab with **Install a mod (.zip)...**, or drag it
+onto the launcher, on PC and Android. See [Projects and packaging](#share-a-mod).
 
 ## Projects and packaging
 
@@ -349,14 +354,23 @@ bozkit package my-mod
 ```
 
 This writes `build/<mod id>-<version>.zip`. Identical projects always give identical ZIPs: file
-order, times and paths are normalised. Players unzip it into their client's `mods/` folder and
-tick it in the launcher's **Mods** tab. A map mod then appears in the list **PLAY** opens.
+order, times and paths are normalised. Players install it from the launcher's **MODS** tab
+(**Install a mod (.zip)...**, or drag the file onto the launcher; a `.zip` dropped into `mods/` is
+offered too). Installing a newer version of a mod they have asks first and shows both versions. A
+map mod then has a card on the **PLAY** screen.
 
 Before you share:
 
 - bump `version` when you change the mod;
 - keep `game` set to the game version you tested with;
 - run `bozkit validate my-mod --profile distribution` and read its warnings (see below).
+
+### Completions in your editor
+
+Every project has a `.luarc.json` and the standard library's type descriptions, so editors with the
+Lua language server (VS Code with the Lua extension, for example) complete `boz.*` and the
+client's functions, and show their arguments. **Open folder** in the SDK app opens the project in
+VS Code when you have it.
 
 ### Dependencies
 
@@ -425,9 +439,28 @@ Available standard libraries: `string`, `table`, `math`, `utf8`, `coroutine`, an
 ### Script errors
 
 An error in `main.lua` stops that mod's setup and is written to `boz-log.txt` as
-`[lua] <mod>: <message>` with a traceback. An error inside an event handler switches that handler
-off (other handlers keep running) and is logged the same way. `print` and `log` also write to
+`[lua] <mod>: <message>` with a traceback. An error inside an event handler is logged the same way,
+once, and the handler stays on. `print` and `log` also write to
 `boz-log.txt` as `[lua] <mod>: ...`.
+
+### client module
+
+What runs the mod, read-only:
+
+| Field | Description |
+| --- | --- |
+| `client.version` | The client's version, such as `"0.4.0"`. |
+| `client.api` | The Lua API's number. It goes up by one whenever the client adds a module or a function; nothing is taken away. `1` is client 0.4.0. |
+| `client.arch` | `"x86"`, `"x64"` or `"arm64"` (a phone). |
+| `client.platform` | `"windows"`, `"linux"` or `"android"`. |
+| `client.touch` | `true` on a touch screen (phones): use it to give a window bigger buttons. |
+
+```lua
+local button_height = client.touch and 60 or 30
+if (client.api or 0) < 2 then log("this client has no ... yet") end
+```
+
+Clients before 0.4.0 have no `client` table.
 
 ### events module
 
@@ -549,7 +582,7 @@ after `##` is not shown, so `"Run##SetRound"` shows "Run" with its own identity.
 
 | Function | Returns | Description |
 | --- | --- | --- |
-| `ui.window(title, [opts], fn)` | open | A window. `opts`: `x`, `y`, `w`, `h` (first use), `closable` (adds a close button; returns false once it was pressed), `focus`, `no_title`, `no_resize`, `no_move`, `no_collapse`, `auto_size`, `no_background`, `no_inputs`, `no_scrollbar`. |
+| `ui.window(title, [opts], fn)` | open | A window. `opts`: `x`, `y`, `w`, `h` (first use), `closable` (adds a close button; returns false once it was pressed), `focus`, `no_title`, `no_resize`, `no_move`, `no_collapse`, `auto_size`, `no_background`, `no_inputs`, `no_scrollbar`, `clickable` (takes clicks and taps while nothing captures input: a button on the game's screen), `pivot_x`, `pivot_y` (0 to 1: that point of the window stays at `x`, `y` of a 1280 x 720 screen, so `1, 0` pins its top right corner there; works on phones). |
 | `ui.child(id, w, h, fn)` | | A scrolling area. `0` fills the space; negative values leave that much room. |
 | `ui.tab_bar(id, fn)` / `ui.tab(label, fn)` | / open | Tabs; `fn` runs for the selected tab. |
 | `ui.collapsing(label, fn, [open])` | open | A collapsible section; `open` sets its first state. |
@@ -571,6 +604,25 @@ after `##` is not shown, so `"Run##SetRound"` shows "Run" with its own identity.
 | `ui.scroll_to_bottom()`, `ui.at_bottom()` | / boolean | Scrolling inside the current window or child. |
 | `ui.scale()` | number | The overlay scale (window height / 720). |
 | `ui.wants_keyboard()` | boolean | True while a text box has focus. |
+
+### network module
+
+Where the game's **Play Online** connects. By default it's off. A mod can point it at a server
+running [cod-boz-online](https://github.com/Producdevity/cod-boz-online), the self-hosted Play
+Online backend. The mod must list the servers it may use in `mod.toml`:
+
+```toml
+[network]
+connects = ["*"]          # any server the player enters; or name them
+```
+
+| Function | Description |
+| --- | --- |
+| `network.server()` | The server Play Online uses now (`""`: off). |
+| `network.set_server(host)` | Points Play Online at `host` (a name or an address; `""` turns it off). Call it while your mod starts: the game signs in once per run. |
+| `network.check(host, [port], fn)` | Checks that a server answers, in the background: `fn(ok, message)` runs on a later frame. |
+
+Connecting to a server means trusting it: it sees the player's device ID and address.
 
 ### assets module
 

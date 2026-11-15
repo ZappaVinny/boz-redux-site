@@ -221,7 +221,7 @@ Each switch in the editor can be read and changed.
 
 A hidden object reads false for the last two, because it stops nothing. A prefab reads true if any
 of its parts does. These two are only reliable on objects a script can reach: ones with a script,
-or with **Scripts can switch it** on.
+or ones a script names.
 
 ### Its settings and links
 
@@ -607,12 +607,44 @@ doesn't break it.
 
 [What every object has](#what-every-object-has) lists the calls. A few things to know:
 
-An object only changes during play if a script can reach it. Objects with a script always can. For
-others, turn on **Scripts can switch it** in the **In the game** box. Without it the build bakes
-the object into the level, and `hide()` does nothing.
+An object only changes during play if a script can reach it. Objects with a script always can, and
+so can any object a script names: `boz.get("Name")`, a prefab's parts, a setting that holds its
+name, or a link to it. The build bakes everything else into the level, so big maps stay light.
+A name built from pieces (`"Light_" .. i`) works as long as the first part is written out.
 
 `set_blocks_walking` needs **Walking: Blocks** in the editor, because that is what reserves the
 gap in the walkable area.
+
+### Moving and turning
+
+Any object a script can reach can move. A prefab moves as one, with all its parts, and its
+collision and use prompts go with it.
+
+```lua
+local lift = boz.get("Lift")
+lift:move_by({x = 0, y = 300, z = 0}, {seconds = 4, done = function()
+    log("at the top")
+end})
+boz.get("Statue"):turn_by(90, {seconds = 2})
+```
+
+| Call | What it does |
+| --- | --- |
+| `move_to(position or object, options)` | Moves it there. |
+| `move_by({x, y, z}, options)` | Moves it by that much (centimetres; `y` is up). |
+| `turn_to(degrees, options)` | Turns it to face that way (about the vertical axis). |
+| `turn_by(degrees, options)` | Turns it by that much (positive turns left, seen from above). |
+| `set_position(position)`, `set_rotation(degrees)` | Puts it there at once. |
+| `moving()` | True while it glides. |
+| `stop()` | Stops a glide where it is. |
+
+Options: `seconds` (glide over that time; without it, it jumps), `rotation` (turn while moving),
+`ride` (players standing on it ride along; on by default), `done(object)` (called when it
+arrives).
+
+Players on a gliding object ride with it and can look around, then stand where it stops. The
+walkable area can't move: an object that blocks walking opens its gap once it leaves its start and
+closes it when it's back.
 
 ### Timers
 
@@ -892,10 +924,80 @@ return Pad
 `player:teleport` stands the player on the target, facing the way it faces, with the game's
 teleport flash. With `via` it stops there first and holds the player and their view still for `seconds` (2).
 
+### A moving platform
+
+A floor that carries players up to a ledge and back, every ten seconds.
+
+**Build:** a floor model with **Walking: Walk on it**, at the bottom. Group it into a prefab named
+`Platform` with this script.
+
+```lua
+local Platform = boz.Prefab:extend("Platform")
+
+function Platform:start()
+    local up = true
+    boz.every(10, function()
+        self:move_by({x = 0, y = up and 400 or -400, z = 0}, {seconds = 4})
+        up = not up
+    end)
+end
+
+return Platform
+```
+
+### A lure
+
+A button that pulls every zombie to a generator for 15 seconds, and counts the hits it takes.
+
+**Build:** a **Lure point** volume named `Bait` next to the generator, with **When they get there:
+Attack it**, and a prefab with a **Use** volume (*Cost* 1000, prompt *Ring the bell*).
+
+```lua
+local Bell = boz.Prefab:extend("Bell")
+
+function Bell:start()
+    self.hits = 0
+    boz.get("Bait"):on("hit", function(lure, zombie)
+        self.hits = self.hits + 1
+    end)
+end
+
+function Bell:on_use(player)
+    boz.get("Bait"):start({seconds = 15})
+    player:message("They're coming for the generator")
+end
+
+return Bell
+```
+
+`boz.lure(position or object, options)` does the same anywhere without a Lure point. Only walking
+zombies come, and they stop about 4.5 m away. See [Lure points](editor.md#lure-points).
+
+### Winning the match
+
+Ends the match with a win when the player reaches the exit.
+
+**Build:** a **Trigger** volume named `Exit` (set off by Players), in a prefab with this script.
+
+```lua
+local Exit = boz.Prefab:extend("Exit")
+
+function Exit:on_enter(who)
+    boz.end_match({win = true})
+end
+
+return Exit
+```
+
+The game shows its own game over and results; scripts hear `match_ended` with `win = true`, so
+you can show your own message first.
+
 ## When something goes wrong
 
 **Nothing happens at all.** Open the editor's **Log** area or `boz-log.txt` in the client folder.
-A script error shows there with its line, and it never crashes the game. Add `log("here")` to see
+A script error shows there with its line, once, and it never crashes the game: the rest of your
+scripts keep running. A call with a wrong argument (`give_points("lots")`) logs where it happened
+and does nothing. Add `log("here")` to see
 if a hook runs at all.
 
 | What you see | Why | Fix |
@@ -905,7 +1007,7 @@ if a hook runs at all.
 | A game prefab stopped working, or the log names `_handle` or `_piece` | The use wasn't handed back correctly | See [Handing it back to the game](game-prefabs.md#handing-it-back-to-the-game) |
 | `on_hit` never runs | The prefab has no **Hit** volume, the volume is too small, or a model in front of it takes the shot | Add or resize it. **Volumes** in the tool settings bar helps. |
 | `on_use` never runs | No **Use** volume, or the player can't afford its **Cost** | Check both |
-| `hide()` does nothing | The object has no script and **Scripts can switch it** is off | Turn it on |
+| `hide()` does nothing | No script names the object, so the build baked it | Name it in a script (`boz.get("Name")`) |
 | A new setting isn't in the panel | The panel wasn't reloaded | Press **Reload** in the Script box |
 | `who:message` errors in `on_enter` | A zombie set it off | Check `who.zombie` first, or set **Set off by** to Players |
 | `boz.get` gives something that does nothing | The name is wrong | Names are the ones in the outliner; parts are `Prefab.Part` |
