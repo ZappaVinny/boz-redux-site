@@ -23,7 +23,7 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Scripting reference","description":"The functions you will use most, by topic. Prefabs shows how they fit together. This page is the lookup.","url":"https://boz-redux.com/docs/scripting.html","dateModified":"2026-11-15T03:44:28.285Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Scripting reference","item":"https://boz-redux.com/docs/scripting.html"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Scripting reference","description":"The functions you will use most, by topic. Prefabs shows how they fit together. This page is the lookup.","url":"https://boz-redux.com/docs/scripting.html","dateModified":"2026-11-17T01:01:44.785Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Scripting reference","item":"https://boz-redux.com/docs/scripting.html"}]}]}</script>
     <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="stylesheet" href="../styles.css" />
@@ -703,8 +703,9 @@ can swap the state the game is about to play for another. Objects have <code>pla
 <p>Your own messages between the games in a co-op match: <code>boz.net.send</code>, <code>boz.net.on</code>,
 <code>boz.is_host()</code> and <code>boz[&quot;local&quot;](fn)</code>. See <a href="coop-scripting.html">Scripts in co-op</a>.</p>
 <h3 id="bozonline">boz.online</h3>
-<p>Where the game&#39;s <strong>Play Online</strong> goes: <code>set_server(host)</code> (call it while your mod starts; <code>&quot;&quot;</code> turns
-it off), <code>server()</code>, <code>check(host, fn)</code> and <code>connected()</code>. See the
+<p>Online play: <code>server()</code> (the server the player chose in the launcher, <code>&quot;&quot;</code> when it&#39;s off),
+<code>check(host, fn)</code> and <code>connected()</code>. Players choose the server in the launcher&#39;s
+<strong>Settings</strong> → <strong>Online</strong>; <code>set_server</code> no longer does anything. See the
 <a href="script-mods.html#network-module">network module</a>.</p>
 <h3 id="bozmap">boz.map</h3>
 <p>The level: <code>boz.map.set_time_scale(0.5)</code>, <code>boz.map.toggle_pause()</code>, <code>boz.map.playing()</code>.</p>

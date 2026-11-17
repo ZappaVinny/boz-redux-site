@@ -347,8 +347,9 @@ Your own messages between the games in a co-op match: `boz.net.send`, `boz.net.o
 
 ### boz.online
 
-Where the game's **Play Online** goes: `set_server(host)` (call it while your mod starts; `""` turns
-it off), `server()`, `check(host, fn)` and `connected()`. See the
+Online play: `server()` (the server the player chose in the launcher, `""` when it's off),
+`check(host, fn)` and `connected()`. Players choose the server in the launcher's
+**Settings** → **Online**; `set_server` no longer does anything. See the
 [network module](script-mods.md#network-module).
 
 ### boz.map

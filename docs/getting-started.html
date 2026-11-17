@@ -23,7 +23,7 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Getting started","description":"This page takes you from nothing to a playable map with your own scripted object. Install the tools, build a small room, play it, then make something in…","url":"https://boz-redux.com/docs/getting-started.html","dateModified":"2026-11-15T04:47:08.001Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Getting started","item":"https://boz-redux.com/docs/getting-started.html"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Getting started","description":"This page takes you from nothing to a playable map with your own scripted object. Install the tools, build a small room, play it, then make something in…","url":"https://boz-redux.com/docs/getting-started.html","dateModified":"2026-11-16T22:05:41.140Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Getting started","item":"https://boz-redux.com/docs/getting-started.html"}]}]}</script>
     <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="stylesheet" href="../styles.css" />
@@ -133,9 +133,14 @@ the editor&#39;s Blender.</p>
 <li>Start <code>boz-redux</code> (Linux) or <code>boz-redux.exe</code> (Windows).</li>
 <li>In the launcher&#39;s <strong>Game files</strong> tab, choose your own copy of the Android game (APK, version
 1.0.11) and click <strong>Install</strong>. Then click <strong>Download</strong> to fetch the game&#39;s data packs, or
-import them from a folder.</li>
+import them from a folder.
+Only version 1.0.11 works: with any other version the launcher says so and PLAY stays off.</li>
 <li>Click <strong>PLAY</strong> once to check that the game runs.</li>
 </ol>
+<p>The launcher&#39;s <strong>Settings</strong> tab has the rest: your name, the display and the <strong>Field of view</strong>
+(the game&#39;s own number; most maps use 50), mouse and keys, and <strong>Online</strong>. Play Online needs a
+server running <a href="https://github.com/Producdevity/cod-boz-online" target="_blank" rel="noopener">cod-boz-online</a>: add it by name
+or address under <strong>Online</strong>. The launcher checks that it&#39;s a BOZ server first.</p>
 <p>Playing on a phone? See <a href="android.html">Playing on Android</a>.</p>
 <p>The folder you unpacked is your <strong>client folder</strong>. It holds <code>mods/</code> (installed mods),
 <code>saves/</code>, <code>client.ini</code> (settings) and <code>boz-log.txt</code> (the log you will read when something goes

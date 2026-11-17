@@ -37,7 +37,7 @@ mods/<folder>/
 | `maps` | The levels the mod adds (`["my_arena"]`). The client's launcher offers each of them when you press **PLAY**, alone or as a co-op room. The SDK writes it for map projects. |
 | `preview` | A picture of the mod (PNG or JPEG) for the launcher's mod list, relative to the mod folder. |
 | `[[map]]` `id`, `title`, `description`, `picture` | A map's card on the launcher's **PLAY** screen (picture 16:9, relative to the mod folder). The SDK writes it from the map's [Level info](editor.md#level-info). |
-| `[network]` `connects` | The online servers the mod may point the game at (`["*"]`: any the player enters). See the [network module](#network-module). |
+| `[network]` `connects` | The online servers the mod may check (`["*"]`: any the player enters). See the [network module](#network-module). |
 | `[sdk]` `boz`, `client_api` | The standard library version and the [client API](#client-module) the mod was built for. The SDK writes them; when `client_api` differs from the client's, the launcher and `boz-log.txt` say the mod may not work. Optional for hand-made mods. |
 
 A mod that uses the standard library carries its own copy in `scripts/boz`. SDK projects add it
@@ -607,9 +607,10 @@ after `##` is not shown, so `"Run##SetRound"` shows "Run" with its own identity.
 
 ### network module
 
-Where the game's **Play Online** connects. By default it's off. A mod can point it at a server
-running [cod-boz-online](https://github.com/Producdevity/cod-boz-online), the self-hosted Play
-Online backend. The mod must list the servers it may use in `mod.toml`:
+Where the game's **Play Online** connects. Players choose it in the launcher's **Settings** →
+**Online** (a server running [cod-boz-online](https://github.com/Producdevity/cod-boz-online)); by
+default it's off. A mod can read the choice and check servers. To check servers, the mod must
+list them in `mod.toml`:
 
 ```toml
 [network]
@@ -619,7 +620,7 @@ connects = ["*"]          # any server the player enters; or name them
 | Function | Description |
 | --- | --- |
 | `network.server()` | The server Play Online uses now (`""`: off). |
-| `network.set_server(host)` | Points Play Online at `host` (a name or an address; `""` turns it off). Call it while your mod starts: the game signs in once per run. |
+| `network.set_server(host)` | Retired: does nothing since BOZ Redux 0.4.2. The launcher chooses the server. |
 | `network.check(host, [port], fn)` | Checks that a server answers, in the background: `fn(ok, message)` runs on a later frame. |
 
 Connecting to a server means trusting it: it sees the player's device ID and address.

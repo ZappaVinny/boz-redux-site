@@ -62,6 +62,24 @@ windows to suit a touch screen on their own.
 Phones and PCs play together. Everyone joins the same Wi-Fi, picks the same map and taps
 **CO-OP**. Every player needs the mod that adds the map.
 
+## Online
+
+**Play Online**, in the game's Multiplayer menu, needs a BOZ server: a server running
+[cod-boz-online](https://github.com/Producdevity/cod-boz-online). BOZ Redux has none of its own.
+
+1. In the launcher, open **SETTINGS** → **Online**.
+2. Type the server's name or IP address and tap **Add server**.
+3. The launcher checks that it really is a BOZ server before adding it. If it isn't, or nothing
+   answers, it says what's wrong.
+
+Everyone who plays together chooses the same server. **Off** keeps Wi-Fi co-op only.
+
+## Field of view
+
+**SETTINGS** → **Player & display** → **Field of view** widens or narrows the view. It uses
+the game's own number: most maps use 50. **Map's own** goes back to each map's view. Aiming down
+sights still zooms.
+
 ## Updates
 
 When a new version of BOZ Redux is out, a line at the top of the launcher says so. Tap **Update now**:
@@ -71,6 +89,9 @@ next start.
 
 ## If something goes wrong
 
+- **"This APK is not the 1.0.11 release".** BOZ Redux only runs version 1.0.11. Older
+  versions (such as 1.0.8.7) and changed copies would start, but mods and the Developer console
+  can't work with them, so PLAY stays off. Choose your original 1.0.11 APK instead.
 - **"App not installed" when updating.** The copy on your phone came from a different build
   (a test build, for example). Uninstall it, then install the new one. Uninstalling also removes
   its game files, so you'll do step 3 again.

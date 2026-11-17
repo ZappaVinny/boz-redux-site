@@ -18,7 +18,13 @@ The client is the program that runs the game on PC. It also loads mods.
 3. In the launcher's **Game files** tab, choose your own copy of the Android game (APK, version
    1.0.11) and click **Install**. Then click **Download** to fetch the game's data packs, or
    import them from a folder.
+   Only version 1.0.11 works: with any other version the launcher says so and PLAY stays off.
 4. Click **PLAY** once to check that the game runs.
+
+The launcher's **Settings** tab has the rest: your name, the display and the **Field of view**
+(the game's own number; most maps use 50), mouse and keys, and **Online**. Play Online needs a
+server running [cod-boz-online](https://github.com/Producdevity/cod-boz-online): add it by name
+or address under **Online**. The launcher checks that it's a BOZ server first.
 
 Playing on a phone? See [Playing on Android](android.md).
 
