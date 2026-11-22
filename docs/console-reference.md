@@ -1194,3 +1194,87 @@ Available: unknown owner.
 | `TapOffset3GS` | int | `50` |  |  |  |
 | `TapOffsetIpad` | int | `50` |  |  |  |
 | `TimerSync` | int | `10000` |  |  |  |
+
+## Weapon names
+
+The names to type into the Developer mod's weapon **Give** box, and into variables
+that take a weapon (`PlayerStartWeapon`). Case does not matter (`MP40` = `mp40`).
+A weapon can only be given on a map that has it (the **Maps** column; the Tutorial
+uses Kino's). The game keeps no name for some Pack-a-Punched weapons: type their
+number (`0xfd9f3745`) instead. **Upgrade** is what Pack-a-Punch turns it into.
+
+| Name | Kind | Maps | Upgrade | Notes |
+| --- | --- | --- | --- | --- |
+| `Afterburner` | Automatic | All |  |  |
+| `ak74u` | Automatic | All | `ak74u2` |  |
+| `ak74u2` | Automatic | All |  |  |
+| `Aug` | Automatic | All | `aug50m3` |  |
+| `aug50m3` | Automatic | All |  |  |
+| `bh_bomb` | Gersch device | Ascension |  |  |
+| `calamity` | Automatic | All |  |  |
+| `chinabeach` | Launcher | All |  |  |
+| `chinaLake` | Launcher | All | `chinabeach` |  |
+| `claymore` | Claymore | All |  |  |
+| `Cobra` | Single shot | All |  |  |
+| `colt45` | Single shot | All | `0xb03d9bd6` |  |
+| `colt45_laststand` | Single shot | All | `0xb03d9bd6` | The pistol the game gives while you are down (last stand). |
+| `commando` | Automatic | All | `predator` |  |
+| `cz72` | Single shot | All | `calamity` |  |
+| `EpC` | Burst | All |  |  |
+| `EQX` | Automatic | All |  |  |
+| `famas` | Automatic | All | `EQX` |  |
+| `fn_fal` | Single shot | All | `EpC` |  |
+| `frag_grenade` | Grenade | All |  |  |
+| `G11` | Burst | All | `G115` |  |
+| `G115` | Automatic | All |  |  |
+| `galil` | Automatic | All | `lamentation` |  |
+| `H115` | Automatic | All |  |  |
+| `hades` | Shotgun | All |  |  |
+| `hk21` | Automatic | All | `H115` |  |
+| `hs10` | Shotgun | All | `0x9a4ec79e` |  |
+| `humangun` | V-R11 | Call of the Dead | `lazarus` |  |
+| `knife` | Melee | All |  | The melee knife every player has. |
+| `knife_bowie` | Melee | Kino der Toten |  |  |
+| `knife_sickle` | Melee | Call of the Dead, Ascension |  |  |
+| `Kollider` | Automatic | All |  |  |
+| `KQV` | Single shot | All | `Mnesia` |  |
+| `KQX` | Burst | All | `skullcrusher` |  |
+| `lamentation` | Automatic | All |  |  |
+| `lazarus` | V-R11 | Call of the Dead |  |  |
+| `m_sally_laststand` | Launcher | All |  | The pistol the game gives while you are down (last stand). |
+| `matryoshka_doll` | Matryoshka doll | Call of the Dead, Ascension |  |  |
+| `minigun` | Death Machine | Call of the Dead, Ascension |  |  |
+| `Mnesia` | Single shot | All |  |  |
+| `monkeyBomb` | Monkey bomb | Kino der Toten |  |  |
+| `mp40` | Automatic | All | `Afterburner` |  |
+| `mp5k` | Automatic | All | `Kollider` |  |
+| `Mpl` | Automatic | All | `0x0e48e51f` |  |
+| `olympia` | Shotgun | All | `hades` |  |
+| `perkColaBlue` | Melee | All |  | The perk machine's drinking animation, not a weapon to give. |
+| `perkColaGreen` | Melee | All |  | The perk machine's drinking animation, not a weapon to give. |
+| `perkColaRed` | Melee | All |  | The perk machine's drinking animation, not a weapon to give. |
+| `perkColaYellow` | Melee | All |  | The perk machine's drinking animation, not a weapon to give. |
+| `phantom` | Automatic | All |  |  |
+| `pm63` | Automatic | All | `TR` |  |
+| `predator` | Automatic | All |  |  |
+| `python` | Revolver | All | `Cobra` |  |
+| `R115` | Automatic | All |  |  |
+| `Raid` | Shotgun | All |  |  |
+| `raygun` | Launcher | All | `0xfd9f3745` |  |
+| `RPK` | Automatic | All | `R115` |  |
+| `SEMTEX` | Special grenade | Call of the Dead |  |  |
+| `skullcrusher` | Automatic | All |  |  |
+| `spas12` | Shotgun | All | `0x1c421e22` |  |
+| `spectre` | Automatic | All | `phantom` |  |
+| `stakeout` | Shotgun | All | `Raid` |  |
+| `thundergun` | Thundergun | All | `0x94576769` |  |
+| `TR` | Automatic | All |  |  |
+| `Wunderwaffe` | Wunderwaffe | Call of the Dead |  |  |
+| `0x0e48e51f` | Automatic | All |  | Pack-a-Punched `Mpl`: the game keeps no name for it, so type the number. |
+| `0x1c421e22` | Automatic shotgun | All |  | Pack-a-Punched `spas12`: the game keeps no name for it, so type the number. |
+| `0x5886878d` | Launcher | All |  | Unnamed in the game files and no weapon upgrades to it; what it is is unknown. |
+| `0x8d78eee1` | Shotgun | All |  | Unnamed in the game files and no weapon upgrades to it; what it is is unknown. |
+| `0x94576769` | Thundergun | All |  | Pack-a-Punched `thundergun`: the game keeps no name for it, so type the number. |
+| `0x9a4ec79e` | Shotgun | All |  | Pack-a-Punched `hs10`: the game keeps no name for it, so type the number. |
+| `0xb03d9bd6` | Launcher | All |  | Pack-a-Punched `colt45` (also the last-stand pistol): the game keeps no name for it, so type the number. |
+| `0xfd9f3745` | Launcher | All |  | Pack-a-Punched `raygun`: the game keeps no name for it, so type the number. |

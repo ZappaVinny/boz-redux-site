@@ -23,7 +23,7 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="BOZ Redux: Black Ops Zombies Mobile on PC" />
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Console reference","description":"Every console variable (cvar) and developer command in Call of Duty: Black Ops Zombies 1.0.11. Variables are the game's settings and cheats (WalkSpeed,…","url":"https://boz-redux.com/docs/console-reference.html","dateModified":"2026-11-04T22:50:59-06:00","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Console reference","item":"https://boz-redux.com/docs/console-reference.html"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","headline":"Console reference","description":"Every console variable (cvar) and developer command in Call of Duty: Black Ops Zombies 1.0.11. Variables are the game's settings and cheats (WalkSpeed,…","url":"https://boz-redux.com/docs/console-reference.html","dateModified":"2026-11-22T08:17:24.880Z","inLanguage":"en","image":"https://boz-redux.com/assets/og-image.png","isPartOf":{"@type":"WebSite","@id":"https://boz-redux.com/#website","name":"BOZ Redux","url":"https://boz-redux.com/"},"publisher":{"@type":"Organization","name":"BOZ Redux","url":"https://boz-redux.com/"},"about":{"@type":"SoftwareApplication","name":"BOZ Redux SDK"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"https://boz-redux.com/docs/"},{"@type":"ListItem","position":2,"name":"Console reference","item":"https://boz-redux.com/docs/console-reference.html"}]}]}</script>
     <link rel="preload" href="../assets/fonts/BarlowCondensed-Bold.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="../assets/fonts/Barlow-Regular.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="stylesheet" href="../styles.css" />
@@ -7045,6 +7045,534 @@ them fails until something registers them.</p>
 <td></td>
 </tr>
 </tbody></table></div>
+<h2 id="weapon-names">Weapon names</h2>
+<p>The names to type into the Developer mod&#39;s weapon <strong>Give</strong> box, and into variables
+that take a weapon (<code>PlayerStartWeapon</code>). Case does not matter (<code>MP40</code> = <code>mp40</code>).
+A weapon can only be given on a map that has it (the <strong>Maps</strong> column; the Tutorial
+uses Kino&#39;s). The game keeps no name for some Pack-a-Punched weapons: type their
+number (<code>0xfd9f3745</code>) instead. <strong>Upgrade</strong> is what Pack-a-Punch turns it into.</p>
+<div class="table-scroll" tabindex="0"><table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Kind</th>
+<th>Maps</th>
+<th>Upgrade</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Afterburner</code></td>
+<td>Automatic</td>
+<td>All</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>ak74u</code></td>
+<td>Automatic</td>
+<td>All</td>
+<td><code>ak74u2</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>ak74u2</code></td>
+<td>Automatic</td>
+<td>All</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>Aug</code></td>
+<td>Automatic</td>
+<td>All</td>
+<td><code>aug50m3</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>aug50m3</code></td>
+<td>Automatic</td>
+<td>All</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>bh_bomb</code></td>
+<td>Gersch device</td>
+<td>Ascension</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>calamity</code></td>
+<td>Automatic</td>
+<td>All</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>chinabeach</code></td>
+<td>Launcher</td>
+<td>All</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>chinaLake</code></td>
+<td>Launcher</td>
+<td>All</td>
+<td><code>chinabeach</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>claymore</code></td>
+<td>Claymore</td>
+<td>All</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>Cobra</code></td>
+<td>Single shot</td>
+<td>All</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>colt45</code></td>
+<td>Single shot</td>
+<td>All</td>
+<td><code>0xb03d9bd6</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>colt45_laststand</code></td>
+<td>Single shot</td>
+<td>All</td>
+<td><code>0xb03d9bd6</code></td>
+<td>The pistol the game gives while you are down (last stand).</td>
+</tr>
+<tr>
+<td><code>commando</code></td>
+<td>Automatic</td>
+<td>All</td>
+<td><code>predator</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>cz72</code></td>
+<td>Single shot</td>
+<td>All</td>
+<td><code>calamity</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>EpC</code></td>
+<td>Burst</td>
+<td>All</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>EQX</code></td>
+<td>Automatic</td>
+<td>All</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>famas</code></td>
+<td>Automatic</td>
+<td>All</td>
+<td><code>EQX</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>fn_fal</code></td>
+<td>Single shot</td>
+<td>All</td>
+<td><code>EpC</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>frag_grenade</code></td>
+<td>Grenade</td>
+<td>All</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>G11</code></td>
+<td>Burst</td>
+<td>All</td>
+<td><code>G115</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>G115</code></td>
+<td>Automatic</td>
+<td>All</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>galil</code></td>
+<td>Automatic</td>
+<td>All</td>
+<td><code>lamentation</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>H115</code></td>
+<td>Automatic</td>
+<td>All</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>hades</code></td>
+<td>Shotgun</td>
+<td>All</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>hk21</code></td>
+<td>Automatic</td>
+<td>All</td>
+<td><code>H115</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>hs10</code></td>
+<td>Shotgun</td>
+<td>All</td>
+<td><code>0x9a4ec79e</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>humangun</code></td>
+<td>V-R11</td>
+<td>Call of the Dead</td>
+<td><code>lazarus</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>knife</code></td>
+<td>Melee</td>
+<td>All</td>
+<td></td>
+<td>The melee knife every player has.</td>
+</tr>
+<tr>
+<td><code>knife_bowie</code></td>
+<td>Melee</td>
+<td>Kino der Toten</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>knife_sickle</code></td>
+<td>Melee</td>
+<td>Call of the Dead, Ascension</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>Kollider</code></td>
+<td>Automatic</td>
+<td>All</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>KQV</code></td>
+<td>Single shot</td>
+<td>All</td>
+<td><code>Mnesia</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>KQX</code></td>
+<td>Burst</td>
+<td>All</td>
+<td><code>skullcrusher</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>lamentation</code></td>
+<td>Automatic</td>
+<td>All</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>lazarus</code></td>
+<td>V-R11</td>
+<td>Call of the Dead</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>m_sally_laststand</code></td>
+<td>Launcher</td>
+<td>All</td>
+<td></td>
+<td>The pistol the game gives while you are down (last stand).</td>
+</tr>
+<tr>
+<td><code>matryoshka_doll</code></td>
+<td>Matryoshka doll</td>
+<td>Call of the Dead, Ascension</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>minigun</code></td>
+<td>Death Machine</td>
+<td>Call of the Dead, Ascension</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>Mnesia</code></td>
+<td>Single shot</td>
+<td>All</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>monkeyBomb</code></td>
+<td>Monkey bomb</td>
+<td>Kino der Toten</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>mp40</code></td>
+<td>Automatic</td>
+<td>All</td>
+<td><code>Afterburner</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>mp5k</code></td>
+<td>Automatic</td>
+<td>All</td>
+<td><code>Kollider</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>Mpl</code></td>
+<td>Automatic</td>
+<td>All</td>
+<td><code>0x0e48e51f</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>olympia</code></td>
+<td>Shotgun</td>
+<td>All</td>
+<td><code>hades</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>perkColaBlue</code></td>
+<td>Melee</td>
+<td>All</td>
+<td></td>
+<td>The perk machine&#39;s drinking animation, not a weapon to give.</td>
+</tr>
+<tr>
+<td><code>perkColaGreen</code></td>
+<td>Melee</td>
+<td>All</td>
+<td></td>
+<td>The perk machine&#39;s drinking animation, not a weapon to give.</td>
+</tr>
+<tr>
+<td><code>perkColaRed</code></td>
+<td>Melee</td>
+<td>All</td>
+<td></td>
+<td>The perk machine&#39;s drinking animation, not a weapon to give.</td>
+</tr>
+<tr>
+<td><code>perkColaYellow</code></td>
+<td>Melee</td>
+<td>All</td>
+<td></td>
+<td>The perk machine&#39;s drinking animation, not a weapon to give.</td>
+</tr>
+<tr>
+<td><code>phantom</code></td>
+<td>Automatic</td>
+<td>All</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>pm63</code></td>
+<td>Automatic</td>
+<td>All</td>
+<td><code>TR</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>predator</code></td>
+<td>Automatic</td>
+<td>All</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>python</code></td>
+<td>Revolver</td>
+<td>All</td>
+<td><code>Cobra</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>R115</code></td>
+<td>Automatic</td>
+<td>All</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>Raid</code></td>
+<td>Shotgun</td>
+<td>All</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>raygun</code></td>
+<td>Launcher</td>
+<td>All</td>
+<td><code>0xfd9f3745</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>RPK</code></td>
+<td>Automatic</td>
+<td>All</td>
+<td><code>R115</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>SEMTEX</code></td>
+<td>Special grenade</td>
+<td>Call of the Dead</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>skullcrusher</code></td>
+<td>Automatic</td>
+<td>All</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>spas12</code></td>
+<td>Shotgun</td>
+<td>All</td>
+<td><code>0x1c421e22</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>spectre</code></td>
+<td>Automatic</td>
+<td>All</td>
+<td><code>phantom</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>stakeout</code></td>
+<td>Shotgun</td>
+<td>All</td>
+<td><code>Raid</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>thundergun</code></td>
+<td>Thundergun</td>
+<td>All</td>
+<td><code>0x94576769</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>TR</code></td>
+<td>Automatic</td>
+<td>All</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>Wunderwaffe</code></td>
+<td>Wunderwaffe</td>
+<td>Call of the Dead</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>0x0e48e51f</code></td>
+<td>Automatic</td>
+<td>All</td>
+<td></td>
+<td>Pack-a-Punched <code>Mpl</code>: the game keeps no name for it, so type the number.</td>
+</tr>
+<tr>
+<td><code>0x1c421e22</code></td>
+<td>Automatic shotgun</td>
+<td>All</td>
+<td></td>
+<td>Pack-a-Punched <code>spas12</code>: the game keeps no name for it, so type the number.</td>
+</tr>
+<tr>
+<td><code>0x5886878d</code></td>
+<td>Launcher</td>
+<td>All</td>
+<td></td>
+<td>Unnamed in the game files and no weapon upgrades to it; what it is is unknown.</td>
+</tr>
+<tr>
+<td><code>0x8d78eee1</code></td>
+<td>Shotgun</td>
+<td>All</td>
+<td></td>
+<td>Unnamed in the game files and no weapon upgrades to it; what it is is unknown.</td>
+</tr>
+<tr>
+<td><code>0x94576769</code></td>
+<td>Thundergun</td>
+<td>All</td>
+<td></td>
+<td>Pack-a-Punched <code>thundergun</code>: the game keeps no name for it, so type the number.</td>
+</tr>
+<tr>
+<td><code>0x9a4ec79e</code></td>
+<td>Shotgun</td>
+<td>All</td>
+<td></td>
+<td>Pack-a-Punched <code>hs10</code>: the game keeps no name for it, so type the number.</td>
+</tr>
+<tr>
+<td><code>0xb03d9bd6</code></td>
+<td>Launcher</td>
+<td>All</td>
+<td></td>
+<td>Pack-a-Punched <code>colt45</code> (also the last-stand pistol): the game keeps no name for it, so type the number.</td>
+</tr>
+<tr>
+<td><code>0xfd9f3745</code></td>
+<td>Launcher</td>
+<td>All</td>
+<td></td>
+<td>Pack-a-Punched <code>raygun</code>: the game keeps no name for it, so type the number.</td>
+</tr>
+</tbody></table></div>
 
             </article>
             <div class="doc-pagination" role="navigation" aria-label="Previous and next page">
@@ -7112,6 +7640,7 @@ them fails until something registers them.</p>
             <a href="#menus-hud-and-store" class="sub">Menus, HUD and store</a>
             <a href="#saves" class="sub">Saves</a>
             <a href="#other" class="sub">Other</a>
+            <a href="#weapon-names">Weapon names</a>
           </aside>
         </div>
       </div>
